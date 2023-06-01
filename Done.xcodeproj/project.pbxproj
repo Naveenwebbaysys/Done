@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041345CD2A27565300B6C553 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041345CC2A27565300B6C553 /* CustomViewController.swift */; };
+		041345CF2A27661D00B6C553 /* GetReelsResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041345CE2A27661D00B6C553 /* GetReelsResponseModel.swift */; };
+		041345D22A2766A900B6C553 /* API's.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041345D12A2766A900B6C553 /* API's.swift */; };
+		041345D52A27900800B6C553 /* ReelsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041345D32A27900800B6C553 /* ReelsTableViewCell.swift */; };
+		041345D62A27900800B6C553 /* ReelsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041345D42A27900800B6C553 /* ReelsTableViewCell.xib */; };
 		045C35562A206E70007968C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045C35552A206E70007968C9 /* AppDelegate.swift */; };
 		045C35582A206E70007968C9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045C35572A206E70007968C9 /* SceneDelegate.swift */; };
 		045C355D2A206E70007968C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 045C355B2A206E70007968C9 /* Main.storyboard */; };
@@ -27,10 +32,16 @@
 		045C35872A2087F1007968C9 /* Cell_Reels.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045C357E2A2087F1007968C9 /* Cell_Reels.xib */; };
 		045C35882A2087F1007968C9 /* Cell_Reels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045C357F2A2087F1007968C9 /* Cell_Reels.swift */; };
 		045C358A2A209846007968C9 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045C35892A209846007968C9 /* PlayerView.swift */; };
+		049764252A28D52700D577D0 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049764242A28D52700D577D0 /* VideoViewController.swift */; };
 		BC4468A2FA2767193086B64B /* Pods_Done.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D80175AE176548C1C11A743 /* Pods_Done.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		041345CC2A27565300B6C553 /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
+		041345CE2A27661D00B6C553 /* GetReelsResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReelsResponseModel.swift; sourceTree = "<group>"; };
+		041345D12A2766A900B6C553 /* API's.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API's.swift"; sourceTree = "<group>"; };
+		041345D32A27900800B6C553 /* ReelsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReelsTableViewCell.swift; sourceTree = "<group>"; };
+		041345D42A27900800B6C553 /* ReelsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReelsTableViewCell.xib; sourceTree = "<group>"; };
 		045C35522A206E70007968C9 /* Done.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Done.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		045C35552A206E70007968C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		045C35572A206E70007968C9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +64,7 @@
 		045C357E2A2087F1007968C9 /* Cell_Reels.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Cell_Reels.xib; sourceTree = "<group>"; };
 		045C357F2A2087F1007968C9 /* Cell_Reels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell_Reels.swift; sourceTree = "<group>"; };
 		045C35892A209846007968C9 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		049764242A28D52700D577D0 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		0D80175AE176548C1C11A743 /* Pods_Done.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Done.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		111463C9159DDB314BDB9F72 /* Pods-Done.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Done.debug.xcconfig"; path = "Target Support Files/Pods-Done/Pods-Done.debug.xcconfig"; sourceTree = "<group>"; };
 		8E2DD0B327BFD46A42DEEAF3 /* Pods-Done.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Done.release.xcconfig"; path = "Target Support Files/Pods-Done/Pods-Done.release.xcconfig"; sourceTree = "<group>"; };
@@ -70,6 +82,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		041345D02A27662900B6C553 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				045C356C2A206EEC007968C9 /* LoginModel.swift */,
+				041345CE2A27661D00B6C553 /* GetReelsResponseModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		045C35492A206E70007968C9 = {
 			isa = PBXGroup;
 			children = (
@@ -95,10 +116,13 @@
 				045C35572A206E70007968C9 /* SceneDelegate.swift */,
 				045C356D2A206EEC007968C9 /* LoginViewController.swift */,
 				045C35732A2087E2007968C9 /* HomeViewController.swift */,
+				041345CC2A27565300B6C553 /* CustomViewController.swift */,
+				049764242A28D52700D577D0 /* VideoViewController.swift */,
 				045C356B2A206EEC007968C9 /* ServiceController.swift */,
-				045C356C2A206EEC007968C9 /* LoginModel.swift */,
+				041345D02A27662900B6C553 /* Models */,
 				045C35892A209846007968C9 /* PlayerView.swift */,
 				045C35692A206EEC007968C9 /* Utilities.swift */,
+				041345D12A2766A900B6C553 /* API's.swift */,
 				045C357D2A2087F1007968C9 /* CellXib */,
 				045C35752A2087F1007968C9 /* Resources */,
 				045C355B2A206E70007968C9 /* Main.storyboard */,
@@ -128,6 +152,8 @@
 			children = (
 				045C357E2A2087F1007968C9 /* Cell_Reels.xib */,
 				045C357F2A2087F1007968C9 /* Cell_Reels.swift */,
+				041345D32A27900800B6C553 /* ReelsTableViewCell.swift */,
+				041345D42A27900800B6C553 /* ReelsTableViewCell.xib */,
 			);
 			path = CellXib;
 			sourceTree = "<group>";
@@ -218,6 +244,7 @@
 				045C35842A2087F1007968C9 /* p2.jpeg in Resources */,
 				045C35872A2087F1007968C9 /* Cell_Reels.xib in Resources */,
 				045C35852A2087F1007968C9 /* p5.jpeg in Resources */,
+				041345D62A27900800B6C553 /* ReelsTableViewCell.xib in Resources */,
 				045C35832A2087F1007968C9 /* reelDemo.gif in Resources */,
 				045C355D2A206E70007968C9 /* Main.storyboard in Resources */,
 			);
@@ -274,11 +301,16 @@
 			files = (
 				045C358A2A209846007968C9 /* PlayerView.swift in Sources */,
 				045C35882A2087F1007968C9 /* Cell_Reels.swift in Sources */,
+				041345D22A2766A900B6C553 /* API's.swift in Sources */,
 				045C35712A206EEC007968C9 /* LoginModel.swift in Sources */,
 				045C35562A206E70007968C9 /* AppDelegate.swift in Sources */,
 				045C35722A206EEC007968C9 /* LoginViewController.swift in Sources */,
 				045C35702A206EEC007968C9 /* ServiceController.swift in Sources */,
 				045C356E2A206EEC007968C9 /* Utilities.swift in Sources */,
+				049764252A28D52700D577D0 /* VideoViewController.swift in Sources */,
+				041345CF2A27661D00B6C553 /* GetReelsResponseModel.swift in Sources */,
+				041345D52A27900800B6C553 /* ReelsTableViewCell.swift in Sources */,
+				041345CD2A27565300B6C553 /* CustomViewController.swift in Sources */,
 				045C35742A2087E2007968C9 /* HomeViewController.swift in Sources */,
 				045C35582A206E70007968C9 /* SceneDelegate.swift in Sources */,
 			);

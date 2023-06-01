@@ -60,8 +60,11 @@ class LoginViewController: UIViewController {
 
             let loginResponse = try? JSONDecoder().decode(LoginResponseModel.self, from: result as! Data)
             UserDefaults.standard.setValue(loginResponse?.accessToken ?? "", forKey: k_token)
+            headers.updateValue("Bearer " + (loginResponse?.accessToken)!, forKey: "Authorization")
+            print(headers)
+         
             print(loginResponse?.accessToken ?? "")
-            let homeVC = self.storyboard?.instantiateViewController(identifier: "HomeViewController") as! HomeViewController
+            let homeVC = self.storyboard?.instantiateViewController(identifier: "CustomViewController") as! CustomViewController
             self.navigationController?.pushViewController(homeVC, animated: true)
             
         } failureHandler: { error in

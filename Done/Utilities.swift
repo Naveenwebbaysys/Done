@@ -12,8 +12,7 @@ import AuthenticationServices
 
 
 
-let k_token = ""
-let k_signUptoken = ""
+
 
 @IBDesignable extension UIView {
     
