@@ -52,8 +52,9 @@ class LoginViewController: UIViewController {
     
     func loginAPICall()
     {
-        let params = LoginRequestModel(email: self.emailTf.text!, password: self.passwordTf.text!, isEmployee: 1)
-        serviceController.postRequest(strURL: "https://www.drrecommendations.com/api/user/login.php", postParams: params, postHeaders: ["" : ""]) { result in
+        let loginParams = LoginRequestModel(email: self.emailTf.text!, password: self.passwordTf.text!, isEmployee: 1)
+
+        serviceController.postRequest(strURL: BASEURL + LOGINURL as NSString, postParams: loginParams, postHeaders: ["" : ""]) { result in
             print(result)
             self.invalidLbl.isHidden = true
             self.showToast(message: "Login Success")

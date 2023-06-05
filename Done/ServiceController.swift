@@ -43,11 +43,11 @@ var window: UIWindow?
         request.addValue("application/json",forHTTPHeaderField:"Accept")
         if postHeaders["Authorization"] != nil  {
         }
-//        if let authToken = UserDefaults.standard.string(forKey: kAccess_token) {
-//                    if let tokenType = UserDefaults.standard.string(forKey: kTokenType) {
-//                        request.setValue(tokenType + " " + authToken,forHTTPHeaderField: "Authorization")
-//                    }
-//                }
+    
+        if let authToken = UserDefaults.standard.string(forKey: k_token) {
+                    request.setValue("Bearer" + " " + authToken,forHTTPHeaderField: "Authorization")
+                }
+                
         do {
 //            let data = try! JSONSerialization.data(withJSONObject:postParams, options:.prettyPrinted)
 //            let dataString = String(data: data, encoding: String.Encoding.utf8)!

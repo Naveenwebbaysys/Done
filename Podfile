@@ -9,6 +9,7 @@ target 'Done' do
 	pod 'IQKeyboardManagerSwift'
 	pod 'Kingfisher'
 	#pod 'SVProgressHUD'
-  pod "KRProgressHUD"
+  	pod "KRProgressHUD"
+	pod 'AWSS3'
 
 end

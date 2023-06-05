@@ -74,15 +74,15 @@ class ReelsTableViewCell: UITableViewCell {
 //        self.avPlayerLayer?.frame = CGRect.init(x: 0, y: 0, width: self.playerView.frame.width, height: self.playerView.frame.height)
         
         // This notification is fired when the video ends, you can handle it in the method.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.playerItemDidReachEnd(notification:)),
-                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                                               object: avPlayer?.currentItem)
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(self.playerItemDidReachEnd(notification:)),
+//                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+//                                               object: avPlayer?.currentItem)
         
-//        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.avPlayer?.currentItem, queue: .main) { [weak self] _ in
-//                    self?.avPlayer?.seek(to: CMTime.zero)
+        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.avPlayer?.currentItem, queue: .main) { [weak self] _ in
+                    self?.avPlayer?.seek(to: CMTime.zero)
 //                    self?.avPlayer?.play()
-//                }
+                }
     }
     
     func stopPlayback(){
@@ -95,21 +95,27 @@ class ReelsTableViewCell: UITableViewCell {
     
     // A notification is fired and seeker is sent to the beginning to loop the video again
     @objc func playerItemDidReachEnd(notification: Notification) {
-//        let p: AVPlayerItem = notification.object as! AVPlayerItem
+        let p: AVPlayerItem = notification.object as! AVPlayerItem
 //        p.seek(to: CMTime.zero)
-//        p.seek(to: CMTime.zero, completionHandler: nil)
+        p.seek(to: CMTime.zero, completionHandler: nil)
+//        startPlayback()
 //        self.avPlayer?.seek(to: CMTime.zero)
-        reloadBtn.isHidden = false
-        reloadBtn.addTarget(self, action: #selector(replay), for: .touchUpInside)
+//        self.avPlayer?.seek(to: CMTime.zero)
+//        reloadBtn.isHidden = false
+//        reloadBtn.addTarget(self, action: #selector(replay), for: .touchUpInside)
         
     }
     
     @objc func replay()
     {
-        self.avPlayer?.seek(to: CMTime.zero)
         startPlayback()
         reloadBtn.isHidden = true
         print("Reply clicked")
     }
+    
+    @objc func methodOfReceivedNotification(notification: Notification) {
+        stopPlayback()
+    }
+
 }
 

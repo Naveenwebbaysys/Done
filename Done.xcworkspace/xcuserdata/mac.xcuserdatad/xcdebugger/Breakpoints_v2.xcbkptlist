@@ -7,235 +7,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9D8BCE06-E839-4F75-B54F-321C4B2CEFF7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Done/CellXib/ReelsTableViewCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
-            landmarkName = "startPlayback()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "9D8BCE06-E839-4F75-B54F-321C4B2CEFF7 - 447c207d5b3eca5f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.ReelsTableViewCell.startPlayback() -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/CellXib/ReelsTableViewCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "86"
-                  endingLineNumber = "86"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  uuid = "9D8BCE06-E839-4F75-B54F-321C4B2CEFF7 - 447c207d5b3eca7e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.ReelsTableViewCell.startPlayback() -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/CellXib/ReelsTableViewCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6CF937F9-542B-4F0A-9BD0-BF7E69C57AA0"
+            uuid = "70D4B387-1DE1-4B7F-AAE4-9EF84888F01E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Done/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
-            landmarkName = "playVideoOnTheCell(cell:indexPath:)"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "getReelsAPICall()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "6CF937F9-542B-4F0A-9BD0-BF7E69C57AA0 - 42323a0de29a45c3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.playVideoOnTheCell(cell: Done.ReelsTableViewCell, indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "207"
-                  endingLineNumber = "207"
-                  offsetFromSymbolStart = "88">
-               </Location>
-               <Location
-                  uuid = "6CF937F9-542B-4F0A-9BD0-BF7E69C57AA0 - 42323a0de29a45c3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.playVideoOnTheCell(cell: Done.ReelsTableViewCell, indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "207"
-                  endingLineNumber = "207"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  uuid = "6CF937F9-542B-4F0A-9BD0-BF7E69C57AA0 - 42323a0de29a4624"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.playVideoOnTheCell(cell: Done.ReelsTableViewCell, indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "208"
-                  endingLineNumber = "208"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  uuid = "6CF937F9-542B-4F0A-9BD0-BF7E69C57AA0 - 42323a0de29a4605"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.playVideoOnTheCell(cell: Done.ReelsTableViewCell, indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "209"
-                  endingLineNumber = "209"
-                  offsetFromSymbolStart = "84">
-               </Location>
-               <Location
-                  uuid = "6CF937F9-542B-4F0A-9BD0-BF7E69C57AA0 - 42323a0de29a4624"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.playVideoOnTheCell(cell: Done.ReelsTableViewCell, indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "208"
-                  endingLineNumber = "208"
-                  offsetFromSymbolStart = "84">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E5E87857-8F0B-4009-83C0-717F6E702ED3"
+            uuid = "A0466A7C-F94F-48DD-92AF-707DAAD432EB"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Done/HomeViewController.swift"
+            filePath = "Done/PostVideoViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
-            landmarkName = "stopPlayBack(cell:indexPath:)"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
+            landmarkName = "createPostAPICall(str:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "E5E87857-8F0B-4009-83C0-717F6E702ED3 - 73cd01522f787175"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.stopPlayBack(cell: Done.ReelsTableViewCell, indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "212"
-                  endingLineNumber = "212"
-                  offsetFromSymbolStart = "88">
-               </Location>
-               <Location
-                  uuid = "E5E87857-8F0B-4009-83C0-717F6E702ED3 - 73cd01522f787175"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.stopPlayBack(cell: Done.ReelsTableViewCell, indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "212"
-                  endingLineNumber = "212"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  uuid = "E5E87857-8F0B-4009-83C0-717F6E702ED3 - 73cd01522f787154"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.stopPlayBack(cell: Done.ReelsTableViewCell, indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "213"
-                  endingLineNumber = "213"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  uuid = "E5E87857-8F0B-4009-83C0-717F6E702ED3 - 73cd01522f787137"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.stopPlayBack(cell: Done.ReelsTableViewCell, indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "214"
-                  endingLineNumber = "214"
-                  offsetFromSymbolStart = "84">
-               </Location>
-               <Location
-                  uuid = "E5E87857-8F0B-4009-83C0-717F6E702ED3 - 73cd01522f787154"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.stopPlayBack(cell: Done.ReelsTableViewCell, indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "213"
-                  endingLineNumber = "213"
-                  offsetFromSymbolStart = "84">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "69663667-F548-4353-9B3E-FC689D38CAE1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Done/PostVideoViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
+            landmarkName = "createPostAPICall(str:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

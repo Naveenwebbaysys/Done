@@ -26,11 +26,10 @@ struct DataClass: Codable {
 // MARK: - Post
 struct Post: Codable {
     let id: String?
-    let tags: [JSONAny]?
-    let addLinks: [String]?
+    let tags, addLinks: [JSONAny]?
     let videoURL: String?
     let commissionType, commissionAmount, videoRestriction, notes: String?
-    let createdOn, commissionNoOfDays1, assigneeName: String?
+    let createdOn, createdBy, commissionNoOfDays1, assigneeName: String?
     let tagPeoples: [TagPeople]?
 
     enum CodingKeys: String, CodingKey {
@@ -42,6 +41,7 @@ struct Post: Codable {
         case videoRestriction = "video_restriction"
         case notes
         case createdOn = "created_on"
+        case createdBy = "created_by"
         case commissionNoOfDays1 = "commission_no_of_days1"
         case assigneeName = "assignee_name"
         case tagPeoples = "tag_peoples"

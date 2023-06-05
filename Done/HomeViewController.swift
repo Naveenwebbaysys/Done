@@ -21,12 +21,14 @@ class HomeViewController: UIViewController {
     //MARK:- IBOutlets
     @IBOutlet weak var tblInstaReels: UITableView!
     
+    var currentlyPlayingCell: ReelsTableViewCell?
+    
     //MARK:- Global Vaiables
     var arrImgs = ["p2.jpeg","p3.jpeg","p4.jpeg","p5.jpeg"]
     var arrVid = [ "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-                  "https://medical-breakthrough.s3.us-west-1.amazonaws.com/DoneApp/_trimmedVideo_1685536948462.mp4",
-                  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
-                  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                   "https://medical-breakthrough.s3.us-west-1.amazonaws.com/DoneApp/_trimmedVideo_1685536948462.mp4",
+                   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+                   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
                    "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_5MB.mp4"]
     
     //MARK:- View Life Cycle
@@ -49,12 +51,24 @@ class HomeViewController: UIViewController {
         
     }
     
-
+    
+    
+    //    override func viewDidDisappear(_ animated: Bool) {
+    //        if let cell = tblInstaReels.visibleCells.first as? ReelsTableViewCell {
+    //            cell.avPlayer?.pause()
+    //        }
+    //
+    //        print(":::: viewDidDisappear ::::")
+    //    }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if let cell = tblInstaReels.visibleCells.first as? ReelsTableViewCell {
-            cell.stopPlayback()        }
+                for cell in tblInstaReels.visibleCells {
+                    print(":::: viewDidDisappear ::::")
+                    (cell as! ReelsTableViewCell).avPlayer?.seek(to: CMTime.zero)
+                    (cell as! ReelsTableViewCell).stopPlayback()
+                }
+ 
     }
     
     @IBAction func backBtnAction(){
@@ -65,8 +79,8 @@ class HomeViewController: UIViewController {
     {
         serviceController.getRequest(strURL: BASEURL + GETREELSURL, postHeaders: headers as NSDictionary) { _result in
             let getReelsResponseModel = try? JSONDecoder().decode(GetReelsResponseModel.self, from: _result as! Data)
-           
-
+            
+            
             print(getReelsResponseModel?.data as Any)
             if getReelsResponseModel?.data?.posts != nil
             {
@@ -82,12 +96,12 @@ class HomeViewController: UIViewController {
             {
                 print("No Reels found")
             }
-//
+            //
             
         } failure: { error in
             print(error)
         }
-
+        
     }
     
 }
@@ -101,33 +115,32 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let Reelcell = self.tblInstaReels.dequeueReusableCell(withIdentifier: "ReelsTableViewCell") as! ReelsTableViewCell
-//        UIView.animate(withDuration: 12.0, delay: 1, options: ([.curveLinear, .repeat]), animations: {() -> Void in
-//            Reelcell.marqueeLabel.center = CGPoint.init(x: 35 - Reelcell.marqueeLabel.bounds.size.width / 2, y: Reelcell.marqueeLabel.center.y)
-//        }, completion:  { _ in })
- 
-//        Reelcell.avPlayerLayer?.videoGravity = AVLayerVideoGravity.resize
-//        Reelcell.videoPlayerItem = AVPlayerItem.init(url: URL(string:(self.arrVid[indexPath.row]))!)
+        //        UIView.animate(withDuration: 12.0, delay: 1, options: ([.curveLinear, .repeat]), animations: {() -> Void in
+        //            Reelcell.marqueeLabel.center = CGPoint.init(x: 35 - Reelcell.marqueeLabel.bounds.size.width / 2, y: Reelcell.marqueeLabel.center.y)
+        //        }, completion:  { _ in })
+        
+        //        Reelcell.avPlayerLayer?.videoGravity = AVLayerVideoGravity.resize
+        //        Reelcell.videoPlayerItem = AVPlayerItem.init(url: URL(string:(self.arrVid[indexPath.row]))!)
         //var visibleIP : IndexPath?
         Reelcell.userNameLbl.text = self.reelsModelArray[indexPath.row].assigneeName
-//        Reelcell.avPlayerLayer?.frame = self.view.bounds
-//        Reelcell.playerView.layer.addSublayer((Reelcell.avPlayerLayer)!)
-//        player = AVPlayer(url: URL(string:(self.arrVid[indexPath.row]))!)
+        //        Reelcell.playerView.layer.addSublayer((Reelcell.avPlayerLayer)!)
+        //        player = AVPlayer(url: URL(string:(self.arrVid[indexPath.row]))!)
         
         let videoURL = URL(string: self.reelsModelArray[indexPath.row].videoURL!)
         Reelcell.videoPlayerItem = AVPlayerItem.init(url: videoURL!)
         let playerLayer = AVPlayerLayer(player: Reelcell.avPlayer)
         playerLayer.frame = self.view.bounds
         Reelcell.playerView.layer.addSublayer(playerLayer)
-//        player.play()
+        //        player.play()
         
         if firstTimeLoading == true
         {
             Reelcell.avPlayer?.play()
-//            player.play()
+            //            player.play()
         }
         else{
             Reelcell.avPlayer?.pause()
-//            player.pause()
+            //            player.pause()
         }
         return Reelcell
     }
@@ -141,11 +154,11 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         let visibleCells = tableView.visibleCells
         let minIndex = visibleCells.startIndex
         if tableView.visibleCells.firstIndex(of: cell) == minIndex {
-//            videoCell.playerView1.player?.play()
-
+            //            videoCell.playerView1.player?.play()
+            
         }
     }
-
+    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
@@ -204,12 +217,11 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
     
     func playVideoOnTheCell(cell : ReelsTableViewCell, indexPath : IndexPath){
         cell.startPlayback()
-//        player.play()
+
     }
     
     func stopPlayBack(cell : ReelsTableViewCell, indexPath : IndexPath){
         cell.stopPlayback()
-//        player.pause()
     }
     
     
