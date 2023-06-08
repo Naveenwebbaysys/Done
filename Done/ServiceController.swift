@@ -108,7 +108,7 @@ var window: UIWindow?
    
 ///MARK:- Get Request
     
-    func getRequest(strURL:String,postHeaders:NSDictionary,success:@escaping(_ _result:Any)->Void,failure:@escaping(_ error:String) -> Void) {
+    func getRequest(strURL:String,postHeaders:NSDictionary,success:@escaping(_ result:Any)->Void,failure:@escaping(_ error:String) -> Void) {
         if isConnectedToNetwork() == false {
             print("Please Check Internet")
             return

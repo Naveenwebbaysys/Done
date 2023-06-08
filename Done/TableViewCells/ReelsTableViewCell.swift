@@ -19,6 +19,7 @@ class ReelsTableViewCell: UITableViewCell {
 //    @IBOutlet weak var playerView1: PlayerView!
     
     @IBOutlet weak var userNameLbl : UILabel!
+    @IBOutlet weak var dateLbl : UILabel!
     
     var avPlayer: AVPlayer?
     var avPlayerLayer: AVPlayerLayer?
@@ -28,6 +29,8 @@ class ReelsTableViewCell: UITableViewCell {
         super.awakeFromNib()
         self.setupMoviePlayer()
         reloadBtn.isHidden = true
+        
+
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -45,6 +48,9 @@ class ReelsTableViewCell: UITableViewCell {
             
         }
     }
+    
+
+
     
     func setupMoviePlayer(){
         reloadBtn.isHidden = true
@@ -79,10 +85,10 @@ class ReelsTableViewCell: UITableViewCell {
 //                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
 //                                               object: avPlayer?.currentItem)
         
-        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.avPlayer?.currentItem, queue: .main) { [weak self] _ in
-                    self?.avPlayer?.seek(to: CMTime.zero)
+//        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.avPlayer?.currentItem, queue: .main) { [weak self] _ in
+//                    self?.avPlayer?.seek(to: CMTime.zero)
 //                    self?.avPlayer?.play()
-                }
+//                }
     }
     
     func stopPlayback(){
@@ -97,10 +103,13 @@ class ReelsTableViewCell: UITableViewCell {
     @objc func playerItemDidReachEnd(notification: Notification) {
         let p: AVPlayerItem = notification.object as! AVPlayerItem
 //        p.seek(to: CMTime.zero)
-        p.seek(to: CMTime.zero, completionHandler: nil)
+//        p.seek(to: CMTime.zero, completionHandler: nil)
+        p.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
 //        startPlayback()
 //        self.avPlayer?.seek(to: CMTime.zero)
+        
 //        self.avPlayer?.seek(to: CMTime.zero)
+        self.avPlayer?.play()
 //        reloadBtn.isHidden = false
 //        reloadBtn.addTarget(self, action: #selector(replay), for: .touchUpInside)
         
@@ -116,6 +125,8 @@ class ReelsTableViewCell: UITableViewCell {
     @objc func methodOfReceivedNotification(notification: Notification) {
         stopPlayback()
     }
+    
+    
 
 }
 
