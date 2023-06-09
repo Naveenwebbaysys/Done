@@ -13,7 +13,6 @@ import AuthenticationServices
 
 
 let aooColor = UIColor(hex:"98C455")
-
 @IBDesignable extension UIView {
     
     @IBInspectable var borderWidth: CGFloat {
@@ -348,6 +347,21 @@ extension UIViewController
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailTest.evaluate(with: testEmialString)
     }
+    
+    func removeUrlFromFileManager(_ outputFileURL: URL?) {
+        if let outputFileURL = outputFileURL {
+            
+            let path = outputFileURL.path
+            if FileManager.default.fileExists(atPath: path) {
+                do {
+                    try FileManager.default.removeItem(atPath: path)
+                    print("url SUCCESSFULLY removed: \(outputFileURL)")
+                } catch {
+                    print("Could not remove file at url: \(outputFileURL)")
+                }
+            }
+        }
+    }
 }
 
 class UserDetails
@@ -645,4 +659,6 @@ extension UIColor {
             blue: CGFloat(b) / 0xff, alpha: 1
         )
     }
+    
+ 
 }

@@ -23,6 +23,7 @@ public enum KRProgressHUDMaskType {
         case .white: return UIColor(white: 1, alpha: 0.2)
         case .black: return UIColor(white: 0, alpha: 0.2)
         case .custom(let color): return color
+            
         }
     }
 }

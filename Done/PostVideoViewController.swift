@@ -97,7 +97,7 @@ class PostViewController: UIViewController {
         tagsTableVw.separatorStyle = .none
         tagsTableVw.tableFooterView = UIView()
         
-        
+       
     }
     
     override func viewDidLayoutSubviews() {
@@ -105,8 +105,6 @@ class PostViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        recordVideoURL = UserDefaults.standard.value(forKey: "videoPath") as! String
-        print(recordVideoURL)
         self.getTagUsersAPICall()
         let todayDate = NSDate.now
         print(todayDate)
@@ -199,6 +197,12 @@ class PostViewController: UIViewController {
     
     @IBAction func postBtnAction(){
         
+        if let recordVideo = UserDefaults.standard.value(forKey: "compressedVideoPath") as? String
+        {
+            recordVideoURL = recordVideo
+        }
+        print("recordVideoURL -> " + recordVideoURL)
+        
         if amountTF.text == "" {
             amountTF.borderWidth = 1
             amountTF.borderColor = .red
@@ -262,19 +266,18 @@ extension PostViewController {
     {
         KRProgressHUD.show()
         let transferUtility = AWSS3TransferUtility.s3TransferUtility(forKey: "S3TransferUtilityKey")
-        let bucketName = BUCKET_NAME
         let fileURL = URL(fileURLWithPath: filePath)
         let uploadExpression = AWSS3TransferUtilityUploadExpression()
         uploadExpression.progressBlock = { task, progress in
-            // Handle progress updates if needed
+            // Handle progress updates if needed "iosdone/" +
         }
         uuid = UUID().uuidString
         
         transferUtility?.uploadFile(
             fileURL,
-            bucket: bucketName,
-            key: "iosdone/" + uuid + ".mp4",
-            contentType: "video/mp4",
+            bucket: BUCKET_NAME,
+            key: "iosdone/" + uuid + ".MOV",
+            contentType: "video/MOV",
             expression: uploadExpression,
             completionHandler: { [self] task, error in
                 KRProgressHUD.dismiss()
@@ -328,6 +331,13 @@ extension PostViewController {
             let postResponse = try? JSONDecoder().decode(PostResponseModel.self, from: result as! Data)
             if postResponse?.status == true
             {
+                if let compressedVideoPath = UserDefaults.standard.value(forKey: "compressedVideoPath") as? URL {
+                    self.removeUrlFromFileManager(compressedVideoPath)
+                    if let originalVideoPath = UserDefaults.standard.value(forKey: "originalVideoPath") as? URL {
+                        self.removeUrlFromFileManager(originalVideoPath)
+                    }
+                    
+                }
                 
                 let story = UIStoryboard(name: "Main", bundle:nil)
                 let vc = story.instantiateViewController(withIdentifier: "CustomViewController") as! CustomViewController

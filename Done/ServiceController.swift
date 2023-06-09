@@ -28,6 +28,10 @@ var window: UIWindow?
             return
         }
         KRProgressHUD.show()
+//        KRProgressHUD
+//           .set(style: .custom(background: .clear, text: .white, icon: nil))
+//           .set(maskType: .white)
+//           .show()
         let kAccess_token       : String = "kAccess_token"
         let kToken_type          = "kToken_type"
         let kClient_id           = "kClient_id"
@@ -113,7 +117,11 @@ var window: UIWindow?
             print("Please Check Internet")
             return
         }
+        
         KRProgressHUD.show()
+//        KRProgressHUD.set(style: .custom(background: .clear, text: .white, icon: nil))
+//           .set(maskType: .white)
+//           .show()
         let fileUrl = NSURL(string: strURL)
         let request = NSMutableURLRequest(url: fileUrl! as URL)
         request.addValue(content_type, forHTTPHeaderField: "Content-Type")

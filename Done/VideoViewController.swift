@@ -14,7 +14,7 @@ import AVKit
 import MobileCoreServices
 
 class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
-   
+    var timeout = 1
     var session : AVCaptureSession?
     let output = AVCapturePhotoOutput()
     var currentCamera: AVCaptureDevice?
@@ -23,12 +23,19 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
     let storkeLayer = CAShapeLayer()
     var isUsingFrontCamera = false
     var postURl = ""
+    var counter = 0
+    var timer = Timer()
     
     private var sutterBtn : UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 90, height: 90))
-//        button.backgroundColor = UIColor.white
         button.layer.cornerRadius = 45
         return button
+    }()
+    private var timerLabl : UILabel = {
+        let t = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        t.textColor = .red
+        t.text = "00:00"
+        return t
     }()
     
     private var cameraBtn : UIButton = {
@@ -45,8 +52,8 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         //        view.backgroundColor = .black
-//        chekCameraPermissions()
-//        chekMicroPhonePermissions()
+                chekCameraPermissions()
+                chekMicroPhonePermissions()
         view.layer.addSublayer(previewLayer)
         previewLayer.backgroundColor = UIColor.black.cgColor
         
@@ -54,23 +61,29 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         self.sutterBtn.addGestureRecognizer(longPressGesture)
         self.sutterBtn.addTarget(self, action: #selector(recordVideo), for: .touchUpInside)
         self.sutterBtn.tag = 0
-      
+        
         self.sutterBtn.setImage(UIImage(named: "video_iCon"), for: .normal)
         cameraBtn.addTarget(self, action: #selector(cameraBrnAction), for: .touchUpInside)
         storkeLayer.lineWidth = 0
         currentCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)
-        view.addSubview(sutterBtn)
+                view.addSubview(sutterBtn)
+        view.addSubview(timerLabl)
         //        view.addSubview(cameraBtn)
         
+        imagePicker.videoMaximumDuration = TimeInterval(30.0)
+        timerLabl.text = "00:00"
+        
+        
+                
         
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        self.chekCameraPermissions()
+                self.chekCameraPermissions()
         
-        defultCameraSetup()
- 
+//        defultCameraSetup()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -82,10 +95,14 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         previewLayer.frame = view.bounds
         sutterBtn.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height - 180)
         cameraBtn.center = CGPoint(x: 40, y: view.frame.size.height - 180)
+        
+        timerLabl.center = CGPoint(x: sutterBtn.frame.maxX + 100 , y: view.frame.size.height - 180)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         storkeLayer.lineWidth = 0
+        
+        timer.invalidate()
     }
     
     @objc func didTapShutterBtn ()
@@ -104,7 +121,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
                 guard granted else {
                     return
                 }
-                DispatchQueue.main.async {self.setupCamere()}
+                                DispatchQueue.main.async {self.setupCamere()}
                 
             }
         case .restricted:
@@ -114,7 +131,8 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             askAudioPermissionsAgain()
             break
         case .authorized:
-            self.setupCamere()
+                        self.setupCamere()
+//            defultCameraSetup()
         @unknown default:
             break
         }
@@ -124,14 +142,14 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
     {
         switch AVCaptureDevice.authorizationStatus(for: .audio) {
         case .notDetermined:
-            //            AVCaptureDevice.requestAccess(for: .audio) { granted in
-            //                guard granted else {
-            //                    return
-            //                }
-            //                DispatchQueue.main.async {self.setupCamere()}
-            //            }
+                        AVCaptureDevice.requestAccess(for: .audio) { granted in
+                            guard granted else {
+                                return
+                            }
+                            DispatchQueue.main.async {self.setupCamere()}
+                        }
             print("Microphone access notDetermined")
-            //            askAudioPermissionsAgain()
+                        askAudioPermissionsAgain()
         case .restricted:
             print("Microphone access restricted")
             break
@@ -149,7 +167,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         
     }
     
-
+    
     
     func askAudioPermissionsAgain(){
         let alert = UIAlertController(
@@ -194,6 +212,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         if let device = currentCamera{
             do {
                 
+                 
                 let input =  try AVCaptureDeviceInput(device: device)
                 if session.canAddInput(input){
                     session.addInput(input)
@@ -256,9 +275,31 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         isUsingFrontCamera = !isUsingFrontCamera
     }
     
+    @objc func prozessTimer() {
+        counter += 1
+        print("This is a second ", counter)
+        timerLabl.text = "00:" + "\(counter)"
+                if timeout != 30 {
+                    timeout += 1
+                } else {
+                    timer.invalidate()
+                    movieFileOutput.stopRecording()
+                }
+        timerLabl.text = "00:" + "\(timeFormatted(timeout))"
+    }
+    
+    func timeFormatted(_ totalSeconds: Int) -> String {
+            let seconds: Int = totalSeconds % 30
+//            let minutes: Int = (totalSeconds / 60) % 60
+            //     let hours: Int = totalSeconds / 3600
+            return String(format: "%02d", seconds)
+        }
+    
     @objc func recordVideo() {
-        chekCameraPermissions()
-        chekMicroPhonePermissions()
+//        chekCameraPermissions()
+//        chekMicroPhonePermissions()
+        timer = Timer.scheduledTimer(timeInterval:1, target:self, selector:#selector(prozessTimer), userInfo: nil, repeats: true)
+
         if self.sutterBtn.tag == 0
         {
             self.sutterBtn.tag = 1
@@ -277,13 +318,15 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             }
             session!.addOutput(movieFileOutput)
             movieFileOutput.startRecording(to: filePath, recordingDelegate: self)
+            movieFileOutput.maxRecordedDuration = CMTime(seconds: 30, preferredTimescale: 1)
         }
         else
         {
             self.sutterBtn.tag = 0
-
+            
             self.sutterBtn.setImage(UIImage(named: "video_iCon"), for: .normal)
             movieFileOutput.stopRecording()
+            timer.invalidate()
         }
     }
     
@@ -363,9 +406,40 @@ extension VideoViewController : AVCapturePhotoCaptureDelegate
             if error == nil {
                 UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, nil, nil, nil)
                 let videoPath = outputFileURL.path
-                //                uploadVideoToS3Server(filePath: videoPath)
-                UserDefaults.standard.set(videoPath, forKey: "videoPath")
-                self.tabBarController?.selectedIndex = 2
+                
+                let data = NSData(contentsOf: outputFileURL)!
+                print("File size before compression: \(Double(data.length / 1048576)) mb")
+                
+                let outPutPath = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".MOV")
+                
+                DispatchQueue.global(qos: .background).async { [self] in
+                    compressVideo(inputURL: outputFileURL, outputURL: outPutPath) { (resulstCompressedURL, error) in
+                        if let error = error {
+                            print("Failed to compress video: \(error.localizedDescription)")
+                        } else if let compressedURL = resulstCompressedURL {
+                            print("Video compressed successfully. Compressed video URL: \(compressedURL)")
+                            UISaveVideoAtPathToSavedPhotosAlbum(compressedURL.path,nil,nil, nil)
+                            UserDefaults.standard.set(outputFileURL.path, forKey: "originalVideoPath")
+                            UserDefaults.standard.set(outputFileURL, forKey: "originalVideo")
+                            UserDefaults.standard.set(compressedURL.path, forKey: "compressedVideoPath")
+                            print(compressedURL.path)
+                            
+                            guard let compressedData = NSData(contentsOf: compressedURL) else {
+                                return
+                            }
+                            print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
+                            
+                            
+                            
+                        }
+                    }
+
+                }
+                        
+                DispatchQueue.main.async {
+                    self.tabBarController?.selectedIndex = 2
+                }
+                
             }
         }
     }
@@ -380,35 +454,68 @@ extension VideoViewController : UIImagePickerControllerDelegate , UINavigationCo
     func defultCameraSetup()
     {
         if UIImagePickerController.isCameraDeviceAvailable( UIImagePickerController.CameraDevice.rear) {
-                imagePicker.delegate = self
+            imagePicker.delegate = self
+            
             imagePicker.sourceType = UIImagePickerController.SourceType.camera
             imagePicker.mediaTypes = [kUTTypeMovie as String]
-            let screenSize: CGSize = imagePicker.view.safeAreaLayoutGuide.layoutFrame.size
-            let ratio: CGFloat = 4.0 / 4.0
-            let cameraHeight: CGFloat = screenSize.width * ratio
-            let scale: CGFloat = (screenSize.height + 80) / cameraHeight
-            imagePicker.cameraViewTransform = imagePicker.cameraViewTransform.scaledBy(x: scale, y: scale)
+//                        let screenSize: CGSize = imagePicker.view.safeAreaLayoutGuide.layoutFrame.size
+//                        let ratio: CGFloat = 4.0 / 2.0
+//                        let cameraHeight: CGFloat = screenSize.width * ratio
+//                        let scale: CGFloat = (screenSize.height) / cameraHeight
+//            imagePicker.cameraViewTransform = imagePicker.cameraViewTransform.scaledBy(x: scale, y: scale)
             present(imagePicker, animated: true, completion: nil)
-            }
+        }
     }
     
     func imagePickerController(_ picker: UIImagePickerController,didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
         dismiss(animated: true, completion: nil)
         guard let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String,
-            mediaType == (kUTTypeMovie as String),
-            // 1
-            let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
-            // 2
-            UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path)
+              mediaType == (kUTTypeMovie as String),
+              // 1
+              let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
+              // 2
+              UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path)
         else { return }
         
         // 3
         UISaveVideoAtPathToSavedPhotosAlbum(url.path,nil,nil, nil)
-        
         print(url.path)
-        UserDefaults.standard.set(url.path, forKey: "videoPath")
-        self.tabBarController?.selectedIndex = 2
+        
+        let data = NSData(contentsOf: url as URL)!
+        print("File size before compression: \(Double(data.length / 1048576)) mb")
+        
+        let outPutPath = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".MOV")
+        
+        DispatchQueue.global(qos: .background).async { [self] in
+            compressVideo(inputURL: url, outputURL: outPutPath) { (resulstCompressedURL, error) in
+                if let error = error {
+                    print("Failed to compress video: \(error.localizedDescription)")
+                } else if let compressedURL = resulstCompressedURL {
+                    print("Video compressed successfully. Compressed video URL: \(compressedURL)")
+                    UISaveVideoAtPathToSavedPhotosAlbum(compressedURL.path,nil,nil, nil)
+                    UserDefaults.standard.set(url.path, forKey: "originalVideoPath")
+                    UserDefaults.standard.set(url, forKey: "originalVideo")
+                    UserDefaults.standard.set(compressedURL.path, forKey: "compressedVideoPath")
+                    print(compressedURL.path)
+                    
+                    guard let compressedData = NSData(contentsOf: compressedURL) else {
+                        return
+                    }
+                    print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
+                    
+                    
+                    
+                }
+            }
+
+        }
+                
+        DispatchQueue.main.async {
+            self.tabBarController?.selectedIndex = 2
+        }
+        
+        
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -458,8 +565,8 @@ extension VideoViewController : UIImagePickerControllerDelegate , UINavigationCo
     
     func presentCameraSettings() {
         let alertController = UIAlertController(title: "Error",
-                                      message: "Camera access is denied",
-                                      preferredStyle: .alert)
+                                                message: "Camera access is denied",
+                                                preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Cancel", style: .default))
         alertController.addAction(UIAlertAction(title: "Settings", style: .cancel) { _ in
             if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -468,7 +575,44 @@ extension VideoViewController : UIImagePickerControllerDelegate , UINavigationCo
                 })
             }
         })
-
+        
         present(alertController, animated: true)
     }
+    
+    func compressVideo(inputURL: URL, outputURL: URL, completion: @escaping (URL?, Error?) -> Void) {
+        print("Video compressed Started")
+        let asset = AVAsset(url: inputURL)
+        
+        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetMediumQuality) else {
+            completion(nil, NSError(domain: "com.example.compressvideo", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to create AVAssetExportSession"]))
+            return
+        }
+        exportSession.outputURL = outputURL
+        exportSession.outputFileType = .mp4
+        exportSession.shouldOptimizeForNetworkUse = true
+        
+        exportSession.exportAsynchronously {
+            switch exportSession.status {
+            case .completed:
+                completion(outputURL, nil)
+                
+            case .failed:
+                completion(nil, exportSession.error)
+                
+            case .cancelled:
+                completion(nil, NSError(domain: "com.example.compressvideo", code: 0, userInfo: [NSLocalizedDescriptionKey: "Video compression cancelled"]))
+                
+            default:
+                break
+            }
+        }
+    }
+    
+    
+
+    
+    
 }
+
+
+

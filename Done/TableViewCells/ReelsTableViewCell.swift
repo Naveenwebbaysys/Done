@@ -11,7 +11,7 @@ import AVKit
 
 class ReelsTableViewCell: UITableViewCell {
     
-    
+    var observer: NSObjectProtocol?
     @IBOutlet weak var marqueeLabel: UILabel!
     @IBOutlet weak var userImgVW: UIImageView!
     @IBOutlet weak var reloadBtn : UIButton!
@@ -20,6 +20,7 @@ class ReelsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var userNameLbl : UILabel!
     @IBOutlet weak var dateLbl : UILabel!
+    @IBOutlet weak var doneBtn : UIButton!
     
     var avPlayer: AVPlayer?
     var avPlayerLayer: AVPlayerLayer?
@@ -56,7 +57,7 @@ class ReelsTableViewCell: UITableViewCell {
         reloadBtn.isHidden = true
         self.avPlayer = AVPlayer.init(playerItem: self.videoPlayerItem)
 //        avPlayerLayer = AVPlayerLayer(player: avPlayer)
-//        avPlayerLayer?.videoGravity = AVLayerVideoGravity.resize
+//        avPlayerLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
 //        avPlayer?.volume = 2
         avPlayer?.actionAtItemEnd = .pause
     
@@ -96,15 +97,23 @@ class ReelsTableViewCell: UITableViewCell {
     }
     
     func startPlayback(){
+        
+        // Observe the AVPlayerItemDidPlayToEndTime notification
+                observer = NotificationCenter.default.addObserver(
+                    forName: .AVPlayerItemDidPlayToEndTime,
+                    object: videoPlayerItem,
+                    queue: nil) { [weak self] _ in
+                    // Call the method to restart playback
+                    self?.restartPlayback()
+                }
+        
         self.avPlayer?.play()
     }
     
     // A notification is fired and seeker is sent to the beginning to loop the video again
     @objc func playerItemDidReachEnd(notification: Notification) {
         let p: AVPlayerItem = notification.object as! AVPlayerItem
-//        p.seek(to: CMTime.zero)
-//        p.seek(to: CMTime.zero, completionHandler: nil)
-        p.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
+        p.seek(to: CMTime.zero, completionHandler: nil)
 //        startPlayback()
 //        self.avPlayer?.seek(to: CMTime.zero)
         
@@ -127,6 +136,13 @@ class ReelsTableViewCell: UITableViewCell {
     }
     
     
+    func restartPlayback() {
+            // Seek to the beginning of the video
+            avPlayer?.seek(to: CMTime.zero)
+            
+            // Start playback again
+            avPlayer?.play()
+        }
 
 }
 

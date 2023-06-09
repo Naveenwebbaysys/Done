@@ -11,7 +11,7 @@ import AVKit
 class HomeViewController: UIViewController {
     
     let activityIndicator = UIActivityIndicatorView(style: .large)
-    
+    var userID = ""
     var aboutToBecomeInvisibleCell = -1
     var avPlayerLayer: AVPlayerLayer!
     var videoURLs = Array<URL>()
@@ -49,6 +49,8 @@ class HomeViewController: UIViewController {
         activityIndicator.color = .lightGray
         activityIndicator.startAnimating()
         view.addSubview(activityIndicator)
+        
+        userID = UserDefaults.standard.value(forKey: UserDetails.userId) as! String
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -128,20 +130,13 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         //        UIView.animate(withDuration: 12.0, delay: 1, options: ([.curveLinear, .repeat]), animations: {() -> Void in
         //            Reelcell.marqueeLabel.center = CGPoint.init(x: 35 - Reelcell.marqueeLabel.bounds.size.width / 2, y: Reelcell.marqueeLabel.center.y)
         //        }, completion:  { _ in })
-        
-        //        Reelcell.avPlayerLayer?.videoGravity = AVLayerVideoGravity.resize
-        //        Reelcell.videoPlayerItem = AVPlayerItem.init(url: URL(string:(self.arrVid[indexPath.row]))!)
-        //var visibleIP : IndexPath?
+
         Reelcell.userNameLbl.text = self.reelsModelArray[indexPath.row].assigneeName
-   
-        //        Reelcell.playerView.layer.addSublayer((Reelcell.avPlayerLayer)!)
-        //        player = AVPlayer(url: URL(string:(self.arrVid[indexPath.row]))!)
 
         let formatter = DateFormatter()
         // initially set the format based on your datepicker date / server String
         formatter.dateFormat = "yyy-MM-dd"
-   // string purpose I add here
-        // convert your string to date
+
         let duedate = self.reelsModelArray[indexPath.row].commissionNoOfDays1!
         let yourDate = formatter.date(from: duedate)
         //then again set the date format whhich type of output you need
@@ -151,8 +146,6 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
 
         print(myStringDate)
         let days = count(expDate: myStringDate)
-
-        
         Reelcell.dateLbl.text = "Expires in " + "\(days)" + " days " + myStringDate
         let videoURL = URL(string: self.reelsModelArray[indexPath.row].videoURL!)
         Reelcell.videoPlayerItem = AVPlayerItem.init(url: videoURL!)
@@ -171,6 +164,14 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
             //            player.pause()
         }
         
+        if userID == self.reelsModelArray[indexPath.row].createdBy
+        {
+            Reelcell.doneBtn.setTitle("View Status", for: .normal)
+        }
+        else
+        {
+            Reelcell.doneBtn.setTitle("Done?", for: .normal)
+        }
         
         Reelcell.avPlayer?.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
        

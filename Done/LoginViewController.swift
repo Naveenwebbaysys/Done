@@ -26,27 +26,6 @@ class LoginViewController: UIViewController {
         
         self.emailTf.text = "kranthiallaboina@gmail.com"
         self.passwordTf.text = "apple@123"
-        let created_on =  "2023-07-06"
-        let created_on2 =  "2023-07-07"
- 
-        let formatter = DateFormatter()
-        // initially set the format based on your datepicker date / server String
-        formatter.dateFormat = "yyy-dd-MM"
-   // string purpose I add here
-        // convert your string to date
-        let yourDate = formatter.date(from: created_on)
-        let yourDate1 = formatter.date(from: created_on)
-        //then again set the date format whhich type of output you need
-        formatter.dateFormat = "MMM d, yyyy"
-        // again convert your date to string
-        let myStringDate = formatter.string(from: yourDate!)
-        let myStringDate1 = formatter.string(from: yourDate1!)
-
-        print(myStringDate)
-        
- 
-        
-       
 
     }
     
@@ -74,20 +53,20 @@ class LoginViewController: UIViewController {
     {
         let loginParams = LoginRequestModel(email: self.emailTf.text!, password: self.passwordTf.text!, isEmployee: 1)
 
-        serviceController.postRequest(strURL: BASEURL + LOGINURL as NSString, postParams: loginParams, postHeaders: ["" : ""]) { result in
+        serviceController.postRequest(strURL: BASEURL + LOGINURL as NSString, postParams: loginParams, postHeaders: ["" : ""]) { [self] result in
             print(result)
             self.invalidLbl.isHidden = true
             self.showToast(message: "Login Success")
 
             let loginResponse = try? JSONDecoder().decode(LoginResponseModel.self, from: result as! Data)
             UserDefaults.standard.setValue(loginResponse?.accessToken ?? "", forKey: k_token)
+            UserDefaults.standard.setValue(loginResponse?.accessToken ?? "", forKey: k_token)
             headers.updateValue("Bearer " + (loginResponse?.accessToken)!, forKey: "Authorization")
             print(headers)
-         
+            profileAPICall(token: (loginResponse?.accessToken)!)
             print(loginResponse?.accessToken ?? "")
             
-            let homeVC = self.storyboard?.instantiateViewController(identifier: "CustomViewController") as! CustomViewController
-            self.navigationController?.pushViewController(homeVC, animated: true)
+            
             
         } failureHandler: { error in
             print(error)
@@ -125,6 +104,22 @@ class LoginViewController: UIViewController {
     }
     
     
+    func profileAPICall(token : String)
+    {
+        serviceController.getRequest(strURL: BASEURL + PROFILE, postHeaders:  headers as NSDictionary) { result in
+            
+            let profileResponseModel = try? JSONDecoder().decode(ProfileResponseModel.self, from: result as! Data)
+            UserDefaults.standard.setValue(profileResponseModel?.employee?.id ?? "" , forKey: UserDetails.userId)
+            
+            let homeVC = self.storyboard?.instantiateViewController(identifier: "CustomViewController") as! CustomViewController
+            self.navigationController?.pushViewController(homeVC, animated: true)
+            
+        } failure: { error in
+            
+            print(error)
+        }
+
+    }
 }
 
 

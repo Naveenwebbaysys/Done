@@ -41,6 +41,7 @@
 		048EB3A62A2A01D8004BE939 /* AWSS3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048EB3A52A2A01D8004BE939 /* AWSS3.swift */; };
 		048EB3A82A2A1E94004BE939 /* Old model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048EB3A72A2A1E93004BE939 /* Old model.swift */; };
 		049764252A28D52700D577D0 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049764242A28D52700D577D0 /* VideoViewController.swift */; };
+		0497D0F22A31FEC300B4A185 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497D0F12A31FEC300B4A185 /* ProfileModel.swift */; };
 		049B8CE32A2DE516005926D4 /* PostVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B8CE22A2DE516005926D4 /* PostVideoModel.swift */; };
 		BC4468A2FA2767193086B64B /* Pods_Done.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D80175AE176548C1C11A743 /* Pods_Done.framework */; };
 /* End PBXBuildFile section */
@@ -82,6 +83,7 @@
 		048EB3A52A2A01D8004BE939 /* AWSS3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSS3.swift; sourceTree = "<group>"; };
 		048EB3A72A2A1E93004BE939 /* Old model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Old model.swift"; sourceTree = "<group>"; };
 		049764242A28D52700D577D0 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		0497D0F12A31FEC300B4A185 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		049B8CE22A2DE516005926D4 /* PostVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVideoModel.swift; sourceTree = "<group>"; };
 		0D80175AE176548C1C11A743 /* Pods_Done.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Done.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		111463C9159DDB314BDB9F72 /* Pods-Done.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Done.debug.xcconfig"; path = "Target Support Files/Pods-Done/Pods-Done.debug.xcconfig"; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				041345CE2A27661D00B6C553 /* GetReelsResponseModel.swift */,
 				049B8CE22A2DE516005926D4 /* PostVideoModel.swift */,
 				04400A942A2F0C890028CECE /* TagsResponseModel.swift */,
+				0497D0F12A31FEC300B4A185 /* ProfileModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				04400A9F2A30B1150028CECE /* SplashScreenViewController.swift in Sources */,
 				04400A952A2F0C890028CECE /* TagsResponseModel.swift in Sources */,
 				041345CD2A27565300B6C553 /* CustomViewController.swift in Sources */,
+				0497D0F22A31FEC300B4A185 /* ProfileModel.swift in Sources */,
 				045C35742A2087E2007968C9 /* HomeViewController.swift in Sources */,
 				045C35582A206E70007968C9 /* SceneDelegate.swift in Sources */,
 				04400A982A2F11520028CECE /* TagUsersTableViewCell.swift in Sources */,
