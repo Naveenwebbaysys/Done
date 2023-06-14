@@ -11,12 +11,12 @@ import AVKit
 
 class ReelsTableViewCell: UITableViewCell {
     
-    var observer: NSObjectProtocol?
+    
     @IBOutlet weak var marqueeLabel: UILabel!
     @IBOutlet weak var userImgVW: UIImageView!
     @IBOutlet weak var reloadBtn : UIButton!
     @IBOutlet weak var playerView: UIView!
-//    @IBOutlet weak var playerView1: PlayerView!
+    @IBOutlet weak var playerView1: PlayerView!
     
     @IBOutlet weak var userNameLbl : UILabel!
     @IBOutlet weak var dateLbl : UILabel!
@@ -49,17 +49,14 @@ class ReelsTableViewCell: UITableViewCell {
             
         }
     }
-    
 
-
-    
     func setupMoviePlayer(){
         reloadBtn.isHidden = true
         self.avPlayer = AVPlayer.init(playerItem: self.videoPlayerItem)
 //        avPlayerLayer = AVPlayerLayer(player: avPlayer)
 //        avPlayerLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
 //        avPlayer?.volume = 2
-        avPlayer?.actionAtItemEnd = .pause
+        avPlayer?.actionAtItemEnd = .none
     
         
         //        You need to have different variations
@@ -90,6 +87,14 @@ class ReelsTableViewCell: UITableViewCell {
 //                    self?.avPlayer?.seek(to: CMTime.zero)
 //                    self?.avPlayer?.play()
 //                }
+//        observer = NotificationCenter.default.addObserver(
+//            forName: .AVPlayerItemDidPlayToEndTime,
+//            object: videoPlayerItem,
+//            queue: nil) { [weak self] _ in
+//            // Call the method to restart playback
+//                self?.restartPlayback()
+//                print("Video player restartPlayback")
+//        }
     }
     
     func stopPlayback(){
@@ -99,13 +104,7 @@ class ReelsTableViewCell: UITableViewCell {
     func startPlayback(){
         
         // Observe the AVPlayerItemDidPlayToEndTime notification
-                observer = NotificationCenter.default.addObserver(
-                    forName: .AVPlayerItemDidPlayToEndTime,
-                    object: videoPlayerItem,
-                    queue: nil) { [weak self] _ in
-                    // Call the method to restart playback
-                    self?.restartPlayback()
-                }
+        
         
         self.avPlayer?.play()
     }

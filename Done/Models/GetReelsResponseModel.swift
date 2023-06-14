@@ -14,7 +14,7 @@ struct GetReelsResponseModel: Codable {
 // MARK: - DataClass
 struct DataClass: Codable {
     let posts: [Post]?
-    let stillWorkingPosts, donePosts: String?
+    let stillWorkingPosts, donePosts: Int?
 
     enum CodingKeys: String, CodingKey {
         case posts

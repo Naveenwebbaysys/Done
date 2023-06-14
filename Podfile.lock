@@ -2,35 +2,44 @@ PODS:
   - AWSCore (2.33.0)
   - AWSS3 (2.33.0):
     - AWSCore (= 2.33.0)
+  - iOSDropDown (0.4.0)
   - IQKeyboardManagerSwift (6.5.11)
   - Kingfisher (7.6.2)
   - KRActivityIndicatorView (3.0.7)
   - KRProgressHUD (3.4.7):
     - KRActivityIndicatorView (= 3.0.7)
+  - SwiftyCam (4.0.0)
 
 DEPENDENCIES:
+  - AWSCore
   - AWSS3
+  - iOSDropDown
   - IQKeyboardManagerSwift
   - Kingfisher
   - KRProgressHUD
+  - SwiftyCam
 
 SPEC REPOS:
   trunk:
     - AWSCore
     - AWSS3
+    - iOSDropDown
     - IQKeyboardManagerSwift
     - Kingfisher
     - KRActivityIndicatorView
     - KRProgressHUD
+    - SwiftyCam
 
 SPEC CHECKSUMS:
   AWSCore: ff962198e35c750cb1d59cd459c51f1990e3ec68
   AWSS3: 910b5a6ec6c6b749f6a0657483118cae54f83a11
+  iOSDropDown: ce9daa584eaa5567cafc1b633e3cc7eb6d9cea42
   IQKeyboardManagerSwift: c7955c0bdbf7b2eb29bb7daaa44e3d90f55a9a85
   Kingfisher: 6c5449c6450c5239166510ba04afe374a98afc4f
   KRActivityIndicatorView: ad69e89c4ce40c986cf580595be4829dcad0e35a
   KRProgressHUD: a248f0bc6c9c2aed40a37b76e03ffecc7f85c887
+  SwiftyCam: 6e57914771d972fbe508e759dc9d0150a44a93fd
 
-PODFILE CHECKSUM: e5ad0aeb0f0df66197599e8706024815700077e3
+PODFILE CHECKSUM: 6d87abfb12e3f5b9e8282a6f63ba267d54e82c66
 
 COCOAPODS: 1.12.1

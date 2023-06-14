@@ -26,16 +26,20 @@ class LoginViewController: UIViewController {
         
         self.emailTf.text = "kranthiallaboina@gmail.com"
         self.passwordTf.text = "apple@123"
-
+        
+        var localTimeZoneIdentifier: String { return TimeZone.current.identifier }
+        
+        print(localTimeZoneIdentifier)
+        
+       
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
         self.invalidLbl.isHidden = true
-        
     }
-    
-    
+
     @IBAction func eyeBtnAction()
     {
         if eyeBtn.tag == 0 {
@@ -53,7 +57,7 @@ class LoginViewController: UIViewController {
     {
         let loginParams = LoginRequestModel(email: self.emailTf.text!, password: self.passwordTf.text!, isEmployee: 1)
 
-        serviceController.postRequest(strURL: BASEURL + LOGINURL as NSString, postParams: loginParams, postHeaders: ["" : ""]) { [self] result in
+        APIModel.postRequest(strURL: BASEURL + LOGINURL as NSString, postParams: loginParams, postHeaders: ["" : ""]) { [self] result in
             print(result)
             self.invalidLbl.isHidden = true
             self.showToast(message: "Login Success")
@@ -100,20 +104,15 @@ class LoginViewController: UIViewController {
                 showToast(message: "Please check internet connection")
             }
         }
-        
     }
-    
     
     func profileAPICall(token : String)
     {
-        serviceController.getRequest(strURL: BASEURL + PROFILE, postHeaders:  headers as NSDictionary) { result in
-            
+        APIModel.getRequest(strURL: BASEURL + PROFILE, postHeaders:  headers as NSDictionary) { result in
             let profileResponseModel = try? JSONDecoder().decode(ProfileResponseModel.self, from: result as! Data)
             UserDefaults.standard.setValue(profileResponseModel?.employee?.id ?? "" , forKey: UserDetails.userId)
-            
             let homeVC = self.storyboard?.instantiateViewController(identifier: "CustomViewController") as! CustomViewController
             self.navigationController?.pushViewController(homeVC, animated: true)
-            
         } failure: { error in
             
             print(error)

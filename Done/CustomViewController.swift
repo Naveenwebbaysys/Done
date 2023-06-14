@@ -18,31 +18,14 @@ class CustomViewController: UITabBarController {
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         
-        if selectedIndex == 2
+        if selectedIndex == 1
         {
-            
-            
-            self.openAlert(title: "Alert", message: "Are you sure want to Logout?",alertStyle: .alert,
-                           actionTitles: ["Cancel", "Ok"],actionStyles: [.destructive, .default],
-                           actions: [
-                            {_ in
-                                print("cancel click")
-//                                self.selectedIndex = 0
-                            },
-                            {_ in
-                                print("Okay click")
-                                self.logoutAct()
-                            }
-                           ])
+//            let postVC = self.storyboard?.instantiateViewController(withIdentifier: "RecordViewController") as! RecordViewController
+//            self.navigationController?.pushViewController(postVC, animated: true)
         }
         
     }
     
-    func logoutAct()
-    {
-        UserDefaults.standard.removeObject(forKey: k_token)
-        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-        self.navigationController?.pushViewController(loginVC, animated: true)
-    }
+
     
 }

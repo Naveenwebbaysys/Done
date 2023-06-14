@@ -7,175 +7,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "024B2FBC-3E3F-4EDE-9831-9A1BF8162A28"
+            uuid = "B14E3CE9-3B57-4828-A540-049493936542"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Done/VideoViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "401"
-            endingLineNumber = "401"
-            landmarkName = "fileOutput(_:didFinishRecordingTo:from:error:)"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "sutterBtnaction()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "024B2FBC-3E3F-4EDE-9831-9A1BF8162A28 - d8de586900c88714"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.VideoViewController.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/VideoViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "415"
-                  endingLineNumber = "415"
-                  offsetFromSymbolStart = "656">
-               </Location>
-               <Location
-                  uuid = "024B2FBC-3E3F-4EDE-9831-9A1BF8162A28 - d8de586900c88789"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.VideoViewController.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/VideoViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "412"
-                  endingLineNumber = "412"
-                  offsetFromSymbolStart = "720">
-               </Location>
-               <Location
-                  uuid = "024B2FBC-3E3F-4EDE-9831-9A1BF8162A28 - d8de586900c886e2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.VideoViewController.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/VideoViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "401"
-                  endingLineNumber = "401"
-                  offsetFromSymbolStart = "720">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "572DFD96-9FAA-4A9E-AED3-1EA6182AFAE6"
+            uuid = "D902CA40-228F-420C-AFD8-682777694984"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Done/VideoViewController.swift"
+            filePath = "Done/PostVideoViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "404"
-            endingLineNumber = "404"
-            landmarkName = "fileOutput(_:didFinishRecordingTo:from:error:)"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "uploadVideoToS3Server(filePath:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "572DFD96-9FAA-4A9E-AED3-1EA6182AFAE6 - d8de586900c88714"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.VideoViewController.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/VideoViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "415"
-                  endingLineNumber = "415"
-                  offsetFromSymbolStart = "656">
-               </Location>
-               <Location
-                  uuid = "572DFD96-9FAA-4A9E-AED3-1EA6182AFAE6 - d8de586900c88714"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.VideoViewController.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/VideoViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "415"
-                  endingLineNumber = "415"
-                  offsetFromSymbolStart = "1616">
-               </Location>
-               <Location
-                  uuid = "572DFD96-9FAA-4A9E-AED3-1EA6182AFAE6 - d8de586900c88681"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.VideoViewController.fileOutput(_: __C.AVCaptureFileOutput, didFinishRecordingTo: Foundation.URL, from: Swift.Array&lt;__C.AVCaptureConnection&gt;, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/VideoViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "404"
-                  endingLineNumber = "404"
-                  offsetFromSymbolStart = "1616">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "959A01D8-F556-43B1-A75B-A1133AF839C7"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Done/VideoViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "227"
-            endingLineNumber = "227"
-            landmarkName = "setupCamere()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "959A01D8-F556-43B1-A75B-A1133AF839C7 - b7c1d63bffe0a45"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.VideoViewController.setupCamere() -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/VideoViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "221"
-                  endingLineNumber = "221"
-                  offsetFromSymbolStart = "1180">
-               </Location>
-               <Location
-                  uuid = "959A01D8-F556-43B1-A75B-A1133AF839C7 - b7c1d63bffe0b03"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.VideoViewController.setupCamere() -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mac/Documents/Done/Done/VideoViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "227"
-                  endingLineNumber = "227"
-                  offsetFromSymbolStart = "1180">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 import AVKit
 class HomeViewController: UIViewController {
-    
+    private var lastContentOffset: CGFloat = 0
     let activityIndicator = UIActivityIndicatorView(style: .large)
     var userID = ""
     var aboutToBecomeInvisibleCell = -1
@@ -24,14 +24,6 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var tblInstaReels: UITableView!
     
     var currentlyPlayingCell: ReelsTableViewCell?
-    
-    //MARK:- Global Vaiables
-    var arrImgs = ["p2.jpeg","p3.jpeg","p4.jpeg","p5.jpeg"]
-    var arrVid = [ "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-                   "https://medical-breakthrough.s3.us-west-1.amazonaws.com/DoneApp/_trimmedVideo_1685536948462.mp4",
-                   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
-                   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-                   "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_5MB.mp4"]
     
     //MARK:- View Life Cycle
     override func viewDidLoad() {
@@ -78,7 +70,6 @@ class HomeViewController: UIViewController {
                     (cell as! ReelsTableViewCell).stopPlayback()
                     (cell as! ReelsTableViewCell ).avPlayer?.removeObserver(self, forKeyPath: "timeControlStatus")
                 }
- 
     }
     
     @IBAction func backBtnAction(){
@@ -87,7 +78,7 @@ class HomeViewController: UIViewController {
     
     func getReelsAPICall()
     {
-        serviceController.getRequest(strURL: BASEURL + GETREELSURL, postHeaders: headers as NSDictionary) { _result in
+        APIModel.getRequest(strURL: BASEURL + GETREELSURL, postHeaders: headers as NSDictionary) { _result in
             let getReelsResponseModel = try? JSONDecoder().decode(GetReelsResponseModel.self, from: _result as! Data)
             
             
@@ -105,6 +96,7 @@ class HomeViewController: UIViewController {
             else
             {
                 print("No Reels found")
+                
             }
             //
             
@@ -119,19 +111,19 @@ class HomeViewController: UIViewController {
 
 //MARK:- UITableViewDelegate,UITableViewDataSource
 extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.reelsModelArray.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let Reelcell = self.tblInstaReels.dequeueReusableCell(withIdentifier: "ReelsTableViewCell") as! ReelsTableViewCell
-
-        
-        //        UIView.animate(withDuration: 12.0, delay: 1, options: ([.curveLinear, .repeat]), animations: {() -> Void in
-        //            Reelcell.marqueeLabel.center = CGPoint.init(x: 35 - Reelcell.marqueeLabel.bounds.size.width / 2, y: Reelcell.marqueeLabel.center.y)
-        //        }, completion:  { _ in })
+        //var visibleIP : IndexPath?
+//                UIView.animate(withDuration: 12.0, delay: 1, options: ([.curveLinear, .repeat]), animations: {() -> Void in
+//                    Reelcell.marqueeLabel.center = CGPoint.init(x: 35 - Reelcell.marqueeLabel.bounds.size.width / 2, y: Reelcell.marqueeLabel.center.y)
+//                }, completion:  { _ in })
 
         Reelcell.userNameLbl.text = self.reelsModelArray[indexPath.row].assigneeName
+        Reelcell.marqueeLabel.text = self.reelsModelArray[indexPath.row].notes
 
         let formatter = DateFormatter()
         // initially set the format based on your datepicker date / server String
@@ -152,7 +144,6 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         let playerLayer = AVPlayerLayer(player: Reelcell.avPlayer)
         playerLayer.frame = self.view.bounds
         Reelcell.playerView.layer.addSublayer(playerLayer)
-        //        player.play()
         
         if firstTimeLoading == true
         {
@@ -173,12 +164,11 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
             Reelcell.doneBtn.setTitle("Done?", for: .normal)
         }
         
+        Reelcell.doneBtn.tag = indexPath.row
+        Reelcell.doneBtn.addTarget(self, action: #selector(statusBtnTapped(_:)), for: .touchUpInside)
         Reelcell.avPlayer?.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
-       
         
-        NotificationCenter.default.addObserver(self,selector: #selector(self.playerItemDidReachEnd(notification:)),
-                                                       name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                                                       object: Reelcell.avPlayer?.currentItem)
+
         
         return Reelcell
     }
@@ -189,8 +179,8 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        print("cell is displaying")
+        print(indexPath.row)
         
     }
     
@@ -210,9 +200,35 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         }
     }
     
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview!)
+        if translation.y > 0 {
+            print("scrolling down")
+        } else {
+            print("scrolling up")
+        }
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if let observer = observer {
+                    NotificationCenter.default.removeObserver(observer)
+                }
+        if let indexPath2 = self.tblInstaReels.indexPathsForVisibleRows?.first {
+                let previousIndexPath = IndexPath(row: indexPath2.row - 1, section: indexPath2.section)
+                
+                // Use the previousIndexPath as needed
+//                print("Previous index path: \(previousIndexPath)")
+//            print("Previous Row : \(previousIndexPath.row)")
+//            print("Previous Section : \(previousIndexPath.section)")
+//            print(scrollView.contentOffset.y)
+
+            }
+        
         
         let indexPaths = self.tblInstaReels.indexPathsForVisibleRows
+        
+        
+        
         var cells = [Any]()
         for ip in indexPaths!{
             if let videoCell = self.tblInstaReels.cellForRow(at: ip) as? ReelsTableViewCell{
@@ -276,7 +292,6 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
     
     
     func count (expDate : String) -> Int {
-
         print(expDate)
         let dateFormatter1 = DateFormatter()
         let dateFormatter2 = DateFormatter()
@@ -318,3 +333,16 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
 
 
 
+
+extension HomeViewController {
+    
+    @objc func statusBtnTapped(_ sender: UIButton?) {
+
+        print("Tapped")
+        let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
+        statusVC.postID = self.reelsModelArray[sender!.tag].id!
+        statusVC.notes = self.reelsModelArray[sender!.tag].notes!
+        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!) 
+        self.navigationController?.pushViewController(statusVC, animated: true)
+    }
+}

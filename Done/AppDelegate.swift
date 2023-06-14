@@ -7,6 +7,7 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import AWSS3
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         IQKeyboardManager.shared.enable = true
+        initializeS3()
         return true
     }
 
@@ -32,5 +34,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+    func initializeS3() {
+           let poolId = "us-west-1:8651bac9-bc52-460c-a20b-0861b09680e1" // 3-1
+        let credentialsProvider = AWSStaticCredentialsProvider(accessKey: accessKey, secretKey: secretKey)
+//           let credentialsProvider = AWSCognitoCredentialsProvider(regionType: .USWest1, identityPoolId: poolId)//3-2
+           let configuration = AWSServiceConfiguration(region: .USWest1, credentialsProvider: credentialsProvider)
+           AWSServiceManager.default().defaultServiceConfiguration = configuration
+           
+           
+       }
+    
 }
 

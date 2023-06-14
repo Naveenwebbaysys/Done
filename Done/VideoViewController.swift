@@ -1,3 +1,4 @@
+
 //
 //  VideoViewController.swift
 //  Done
@@ -12,25 +13,16 @@ import AWSCore
 import KRProgressHUD
 import AVKit
 import MobileCoreServices
+import SwiftyCam
 
-class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
+class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
+
     var timeout = 1
-    var session : AVCaptureSession?
-    let output = AVCapturePhotoOutput()
-    var currentCamera: AVCaptureDevice?
-    var movieFileOutput = AVCaptureMovieFileOutput()
-    let previewLayer = AVCaptureVideoPreviewLayer()
-    let storkeLayer = CAShapeLayer()
-    var isUsingFrontCamera = false
     var postURl = ""
-    var counter = 0
-    var timer = Timer()
-    
-    private var sutterBtn : UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 90, height: 90))
-        button.layer.cornerRadius = 45
-        return button
-    }()
+    var videoTimer : Timer?
+    public weak var delegate: SwiftyCamButtonDelegate?
+    @IBOutlet weak var sutterBtn : SwiftyCamButton!
+
     private var timerLabl : UILabel = {
         let t = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
         t.textColor = .red
@@ -52,404 +44,159 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         //        view.backgroundColor = .black
-                chekCameraPermissions()
-                chekMicroPhonePermissions()
-        view.layer.addSublayer(previewLayer)
-        previewLayer.backgroundColor = UIColor.black.cgColor
-        
-        let longPressGesture = UILongPressGestureRecognizer.init(target: self, action: #selector(handleLongPress))
-        self.sutterBtn.addGestureRecognizer(longPressGesture)
-        self.sutterBtn.addTarget(self, action: #selector(recordVideo), for: .touchUpInside)
-        self.sutterBtn.tag = 0
-        
-        self.sutterBtn.setImage(UIImage(named: "video_iCon"), for: .normal)
-        cameraBtn.addTarget(self, action: #selector(cameraBrnAction), for: .touchUpInside)
-        storkeLayer.lineWidth = 0
-        currentCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)
-                view.addSubview(sutterBtn)
+
+//        view.addSubview(sutterBtn)
         view.addSubview(timerLabl)
         //        view.addSubview(cameraBtn)
-        
         imagePicker.videoMaximumDuration = TimeInterval(30.0)
-        timerLabl.text = "00:00"
-        
-        
-                
-        
-        
+        cameraDelegate = self
+        sutterBtn.delegate = self
+        maximumVideoDuration = 30.0
     }
     
     override func viewWillAppear(_ animated: Bool) {
-                self.chekCameraPermissions()
-        
-//        defultCameraSetup()
-        
+//        chekCameraPermissions()
+//        chekMicroPhonePermissions()
+        super.viewWillAppear(animated)
+        timerLabl.text = "00:00"
+        self.sutterBtn.setImage(UIImage(named: "video_iCon"), for: .normal)
+//        self.sutterBtn.tag = 0
+        UIApplication.shared.statusBarStyle = .lightContent
+        navigationController?.isNavigationBarHidden = true
     }
+
+   
     
-    override func viewDidDisappear(_ animated: Bool) {
-        
-    }
     override func viewDidLayoutSubviews() {
-        
         super.viewDidLayoutSubviews()
-        previewLayer.frame = view.bounds
-        sutterBtn.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height - 180)
+     
+//        sutterBtn.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height - 180)
         cameraBtn.center = CGPoint(x: 40, y: view.frame.size.height - 180)
-        
-        timerLabl.center = CGPoint(x: sutterBtn.frame.maxX + 100 , y: view.frame.size.height - 180)
+        timerLabl.center = CGPoint(x: sutterBtn.frame.maxX + 100 , y: sutterBtn.frame.midY)
     }
+
     
-    override func viewWillDisappear(_ animated: Bool) {
-        storkeLayer.lineWidth = 0
+    
+    @IBAction func sutterBtnaction(){
         
-        timer.invalidate()
-    }
-    
-    @objc func didTapShutterBtn ()
-    {
-        output.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
-        
-        print("Photo action clicked")
-    }
-    
-    
-    private  func chekCameraPermissions()
-    {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { granted in
-                guard granted else {
-                    return
-                }
-                                DispatchQueue.main.async {self.setupCamere()}
-                
-            }
-        case .restricted:
-            askAudioPermissionsAgain()
-            break
-        case .denied:
-            askAudioPermissionsAgain()
-            break
-        case .authorized:
-                        self.setupCamere()
-//            defultCameraSetup()
-        @unknown default:
-            break
+        if sutterBtn.tag == 0
+        {
+            self.sutterBtn.setImage(UIImage(named: "videoerec_icon"), for: .normal)
+            sutterBtn.tag = 1
+            startVideoRecording()
+        }
+        else
+        {
+            self.sutterBtn.setImage(UIImage(named: "video_iCon"), for: .normal)
+            sutterBtn.tag = 0
+            stopVideoRecording()
         }
         
-    }
-    private  func chekMicroPhonePermissions()
-    {
-        switch AVCaptureDevice.authorizationStatus(for: .audio) {
-        case .notDetermined:
-                        AVCaptureDevice.requestAccess(for: .audio) { granted in
-                            guard granted else {
-                                return
-                            }
-                            DispatchQueue.main.async {self.setupCamere()}
-                        }
-            print("Microphone access notDetermined")
-                        askAudioPermissionsAgain()
-        case .restricted:
-            print("Microphone access restricted")
-            break
-        case .denied:
-            print("Microphone access denied")
-            askAudioPermissionsAgain()
-            break
-        case .authorized:
-            self.setupCamere()
-            print("Microphone access granted")
-        @unknown default:
-            print("Unknown Microphone permission status")
-            break
-        }
-        
-    }
-    
-    
-    
-    func askAudioPermissionsAgain(){
-        let alert = UIAlertController(
-            title: "We were unable to access your Microphone. Sorry!",
-            message: "You can enable access in Privacy Settings",
-            preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-            self.askAudioPermissionsAgain()
-        }))
-        alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { _ in
-            if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(settingsURL)
-            }
-        }))
-        self.present(alert, animated: true)
-        
-    }
-    
-    func askCameraPermissionsAgain(){
-        let alert = UIAlertController(
-            title: "We were unable to access your Camera. Sorry!",
-            message: "You can enable access in Privacy Settings",
-            preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-            self.askCameraPermissionsAgain()
-        }))
-        alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { _ in
-            if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(settingsURL)
-            }
-        }))
-        self.present(alert, animated: true)
-        
-    }
-    
-    private func setupCamere()
-    {
-        //        chekMicroPhonePermissions()
-        let session  = AVCaptureSession()
-        
-        
-        if let device = currentCamera{
-            do {
-                
-                 
-                let input =  try AVCaptureDeviceInput(device: device)
-                if session.canAddInput(input){
-                    session.addInput(input)
-                }
-                if session.canAddOutput(output){
-                    session.addOutput(output)
-                }
-                // Configure audio settings
-                if let audioConnection = movieFileOutput.connection(with: .audio) {
-                    if audioConnection.isEnabled {
-                        // Audio is enabled
-                        print("Audio is enabled.")
-                    } else {
-                        // Enable audio
-                        audioConnection.isEnabled = true
-                        print("Audio is now enabled.")
-                    }
-                }
-                
-                previewLayer.videoGravity = .resizeAspectFill
-                previewLayer.session = session
-                DispatchQueue.global(qos: .default).async {
-                    session.startRunning()
-                }
-                //                DispatchQueue.global(qos: .background).async {
-                
-                //                }
-                self.session = session
-            }
-            catch  {
-                print(error)
-            }
-        }
-        
-        if let audioDevice = AVCaptureDevice.default(for: .audio) {
-            do {
-                let audioInput = try AVCaptureDeviceInput(device: audioDevice)
-                
-                if session.canAddInput(audioInput) {
-                    session.addInput(audioInput)
-                } else {
-                    print("Unable to add audio input to capture session.")
-                }
-            } catch {
-                print("Error setting up audio input: \(error.localizedDescription)")
-            }
-        } else {
-            print("No audio device found.")
-        }
-    }
-    
-    @objc func cameraBrnAction ()
-    {
-        if isUsingFrontCamera {
-            currentCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .front)
-        } else {
-            currentCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)
-        }
-        
-        isUsingFrontCamera = !isUsingFrontCamera
     }
     
     @objc func prozessTimer() {
-        counter += 1
-        print("This is a second ", counter)
-        timerLabl.text = "00:" + "\(counter)"
                 if timeout != 30 {
                     timeout += 1
                 } else {
-                    timer.invalidate()
-                    movieFileOutput.stopRecording()
+                    stopVideoTimer()
+                    stopVideoRecording()
                 }
         timerLabl.text = "00:" + "\(timeFormatted(timeout))"
+        print("This is a second ", timeout)
     }
     
+    func stopVideoTimer ()
+    {
+        videoTimer?.invalidate()
+        videoTimer = nil
+    }
     func timeFormatted(_ totalSeconds: Int) -> String {
             let seconds: Int = totalSeconds % 30
 //            let minutes: Int = (totalSeconds / 60) % 60
             //     let hours: Int = totalSeconds / 3600
             return String(format: "%02d", seconds)
         }
-    
-    @objc func recordVideo() {
-//        chekCameraPermissions()
-//        chekMicroPhonePermissions()
-        timer = Timer.scheduledTimer(timeInterval:1, target:self, selector:#selector(prozessTimer), userInfo: nil, repeats: true)
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
+         // Called when startVideoRecording() is called
+         // Called if a SwiftyCamButton begins a long press gesture
+        videoTimer = Timer.scheduledTimer(timeInterval:1, target:self, selector:#selector(prozessTimer), userInfo: nil, repeats: true)
 
-        if self.sutterBtn.tag == 0
-        {
-            self.sutterBtn.tag = 1
-            
-            self.sutterBtn.setImage(UIImage(named: "videoerec_icon"), for: .normal)
-            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
-            let filePath = documentsURL.appendingPathComponent("Done.mp4")
-            if FileManager.default.fileExists(atPath: filePath.absoluteString) {
-                do {
-                    try FileManager.default.removeItem(at: filePath)
-                }
-                catch {
-                    // exception while deleting old cached file
-                    // ignore error if any
+       
+    }
+
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
+         // Called when stopVideoRecording() is called
+         // Called if a SwiftyCamButton ends a long press gesture
+    }
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
+         // Called when stopVideoRecording() is called and the video is finished processing
+         // Returns a URL in the temporary directory where video is stored
+        stopVideoTimer()
+        UISaveVideoAtPathToSavedPhotosAlbum(url.path, nil, nil, nil)
+        print(url.path)
+        
+        let data = NSData(contentsOf: url as URL)!
+        print("File size before compression: \(Double(data.length / 1048576)) mb")
+        
+        let outPutPath = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
+        
+        DispatchQueue.global(qos: .background).async { [self] in
+            compressVideo(inputURL: url, outputURL: outPutPath) { (resulstCompressedURL, error) in
+                if let error = error {
+                    print("Failed to compress video: \(error.localizedDescription)")
+                } else if let compressedURL = resulstCompressedURL {
+                    print("Video compressed successfully. Compressed video URL: \(compressedURL)")
+                    UISaveVideoAtPathToSavedPhotosAlbum(compressedURL.path,nil,nil, nil)
+                    UserDefaults.standard.set(url.path, forKey: "originalVideoPath")
+                    UserDefaults.standard.set(url, forKey: "originalVideo")
+                    UserDefaults.standard.set(compressedURL.path, forKey: "compressedVideoPath")
+                    print(compressedURL.path)
+                    
+                    guard let compressedData = NSData(contentsOf: compressedURL) else {
+                        return
+                    }
+                    print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
                 }
             }
-            session!.addOutput(movieFileOutput)
-            movieFileOutput.startRecording(to: filePath, recordingDelegate: self)
-            movieFileOutput.maxRecordedDuration = CMTime(seconds: 30, preferredTimescale: 1)
         }
-        else
-        {
-            self.sutterBtn.tag = 0
-            
-            self.sutterBtn.setImage(UIImage(named: "video_iCon"), for: .normal)
-            movieFileOutput.stopRecording()
-            timer.invalidate()
+                
+        DispatchQueue.main.async {
+//            self.tabBarController?.selectedIndex = 2
+            let postVC = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
+            self.navigationController?.pushViewController(postVC, animated: true)
         }
     }
     
-    @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
-        
-        let animation = CABasicAnimation(keyPath: "strokeEnd")
-        if gestureRecognizer.state == UIGestureRecognizer.State.began {
-            debugPrint("long press started")
-            sutterBtn.backgroundColor = UIColor.yellow
-            sutterBtn.frame.size = CGSize(width: 110, height: 110)
-            sutterBtn.cornerRadius = 55
-            storkeLayer.fillColor = UIColor.clear.cgColor
-            storkeLayer.strokeColor = UIColor.darkGray.cgColor
-            storkeLayer.lineWidth = 10
-            
-            // Create a rounded rect path using button's bounds.
-            storkeLayer.path = CGPath.init(roundedRect: sutterBtn.bounds, cornerWidth: 55, cornerHeight: 55, transform: nil) // same path like the empty one ...
-            // Add layer to the button
-            sutterBtn.layer.addSublayer(storkeLayer)
-            
-            // Create animation layer and add it to the stroke layer.
-            animation.fromValue = CGFloat(0.0)
-            animation.toValue = CGFloat(1.0)
-            animation.duration = 30
-            animation.fillMode = CAMediaTimingFillMode.forwards
-            animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-            storkeLayer.add(animation, forKey: "cornerRadiusAnimation")
-            
-            
-            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
-            let filePath = documentsURL.appendingPathComponent("Done.mp4")
-            if FileManager.default.fileExists(atPath: filePath.absoluteString) {
-                do {
-                    try FileManager.default.removeItem(at: filePath)
-                }
-                catch {
-                    // exception while deleting old cached file
-                    // ignore error if any
-                }
-            }
-            session!.addOutput(movieFileOutput)
-            movieFileOutput.startRecording(to: filePath, recordingDelegate: self)
-        }
-        else if gestureRecognizer.state == UIGestureRecognizer.State.ended {
-            debugPrint("longpress ended")
-            storkeLayer.lineWidth = 0
-            sutterBtn.backgroundColor = UIColor.white
-            sutterBtn.frame.size = CGSize(width: 90, height: 90)
-            sutterBtn.cornerRadius = 45
-            movieFileOutput.stopRecording()
-        }
-    }
+  
 }
 
 extension VideoViewController : AVCapturePhotoCaptureDelegate
 {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?){
+        
         guard let data = photo.fileDataRepresentation() else {
             return
         }
         let image = UIImage(data: data)
-        session?.stopRunning()
+
         let  imageview = UIImageView(image: image)
         imageview.contentMode = .scaleAspectFill
         imageview.frame = view.bounds
         view.addSubview(imageview)
     }
     
-    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        
-        if let error = error {
-            print("Recording finished with error: \(error.localizedDescription)")
-        } else {
-            print("Recording finished: \(outputFileURL)")
-            print("Recording finished: \(outputFileURL.path)")
-            print("recorded duration:",output.recordedDuration)
-            if error == nil {
-                UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, nil, nil, nil)
-                let videoPath = outputFileURL.path
-                
-                let data = NSData(contentsOf: outputFileURL)!
-                print("File size before compression: \(Double(data.length / 1048576)) mb")
-                
-                let outPutPath = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".MOV")
-                
-                DispatchQueue.global(qos: .background).async { [self] in
-                    compressVideo(inputURL: outputFileURL, outputURL: outPutPath) { (resulstCompressedURL, error) in
-                        if let error = error {
-                            print("Failed to compress video: \(error.localizedDescription)")
-                        } else if let compressedURL = resulstCompressedURL {
-                            print("Video compressed successfully. Compressed video URL: \(compressedURL)")
-                            UISaveVideoAtPathToSavedPhotosAlbum(compressedURL.path,nil,nil, nil)
-                            UserDefaults.standard.set(outputFileURL.path, forKey: "originalVideoPath")
-                            UserDefaults.standard.set(outputFileURL, forKey: "originalVideo")
-                            UserDefaults.standard.set(compressedURL.path, forKey: "compressedVideoPath")
-                            print(compressedURL.path)
-                            
-                            guard let compressedData = NSData(contentsOf: compressedURL) else {
-                                return
-                            }
-                            print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
-                            
-                            
-                            
-                        }
-                    }
-
-                }
-                        
-                DispatchQueue.main.async {
-                    self.tabBarController?.selectedIndex = 2
-                }
-                
-            }
+    func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
+            // Recording started
+            print("Recording started")
         }
-    }
+    
+
 }
 
 
-
-
 extension VideoViewController : UIImagePickerControllerDelegate , UINavigationControllerDelegate {
-    
     
     func defultCameraSetup()
     {
@@ -503,16 +250,16 @@ extension VideoViewController : UIImagePickerControllerDelegate , UINavigationCo
                         return
                     }
                     print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
-                    
-                    
-                    
+  
                 }
             }
 
         }
                 
         DispatchQueue.main.async {
-            self.tabBarController?.selectedIndex = 2
+//            self.tabBarController?.selectedIndex = 2
+            let postVC = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
+            self.navigationController?.pushViewController(postVC, animated: true)
         }
         
         
@@ -540,28 +287,7 @@ extension VideoViewController : UIImagePickerControllerDelegate , UINavigationCo
     }
     
     
-    func checkCameraAccess() {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .denied:
-            print("Denied, request permission from settings")
-            askCameraPermissionsAgain()
-        case .restricted:
-            print("Restricted, device owner must approve")
-        case .authorized:
-            print("Authorized, proceed")
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { success in
-                if success {
-                    print("Permission granted, proceed")
-                } else {
-                    print("Permission denied")
-                }
-            }
-        @unknown default:
-            print("Unknown Camera permission status")
-            break
-        }
-    }
+
     
     func presentCameraSettings() {
         let alertController = UIAlertController(title: "Error",
