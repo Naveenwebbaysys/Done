@@ -18,9 +18,9 @@ var APIModel = ServiceController()
 
 class ServiceController: NSObject {
     
-var window: UIWindow?
+    var window: UIWindow?
     
-//MARK:- Post Request
+    //MARK:- Post Request
     
     func postRequest(strURL:NSString,postParams:Encodable,postHeaders:NSDictionary,successHandler:@escaping( _ result:Any)->Void,failureHandler:@escaping (_ error:String)->Void) -> Void {
         if isConnectedToNetwork() == false {
@@ -28,18 +28,18 @@ var window: UIWindow?
             return
         }
         KRProgressHUD.show()
-//        KRProgressHUD
-//           .set(style: .custom(background: .clear, text: .white, icon: nil))
-//           .set(maskType: .white)
-//           .show()
+        //        KRProgressHUD
+        //           .set(style: .custom(background: .clear, text: .white, icon: nil))
+        //           .set(maskType: .white)
+        //           .show()
         let kAccess_token       : String = "kAccess_token"
         let kToken_type          = "kToken_type"
         let kClient_id           = "kClient_id"
         let kRefreshToken        = "kRefreshToken"
         let kTokenType           = "tokenType"
-
+        
         let urlStr:NSString = strURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)! as NSString
-//        let urlStr:NSString = strURL.addingPercentEscapes(using:String.Encoding.utf8.rawValue)! as NSString
+        //        let urlStr:NSString = strURL.addingPercentEscapes(using:String.Encoding.utf8.rawValue)! as NSString
         let url: NSURL = NSURL(string: urlStr as String)!
         let request:NSMutableURLRequest = NSMutableURLRequest(url:url as URL)
         request.httpMethod = "POST"
@@ -47,21 +47,21 @@ var window: UIWindow?
         request.addValue("application/json",forHTTPHeaderField:"Accept")
         if postHeaders["Authorization"] != nil  {
         }
-    
+        
         if let authToken = UserDefaults.standard.string(forKey: k_token) {
-                    request.setValue("Bearer" + " " + authToken,forHTTPHeaderField: "Authorization")
-                }
-                
+            request.setValue("Bearer" + " " + authToken,forHTTPHeaderField: "Authorization")
+        }
+        
         do {
-//            let data = try! JSONSerialization.data(withJSONObject:postParams, options:.prettyPrinted)
-//            let dataString = String(data: data, encoding: String.Encoding.utf8)!
+            //            let data = try! JSONSerialization.data(withJSONObject:postParams, options:.prettyPrinted)
+            //            let dataString = String(data: data, encoding: String.Encoding.utf8)!
             let headerData = try! JSONSerialization.data(withJSONObject:postHeaders, options:.prettyPrinted)
             let headerDataString = String(data: headerData, encoding: String.Encoding.utf8)!
-        
+            
             print("Request Url :\(url)")
             print("Request Header Data :\(headerDataString)")
-//            print("Request Data : \(dataString)")
-//            request.httpBody = data
+            //            print("Request Data : \(dataString)")
+            //            request.httpBody = data
             request.httpBody = try JSONEncoder().encode(postParams)
             // do other stuff on success
         }
@@ -109,8 +109,8 @@ var window: UIWindow?
         }
         task.resume()
     }
-   
-///MARK:- Get Request
+    
+    ///MARK:- Get Request
     
     func getRequest(strURL:String,postHeaders:NSDictionary,success:@escaping(_ result:Any)->Void,failure:@escaping(_ error:String) -> Void) {
         if isConnectedToNetwork() == false {
@@ -119,9 +119,9 @@ var window: UIWindow?
         }
         
         KRProgressHUD.show()
-//        KRProgressHUD.set(style: .custom(background: .clear, text: .white, icon: nil))
-//           .set(maskType: .white)
-//           .show()
+        //        KRProgressHUD.set(style: .custom(background: .clear, text: .white, icon: nil))
+        //           .set(maskType: .white)
+        //           .show()
         let fileUrl = NSURL(string: strURL)
         let request = NSMutableURLRequest(url: fileUrl! as URL)
         request.addValue(content_type, forHTTPHeaderField: "Content-Type")
@@ -130,14 +130,14 @@ var window: UIWindow?
         if postHeaders["Authorization"] != nil  {
         }
         if let authToken = UserDefaults.standard.string(forKey: k_token) {
-                    request.setValue("Bearer" + " " + authToken,forHTTPHeaderField: "Authorization")
-                }
+            request.setValue("Bearer" + " " + authToken,forHTTPHeaderField: "Authorization")
+        }
         do {
-//            let data = try! JSONSerialization.data(withJSONObject:postParams, options:.prettyPrinted)
-//            let dataString = String(data: data, encoding: String.Encoding.utf8)!
+            //            let data = try! JSONSerialization.data(withJSONObject:postParams, options:.prettyPrinted)
+            //            let dataString = String(data: data, encoding: String.Encoding.utf8)!
             let headerData = try! JSONSerialization.data(withJSONObject:postHeaders, options:.prettyPrinted)
             let headerDataString = String(data: headerData, encoding: String.Encoding.utf8)!
-        
+            
             print("Request Url :\(strURL)")
             print("Request Header Data :\(headerDataString)")
             
@@ -148,11 +148,11 @@ var window: UIWindow?
                 print("JSON serialization failed:  \(error)")
             }
         }
-//        if let authToken = kUserDefaults.string(forKey: kAccess_token) {
-//            if let tokenType = kUserDefaults.string(forKey: kTokenType) {
-//                request.setValue(tokenType + " " + authToken,forHTTPHeaderField: "Authorization")
-//            }
-//        }
+        //        if let authToken = kUserDefaults.string(forKey: kAccess_token) {
+        //            if let tokenType = kUserDefaults.string(forKey: kTokenType) {
+        //                request.setValue(tokenType + " " + authToken,forHTTPHeaderField: "Authorization")
+        //            }
+        //        }
         let task = URLSession.shared.dataTask(with:request as URLRequest){(data,response,error) in
             DispatchQueue.main.async(){
                 print(response as Any)
@@ -178,7 +178,7 @@ var window: UIWindow?
                         //   failure(error! as NSError)
                     }
                     else
-                       {
+                    {
                         print(statusCode)
                         do{
                             print("success 1")
@@ -200,15 +200,15 @@ var window: UIWindow?
         task.resume()
     }
     
-//    func showLoadingHUD(to_view: UIView) {
-//        MBProgressHUD.showAdded(to: to_view, animated: true)
-//        
-//        //  hud.label.text = "Loading..."
-//    }
-//    func hideLoadingHUD(for_view: UIView) {
-//        MBProgressHUD.hide(for: for_view, animated: true)
-//    }
-  
+    //    func showLoadingHUD(to_view: UIView) {
+    //        MBProgressHUD.showAdded(to: to_view, animated: true)
+    //
+    //        //  hud.label.text = "Loading..."
+    //    }
+    //    func hideLoadingHUD(for_view: UIView) {
+    //        MBProgressHUD.hide(for: for_view, animated: true)
+    //    }
+    
     func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
         zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
@@ -238,5 +238,92 @@ var window: UIWindow?
     }
     
     
+    func backGroundPostRequest(strURL:NSString,postParams:Encodable,postHeaders:NSDictionary,successHandler:@escaping( _ result:Any)->Void,failureHandler:@escaping (_ error:String)->Void) -> Void {
+        if isConnectedToNetwork() == false {
+            print("Please Check Internet")
+            return
+        }
+        
+        //        KRProgressHUD
+        //           .set(style: .custom(background: .clear, text: .white, icon: nil))
+        //           .set(maskType: .white)
+        //           .show()
+        let kAccess_token       : String = "kAccess_token"
+        let kToken_type          = "kToken_type"
+        let kClient_id           = "kClient_id"
+        let kRefreshToken        = "kRefreshToken"
+        let kTokenType           = "tokenType"
+        
+        let urlStr:NSString = strURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)! as NSString
+        //        let urlStr:NSString = strURL.addingPercentEscapes(using:String.Encoding.utf8.rawValue)! as NSString
+        let url: NSURL = NSURL(string: urlStr as String)!
+        let request:NSMutableURLRequest = NSMutableURLRequest(url:url as URL)
+        request.httpMethod = "POST"
+        request.addValue("application/json",forHTTPHeaderField:"Content-Type")
+        request.addValue("application/json",forHTTPHeaderField:"Accept")
+        if postHeaders["Authorization"] != nil  {
+        }
+        
+        if let authToken = UserDefaults.standard.string(forKey: k_token) {
+            request.setValue("Bearer" + " " + authToken,forHTTPHeaderField: "Authorization")
+        }
+        
+        do {
+            //            let data = try! JSONSerialization.data(withJSONObject:postParams, options:.prettyPrinted)
+            //            let dataString = String(data: data, encoding: String.Encoding.utf8)!
+            let headerData = try! JSONSerialization.data(withJSONObject:postHeaders, options:.prettyPrinted)
+            let headerDataString = String(data: headerData, encoding: String.Encoding.utf8)!
+            
+            print("Request Url :\(url)")
+            print("Request Header Data :\(headerDataString)")
+            //            print("Request Data : \(dataString)")
+            //            request.httpBody = data
+            request.httpBody = try JSONEncoder().encode(postParams)
+            // do other stuff on success
+        }
+        catch {
+            DispatchQueue.main.async(){
+                print("JSON serialization failed:  \(error)")
+            }
+        }
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {(data, response, error) in
+            
+            //            print(data)
+            //            print(response)
+            //            print(error)
+            DispatchQueue.main.async(){
+                //  UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                if response != nil {
+                    // Response Status Code
+                    let statusCode = (response as! HTTPURLResponse).statusCode
+                    print("statusCode:\(statusCode)")
+                    if statusCode == 401 {
+                        failureHandler("unAuthorized")
+                    }
+                    if statusCode == 500 {
+                        print("failuer 1")
+                        failureHandler("unAuthorized")
+                    }
+                    else if error != nil
+                    {
+                        print("error=\(String(describing: error))")
+                        //        appDelegate.window?.makeToast(kRequestTimedOutMessage, duration:kToastDuration , position:CSToastPositionCenter)
+                        return
+                    }
+                    else {
+                        do {
+                            let parsedData = try JSONSerialization.jsonObject(with: data!, options:.mutableContainers) as! [String:Any]
+                            print(parsedData)
+                            successHandler(data! as NSData)
+                        } catch let error as NSError {
+                            print("error=\(error)")
+                            return
+                        }
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
 }
 

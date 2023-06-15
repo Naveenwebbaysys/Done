@@ -48,7 +48,7 @@ class TagsUsersViewController: UIViewController {
         //        mainDropDown.optionIds = option.ids
         dropdownTF.checkMarkEnabled = false
         //        dropdownTF.semanticContentAttribute = .forceRightToLeft
-        dropdownTF.textColor = .red
+        dropdownTF.textColor = .black
         dropdownTF.arrowSize = 12
         dropdownTF.resignFirstResponder()
     }

@@ -14,12 +14,15 @@ struct GetReelsResponseModel: Codable {
 // MARK: - DataClass
 struct DataClass: Codable {
     let posts: [Post]?
-    let stillWorkingPosts, donePosts: Int?
+    let stillWorkingPosts, donePosts, assignedbyme: Int?
 
     enum CodingKeys: String, CodingKey {
         case posts
         case stillWorkingPosts = "still_working_posts"
         case donePosts = "done_posts"
+        case assignedbyme = "assigned_by_me"
+        
+        
     }
 }
 
@@ -51,7 +54,7 @@ struct Post: Codable {
 // MARK: - TagPeople
 struct TagPeople: Codable {
     let orderAssigneeEmployeeID, employeeID, status: String?
-    let comments: [JSONAny]?
+    let comments: [Comment]?
 
     enum CodingKeys: String, CodingKey {
         case orderAssigneeEmployeeID = "order_assignee_employee_id"
@@ -60,6 +63,13 @@ struct TagPeople: Codable {
     }
 }
 
+struct Comment: Codable
+{
+    let comment : String?
+    enum CodingKeys : String, CodingKey{
+        case comment
+    }
+}
 // MARK: - Encode/decode helpers
 
 class JSONNull: Codable, Hashable {

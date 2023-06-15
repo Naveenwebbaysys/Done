@@ -14,14 +14,16 @@ import KRProgressHUD
 import AVKit
 import MobileCoreServices
 import SwiftyCam
+import Photos
 
 class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
 
-    var timeout = 1
+    var timeout = 0
     var postURl = ""
     var videoTimer : Timer?
     public weak var delegate: SwiftyCamButtonDelegate?
     @IBOutlet weak var sutterBtn : SwiftyCamButton!
+    @IBOutlet weak var cameraImgVW :  UIImageView!
 
     private var timerLabl : UILabel = {
         let t = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
@@ -52,14 +54,17 @@ class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDeleg
         cameraDelegate = self
         sutterBtn.delegate = self
         maximumVideoDuration = 30.0
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
 //        chekCameraPermissions()
 //        chekMicroPhonePermissions()
+        cameraImgVW.image = (UIImage(named: "video_iCon"))
         super.viewWillAppear(animated)
         timerLabl.text = "00:00"
-        self.sutterBtn.setImage(UIImage(named: "video_iCon"), for: .normal)
+        timeout = 0
+//        self.sutterBtn.setImage(UIImage(named: "video_iCon"), for: .normal)
 //        self.sutterBtn.tag = 0
         UIApplication.shared.statusBarStyle = .lightContent
         navigationController?.isNavigationBarHidden = true
@@ -117,6 +122,7 @@ class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDeleg
             return String(format: "%02d", seconds)
         }
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
+        cameraImgVW.image = (UIImage(named: "videoerec_icon"))
          // Called when startVideoRecording() is called
          // Called if a SwiftyCamButton begins a long press gesture
         videoTimer = Timer.scheduledTimer(timeInterval:1, target:self, selector:#selector(prozessTimer), userInfo: nil, repeats: true)
@@ -133,6 +139,7 @@ class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDeleg
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
          // Called when stopVideoRecording() is called and the video is finished processing
          // Returns a URL in the temporary directory where video is stored
+        cameraImgVW.image = (UIImage(named: "video_iCon"))
         stopVideoTimer()
         UISaveVideoAtPathToSavedPhotosAlbum(url.path, nil, nil, nil)
         print(url.path)
@@ -143,7 +150,7 @@ class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDeleg
         let outPutPath = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
         
         DispatchQueue.global(qos: .background).async { [self] in
-            compressVideo(inputURL: url, outputURL: outPutPath) { (resulstCompressedURL, error) in
+            compressVideo(inputURL: url, outputURL: outPutPath) { [self] (resulstCompressedURL, error) in
                 if let error = error {
                     print("Failed to compress video: \(error.localizedDescription)")
                 } else if let compressedURL = resulstCompressedURL {
@@ -158,6 +165,19 @@ class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDeleg
                         return
                     }
                     print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
+                    
+                    if let originalVideo = UserDefaults.standard.value(forKey: "originalVideoPath") {
+//                        do {
+//                             try FileManager.default.removeItem(at: compressedVideoPath as! URL)
+//                            print("Deleting compressed Videos from Local")
+                        print(originalVideo)
+//                        self.removeUrlFromFileManager(compressedVideoPath as? URL)
+//
+                        let videoURL = URL(fileURLWithPath: originalVideo as! String)
+                        deleteVideoFromAlbum(videoURL: videoURL)
+                            
+//                        }
+                    }
                 }
             }
         }
@@ -336,7 +356,57 @@ extension VideoViewController : UIImagePickerControllerDelegate , UINavigationCo
     
     
 
+    func deleteVideoFromAlbum(videoURL: URL) {
+        PHPhotoLibrary.shared().performChanges({
+            if let asset = self.fetchAssetForVideoURL(videoURL) {
+                PHAssetChangeRequest.deleteAssets([asset] as NSArray)
+            }
+        }, completionHandler: { success, error in
+            if success {
+                print("Video deleted successfully.")
+            } else {
+                print("Error deleting video: \(error?.localizedDescription ?? "")")
+            }
+        })
+    }
     
+    func fetchAssetForVideoURL(_ videoURL: URL) -> PHAsset? {
+        let options = PHFetchOptions()
+        options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.video.rawValue)
+        let fetchResult = PHAsset.fetchAssets(with: options)
+        
+        var asset1: PHAsset?
+        
+        fetchResult.enumerateObjects { (object, _, _) in
+            if let asset = object as? PHAsset,
+               let assetURL = asset.value(forKey: "filename") as? String,
+               assetURL == videoURL.lastPathComponent {
+                asset1 = asset
+                return
+            }
+        }
+        
+        return asset1
+    }
+    
+    func deleteVideoFromAlbum(videoURL: URL, albumName: String) {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.video.rawValue)
+        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+        
+        PHPhotoLibrary.shared().performChanges({
+            if let album = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: nil).firstObject {
+                let assetToDelete = fetchResult.objects(at: IndexSet(integer: 0))
+                PHAssetChangeRequest.deleteAssets(assetToDelete as NSFastEnumeration)
+            }
+        }) { success, error in
+            if success {
+                print("Video deleted successfully.")
+            } else {
+                print("Error deleting video: \(String(describing: error))")
+            }
+        }
+    }
     
 }
 

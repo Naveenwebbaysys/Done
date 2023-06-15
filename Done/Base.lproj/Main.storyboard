@@ -979,6 +979,7 @@ video</string>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="kMT-Lu-kHj"/>
                                 </constraints>
+                                <color key="textColor" red="0.59607845540000004" green="0.76862752440000004" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -1135,11 +1136,14 @@ video</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KXI-vA-OdS">
+                                <rect key="frame" x="157.5" y="538" width="60" height="60"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d13-8T-K80" customClass="SwiftyCamButton" customModule="SwiftyCam">
-                                <rect key="frame" x="142.5" y="498" width="90" height="90"/>
+                                <rect key="frame" x="157.5" y="538" width="60" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="k1i-7h-2lO"/>
-                                    <constraint firstAttribute="height" constant="90" id="uJi-8F-Pv9"/>
+                                    <constraint firstAttribute="width" constant="60" id="k1i-7h-2lO"/>
+                                    <constraint firstAttribute="height" constant="60" id="uJi-8F-Pv9"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title=" "/>
@@ -1151,7 +1155,13 @@ video</string>
                         <viewLayoutGuide key="safeArea" id="FMv-bx-5M1"/>
                         <color key="backgroundColor" systemColor="systemIndigoColor"/>
                         <constraints>
-                            <constraint firstItem="FMv-bx-5M1" firstAttribute="bottom" secondItem="d13-8T-K80" secondAttribute="bottom" constant="30" id="IO1-Wb-2B7"/>
+                            <constraint firstItem="KXI-vA-OdS" firstAttribute="leading" secondItem="d13-8T-K80" secondAttribute="leading" id="ELy-u7-raL"/>
+                            <constraint firstItem="FMv-bx-5M1" firstAttribute="bottom" secondItem="d13-8T-K80" secondAttribute="bottom" constant="20" id="IO1-Wb-2B7"/>
+                            <constraint firstItem="KXI-vA-OdS" firstAttribute="trailing" secondItem="d13-8T-K80" secondAttribute="trailing" id="M9T-Cr-BnW"/>
+                            <constraint firstItem="KXI-vA-OdS" firstAttribute="height" secondItem="d13-8T-K80" secondAttribute="height" id="UVG-Ja-1hc"/>
+                            <constraint firstItem="KXI-vA-OdS" firstAttribute="width" secondItem="d13-8T-K80" secondAttribute="width" id="ceJ-FC-KWT"/>
+                            <constraint firstItem="KXI-vA-OdS" firstAttribute="top" secondItem="d13-8T-K80" secondAttribute="top" id="iim-OU-5xY"/>
+                            <constraint firstItem="KXI-vA-OdS" firstAttribute="bottom" secondItem="d13-8T-K80" secondAttribute="bottom" id="jUe-Th-TAP"/>
                             <constraint firstItem="d13-8T-K80" firstAttribute="centerX" secondItem="FMv-bx-5M1" secondAttribute="centerX" id="rKA-v9-3av"/>
                         </constraints>
                     </view>
@@ -1159,6 +1169,7 @@ video</string>
                         <color key="badgeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </tabBarItem>
                     <connections>
+                        <outlet property="cameraImgVW" destination="KXI-vA-OdS" id="v0u-8K-a7S"/>
                         <outlet property="sutterBtn" destination="d13-8T-K80" id="VxS-VE-OQ6"/>
                     </connections>
                 </viewController>

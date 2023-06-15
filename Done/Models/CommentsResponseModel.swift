@@ -16,6 +16,7 @@ struct CommentsData: Codable {
     let id, assigneeEmployeeID, createdAt, comment: String?
     let employeeID: String?
     let createdBy: String?
+    let commenttype : String?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -24,7 +25,25 @@ struct CommentsData: Codable {
         case comment
         case employeeID = "employee_id"
         case createdBy = "created_by"
+        case commenttype = "comment_type"
     }
 }
+
+
+
+// MARK: - PostCommentModel
+struct PostCommentModel: Codable {
+    let assigneeEmployeeID, employeeID: Int?
+    let comment: String?
+    let commenttype : String?
+
+    enum CodingKeys: String, CodingKey {
+        case assigneeEmployeeID = "assignee_employee_id"
+        case employeeID = "employee_id"
+        case comment
+        case commenttype = "comment_type"
+    }
+}
+
 
 

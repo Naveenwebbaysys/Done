@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
+
 
 class CommentsViewController: UIViewController {
     
@@ -33,6 +35,12 @@ class CommentsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         getAllCommentsAPICall(withEmpID: empIDID)
+        IQKeyboardManager.shared.enable = false
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        
+        IQKeyboardManager.shared.enable = true
     }
     
     func getAllCommentsAPICall(withEmpID : String)
@@ -42,7 +50,9 @@ class CommentsViewController: UIViewController {
             let commentsResponse = try? JSONDecoder().decode(CommentsResponseModel.self, from: jsonData as! Data)
             if commentsResponse?.data != nil{
                 self.commentsArray = (commentsResponse?.data)!
-                self.commentTB.reloadData()
+                DispatchQueue.main.async {
+                    self.commentTB.reloadData()
+                }
             }
             else
             {
@@ -73,7 +83,12 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
         if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
             print("Converted Date: \(convertedDate)")
             let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
-            cell.dateLbl.text = time ?? ""
+            print(time)
+            
+            let newDate = checkDate(givenDate: time!)
+            print(newDate)
+            cell.dateLbl.text = newDate
+            
         } else {
             print("Failed to convert date.")
         }
@@ -96,6 +111,66 @@ extension CommentsViewController {
     
     @IBAction func sendCommentBtnAction()
     {
-        
+        if commentTF.text != ""
+        {
+            let postparams = PostCommentModel(assigneeEmployeeID: Int(self.commentsArray[0].assigneeEmployeeID!), employeeID: Int(self.commentsArray[0].employeeID!), comment: commentTF.text, commenttype: self.commentsArray[0].commenttype)
+            
+            DispatchQueue.global(qos: .background).async {
+                print("This is run on the background queue")
+                APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
+                    
+                    print(jsonResult)
+                    let destinationTime = TimeZone(identifier: "America/Los_Angeles")!
+                    // 2023-06-13 14:21:33
+                    let format = "yyyy-MM-dd HH:mm:ss"
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+                    let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
+                    let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
+                    //                print(createdAt)
+                    let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.commentsArray[0].assigneeEmployeeID!, createdAt: createdAt, comment: self.commentTF.text, employeeID: self.commentsArray[0].employeeID, createdBy: self.commentsArray[0].createdBy, commenttype: "Test")
+                    self.commentsArray.append(newcomment)
+                    DispatchQueue.main.async {
+                        self.commentTB.reloadData()
+//                        self.commentTB.scrollToBottom()
+                        let lastIndexPath = IndexPath(row: self.commentsArray.count - 1, section: 0)
+                        self.commentTB.scrollToRow(at: lastIndexPath, at: .bottom, animated: true)
+                    }
+                    self.commentTF.text = ""
+                    self.commentTF.resignFirstResponder()
+                    
+                    
+                } failureHandler: { error in
+                    print(error)
+                }
+                DispatchQueue.main.async {
+                    print("This is run on the main queue, after the previous code in outer block")
+                }
+            }
+        }
+    }
+}
+
+
+
+extension CommentsViewController {
+    
+    func checkDate(givenDate :String) -> String
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, yyyy hh:mm a"
+        let givenDateString = givenDate
+        let givenDate = dateFormatter.date(from: givenDateString)!
+        let calendar = Calendar.current
+        if calendar.isDateInToday(givenDate) {
+            dateFormatter.dateFormat = "hh:mm a"
+            let currentTimeString = dateFormatter.string(from: givenDate)
+            print("Today, \(currentTimeString)")
+            return currentTimeString
+        } else {
+            let formattedDateString = dateFormatter.string(from: givenDate)
+            print(formattedDateString)
+            return formattedDateString
+        }
     }
 }

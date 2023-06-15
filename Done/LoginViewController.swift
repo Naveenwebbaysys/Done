@@ -31,7 +31,7 @@ class LoginViewController: UIViewController {
         
         print(localTimeZoneIdentifier)
         
-       
+        checkDate()
         
     }
     
@@ -136,6 +136,28 @@ extension LoginViewController : UITextFieldDelegate
         dateFormatter.timeZone = TimeZone.current
         dateFormatter.locale = Locale.current
         return dateFormatter.date(from: str) // replace Date String
+    }
+    
+    func checkDate()
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+
+        let givenDateString = "2023-06-14 06:31:27"
+        let givenDate = dateFormatter.date(from: givenDateString)!
+
+        let calendar = Calendar.current
+        let currentDate = Date()
+
+        if calendar.isDateInToday(givenDate) {
+            dateFormatter.dateFormat = "HH:mm:ss"
+            let currentTimeString = dateFormatter.string(from: givenDate)
+            print("Today, \(currentTimeString)")
+        } else {
+            let formattedDateString = dateFormatter.string(from: givenDate)
+            print(formattedDateString)
+        }
+        
     }
 }
 

@@ -20,7 +20,7 @@ open class DropDown: UITextField {
     @IBInspectable public var rowBackgroundColor: UIColor = .white
     @IBInspectable public var itemsColor: UIColor = .darkGray
     @IBInspectable public var itemsTintColor: UIColor = .blue
-    @IBInspectable public var selectedRowColor: UIColor = .systemPink
+    @IBInspectable public var selectedRowColor: UIColor = .clear
     @IBInspectable public var hideOptionsWhenSelect = true
     @IBInspectable public var isSearchEnable: Bool = true {
         didSet {
@@ -244,12 +244,12 @@ open class DropDown: UITextField {
                        usingSpringWithDamping: 0.4,
                        initialSpringVelocity: 0.1,
                        options: .curveEaseInOut,
-                       animations: { () -> Void in
+                       animations: { [self] () -> Void in
 
                            self.table.frame = CGRect(x: self.pointToParent.x,
                                                      y: y,
                                                      width: self.frame.width,
-                                                     height: self.tableheightX)
+                                                     height: (parentController?.view.frame.height)! / 1.28)
                            self.table.alpha = 1
                            self.shadow.frame = self.table.frame
                            self.shadow.dropShadow()
@@ -364,6 +364,7 @@ extension DropDown: UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.text = ""
         // self.selectedIndex = nil
+       
         dataArray = optionArray
         touchAction()
     }

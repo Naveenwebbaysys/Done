@@ -182,7 +182,6 @@ extension PostViewController {
                 {
                     
                     if let compressedVideoPath = UserDefaults.standard.value(forKey: "compressedVideoPath") {
-                        
                         do {
 //                            try FileManager.default.removeItem(at: compressedVideoPath as! URL)
                             print("Deleting compressed Videos from Local")
