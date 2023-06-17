@@ -15,7 +15,7 @@ import AVKit
 import MobileCoreServices
 import SwiftyCam
 import Photos
-
+import IQKeyboardManagerSwift
 class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
 
     var timeout = 0
@@ -54,6 +54,7 @@ class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDeleg
         cameraDelegate = self
         sutterBtn.delegate = self
         maximumVideoDuration = 30.0
+        IQKeyboardManager.shared.enable = true
         
     }
     
@@ -141,13 +142,21 @@ class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDeleg
          // Returns a URL in the temporary directory where video is stored
         cameraImgVW.image = (UIImage(named: "video_iCon"))
         stopVideoTimer()
-        UISaveVideoAtPathToSavedPhotosAlbum(url.path, nil, nil, nil)
-        print(url.path)
+//        UISaveVideoAtPathToSavedPhotosAlbum(url.path, nil, nil, nil)
+//        print(url.path)
         
         let data = NSData(contentsOf: url as URL)!
         print("File size before compression: \(Double(data.length / 1048576)) mb")
         
         let outPutPath = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
+        
+       
+        if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path) {  ///(fileURL) {
+//            var complete : ALAssetsLibraryWriteVideoCompletionBlock = {reason in print("reason \(reason)")}
+            UISaveVideoAtPathToSavedPhotosAlbum(url.path as String, nil, nil, nil)
+        } else {
+            print("the file must be bad!")
+        }
         
         DispatchQueue.global(qos: .background).async { [self] in
             compressVideo(inputURL: url, outputURL: outPutPath) { [self] (resulstCompressedURL, error) in
@@ -160,28 +169,16 @@ class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDeleg
                     UserDefaults.standard.set(url, forKey: "originalVideo")
                     UserDefaults.standard.set(compressedURL.path, forKey: "compressedVideoPath")
                     print(compressedURL.path)
-                    
                     guard let compressedData = NSData(contentsOf: compressedURL) else {
                         return
                     }
                     print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
+//                    dlete(dele: url.path)
                     
-                    if let originalVideo = UserDefaults.standard.value(forKey: "originalVideoPath") {
-//                        do {
-//                             try FileManager.default.removeItem(at: compressedVideoPath as! URL)
-//                            print("Deleting compressed Videos from Local")
-                        print(originalVideo)
-//                        self.removeUrlFromFileManager(compressedVideoPath as? URL)
-//
-                        let videoURL = URL(fileURLWithPath: originalVideo as! String)
-                        deleteVideoFromAlbum(videoURL: videoURL)
-                            
-//                        }
-                    }
                 }
             }
         }
-                
+
         DispatchQueue.main.async {
 //            self.tabBarController?.selectedIndex = 2
             let postVC = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
@@ -189,13 +186,30 @@ class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDeleg
         }
     }
     
+    func savingCallBack(video: NSString, didFinishSavingWithError error:NSError, contextInfo:UnsafeMutableRawPointer){
+           print("the file has been saved sucessfully")
+        dlete(dele: video as String)
+       }
+    
+    func deleteVideoFromSavedPhotosAlbum(atPath path: String) {
+        PHPhotoLibrary.shared().performChanges({
+            if let asset = PHAsset.fetchAssets(withALAssetURLs: [URL(fileURLWithPath: path)], options: nil).firstObject {
+                PHAssetChangeRequest.deleteAssets([asset] as NSArray)
+            }
+        }, completionHandler: { success, error in
+            if success {
+                print("Video deleted successfully.")
+            } else {
+                print("Failed to delete video: \(error?.localizedDescription ?? "")")
+            }
+        })
+    }
   
 }
 
 extension VideoViewController : AVCapturePhotoCaptureDelegate
 {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?){
-        
         guard let data = photo.fileDataRepresentation() else {
             return
         }
@@ -408,6 +422,21 @@ extension VideoViewController : UIImagePickerControllerDelegate , UINavigationCo
         }
     }
     
+    
+    func dlete (dele : String)
+    {
+        let tmpdir = NSTemporaryDirectory()
+//                  outputPath = "\(tmpdir)output.mov"
+        let outputURL = NSURL(fileURLWithPath:dele as String)
+        let filemgr = FileManager.default
+        if filemgr.fileExists(atPath: dele) {
+                      do {
+                          try filemgr.removeItem(atPath: dele)
+                          print("Original Video deleted successfully.")
+                      } catch _ {
+                      }
+                  }
+    }
 }
 
 

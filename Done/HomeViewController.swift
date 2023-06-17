@@ -8,7 +8,11 @@
 import UIKit
 import AVFoundation
 import AVKit
+import HMSegmentedControl
+
 class HomeViewController: UIViewController {
+    @IBOutlet weak var segmentVW : UIView!
+    @IBOutlet weak var noTaskLbl : UILabel!
     private var lastContentOffset: CGFloat = 0
     let activityIndicator = UIActivityIndicatorView(style: .large)
     var userID = ""
@@ -43,13 +47,15 @@ class HomeViewController: UIViewController {
         view.addSubview(activityIndicator)
         
         userID = UserDefaults.standard.value(forKey: UserDetails.userId) as! String
+        setupSegmentControl()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.noTaskLbl.isHidden = true
         self.navigationController?.isNavigationBarHidden = true
         self.reelsModelArray.removeAll()
-        self.getReelsAPICall()
-        
+        self.getpostAPICall(withType: "assigned_by_me")
+        self.activityIndicator.stopAnimating()
     }
     
     
@@ -76,19 +82,59 @@ class HomeViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func getReelsAPICall()
+    //MARK:- setupSegmentControl()
+    func setupSegmentControl()
     {
-        APIModel.getRequest(strURL: BASEURL + GETREELSURL, postHeaders: headers as NSDictionary) { _result in
+        let segmentedControl = HMSegmentedControl(sectionTitles: ["Assigend","Still working", "Done"])
+        let screenWidth = view.frame.width
+        //        segmentedControl.frame = CGRect(x: (screenWidth - 200) / 2, y: navigiationView.bounds.midY , width: 200, height: 40)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        self.segmentVW.addSubview(segmentedControl)
+        NSLayoutConstraint.activate([
+            //            segmentedControl.topAnchor.constraint(equalTo: navigiationView.bottomAnchor, constant: +20 ),
+            segmentedControl.heightAnchor.constraint(equalToConstant: 40.0),
+            segmentedControl.widthAnchor.constraint(equalToConstant: self.segmentVW.frame.width),
+            segmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            segmentedControl.centerYAnchor.constraint(equalTo: segmentVW.centerYAnchor)
+        ])
+        //        segmentedControl.centerYAnchor.constraint(equalTo: self.navigiationView.centerYAnchor).isActive = true
+        segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocation.bottom
+        segmentedControl.backgroundColor = .clear
+        segmentedControl.selectionIndicatorColor = UIColor(named: "App_color")!
+        segmentedControl.selectionIndicatorHeight = 2
+        segmentedControl.titleTextAttributes = [NSAttributedString.Key.font : UIFont(name: "ArialRoundedMTBold", size: 15)!, NSAttributedString.Key.foregroundColor: UIColor(named: "App_color")!]
+        segmentedControl.addTarget(self, action: #selector(segmentedControlChangedValue(sender:)), for: .valueChanged)
+        //view.addSubview(segmentedControl)
+    }
+    
+    @objc func segmentedControlChangedValue(sender: HMSegmentedControl)
+    {
+        self.reelsModelArray.removeAll()
+        if sender.selectedSegmentIndex == 0
+        {
+            self.getpostAPICall(withType: "assigned_by_me")
+        }
+        if sender.selectedSegmentIndex == 1
+        {
+            self.getpostAPICall(withType: "still_working")
+        }
+        if sender.selectedSegmentIndex == 2
+        {
+            self.getpostAPICall(withType: "done_success")
+        }
+    }
+    
+    
+    func getpostAPICall(withType : String)
+    {
+        APIModel.getRequest(strURL: BASEURL + GETREELSURL + withType, postHeaders: headers as NSDictionary) { _result in
             let getReelsResponseModel = try? JSONDecoder().decode(GetReelsResponseModel.self, from: _result as! Data)
-            
-            
+            self.noTaskLbl.isHidden = true
             print(getReelsResponseModel?.data as Any)
-            if getReelsResponseModel?.data?.posts != nil
+            if getReelsResponseModel?.data?.posts?.count != 0
             {
                 self.reelsModelArray = (getReelsResponseModel?.data?.posts)!
-                
                 self.tblInstaReels.reloadData()
-                
                 if let cell = self.tblInstaReels.visibleCells.first as? ReelsTableViewCell {
                     cell.reloadBtn.isHidden = true
                 }
@@ -96,16 +142,12 @@ class HomeViewController: UIViewController {
             else
             {
                 print("No Reels found")
-                
+                self.noTaskLbl.isHidden = false
             }
-            //
-            
         } failure: { error in
             print(error)
         }
-        
     }
-    
 }
 
 
@@ -126,16 +168,11 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         Reelcell.marqueeLabel.text = self.reelsModelArray[indexPath.row].notes
 
         let formatter = DateFormatter()
-        // initially set the format based on your datepicker date / server String
         formatter.dateFormat = "yyy-MM-dd"
-
         let duedate = self.reelsModelArray[indexPath.row].commissionNoOfDays1!
         let yourDate = formatter.date(from: duedate)
-        //then again set the date format whhich type of output you need
         formatter.dateFormat = "MMM d, yyyy"
-        // again convert your date to string
         let myStringDate = formatter.string(from: yourDate!)
-
         print(myStringDate)
         let days = count(expDate: myStringDate)
         Reelcell.dateLbl.text = "Expires in " + "\(days)" + " days " + myStringDate
@@ -167,9 +204,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         Reelcell.doneBtn.tag = indexPath.row
         Reelcell.doneBtn.addTarget(self, action: #selector(statusBtnTapped(_:)), for: .touchUpInside)
         Reelcell.avPlayer?.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
-        
-
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(restartPlayback), name: .AVPlayerItemDidPlayToEndTime, object: Reelcell.avPlayer?.currentItem)
         return Reelcell
     }
     
@@ -183,6 +218,12 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         print(indexPath.row)
         
     }
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+            if let videoCell = cell as? ReelsTableViewCell {
+                // Stop the video when the cell is no longer visible
+                videoCell.avPlayer?.pause()
+            }
+        }
     
     override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "timeControlStatus", let change = change, let newValue = change[NSKeyValueChangeKey.newKey] as? Int, let oldValue = change[NSKeyValueChangeKey.oldKey] as? Int {
@@ -226,9 +267,6 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         
         
         let indexPaths = self.tblInstaReels.indexPathsForVisibleRows
-        
-        
-        
         var cells = [Any]()
         for ip in indexPaths!{
             if let videoCell = self.tblInstaReels.cellForRow(at: ip) as? ReelsTableViewCell{
@@ -327,6 +365,20 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         
         
     }
+    
+    @objc func restartPlayback() {
+            // Seek to the beginning of the video
+        for cell in tblInstaReels.visibleCells {
+            self.activityIndicator.stopAnimating()
+            (cell as! ReelsTableViewCell ).avPlayer?.seek(to: CMTime.zero)
+            (cell as! ReelsTableViewCell ).avPlayer?.play()
+            
+            
+            // Start playback again
+//            cell.avPlayer?.play()
+        }
+           
+        }
     
 }
 

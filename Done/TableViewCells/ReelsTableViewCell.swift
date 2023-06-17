@@ -21,7 +21,7 @@ class ReelsTableViewCell: UITableViewCell {
     @IBOutlet weak var userNameLbl : UILabel!
     @IBOutlet weak var dateLbl : UILabel!
     @IBOutlet weak var doneBtn : UIButton!
-    
+    let activityIndicator = UIActivityIndicatorView(style: .large)
     var avPlayer: AVPlayer?
     var avPlayerLayer: AVPlayerLayer?
     var paused: Bool = false
@@ -31,7 +31,7 @@ class ReelsTableViewCell: UITableViewCell {
         self.setupMoviePlayer()
         reloadBtn.isHidden = true
         
-
+ 
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -57,6 +57,9 @@ class ReelsTableViewCell: UITableViewCell {
 //        avPlayerLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
 //        avPlayer?.volume = 2
         avPlayer?.actionAtItemEnd = .none
+        
+        
+
     
         
         //        You need to have different variations
@@ -102,26 +105,10 @@ class ReelsTableViewCell: UITableViewCell {
     }
     
     func startPlayback(){
-        
-        // Observe the AVPlayerItemDidPlayToEndTime notification
-        
-        
         self.avPlayer?.play()
     }
     
     // A notification is fired and seeker is sent to the beginning to loop the video again
-    @objc func playerItemDidReachEnd(notification: Notification) {
-        let p: AVPlayerItem = notification.object as! AVPlayerItem
-        p.seek(to: CMTime.zero, completionHandler: nil)
-//        startPlayback()
-//        self.avPlayer?.seek(to: CMTime.zero)
-        
-//        self.avPlayer?.seek(to: CMTime.zero)
-        self.avPlayer?.play()
-//        reloadBtn.isHidden = false
-//        reloadBtn.addTarget(self, action: #selector(replay), for: .touchUpInside)
-        
-    }
     
     @objc func replay()
     {
@@ -135,13 +122,15 @@ class ReelsTableViewCell: UITableViewCell {
     }
     
     
-    func restartPlayback() {
+    @objc func restartPlayback() {
             // Seek to the beginning of the video
             avPlayer?.seek(to: CMTime.zero)
             
             // Start playback again
             avPlayer?.play()
         }
+    
+  
 
 }
 

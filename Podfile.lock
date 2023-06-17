@@ -2,6 +2,7 @@ PODS:
   - AWSCore (2.33.0)
   - AWSS3 (2.33.0):
     - AWSCore (= 2.33.0)
+  - HMSegmentedControl (1.5.6)
   - iOSDropDown (0.4.0)
   - IQKeyboardManagerSwift (6.5.11)
   - Kingfisher (7.6.2)
@@ -11,8 +12,8 @@ PODS:
   - SwiftyCam (4.0.0)
 
 DEPENDENCIES:
-  - AWSCore
   - AWSS3
+  - HMSegmentedControl
   - iOSDropDown
   - IQKeyboardManagerSwift
   - Kingfisher
@@ -23,6 +24,7 @@ SPEC REPOS:
   trunk:
     - AWSCore
     - AWSS3
+    - HMSegmentedControl
     - iOSDropDown
     - IQKeyboardManagerSwift
     - Kingfisher
@@ -33,6 +35,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AWSCore: ff962198e35c750cb1d59cd459c51f1990e3ec68
   AWSS3: 910b5a6ec6c6b749f6a0657483118cae54f83a11
+  HMSegmentedControl: 34c1f54d822d8308e7b24f5d901ec674dfa31352
   iOSDropDown: ce9daa584eaa5567cafc1b633e3cc7eb6d9cea42
   IQKeyboardManagerSwift: c7955c0bdbf7b2eb29bb7daaa44e3d90f55a9a85
   Kingfisher: 6c5449c6450c5239166510ba04afe374a98afc4f
@@ -40,6 +43,6 @@ SPEC CHECKSUMS:
   KRProgressHUD: a248f0bc6c9c2aed40a37b76e03ffecc7f85c887
   SwiftyCam: 6e57914771d972fbe508e759dc9d0150a44a93fd
 
-PODFILE CHECKSUM: 6d87abfb12e3f5b9e8282a6f63ba267d54e82c66
+PODFILE CHECKSUM: f14326a51504dac56f988b3fefaa4c51251287c8
 
 COCOAPODS: 1.12.1

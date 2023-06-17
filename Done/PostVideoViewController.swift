@@ -23,7 +23,6 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     let countries = [ "Afghanistan", "Albania", "Algeria", "American Samoa"]
     var todaysDate = ""
     var futureDate = ""
-    
     var placeholder = "Decription.."
     var recordVideoURL = ""
     var uuid = ""
@@ -160,7 +159,7 @@ extension PostViewController {
         var commType = ""
         var restType = ""
         DispatchQueue.main.async { [self] in
-            descText = self.descriptionTV.text
+            descText = self.descriptionTV.text == placeholder ? "" : self.descriptionTV.text
             commAmount =  amountTF.text ?? ""
             commType = commissionTypeLbl.text ?? ""
             restType = restrictLbl.text ?? ""
@@ -183,14 +182,9 @@ extension PostViewController {
                     
                     if let compressedVideoPath = UserDefaults.standard.value(forKey: "compressedVideoPath") {
                         do {
-//                            try FileManager.default.removeItem(at: compressedVideoPath as! URL)
-                            print("Deleting compressed Videos from Local")
-//                            self.removeUrlFromFileManager(compressedVideoPath as! URL)
-                            
-                            if let originalVideoPath = UserDefaults.standard.value(forKey: "originalVideoPath") as? URL {
-                                print("Deleting Original Videos from Local")
-//                                self.removeUrlFromFileManager(originalVideoPath)
-                            }
+                            print(compressedVideoPath)
+                            deleteVideoFromLocal(path: compressedVideoPath as! String)
+//
                         }
                     }
                     let story = UIStoryboard(name: "Main", bundle:nil)
@@ -274,12 +268,10 @@ extension PostViewController  {
     }
     
     @IBAction func decreaseAction(){
-        
         commissionTypeVW.isHidden = true
         commissionTypeLbl.text = "Decrease"
     }
     @IBAction func assigenedBtnAction(){
-        
         restrictVW.isHidden = true
         restrictLbl.text = "Assigned People"
     }

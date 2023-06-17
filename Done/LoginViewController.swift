@@ -27,6 +27,9 @@ class LoginViewController: UIViewController {
         self.emailTf.text = "kranthiallaboina@gmail.com"
         self.passwordTf.text = "apple@123"
         
+//        self.emailTf.text = "Gorakrao@gmail.com"
+//        self.passwordTf.text = "gorakrao"
+        
         var localTimeZoneIdentifier: String { return TimeZone.current.identifier }
         
         print(localTimeZoneIdentifier)
@@ -111,6 +114,11 @@ class LoginViewController: UIViewController {
         APIModel.getRequest(strURL: BASEURL + PROFILE, postHeaders:  headers as NSDictionary) { result in
             let profileResponseModel = try? JSONDecoder().decode(ProfileResponseModel.self, from: result as! Data)
             UserDefaults.standard.setValue(profileResponseModel?.employee?.id ?? "" , forKey: UserDetails.userId)
+            let fullName = (profileResponseModel?.employee?.firstName ?? "")! + " " + (profileResponseModel?.employee?.lastName ?? "")!
+            UserDefaults.standard.setValue(fullName , forKey: UserDetails.userName)
+            UserDefaults.standard.setValue(profileResponseModel?.employee?.department  , forKey: UserDetails.deptName)
+            UserDefaults.standard.setValue(profileResponseModel?.employee?.email  , forKey: UserDetails.userMailID)
+            UserDefaults.standard.setValue(profileResponseModel?.employee?.id  , forKey: UserDetails.userId)
             let homeVC = self.storyboard?.instantiateViewController(identifier: "CustomViewController") as! CustomViewController
             self.navigationController?.pushViewController(homeVC, animated: true)
         } failure: { error in

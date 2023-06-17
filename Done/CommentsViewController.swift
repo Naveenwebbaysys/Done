@@ -15,7 +15,9 @@ class CommentsViewController: UIViewController {
     @IBOutlet weak var commentTB : UITableView!
     @IBOutlet weak var descLbl : UILabel!
     var desc = ""
-    var empIDID = ""
+    var assignEmpID = ""
+    var empID = ""
+    var createdBy = ""
     var commentsArray = [CommentsData]()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,13 +36,20 @@ class CommentsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        getAllCommentsAPICall(withEmpID: empIDID)
-        IQKeyboardManager.shared.enable = false
+        getAllCommentsAPICall(withEmpID: assignEmpID)
+        
+        if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
+            empID = id as! String
+        }
+        if let name = UserDefaults.standard.value(forKey: UserDetails.userName){
+            createdBy = name as! String
+        }
+//        IQKeyboardManager.shared.enable = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         
-        IQKeyboardManager.shared.enable = true
+//        IQKeyboardManager.shared.enable = true
     }
     
     func getAllCommentsAPICall(withEmpID : String)
@@ -52,6 +61,10 @@ class CommentsViewController: UIViewController {
                 self.commentsArray = (commentsResponse?.data)!
                 DispatchQueue.main.async {
                     self.commentTB.reloadData()
+     
+                    let indexPosition = IndexPath(row: self.commentsArray.count - 1, section: 0)
+                    
+                    self.commentTB.scrollToRow(at: indexPosition, at: .bottom, animated: false)
                 }
             }
             else
@@ -74,6 +87,7 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsTableViewCell", for: indexPath) as! CommentsTableViewCell
         cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
+//        cell.commentLbl.numberOfLines = 0
         cell.commentLbl.text = self.commentsArray[indexPath.row].comment
         
         let sourceTimeZone = TimeZone(identifier: "America/Los_Angeles")!
@@ -92,7 +106,6 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
         } else {
             print("Failed to convert date.")
         }
-        
         return cell
     }
     
@@ -111,14 +124,13 @@ extension CommentsViewController {
     
     @IBAction func sendCommentBtnAction()
     {
+        print(self.commentsArray.count)
         if commentTF.text != ""
         {
-            let postparams = PostCommentModel(assigneeEmployeeID: Int(self.commentsArray[0].assigneeEmployeeID!), employeeID: Int(self.commentsArray[0].employeeID!), comment: commentTF.text, commenttype: self.commentsArray[0].commenttype)
-            
+            let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTF.text, commenttype: "text")
             DispatchQueue.global(qos: .background).async {
                 print("This is run on the background queue")
                 APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
-                    
                     print(jsonResult)
                     let destinationTime = TimeZone(identifier: "America/Los_Angeles")!
                     // 2023-06-13 14:21:33
@@ -128,18 +140,19 @@ extension CommentsViewController {
                     let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
                     let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
                     //                print(createdAt)
-                    let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.commentsArray[0].assigneeEmployeeID!, createdAt: createdAt, comment: self.commentTF.text, employeeID: self.commentsArray[0].employeeID, createdBy: self.commentsArray[0].createdBy, commenttype: "Test")
+                    let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTF.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "Test")
                     self.commentsArray.append(newcomment)
+//                    self.commentTB.reloadData()
+                    print(self.commentsArray.count)
                     DispatchQueue.main.async {
-                        self.commentTB.reloadData()
-//                        self.commentTB.scrollToBottom()
-                        let lastIndexPath = IndexPath(row: self.commentsArray.count - 1, section: 0)
-                        self.commentTB.scrollToRow(at: lastIndexPath, at: .bottom, animated: true)
+                        let section = 0 // Assuming you have only one section
+                        let lastRow = self.commentTB.numberOfRows(inSection: section)
+                        let lastRowIndexPath = IndexPath(row: lastRow, section: section)
+                        self.commentTB.insertRows(at: [lastRowIndexPath], with: .none)
+                        self.commentTB.scrollToRow(at: lastRowIndexPath, at: .bottom, animated: false)
                     }
                     self.commentTF.text = ""
                     self.commentTF.resignFirstResponder()
-                    
-                    
                 } failureHandler: { error in
                     print(error)
                 }

@@ -18,8 +18,16 @@ class CommentsTableViewCell: UITableViewCell {
         
         self.commentLbl.cornerRadius = 10
         self.commentLbl.preferredMaxLayoutWidth = 240
+//        commentLbl.translatesAutoresizingMaskIntoConstraints = false
+
+
+        
     }
 
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        layoutIfNeeded()
+    }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

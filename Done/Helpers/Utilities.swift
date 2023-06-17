@@ -372,6 +372,7 @@ class UserDetails
     static var userMailID =  "userMailID"
     static var userPhoneNo = "userPhoneNo"
     static var newPhoneNumber = "newPhoneNumber"
+    static var deptName = "deptName" 
     
 }
 
@@ -835,3 +836,19 @@ extension UITableView {
   }
 }
 
+
+
+func deleteVideoFromLocal (path : String)
+{
+    let tmpdir = NSTemporaryDirectory()
+//                  outputPath = "\(tmpdir)output.mov"
+    let outputURL = NSURL(fileURLWithPath:path as String)
+    let filemgr = FileManager.default
+    if filemgr.fileExists(atPath: path) {
+                  do {
+                      try filemgr.removeItem(atPath: path)
+                      print("Video deleted successfully.")
+                  } catch _ {
+                  }
+              }
+}

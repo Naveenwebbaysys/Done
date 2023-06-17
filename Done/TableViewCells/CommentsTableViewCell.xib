@@ -31,12 +31,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="3BN-HA-xhp" customClass="PaddingLabel" customModule="Done" customModuleProvider="target">
-                                <rect key="frame" x="4.9999999999999964" y="36" width="59.666666666666657" height="29"/>
+                            <label autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3BN-HA-xhp" customClass="PaddingLabel" customModule="Done" customModuleProvider="target">
+                                <rect key="frame" x="5" y="36" width="195" height="29"/>
                                 <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="0.0"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                         <real key="value" value="10"/>
@@ -67,6 +68,7 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="3BN-HA-xhp" secondAttribute="trailing" constant="120" id="1p4-c9-a6P"/>
                             <constraint firstItem="3BN-HA-xhp" firstAttribute="leading" secondItem="AvW-fX-YC7" secondAttribute="leading" constant="5" id="LiP-LD-1Jl"/>
                             <constraint firstItem="1nk-9R-kVo" firstAttribute="leading" secondItem="Ror-Qg-1sz" secondAttribute="trailing" constant="20" id="QHv-e8-lhO"/>
                             <constraint firstAttribute="trailing" secondItem="1nk-9R-kVo" secondAttribute="trailing" constant="3" id="QJo-q5-MGO"/>
@@ -96,7 +98,7 @@
     </objects>
     <designables>
         <designable name="3BN-HA-xhp">
-            <size key="intrinsicContentSize" width="59.666666666666664" height="39.333333333333329"/>
+            <size key="intrinsicContentSize" width="39.666666666666664" height="19.333333333333332"/>
         </designable>
     </designables>
     <resources>

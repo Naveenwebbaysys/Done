@@ -99,7 +99,7 @@ extension ViewStatusViewController {
     {
         let commentsVC = storyboard?.instantiateViewController(withIdentifier: "CommentsViewController") as! CommentsViewController
         commentsVC.desc = self.descLbl.text ?? ""
-        commentsVC.empIDID = self.statusModelArray[sender.tag].orderAssigneeEmployeeID!
+        commentsVC.assignEmpID = self.statusModelArray[sender.tag].orderAssigneeEmployeeID!
         self.navigationController?.pushViewController(commentsVC, animated: true)
     }
 }

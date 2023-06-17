@@ -115,6 +115,7 @@ class ServiceController: NSObject {
     func getRequest(strURL:String,postHeaders:NSDictionary,success:@escaping(_ result:Any)->Void,failure:@escaping(_ error:String) -> Void) {
         if isConnectedToNetwork() == false {
             print("Please Check Internet")
+            
             return
         }
         
@@ -325,5 +326,6 @@ class ServiceController: NSObject {
         }
         task.resume()
     }
+   
 }
 

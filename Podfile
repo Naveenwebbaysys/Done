@@ -11,10 +11,11 @@ target 'Done' do
   #pod 'SVProgressHUD'
   pod "KRProgressHUD"
   pod 'AWSS3'
-  pod 'AWSCore'
-pod 'AWSCognito'
+  #pod 'AWSCore'
+  #pod 'AWSCognito'
   pod 'iOSDropDown'
   pod "SwiftyCam"
+  pod 'HMSegmentedControl'
   
 end
 #

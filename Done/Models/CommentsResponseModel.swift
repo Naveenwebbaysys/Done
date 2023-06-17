@@ -29,8 +29,6 @@ struct CommentsData: Codable {
     }
 }
 
-
-
 // MARK: - PostCommentModel
 struct PostCommentModel: Codable {
     let assigneeEmployeeID, employeeID: Int?
