@@ -13,7 +13,7 @@ class ViewStatusTableViewCell: UITableViewCell {
     @IBOutlet weak var statusLbl : UILabel!
     @IBOutlet weak var dateLbl : UILabel!
     @IBOutlet weak var commentsBtn : UIButton!
-    
+    @IBOutlet weak var commentCountLbl : UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

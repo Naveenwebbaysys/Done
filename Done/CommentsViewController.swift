@@ -14,6 +14,7 @@ class CommentsViewController: UIViewController {
     @IBOutlet weak var commentTF : UITextField!
     @IBOutlet weak var commentTB : UITableView!
     @IBOutlet weak var descLbl : UILabel!
+    var postid = ""
     var desc = ""
     var assignEmpID = ""
     var empID = ""
@@ -21,7 +22,6 @@ class CommentsViewController: UIViewController {
     var commentsArray = [CommentsData]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.commentTB.register(UINib(nibName: "CommentsTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentsTableViewCell")
         
         self.commentTB.rowHeight = UITableView.automaticDimension
@@ -33,6 +33,9 @@ class CommentsViewController: UIViewController {
         let paddingView: UIView = UIView(frame: CGRect(x: 5, y: 5, width: 5, height: 20))
         commentTF.leftView = paddingView
         commentTF.leftViewMode = .always
+        //        self.updateTableContentInset()
+        
+        self.commentTB.transform = CGAffineTransform(scaleX: 1, y: -1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,13 +47,19 @@ class CommentsViewController: UIViewController {
         if let name = UserDefaults.standard.value(forKey: UserDetails.userName){
             createdBy = name as! String
         }
-//        IQKeyboardManager.shared.enable = false
+        //        IQKeyboardManager.shared.enable = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         
-//        IQKeyboardManager.shared.enable = true
+        //        IQKeyboardManager.shared.enable = true
     }
+    
+    // Remove observers in deinit
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     
     func getAllCommentsAPICall(withEmpID : String)
     {
@@ -61,10 +70,13 @@ class CommentsViewController: UIViewController {
                 self.commentsArray = (commentsResponse?.data)!
                 DispatchQueue.main.async {
                     self.commentTB.reloadData()
-     
-                    let indexPosition = IndexPath(row: self.commentsArray.count - 1, section: 0)
                     
-                    self.commentTB.scrollToRow(at: indexPosition, at: .bottom, animated: false)
+                    //                    if self.commentsArray.count > 1 {
+                    //                        let indexPosition = IndexPath(row: self.commentsArray.count - 1, section: 0)
+                    //
+                    //                        self.commentTB.scrollToRow(at: indexPosition, at: .bottom, animated: false)
+                    //                    }
+                    
                 }
             }
             else
@@ -86,12 +98,14 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsTableViewCell", for: indexPath) as! CommentsTableViewCell
-        cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
-//        cell.commentLbl.numberOfLines = 0
-        cell.commentLbl.text = self.commentsArray[indexPath.row].comment
+        let currentIndex = commentsArray.count-1
+        cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+        cell.userNameLbl.text = self.commentsArray[currentIndex-indexPath.row].createdBy
+        //        cell.commentLbl.numberOfLines = 0
+        cell.commentLbl.text = self.commentsArray[currentIndex-indexPath.row].comment
         
         let sourceTimeZone = TimeZone(identifier: "America/Los_Angeles")!
-        let dateString = self.commentsArray[indexPath.row].createdAt  // 2023-06-13 14:21:33
+        let dateString = self.commentsArray[currentIndex-indexPath.row].createdAt  // 2023-06-13 14:21:33
         let format = "yyyy-MM-dd HH:mm:ss"
         
         if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
@@ -127,7 +141,8 @@ extension CommentsViewController {
         print(self.commentsArray.count)
         if commentTF.text != ""
         {
-            let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTF.text, commenttype: "text")
+            //            self.commentTF.resignFirstResponder()
+            let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTF.text, commenttype: "text", assigneeid: "38944")
             DispatchQueue.global(qos: .background).async {
                 print("This is run on the background queue")
                 APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
@@ -140,19 +155,33 @@ extension CommentsViewController {
                     let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
                     let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
                     //                print(createdAt)
-                    let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTF.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "Test")
+                    let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTF.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "Text")
                     self.commentsArray.append(newcomment)
-//                    self.commentTB.reloadData()
+                    //                    self.commentsArray.reverse()
                     print(self.commentsArray.count)
-                    DispatchQueue.main.async {
-                        let section = 0 // Assuming you have only one section
-                        let lastRow = self.commentTB.numberOfRows(inSection: section)
-                        let lastRowIndexPath = IndexPath(row: lastRow, section: section)
-                        self.commentTB.insertRows(at: [lastRowIndexPath], with: .none)
-                        self.commentTB.scrollToRow(at: lastRowIndexPath, at: .bottom, animated: false)
-                    }
+                    //                    self.commentTB.transform = CGAffineTransform(scaleX: 1, y: -1)
+                    self.commentTB.reloadData()
+                    //                    DispatchQueue.main.async {
+                    //                        let section = 0 // Assuming you have only one section
+                    //                        let lastRow = self.commentTB.numberOfRows(inSection: section)
+                    //                        let lastRowIndexPath = IndexPath(row: lastRow, section: section)
+                    //                        self.commentTB.insertRows(at: [lastRowIndexPath], with: .none)
+                    //
+                    //                        let indexPosition = IndexPath(row: self.commentsArray.count - 1, section: 0)
+                    //                        self.commentTB.scrollToRow(at: indexPosition, at: .bottom, animated: false)
+                    //
+                    //                        //                        let lastRowIndex =  self.commentsArray.count - 1
+                    //                        //                        let lastRowIndexPath = IndexPath(row: lastRowIndex, section: 0)
+                    //                        //                        self.commentTB.reloadData()
+                    //                        //                        let isScrolledToBottom = self.commentTB.contentOffset.y + self.commentTB.frame.size.height >= self.commentTB.contentSize.height
+                    //                        //
+                    //                        //                        if isScrolledToBottom {
+                    //                        //                            self.commentTB.scrollToRow(at: lastRowIndexPath, at: .bottom, animated: true)
+                    //                        //                        }
+                    //
+                    //                    }
                     self.commentTF.text = ""
-                    self.commentTF.resignFirstResponder()
+                    
                 } failureHandler: { error in
                     print(error)
                 }
@@ -161,6 +190,20 @@ extension CommentsViewController {
                 }
             }
         }
+    }
+    
+    func updateTableContentInset() {
+        let numRows = self.commentTB.numberOfRows(inSection: 0)
+        var contentInsetTop = self.commentTB.bounds.size.height
+        for i in 0..<numRows {
+            let rowRect = self.commentTB.rectForRow(at: IndexPath(item: i, section: 0))
+            contentInsetTop -= rowRect.size.height
+            if contentInsetTop <= 0 {
+                contentInsetTop = 0
+                break
+            }
+        }
+        self.commentTB.contentInset = UIEdgeInsets(top: contentInsetTop,left: 0,bottom: 0,right: 0)
     }
 }
 
@@ -186,4 +229,8 @@ extension CommentsViewController {
             return formattedDateString
         }
     }
+    
+    
+    
+    
 }

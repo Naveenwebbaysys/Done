@@ -11,7 +11,7 @@ class TagUsersTableViewCell: UITableViewCell {
     
     @IBOutlet weak var taguserNameLbl : UILabel!
     @IBOutlet weak var seletionBtn : UIButton!
-
+    @IBOutlet weak var deptLbl : UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

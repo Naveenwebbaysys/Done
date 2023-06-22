@@ -25,6 +25,9 @@ struct ViewStatusRespose: Codable {
 struct PostStatus: Codable {
     let postID, orderAssigneeEmployeeID, status, employeeID: String?
     let employeeName: String?
+    let lastmessage: String?
+    let commentscount: String?
+    
 
     enum CodingKeys: String, CodingKey {
         case postID = "post_id"
@@ -32,6 +35,8 @@ struct PostStatus: Codable {
         case status
         case employeeID = "employee_id"
         case employeeName = "employee_name"
+        case lastmessage = "last_message"
+        case commentscount = "comments_count"
     }
 }
 

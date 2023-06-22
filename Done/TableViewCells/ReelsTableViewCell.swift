@@ -11,7 +11,8 @@ import AVKit
 
 class ReelsTableViewCell: UITableViewCell {
     
-    
+    @IBOutlet weak var countLbl : UILabel!
+    @IBOutlet weak var commentsBtn : UIButton!
     @IBOutlet weak var marqueeLabel: UILabel!
     @IBOutlet weak var userImgVW: UIImageView!
     @IBOutlet weak var reloadBtn : UIButton!
@@ -30,7 +31,7 @@ class ReelsTableViewCell: UITableViewCell {
         super.awakeFromNib()
         self.setupMoviePlayer()
         reloadBtn.isHidden = true
-        
+        countLbl.text = "0"
  
     }
     

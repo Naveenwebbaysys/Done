@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+ platform :ios, '13.0'
 
 target 'Done' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -13,6 +13,7 @@ target 'Done' do
   pod 'AWSS3'
   #pod 'AWSCore'
   #pod 'AWSCognito'
+  pod 'AWSUserPoolsSignIn'
   pod 'iOSDropDown'
   pod "SwiftyCam"
   pod 'HMSegmentedControl'

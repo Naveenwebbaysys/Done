@@ -34,12 +34,14 @@ struct PostCommentModel: Codable {
     let assigneeEmployeeID, employeeID: Int?
     let comment: String?
     let commenttype : String?
+    let assigneeid : String?
 
     enum CodingKeys: String, CodingKey {
         case assigneeEmployeeID = "assignee_employee_id"
         case employeeID = "employee_id"
         case comment
         case commenttype = "comment_type"
+        case assigneeid = "assignee_id"
     }
 }
 

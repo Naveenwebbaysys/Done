@@ -13,11 +13,12 @@ import KRProgressHUD
 import iOSDropDown
 
 class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
+    
     func sendDataToFirstViewController(tagsID: [String], tagname: [String]) {
         self.tags1 = tagsID
         self.tagPeoples1 = tagname
-                self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
-                print(self.tagPeopleLbl.text as Any)
+        self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
+        print(self.tagPeopleLbl.text as Any)
     }
     
     let countries = [ "Afghanistan", "Albania", "Algeria", "American Samoa"]
@@ -27,30 +28,27 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     var recordVideoURL = ""
     var uuid = ""
     var awsS3Url = ""
+    var tagPeoples1 =  [String]()
+    let addLinks1 = [String]()
+    var tags1 =  [String]()
     
-  
     
     @IBOutlet weak var  descriptionTV : UITextView!
     @IBOutlet weak var  commissionTypeVW : UIStackView!
     @IBOutlet weak var  commissionTypeLbl : UILabel!
     @IBOutlet weak var  increseBtn : UIButton!
     @IBOutlet weak var  decreaseBtn : UIButton!
-    
     @IBOutlet weak var  restrictVW : UIStackView!
     @IBOutlet weak var  assigenedBtn : UIButton!
     @IBOutlet weak var  everyOneBtn : UIButton!
     @IBOutlet weak var  restrictLbl : UILabel!
     @IBOutlet weak var  commissionTF : UILabel!
-    
     @IBOutlet weak var  dateLbl : UILabel!
     @IBOutlet weak var  amountTF : UITextField!
     @IBOutlet weak var  linksTF : UITextField!
-    
     @IBOutlet weak var  tagPeopleLbl : UILabel!
     
-    var tagPeoples1 =  [String]()
-    let addLinks1 = [String]()
-    var tags1 =  [String]()
+    
     
     
     var screen = UIScreen().bounds.size
@@ -119,7 +117,7 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         print(futureDate)
         
         self.dateLbl.text = dateFormatter1.string(from: Date())
-       
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -130,26 +128,27 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
 
 
 extension PostViewController {
-
+    
     func uploadVideoToS3Server (filePath : String)
     {
         KRProgressHUD.show()
         let videoUrl = URL(fileURLWithPath: filePath)
-            AWSS3Manager.shared.uploadVideo(videoUrl: videoUrl, progress: { [weak self] (progress) in
-                KRProgressHUD.dismiss()
-                guard let strongSelf = self else { return }
-            }) { [weak self] (uploadedFileUrl, error) in
-                guard let strongSelf = self else { return }
-                if let awsS3Url = uploadedFileUrl as? String {
-//                    strongSelf.s3UrlLabel.text = "Uploaded file url: " + finalPath
-                    print("Uploaded file url: " + awsS3Url)
-//
-                    let awsS3Url = SERVERURL + awsS3Url
-                    self?.createPostAPICall(str: awsS3Url)
-                } else {
-                    print("\(String(describing: error?.localizedDescription))")
-                }
+        AWSS3Manager.shared.uploadVideo(videoUrl: videoUrl, progress: { [weak self] (progress) in
+            KRProgressHUD.dismiss()
+            guard let strongSelf = self else { return }
+        }) { [weak self] (uploadedFileUrl, error) in
+            guard let strongSelf = self else { return }
+            if let awsS3Url = uploadedFileUrl as? String {
+                //                    strongSelf.s3UrlLabel.text = "Uploaded file url: " + finalPath
+                print("Uploaded file url: " + awsS3Url)
+                //
+                let awsS3Url = SERVERURL + awsS3Url
+                self?.createPostAPICall(str: awsS3Url)
+            } else {
+                print("\(String(describing: error?.localizedDescription))")
+                self!.showToast(message: error!.localizedDescription)
             }
+        }
     }
     
     func createPostAPICall(str : String)
@@ -159,7 +158,7 @@ extension PostViewController {
         var commType = ""
         var restType = ""
         DispatchQueue.main.async { [self] in
-            descText = self.descriptionTV.text == placeholder ? "" : self.descriptionTV.text
+            descText = self.descriptionTV.text == "Decription.." ? "" : self.descriptionTV.text
             commAmount =  amountTF.text ?? ""
             commType = commissionTypeLbl.text ?? ""
             restType = restrictLbl.text ?? ""
@@ -179,17 +178,22 @@ extension PostViewController {
                 let postResponse = try? JSONDecoder().decode(PostResponseModel.self, from: result as! Data)
                 if postResponse?.status == true
                 {
-                    
                     if let compressedVideoPath = UserDefaults.standard.value(forKey: "compressedVideoPath") {
                         do {
                             print(compressedVideoPath)
                             deleteVideoFromLocal(path: compressedVideoPath as! String)
-//
                         }
                     }
-                    let story = UIStoryboard(name: "Main", bundle:nil)
-                    let vc = story.instantiateViewController(withIdentifier: "CustomViewController") as! CustomViewController
-                    UIApplication.shared.windows.first?.rootViewController = vc
+                    //                    let story = UIStoryboard(name: "Main", bundle:nil)
+                    //                    let vc = story.instantiateViewController(withIdentifier: "CustomViewController") as! CustomViewController
+                    //                    UIApplication.shared.windows.first?.rootViewController = vc
+                    //                    UIApplication.shared.windows.first?.makeKeyAndVisible()
+                    
+                    //                    let appdelegate = UIApplication.shared.delegate as! AppDelegate
+                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let homeViewController = mainStoryboard.instantiateViewController(withIdentifier: "CustomViewController") as! CustomViewController
+                    let nav = UINavigationController(rootViewController: homeViewController)
+                    UIApplication.shared.windows.first?.rootViewController = nav
                     UIApplication.shared.windows.first?.makeKeyAndVisible()
                 }
                 else

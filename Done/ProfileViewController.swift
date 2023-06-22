@@ -11,40 +11,49 @@ import AVFoundation
 import HMSegmentedControl
 
 class ProfileViewController: UIViewController {
+    var selectedIndex = 0
+    var reelsModelArray = [Post]()
+    var segmentedControl = HMSegmentedControl()
+    var userID = ""
+    var assignCommission = ""
+    var stillworkingCommission = ""
+    var doneCommission = ""
+    
+    private let itemsPerRow: CGFloat = 3
     @IBOutlet weak var segmentVW : UIView!
     @IBOutlet weak var aulbumCW : UICollectionView!
-//    @IBOutlet weak var noTaskLbl : UILabel!
-    var reelsModelArray = [Post]()
-    private let itemsPerRow: CGFloat = 3
+    @IBOutlet weak var noTaskLbl : UILabel!
     @IBOutlet weak var segment : UISegmentedControl!
     @IBOutlet weak var nameLbl : UILabel!
     @IBOutlet weak var deptLbl : UILabel!
     @IBOutlet weak var mailLbl : UILabel!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var commissionLbl : UILabel!
-    var userID = ""
+    @IBOutlet weak var assignBtn : UIButton!
+    @IBOutlet weak var stillBtn : UIButton!
+    @IBOutlet weak var donecBtn : UIButton!
+    @IBOutlet weak var indvw : UIView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.aulbumCW.delegate = self
         self.aulbumCW.dataSource = self
         self.aulbumCW.register(UINib(nibName: "AulbumCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AulbumCollectionViewCell")
-        
         let layout = UICollectionViewFlowLayout()
-             layout.scrollDirection = .vertical
-             /// 4
-             layout.minimumLineSpacing = 8
-             /// 5
-             layout.minimumInteritemSpacing = 4
-
-             /// 6
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 8
+        layout.minimumInteritemSpacing = 4
         aulbumCW.setCollectionViewLayout(layout, animated: true)
-        setupSegmentControl()
-        
+        //        self.setupSegmentControl()
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
+        self.noTaskLbl.isHidden = true
+        assignCommission = ""
+        stillworkingCommission = ""
+        doneCommission = ""
+        selectedIndex = 0
         
         if let name = UserDefaults.standard.value(forKey: UserDetails.userName){
             self.nameLbl.text = name as? String
@@ -60,70 +69,55 @@ class ProfileViewController: UIViewController {
             getCommissionAPICall(withID: userID)
         }
         
-//        self.noTaskLbl.isHidden = true
+        //        self.noTaskLbl.isHidden = true
         self.reelsModelArray.removeAll()
         self.getpostAPICall(withType: "assigned_by_me")
         
     }
-   
-    //MARK:- setupSegmentControl()
-    func setupSegmentControl()
-    {
-        let segmentedControl = HMSegmentedControl(sectionTitles: ["Assigend","Still working", "Done"])
-        let screenWidth = view.frame.width
-        //        segmentedControl.frame = CGRect(x: (screenWidth - 200) / 2, y: navigiationView.bounds.midY , width: 200, height: 40)
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        self.segmentVW.addSubview(segmentedControl)
-        NSLayoutConstraint.activate([
-            //            segmentedControl.topAnchor.constraint(equalTo: navigiationView.bottomAnchor, constant: +20 ),
-            segmentedControl.heightAnchor.constraint(equalToConstant: 40.0),
-            segmentedControl.widthAnchor.constraint(equalToConstant: self.segmentVW.frame.width),
-            segmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            segmentedControl.centerYAnchor.constraint(equalTo: segmentVW.centerYAnchor)
-        ])
-        //        segmentedControl.centerYAnchor.constraint(equalTo: self.navigiationView.centerYAnchor).isActive = true
-        segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocation.bottom
-        segmentedControl.backgroundColor = .clear
-        segmentedControl.selectionIndicatorColor = UIColor(named: "App_color")!
-        segmentedControl.selectionIndicatorHeight = 2
-        segmentedControl.titleTextAttributes = [NSAttributedString.Key.font : UIFont(name: "ArialRoundedMTBold", size: 14)!, NSAttributedString.Key.foregroundColor: UIColor(named: "App_color")!]
-        segmentedControl.addTarget(self, action: #selector(segmentedControlChangedValue(sender:)), for: .valueChanged)
-        //view.addSubview(segmentedControl)
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        segmentedControl.removeFromSuperview()
     }
     
-    @objc func segmentedControlChangedValue(sender: HMSegmentedControl)
-    {
-        if sender.selectedSegmentIndex == 0
-        {
-            self.getpostAPICall(withType: "assigned_by_me")
-        }
-        if sender.selectedSegmentIndex == 1
-        {
-            self.getpostAPICall(withType: "still_working")
-        }
-        if sender.selectedSegmentIndex == 2
-        {
-            self.getpostAPICall(withType: "done_success")
+    @IBAction func assignedBtnAct() {
+        self.getpostAPICall(withType: "assigned_by_me")
+        self.noTaskLbl.isHidden = true
+        UIView.animate(withDuration: 0.5) {
+            self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
         }
     }
+    
+    @IBAction func stillBtnAct() {
+        self.getpostAPICall(withType: "still_working")
+        self.noTaskLbl.isHidden = true
+        UIView.animate(withDuration: 0.5) {
+            self.indvw.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
+        }
+    }
+    @IBAction func doneBtnAct() {
+        self.getpostAPICall(withType: "done_success")
+        self.noTaskLbl.isHidden = true
+        UIView.animate(withDuration: 0.5) {
+            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
+        }
+    }
+    
     
     func getCommissionAPICall(withID : String){
         
         APIModel.getRequest(strURL: BASEURL + COMMISSIONAPI + withID , postHeaders: headers as NSDictionary) { jsonData in
-            
             let commissionResponse = try? JSONDecoder().decode(CommissionResponseModel.self, from: jsonData as! Data)
-            
             if commissionResponse?.data != nil
             {
-                self.commissionLbl.text = "$ " + (commissionResponse?.data?.doneCommission?.commission ?? "")
+                //                self.commissionLbl.text = "$ " + (commissionResponse?.data?.doneCommission?.commission ?? "")
+                self.assignCommission = (commissionResponse?.data?.assignedByCommission?.commission ?? "") + "(" + (commissionResponse?.data?.assignedByCommission?.commissionCount ?? "") + ")"
+                self.stillworkingCommission = (commissionResponse?.data?.stillWorkingCommission?.commission ?? "") + "(" + (commissionResponse?.data?.stillWorkingCommission?.commissionCount ?? "") + ")"
+                self.doneCommission =  (commissionResponse?.data?.doneCommission?.commission ?? "") + "(" + (commissionResponse?.data?.doneCommission?.commissionCount ?? "") + ")"
             }
             
         } failure: { error in
-            
-            
+            print(error)
         }
-
-        
     }
     
     func getpostAPICall(withType : String){
@@ -134,12 +128,11 @@ class ProfileViewController: UIViewController {
             if getReelsResponseModel?.data?.posts?.count != 0
             {
                 self.reelsModelArray = (getReelsResponseModel?.data?.posts)!
-                
             }
             else
             {
                 print("No Reels found")
-//                self.noTaskLbl.isHidden = false
+                self.noTaskLbl.isHidden = false
             }
             self.aulbumCW.reloadData()
             //
@@ -147,7 +140,7 @@ class ProfileViewController: UIViewController {
             print(error)
         }
     }
-   
+    
 }
 
 
@@ -158,11 +151,9 @@ extension ProfileViewController {
         self.openAlert(title: "Alert", message: "Are you sure want to Logout?",alertStyle: .alert,
                        actionTitles: ["Cancel", "Ok"],actionStyles: [.destructive, .default],
                        actions: [
-                        {_ in print("cancel click")},
-                        {_ in print("Okay click")
+                        {_ in print("cancel click")},{_ in print("Okay click")
                             self.logoutAct()
-                        }
-                       ])
+                        }])
         
     }
     func logoutAct()
@@ -190,10 +181,10 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         
         let videoUrl = URL(string: self.reelsModelArray[indexPath.row].videoURL!)
         
-//        item.thumbNailImageVW.image = ROThumbnail.sharedInstance.getThumbnail(videoUrl!)
-//        self.getThumbnailImageFromVideoUrl(url: videoUrl!) { (thumbNailImage) in
-//            item.thumbNailImageVW.image = thumbNailImage
-//        }
+        //        item.thumbNailImageVW.image = ROThumbnail.sharedInstance.getThumbnail(videoUrl!)
+        //        self.getThumbnailImageFromVideoUrl(url: videoUrl!) { (thumbNailImage) in
+        //            item.thumbNailImageVW.image = thumbNailImage
+        //        }
         item.thumbNailImageVW.image = getVideoThumbnail(url: videoUrl!)
         return item
     }
@@ -201,10 +192,10 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         /// 2
         return UIEdgeInsets(top: 1.0, left: 5.0, bottom: 1.0, right: 5.0)
     }
-
+    
     /// 3
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath) -> CGSize {
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         /// 4
         let lay = collectionViewLayout as! UICollectionViewFlowLayout
         /// 5
@@ -259,7 +250,7 @@ extension ProfileViewController {
             }
         }
     }
-
+    
     
     
     
@@ -295,7 +286,7 @@ extension ProfileViewController {
         
         return image
     }
-
+    
     
 }
 

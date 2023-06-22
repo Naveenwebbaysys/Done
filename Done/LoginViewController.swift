@@ -20,20 +20,16 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         self.emailTf.delegate = self
         self.passwordTf.delegate = self
-        
         self.emailTf.text = "kranthiallaboina@gmail.com"
         self.passwordTf.text = "apple@123"
         
-//        self.emailTf.text = "Gorakrao@gmail.com"
-//        self.passwordTf.text = "gorakrao"
+        //        self.emailTf.text = "Gorakrao@gmail.com"
+        //        self.passwordTf.text = "gorakrao"
         
         var localTimeZoneIdentifier: String { return TimeZone.current.identifier }
-        
         print(localTimeZoneIdentifier)
-        
         checkDate()
         
     }
@@ -42,7 +38,7 @@ class LoginViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         self.invalidLbl.isHidden = true
     }
-
+    
     @IBAction func eyeBtnAction()
     {
         if eyeBtn.tag == 0 {
@@ -59,12 +55,12 @@ class LoginViewController: UIViewController {
     func loginAPICall()
     {
         let loginParams = LoginRequestModel(email: self.emailTf.text!, password: self.passwordTf.text!, isEmployee: 1)
-
+        
         APIModel.postRequest(strURL: BASEURL + LOGINURL as NSString, postParams: loginParams, postHeaders: ["" : ""]) { [self] result in
             print(result)
             self.invalidLbl.isHidden = true
             self.showToast(message: "Login Success")
-
+            
             let loginResponse = try? JSONDecoder().decode(LoginResponseModel.self, from: result as! Data)
             UserDefaults.standard.setValue(loginResponse?.accessToken ?? "", forKey: k_token)
             UserDefaults.standard.setValue(loginResponse?.accessToken ?? "", forKey: k_token)
@@ -78,26 +74,22 @@ class LoginViewController: UIViewController {
         } failureHandler: { error in
             print(error)
             
-//            self.showToast(message: "Email or password invalid")
+            //            self.showToast(message: "Email or password invalid")
             self.invalidLbl.isHidden = false
         }
     }
     
     @IBAction func loginBtnAction()
     {
-        
         self.emailerrorLbl.isHidden = self.emailTf.text != "" ? true : false
         self.passwordErrorLbl.isHidden = self.passwordTf.text != "" ? true : false
-        
         if (self.emailTf.text!.isValidEmail() == false) {
             self.emailerrorLbl.isHidden = false
             self.emailerrorLbl.text = "  Please enter valid email"
             return
         }
-        
         if self.emailTf.text != "" && self.passwordTf.text != ""
         {
-           
             if Reachability.isConnectedToNetwork() == true
             {
                 loginAPICall()
@@ -125,7 +117,7 @@ class LoginViewController: UIViewController {
             
             print(error)
         }
-
+        
     }
 }
 
@@ -137,7 +129,6 @@ extension LoginViewController : UITextFieldDelegate
         
         self.invalidLbl.isHidden = true
     }
-    
     func getDate( str : String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
@@ -150,13 +141,13 @@ extension LoginViewController : UITextFieldDelegate
     {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-
+        
         let givenDateString = "2023-06-14 06:31:27"
         let givenDate = dateFormatter.date(from: givenDateString)!
-
+        
         let calendar = Calendar.current
         let currentDate = Date()
-
+        
         if calendar.isDateInToday(givenDate) {
             dateFormatter.dateFormat = "HH:mm:ss"
             let currentTimeString = dateFormatter.string(from: givenDate)
@@ -165,7 +156,6 @@ extension LoginViewController : UITextFieldDelegate
             let formattedDateString = dateFormatter.string(from: givenDate)
             print(formattedDateString)
         }
-        
     }
 }
 
@@ -176,7 +166,6 @@ extension Calendar {
         let fromDate = startOfDay(for: from) // <1>
         let toDate = startOfDay(for: to) // <2>
         let numberOfDays = dateComponents([.day], from: fromDate, to: toDate) // <3>
-        
         return numberOfDays.day!
     }
 }

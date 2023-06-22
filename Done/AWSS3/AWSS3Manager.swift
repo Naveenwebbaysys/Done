@@ -36,8 +36,8 @@ class AWSS3Manager {
     
     // Upload video from local path url
     func uploadVideo(videoUrl: URL, progress: progressBlock?, completion: completionBlock?) {
-        let fileName = "iosdone/" + self.getUniqueFileName(fileUrl: videoUrl)
-        self.uploadfile(fileUrl: videoUrl, fileName: fileName, contenType: "video/mp4", progress: progress, completion: completion)
+        let fileName = self.getUniqueFileName(fileUrl: videoUrl) // "iosdone/" 
+        self.uploadfile(fileUrl: videoUrl, fileName: fileName, contenType: "mov/mp4", progress: progress, completion: completion)
     }
     
     // Upload auido from local path url
@@ -79,7 +79,7 @@ class AWSS3Manager {
             DispatchQueue.main.async(execute: {
                 if error == nil {
                     let url = AWSS3.default().configuration.endpoint.url
-                    let publicURL = url?.appendingPathComponent(self.bucketName).appendingPathComponent(fileName)
+                    let publicURL = url?.appendingPathComponent(BUCKET_NAME).appendingPathComponent(fileName)
                     
                     print("Uploaded to:\(String(describing: publicURL))")
                     if let response = task.response {

@@ -14,26 +14,23 @@ protocol MyDataSendingDelegateProtocol {
 
 class TagsUsersViewController: UIViewController {
     
-    var delegate: MyDataSendingDelegateProtocol? = nil
-    var isSerching = false
-    var searchedTagsUsersArray = [TagUsers]() {
-        didSet{
-            self.tagsTableVw.reloadData()
-        }
-    }
-    var isDropSownVisible = 0
     private var tagPeoples1 =  [String]()
     private var tags1 =  [String]()
+    var delegate: MyDataSendingDelegateProtocol? = nil
+    var isSerching = false
+    var isDropSownVisible = 0
+    var tagsUsersArray  =  [TagUsers]()
+    var backUpUsersArray  =  [TagUsers]()
+    var filteredTagsUsersArray  =  [TagUsers]()
+    var departmentsArry = [String]()
     let countries = [ "Afghanistan", "Albania", "Algeria", "American Samoa"]
+    
     @IBOutlet weak var tagsTableVw  : UITableView!
     @IBOutlet weak var doneBtn  : UIButton!
     @IBOutlet weak var dropdownTF : DropDown!
     @IBOutlet weak var searchTF : UITextField!
     @IBOutlet weak var bottomVW : UIView!
-    var tagsUsersArray  =  [TagUsers]()
-    var backUpUsersArray  =  [TagUsers]()
-    var filteredTagsUsersArray  =  [TagUsers]()
-    var departmentsArry = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -97,25 +94,26 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
         let lastName = isSerching == false ?  (self.tagsUsersArray[indexPath.row].lastName ?? "") : (self.filteredTagsUsersArray[indexPath.row].lastName ?? "")
         
         cell.taguserNameLbl.text = firstName + " " + lastName
-            cell.seletionBtn.addTarget(self, action: #selector(selectuserAction), for: .touchUpInside)
-            cell.seletionBtn.tag = indexPath.row
-            let id = isSerching == false ? self.tagsUsersArray[indexPath.row].id! : self.filteredTagsUsersArray[indexPath.row].id!
-            if self.tags1.contains(id){
-                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge.fill"), for: .normal)
-                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
-            }else{
-                
-                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge"), for: .normal)
-                cell.seletionBtn.tintColor = .darkGray
-            }
-
+        cell.deptLbl.text = self.tagsUsersArray[indexPath.row].departmentName ?? ""
+        cell.seletionBtn.addTarget(self, action: #selector(selectuserAction), for: .touchUpInside)
+        cell.seletionBtn.tag = indexPath.row
+        let id = isSerching == false ? self.tagsUsersArray[indexPath.row].id! : self.filteredTagsUsersArray[indexPath.row].id!
+        if self.tags1.contains(id){
+            cell.seletionBtn.setImage(UIImage(systemName: "circlebadge.fill"), for: .normal)
+            cell.seletionBtn.tintColor = UIColor(hex:"98C455")
+        }else{
+            
+            cell.seletionBtn.setImage(UIImage(systemName: "circlebadge"), for: .normal)
+            cell.seletionBtn.tintColor = .darkGray
+        }
+        
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 65
     }
 }
 
@@ -192,16 +190,16 @@ extension TagsUsersViewController{
                 isDropSownVisible = 0
             }
         }
-            else
-            {
-                isDropSownVisible = 0
-                self.dropdownTF.hideList()
-            }
+        else
+        {
+            isDropSownVisible = 0
+            self.dropdownTF.hideList()
         }
-           
-       
-        
     }
+    
+    
+    
+}
 
 
 

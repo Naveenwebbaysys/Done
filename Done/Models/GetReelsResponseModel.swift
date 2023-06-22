@@ -33,6 +33,7 @@ struct Post: Codable {
     let videoURL: String?
     let commissionType, commissionAmount, videoRestriction, notes: String?
     let createdOn, createdBy, commissionNoOfDays1, assigneeName: String?
+    let totalcommentscount : String?
     let tagPeoples: [TagPeople]?
 
     enum CodingKeys: String, CodingKey {
@@ -48,6 +49,8 @@ struct Post: Codable {
         case commissionNoOfDays1 = "commission_no_of_days1"
         case assigneeName = "assignee_name"
         case tagPeoples = "tag_peoples"
+        case totalcommentscount = "total_comments_count"
+        
     }
 }
 

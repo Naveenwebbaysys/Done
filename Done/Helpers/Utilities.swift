@@ -840,10 +840,9 @@ extension UITableView {
 
 func deleteVideoFromLocal (path : String)
 {
-    let tmpdir = NSTemporaryDirectory()
-//                  outputPath = "\(tmpdir)output.mov"
-    let outputURL = NSURL(fileURLWithPath:path as String)
+
     let filemgr = FileManager.default
+    
     if filemgr.fileExists(atPath: path) {
                   do {
                       try filemgr.removeItem(atPath: path)

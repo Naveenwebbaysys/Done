@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewStatusViewController: UIViewController {
-
+    
     var postID = ""
     var notes = ""
     var dueDate = ""
@@ -17,7 +17,7 @@ class ViewStatusViewController: UIViewController {
     @IBOutlet weak var descLbl : UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.statusTB.delegate = self
         self.statusTB.dataSource = self
         
@@ -33,7 +33,7 @@ class ViewStatusViewController: UIViewController {
     
     func statusAPICall(withPostID : String)
     {
-       let statusURL = BASEURL + VIEWSTATUS + withPostID
+        let statusURL = BASEURL + VIEWSTATUS + withPostID
         APIModel.getRequest(strURL: statusURL, postHeaders: headers as NSDictionary) { jsonData in
             
             let viewStatusResponseModel = try? JSONDecoder().decode(ViewStatusResponseModel.self, from: jsonData as! Data)
@@ -52,14 +52,14 @@ class ViewStatusViewController: UIViewController {
             
             print(error)
         }
-
+        
     }
     
     @IBAction func backBtnAction()
     {
         self.navigationController?.popViewController(animated: true)
     }
-
+    
 }
 
 
@@ -76,8 +76,9 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "ViewStatusTableViewCell", for: indexPath) as! ViewStatusTableViewCell
         
         cell.nameLbl.text = self.statusModelArray[indexPath.row].employeeName
-        cell.statusLbl.text = self.statusModelArray[indexPath.row].status
-        cell.statusLbl.textColor = self.statusModelArray[indexPath.row].status == "still working" ? .red : .green
+        cell.statusLbl.text = self.statusModelArray[indexPath.row].status == "still_working" ? "Still working" : "Done success"
+        //        cell.statusLbl.textColor = self.statusModelArray[indexPath.row].status == "still_working" ? .red : .green
+        cell.commentCountLbl.text = self.statusModelArray[indexPath.row].commentscount
         cell.dateLbl.text = dueDate
         cell.commentsBtn.tag = indexPath.row
         cell.commentsBtn.addTarget(self, action: #selector(commentBtnAction), for: .touchUpInside)
@@ -85,9 +86,7 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         return 65
-        
     }
     
 }
@@ -98,6 +97,7 @@ extension ViewStatusViewController {
     @objc func commentBtnAction(_ sender : UIButton)
     {
         let commentsVC = storyboard?.instantiateViewController(withIdentifier: "CommentsViewController") as! CommentsViewController
+        commentsVC.postid = postID
         commentsVC.desc = self.descLbl.text ?? ""
         commentsVC.assignEmpID = self.statusModelArray[sender.tag].orderAssigneeEmployeeID!
         self.navigationController?.pushViewController(commentsVC, animated: true)
