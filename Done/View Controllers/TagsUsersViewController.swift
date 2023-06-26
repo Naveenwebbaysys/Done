@@ -23,7 +23,6 @@ class TagsUsersViewController: UIViewController {
     var backUpUsersArray  =  [TagUsers]()
     var filteredTagsUsersArray  =  [TagUsers]()
     var departmentsArry = [String]()
-    let countries = [ "Afghanistan", "Albania", "Algeria", "American Samoa"]
     
     @IBOutlet weak var tagsTableVw  : UITableView!
     @IBOutlet weak var doneBtn  : UIButton!
@@ -33,15 +32,12 @@ class TagsUsersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.tagsTableVw.register(UINib(nibName: "TagUsersTableViewCell", bundle: nil), forCellReuseIdentifier: "TagUsersTableViewCell")
         tagsTableVw.delegate = self
         tagsTableVw.dataSource = self
         self.searchTF.delegate = self
-        
         tagsTableVw.separatorStyle = .none
         tagsTableVw.tableFooterView = UIView()
-        
         //        mainDropDown.optionIds = option.ids
         dropdownTF.checkMarkEnabled = false
         //        dropdownTF.semanticContentAttribute = .forceRightToLeft
@@ -54,6 +50,7 @@ class TagsUsersViewController: UIViewController {
         self.departmentsArry.append("Select Department")
         getTagUsersAPICall()
     }
+    
     func getTagUsersAPICall(){
         
         APIModel.getRequest(strURL: BASEURL + GETTAGUSERS, postHeaders: headers as NSDictionary) { [self] jsonData in
@@ -121,7 +118,6 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
 extension TagsUsersViewController{
     
     @objc func selectuserAction(_ sender : UIButton){
-        
         if isSerching == false
         {
             if self.tags1.contains(self.tagsUsersArray[sender.tag].id!){
@@ -148,8 +144,6 @@ extension TagsUsersViewController{
                 self.tags1.append(self.filteredTagsUsersArray[sender.tag].id!)
             }
         }
-        
-        
         print(self.tagPeoples1)
         print(self.tags1)
         //        self.tagsTableVw.reloadData()
@@ -196,9 +190,6 @@ extension TagsUsersViewController{
             self.dropdownTF.hideList()
         }
     }
-    
-    
-    
 }
 
 
@@ -206,7 +197,6 @@ extension TagsUsersViewController{
 extension TagsUsersViewController: UITextFieldDelegate
 {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
         tagPeoples1 =  [String]()
         tags1 =  [String]()
         let updatedString : String = ((textField.text as NSString?)?.replacingCharacters(in: range, with: string))!
@@ -217,7 +207,6 @@ extension TagsUsersViewController: UITextFieldDelegate
         })
         
         let filteredArr = tagsUsersArray.filter({$0.firstName!.localizedCaseInsensitiveContains(updatedString)})
-        
         if updatedString.count > 0
         {
             isSerching = true
@@ -226,14 +215,10 @@ extension TagsUsersViewController: UITextFieldDelegate
         {
             isSerching = false
         }
-        
         print(filteredArr)
         print(filteredArr.count)
-        
-        self.filteredTagsUsersArray = filteredArr
+                self.filteredTagsUsersArray = filteredArr
         self.tagsTableVw.reloadData()
         return true
     }
-    
-    
 }

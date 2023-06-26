@@ -17,12 +17,9 @@ class ViewStatusViewController: UIViewController {
     @IBOutlet weak var descLbl : UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.statusTB.delegate = self
         self.statusTB.dataSource = self
-        
         self.statusTB.register(UINib(nibName: "ViewStatusTableViewCell", bundle: nil), forCellReuseIdentifier: "ViewStatusTableViewCell")
-        
         self.descLbl.text = notes
     }
     
@@ -37,22 +34,15 @@ class ViewStatusViewController: UIViewController {
         APIModel.getRequest(strURL: statusURL, postHeaders: headers as NSDictionary) { jsonData in
             
             let viewStatusResponseModel = try? JSONDecoder().decode(ViewStatusResponseModel.self, from: jsonData as! Data)
-            
             let a = (viewStatusResponseModel?.data?.stillWorkingPosts)!
             let b = (viewStatusResponseModel?.data?.donePosts)!
-            
             self.statusModelArray.append(contentsOf: a)
             self.statusModelArray.append(contentsOf: b)
-            
             print(self.statusModelArray.count)
-            
             self.statusTB.reloadData()
-            
         } failure: { error in
-            
             print(error)
         }
-        
     }
     
     @IBAction func backBtnAction()
@@ -88,7 +78,6 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 65
     }
-    
 }
 
 
@@ -101,5 +90,11 @@ extension ViewStatusViewController {
         commentsVC.desc = self.descLbl.text ?? ""
         commentsVC.assignEmpID = self.statusModelArray[sender.tag].orderAssigneeEmployeeID!
         self.navigationController?.pushViewController(commentsVC, animated: true)
+    }
+    
+    @IBAction func editBtnAction() {
+//        let postVC = storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
+//        self.navigationController?.pushViewController(postVC, animated: true)
+        
     }
 }

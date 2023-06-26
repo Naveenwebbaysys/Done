@@ -164,17 +164,7 @@
 			children = (
 				045C35552A206E70007968C9 /* AppDelegate.swift */,
 				045C35572A206E70007968C9 /* SceneDelegate.swift */,
-				04400A9E2A30B1150028CECE /* SplashScreenViewController.swift */,
-				045C356D2A206EEC007968C9 /* LoginViewController.swift */,
-				041345CC2A27565300B6C553 /* CustomViewController.swift */,
-				045C35732A2087E2007968C9 /* HomeViewController.swift */,
-				049764242A28D52700D577D0 /* VideoViewController.swift */,
-				048EB3A32A29B7A0004BE939 /* PostVideoViewController.swift */,
-				0497D0F72A33029800B4A185 /* ViewStatusViewController.swift */,
-				0498F05C2A372BA60043B27E /* RecordViewController.swift */,
-				04C142762A387A57005D1391 /* CommentsViewController.swift */,
-				04A8D47E2A3468CB00BC2628 /* TagsUsersViewController.swift */,
-				04D3C2CD2A333E5900A5D460 /* ProfileViewController.swift */,
+				04797C762A4967EA00F2F7CE /* View Controllers */,
 				041345D02A27662900B6C553 /* Models */,
 				0497D0FD2A331C4600B4A185 /* Helpers */,
 				0497D0FB2A331BD200B4A185 /* ServiceModel */,
@@ -203,6 +193,24 @@
 				04C142792A387CE9005D1391 /* CommentsTableViewCell.xib */,
 			);
 			path = TableViewCells;
+			sourceTree = "<group>";
+		};
+		04797C762A4967EA00F2F7CE /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				04400A9E2A30B1150028CECE /* SplashScreenViewController.swift */,
+				045C356D2A206EEC007968C9 /* LoginViewController.swift */,
+				041345CC2A27565300B6C553 /* CustomViewController.swift */,
+				045C35732A2087E2007968C9 /* HomeViewController.swift */,
+				049764242A28D52700D577D0 /* VideoViewController.swift */,
+				048EB3A32A29B7A0004BE939 /* PostVideoViewController.swift */,
+				0497D0F72A33029800B4A185 /* ViewStatusViewController.swift */,
+				0498F05C2A372BA60043B27E /* RecordViewController.swift */,
+				04C142762A387A57005D1391 /* CommentsViewController.swift */,
+				04A8D47E2A3468CB00BC2628 /* TagsUsersViewController.swift */,
+				04D3C2CD2A333E5900A5D460 /* ProfileViewController.swift */,
+			);
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		0497D0FB2A331BD200B4A185 /* ServiceModel */ = {

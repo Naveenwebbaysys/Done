@@ -8,12 +8,11 @@
 import UIKit
 import iOSDropDown
 import AVFoundation
-import HMSegmentedControl
+
 
 class ProfileViewController: UIViewController {
     var selectedIndex = 0
     var reelsModelArray = [Post]()
-    var segmentedControl = HMSegmentedControl()
     var userID = ""
     var assignCommission = ""
     var stillworkingCommission = ""
@@ -23,7 +22,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var segmentVW : UIView!
     @IBOutlet weak var aulbumCW : UICollectionView!
     @IBOutlet weak var noTaskLbl : UILabel!
-    @IBOutlet weak var segment : UISegmentedControl!
     @IBOutlet weak var nameLbl : UILabel!
     @IBOutlet weak var deptLbl : UILabel!
     @IBOutlet weak var mailLbl : UILabel!
@@ -45,7 +43,6 @@ class ProfileViewController: UIViewController {
         layout.minimumLineSpacing = 8
         layout.minimumInteritemSpacing = 4
         aulbumCW.setCollectionViewLayout(layout, animated: true)
-        //        self.setupSegmentControl()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,7 +73,7 @@ class ProfileViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        segmentedControl.removeFromSuperview()
+        
     }
     
     @IBAction func assignedBtnAct() {
@@ -101,7 +98,6 @@ class ProfileViewController: UIViewController {
             self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
         }
     }
-    
     
     func getCommissionAPICall(withID : String){
         
@@ -158,7 +154,6 @@ extension ProfileViewController {
     }
     func logoutAct()
     {
-        //        UserDefaults.standard.removeObject(forKey: k_token)
         let domain = Bundle.main.bundleIdentifier!
         UserDefaults.standard.removePersistentDomain(forName: domain)
         UserDefaults.standard.synchronize()
@@ -180,8 +175,6 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         let item = collectionView.dequeueReusableCell(withReuseIdentifier: "AulbumCollectionViewCell", for: indexPath) as! AulbumCollectionViewCell
         
         let videoUrl = URL(string: self.reelsModelArray[indexPath.row].videoURL!)
-        
-        //        item.thumbNailImageVW.image = ROThumbnail.sharedInstance.getThumbnail(videoUrl!)
         //        self.getThumbnailImageFromVideoUrl(url: videoUrl!) { (thumbNailImage) in
         //            item.thumbNailImageVW.image = thumbNailImage
         //        }
@@ -250,15 +243,11 @@ extension ProfileViewController {
             }
         }
     }
-    
-    
-    
-    
+
     func getVideoThumbnail(url: URL) -> UIImage? {
         //let url = url as URL
         let request = URLRequest(url: url)
         let cache = URLCache.shared
-        
         if let cachedResponse = cache.cachedResponse(for: request), let image = UIImage(data: cachedResponse.data) {
             return image
         }

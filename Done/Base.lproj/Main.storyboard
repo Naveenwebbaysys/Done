@@ -1208,13 +1208,30 @@ video</string>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKq-Wd-6cT">
+                                        <rect key="frame" x="335" y="11" width="30" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="28" id="2Ff-U2-Dvg"/>
+                                            <constraint firstAttribute="width" constant="30" id="CFt-nE-FDX"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title=" ">
+                                            <backgroundConfiguration key="background" image="pencil.circle.fill" catalog="system"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="editBtnAction" destination="wOH-La-4do" eventType="touchUpInside" id="yT9-6b-RUU"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="osc-JW-8Lq" firstAttribute="leading" secondItem="Tn6-ZU-ffw" secondAttribute="leading" constant="10" id="6MP-ZM-Frx"/>
+                                    <constraint firstAttribute="trailing" secondItem="GKq-Wd-6cT" secondAttribute="trailing" constant="10" id="7CL-V2-oYA"/>
                                     <constraint firstAttribute="height" constant="50" id="Hgj-mO-uFd"/>
                                     <constraint firstItem="DFA-0g-QyD" firstAttribute="centerX" secondItem="Tn6-ZU-ffw" secondAttribute="centerX" id="WW2-q6-v9e"/>
                                     <constraint firstItem="osc-JW-8Lq" firstAttribute="centerY" secondItem="Tn6-ZU-ffw" secondAttribute="centerY" id="pAK-nl-ucV"/>
                                     <constraint firstItem="DFA-0g-QyD" firstAttribute="centerY" secondItem="Tn6-ZU-ffw" secondAttribute="centerY" id="rb8-cV-JTH"/>
+                                    <constraint firstItem="GKq-Wd-6cT" firstAttribute="centerY" secondItem="Tn6-ZU-ffw" secondAttribute="centerY" id="uXx-2G-UOt"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ij1-tX-1y5">
@@ -1532,7 +1549,6 @@ $10(10)</string>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBrownColor"/>
                                 <constraints>
                                     <constraint firstItem="ozM-Sn-bSW" firstAttribute="top" secondItem="Lbq-Fo-ZpH" secondAttribute="top" constant="1" id="Dci-hv-Mq7"/>
                                     <constraint firstItem="Bs8-Vn-pkF" firstAttribute="leading" secondItem="Lbq-Fo-ZpH" secondAttribute="leading" constant="1" id="HWK-Mh-I93"/>
@@ -1842,6 +1858,7 @@ $10(10)</string>
         <image name="house.circle.fill" catalog="system" width="128" height="123"/>
         <image name="lock" catalog="system" width="125" height="128"/>
         <image name="paperplane.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="pencil.circle.fill" catalog="system" width="128" height="123"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
         <image name="profile_icon" width="25.5" height="27.5"/>
@@ -1850,9 +1867,6 @@ $10(10)</string>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBrownColor">
-            <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemIndigoColor">
             <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
