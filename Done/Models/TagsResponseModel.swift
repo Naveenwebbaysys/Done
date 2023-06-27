@@ -14,11 +14,13 @@ struct TagsResponseModel: Codable {
 // MARK: - Datum
 struct TagUsers: Codable {
     let departmentName, id, firstName, lastName: String?
+    var isSelected : Bool?
 
     enum CodingKeys: String, CodingKey {
         case departmentName = "department_name"
         case id
         case firstName = "first_name"
         case lastName = "last_name"
+        case isSelected
     }
 }

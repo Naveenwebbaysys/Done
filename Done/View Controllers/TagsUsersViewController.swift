@@ -14,8 +14,9 @@ protocol MyDataSendingDelegateProtocol {
 
 class TagsUsersViewController: UIViewController {
     
-    private var tagPeoples1 =  [String]()
-    private var tags1 =  [String]()
+    var tagPeoples1 =  [String]()
+    var tags1 =  [String]()
+    var tagIDSArray =  [String]()
     var delegate: MyDataSendingDelegateProtocol? = nil
     var isSerching = false
     var isDropSownVisible = 0
@@ -65,6 +66,13 @@ class TagsUsersViewController: UIViewController {
                     if !self.departmentsArry.contains(self.tagsUsersArray[index].departmentName!){
                         self.departmentsArry.append(self.tagsUsersArray[index].departmentName!)
                     }
+                    if self.tagIDSArray.contains(self.tagsUsersArray[index].id!){
+                        self.tagsUsersArray[index].isSelected = true
+                    }
+                    else
+                    {
+                        self.tagsUsersArray[index].isSelected = false
+                    }
                 }
                 self.tagsTableVw.reloadData()
                 dropdownTF.optionArray = self.departmentsArry
@@ -73,40 +81,44 @@ class TagsUsersViewController: UIViewController {
             {
                 print("Tag users data empty")
             }
-            
         } failure: { error in
             print(error)
         }
     }
-    
 }
+
 extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return isSerching == false ? self.tagsUsersArray.count : self.filteredTagsUsersArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "TagUsersTableViewCell", for: indexPath) as! TagUsersTableViewCell
         let firstName = isSerching == false ? (self.tagsUsersArray[indexPath.row].firstName ?? "") : (self.filteredTagsUsersArray[indexPath.row].firstName ?? "")
         let lastName = isSerching == false ?  (self.tagsUsersArray[indexPath.row].lastName ?? "") : (self.filteredTagsUsersArray[indexPath.row].lastName ?? "")
         
+        let deptName = isSerching == false ? (self.tagsUsersArray[indexPath.row].departmentName ?? "") : (self.filteredTagsUsersArray[indexPath.row].departmentName ?? "")
+        
         cell.taguserNameLbl.text = firstName + " " + lastName
-        cell.deptLbl.text = self.tagsUsersArray[indexPath.row].departmentName ?? ""
+//        cell.deptLbl.text = self.tagsUsersArray[indexPath.row].departmentName ?? ""
+        cell.deptLbl.text = deptName
         cell.seletionBtn.addTarget(self, action: #selector(selectuserAction), for: .touchUpInside)
         cell.seletionBtn.tag = indexPath.row
+        
         let id = isSerching == false ? self.tagsUsersArray[indexPath.row].id! : self.filteredTagsUsersArray[indexPath.row].id!
         if self.tags1.contains(id){
             cell.seletionBtn.setImage(UIImage(systemName: "circlebadge.fill"), for: .normal)
             cell.seletionBtn.tintColor = UIColor(hex:"98C455")
         }else{
-            
             cell.seletionBtn.setImage(UIImage(systemName: "circlebadge"), for: .normal)
             cell.seletionBtn.tintColor = .darkGray
         }
-        
         return cell
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -197,8 +209,9 @@ extension TagsUsersViewController{
 extension TagsUsersViewController: UITextFieldDelegate
 {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        tagPeoples1 =  [String]()
-        tags1 =  [String]()
+//        tagPeoples1 =  [String]()
+//        tags1 =  [String]()
+        
         let updatedString : String = ((textField.text as NSString?)?.replacingCharacters(in: range, with: string))!
         
         print(tagsUsersArray.count)
@@ -217,7 +230,17 @@ extension TagsUsersViewController: UITextFieldDelegate
         }
         print(filteredArr)
         print(filteredArr.count)
-                self.filteredTagsUsersArray = filteredArr
+        self.filteredTagsUsersArray = filteredArr
+        for (index, _) in self.filteredTagsUsersArray.enumerated() {
+            
+            if self.tags1.contains(self.filteredTagsUsersArray[index].id!){
+                self.filteredTagsUsersArray[index].isSelected = true
+            }
+            else
+            {
+                self.filteredTagsUsersArray[index].isSelected = false
+            }
+        }
         self.tagsTableVw.reloadData()
         return true
     }

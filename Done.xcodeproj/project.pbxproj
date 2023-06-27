@@ -206,10 +206,10 @@
 				045C35732A2087E2007968C9 /* HomeViewController.swift */,
 				049764242A28D52700D577D0 /* VideoViewController.swift */,
 				0497D0F72A33029800B4A185 /* ViewStatusViewController.swift */,
-				048EB3A32A29B7A0004BE939 /* PostVideoViewController.swift */,
 				04C142762A387A57005D1391 /* CommentsViewController.swift */,
 				04A8D47E2A3468CB00BC2628 /* TagsUsersViewController.swift */,
 				04D3C2CD2A333E5900A5D460 /* ProfileViewController.swift */,
+				048EB3A32A29B7A0004BE939 /* PostVideoViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -565,7 +565,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8VR67JD27T;
+				DEVELOPMENT_TEAM = 3HG54YWY75;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Done/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs camera permission";
@@ -584,7 +584,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.web.Done.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.web.Done;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -605,7 +605,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8VR67JD27T;
+				DEVELOPMENT_TEAM = 3HG54YWY75;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Done/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs camera permission";
@@ -624,7 +624,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.web.Done.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.web.Done;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

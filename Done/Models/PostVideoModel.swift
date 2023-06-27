@@ -50,7 +50,7 @@ struct UpdatePostRequestModel: Codable {
     let videoURL: String?
     let tagPeoples: [String]?
     let addLinks, tags: [String]?
-    let videoRestriction, description, assignedDate, commissionType: String?
+    let videoRestriction, description, commissionType: String?
     let commissionAmount: String?
     let dueDate: String?
     let id : String?
@@ -62,7 +62,7 @@ struct UpdatePostRequestModel: Codable {
         case tags
         case videoRestriction = "video_restriction"
         case description
-        case assignedDate = "assigned_date"
+//        case assignedDate = "assigned_date"
         case commissionType = "commission_type"
         case commissionAmount = "commission_amount"
         case dueDate = "due_date"

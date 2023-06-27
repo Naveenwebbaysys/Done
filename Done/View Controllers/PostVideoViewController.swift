@@ -15,15 +15,15 @@ import iOSDropDown
 class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     
     func sendDataToFirstViewController(tagsID: [String], tagname: [String]) {
-//        self.tagIDSArray = tagsID
-//        self.tagPeoples1 = tagname
-        self.tagIDSArray.append(contentsOf: tagsID)
-        self.tagPeoples1.append(contentsOf: tagname)
+        self.tagIDSArray = tagsID
+        self.tagPeoples1 = tagname
+//        self.tagIDSArray.append(contentsOf: tagsID)
+//        self.tagPeoples1.append(contentsOf: tagname)
         self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
         print(self.tagPeopleLbl.text as Any)
     }
     
-
+    
     var todaysDate = ""
     var futureDate = ""
     var placeholder = "Decription.."
@@ -35,6 +35,7 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     var tagIDSArray =  [String]()
     var editURL = ""
     var postID = ""
+    @IBOutlet weak var screenTitleLbl : UILabel!
     @IBOutlet weak var  descriptionTV : UITextView!
     @IBOutlet weak var  commissionTypeVW : UIStackView!
     @IBOutlet weak var  commissionTypeLbl : UILabel!
@@ -81,10 +82,8 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             print(self.tagPeopleLbl.text as Any)
             editURL = self.reelsModelArray[index].videoURL ?? ""
             postID = self.reelsModelArray[index].id ?? ""
-            
+            screenTitleLbl.text = "Update Task"
         }
-        
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -201,7 +200,7 @@ extension PostViewController {
             print(commAmount)
             print(commType)
             print(restType)
-            let postparams = UpdatePostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: addLinks1, tags: [], videoRestriction: restType, description: descText, assignedDate: todaysDate, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate, id: postID)
+            let postparams = UpdatePostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: addLinks1, tags: [], videoRestriction: restType, description: descText, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate, id: postID)
             let jsonData = try! JSONEncoder().encode(postparams)
             let params11 = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
             print(params11!)
@@ -304,6 +303,8 @@ extension PostViewController  {
         amountTF.resignFirstResponder()
         descriptionTV.resignFirstResponder()
         let tagsVC = storyboard?.instantiateViewController(identifier: "TagsUsersViewController") as! TagsUsersViewController
+        tagsVC.tags1 = self.tagIDSArray
+        tagsVC.tagPeoples1 = self.tagPeoples1
         tagsVC.delegate = self
         self.navigationController?.pushViewController(tagsVC, animated: true)
     }
@@ -327,18 +328,15 @@ extension PostViewController  {
         else
         {
             amountTF.borderWidth = 0
-            
-            
             if isFromEdit == true
             {
-                self.createPostAPICall(str: editURL)
+                self.updatePostAPICall(str: editURL)
             }
             else
             {
                 uploadVideoToS3Server(filePath: recordVideoURL)
             }
-            
-           
+
         }
     }
     

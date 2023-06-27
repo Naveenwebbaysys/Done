@@ -11,6 +11,7 @@ import AVKit
 
 class ReelsTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var editHeight: NSLayoutConstraint!
     @IBOutlet weak var countLbl : UILabel!
     @IBOutlet weak var commentsBtn : UIButton!
     @IBOutlet weak var marqueeLabel: UILabel!
@@ -22,6 +23,7 @@ class ReelsTableViewCell: UITableViewCell {
     @IBOutlet weak var userNameLbl : UILabel!
     @IBOutlet weak var dateLbl : UILabel!
     @IBOutlet weak var doneBtn : UIButton!
+    @IBOutlet weak var editBtn : UIButton!
     let activityIndicator = UIActivityIndicatorView(style: .large)
     var avPlayer: AVPlayer?
     var avPlayerLayer: AVPlayerLayer?

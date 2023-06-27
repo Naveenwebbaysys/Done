@@ -15,6 +15,8 @@ class ViewStatusViewController: UIViewController {
     var statusModelArray = [PostStatus]()
     var reelsModelArray = [Post]()
     var index = 0
+    
+    var isFromEdit = Bool()
     @IBOutlet weak var statusTB : UITableView!
     @IBOutlet weak var descLbl : UILabel!
     override func viewDidLoad() {

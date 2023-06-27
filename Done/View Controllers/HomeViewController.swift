@@ -206,7 +206,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         let playerLayer = AVPlayerLayer(player: Reelcell.avPlayer)
         playerLayer.frame = self.view.bounds
         Reelcell.playerView.layer.addSublayer(playerLayer)
-        
+      
         if firstTimeLoading == true
         {
             Reelcell.avPlayer?.play()
@@ -218,11 +218,15 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         }
         if userID == self.reelsModelArray[indexPath.row].createdBy
         {
+            Reelcell.editBtn.isHidden = false
             Reelcell.doneBtn.setTitle("View Status", for: .normal)
             Reelcell.countLbl.text = self.reelsModelArray[indexPath.row].totalcommentscount
+            Reelcell.editHeight.constant = 30
         }
         else
         {
+            Reelcell.editHeight.constant = 0
+            Reelcell.editBtn.isHidden = true
             Reelcell.doneBtn.setTitle("Done?", for: .normal)
             if self.reelsModelArray[indexPath.row].tagPeoples?[0].comments?.isEmpty == true {
                 Reelcell.countLbl.text = "0"
@@ -236,9 +240,13 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         Reelcell.doneBtn.tag = indexPath.row
         Reelcell.doneBtn.addTarget(self, action: #selector(statusBtnTapped(_:)), for: .touchUpInside)
         Reelcell.commentsBtn.tag = indexPath.row
+        Reelcell.editBtn.tag = indexPath.row
+        Reelcell.editBtn.addTarget(self, action: #selector(editBtnTapped(_:)), for: .touchUpInside)
         Reelcell.commentsBtn.addTarget(self, action: #selector(commentsBtnTapped(_:)), for: .touchUpInside)
         Reelcell.avPlayer?.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+
         NotificationCenter.default.addObserver(self, selector: #selector(restartPlayback), name: .AVPlayerItemDidPlayToEndTime, object: Reelcell.avPlayer?.currentItem)
+        
         return Reelcell
     }
     
@@ -406,9 +414,12 @@ extension HomeViewController {
     @objc func statusBtnTapped(_ sender: UIButton?) {
         print("Tapped")
         let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
-        statusVC.postID = self.reelsModelArray[sender!.tag].id!
-        statusVC.notes = self.reelsModelArray[sender!.tag].notes!
+        statusVC.postID = self.reelsModelArray[sender!.tag].id ?? ""
+        statusVC.notes = self.reelsModelArray[sender!.tag].notes ?? ""
         statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
+        statusVC.index = sender!.tag
+        statusVC.reelsModelArray = self.reelsModelArray
+        statusVC.isFromEdit = true
         self.navigationController?.pushViewController(statusVC, animated: true)
     }
     
@@ -433,5 +444,16 @@ extension HomeViewController {
             //        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
             self.navigationController?.pushViewController(commentsVC, animated: true)
         }
+    }
+    
+    @objc func editBtnTapped(_ sender: UIButton?) {
+        print("Edit Tapped")
+       
+        let postVC = storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
+        postVC.reelsModelArray = self.reelsModelArray
+        postVC.index = sender!.tag
+        postVC.isFromEdit = true
+        self.navigationController?.pushViewController(postVC, animated: true)
+        
     }
 }

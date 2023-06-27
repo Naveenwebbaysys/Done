@@ -31,9 +31,7 @@ class LoginViewController: UIViewController {
         var localTimeZoneIdentifier: String { return TimeZone.current.identifier }
         print(localTimeZoneIdentifier)
 //        checkDate()
-        
-       
-        
+   
     }
     
     override func viewWillAppear(_ animated: Bool) {
