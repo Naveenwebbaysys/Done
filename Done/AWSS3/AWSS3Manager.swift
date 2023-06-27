@@ -104,7 +104,7 @@ class AWSS3Manager {
         }
         // Start uploading using AWSS3TransferUtility
         let awsTransferUtility = AWSS3TransferUtility.default()
-        awsTransferUtility.uploadFile(fileUrl, bucket: bucketName, key: fileName, contentType: contenType, expression: expression, completionHandler: completionHandler).continueWith { (task) -> Any? in
+        awsTransferUtility.uploadFile(fileUrl, bucket: bucketName, key: fileName, contentType: contenType.mimeType(), expression: expression, completionHandler: completionHandler).continueWith { (task) -> Any? in
             if let error = task.error {
                 print("error is: \(error.localizedDescription)")
             }

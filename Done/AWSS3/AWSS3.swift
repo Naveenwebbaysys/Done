@@ -12,5 +12,5 @@ import UIKit
 let accessKey = "AKIAZU56WWJKEICJX7P3"   //AKIAY76T7ZNLW5HRFF6A
 let secretKey = "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"   // yqQgV516ghKdHFPxY8Pidal+IJhPS2TE8+3i2l6A
 
-internal let COGNITO_POOL_ID = "us-west-1:8651bac9-bc52-460c-a20b-0861b09680e1"
-internal let BUCKET_NAME = "iosdone" //  doneappbucket
+internal let COGNITO_POOL_ID = "us-west-1:83a11d48-4aa8-4f3d-bd86-5225447ff113"
+internal let BUCKET_NAME = "doneappbucket" //  doneappbucket
