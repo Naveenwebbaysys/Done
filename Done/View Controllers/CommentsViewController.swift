@@ -14,6 +14,8 @@ class CommentsViewController: UIViewController {
     @IBOutlet weak var commentTF : UITextField!
     @IBOutlet weak var commentTB : UITableView!
     @IBOutlet weak var descLbl : UILabel!
+    @IBOutlet weak var constraintTxtCommentBottom: NSLayoutConstraint!
+    
     var postid = ""
     var desc = ""
     var assignEmpID = ""
@@ -49,16 +51,36 @@ class CommentsViewController: UIViewController {
             createdBy = name as! String
         }
         //        IQKeyboardManager.shared.enable = false
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        
+        IQKeyboardManager.shared.enable = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         
-        //        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.enable = true
     }
     
     // Remove observers in deinit
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    //MARK: - KeyBoard Handler
+    @objc func keyboardWillShow(notification: Notification) {
+        if let keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height {
+            print("Notification: Keyboard will show")
+            constraintTxtCommentBottom.constant = keyboardHeight + 10
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        print("Notification: Keyboard will hide")
+        constraintTxtCommentBottom.constant = 5
+        self.view.layoutIfNeeded()
     }
     
     

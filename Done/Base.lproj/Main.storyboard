@@ -998,12 +998,13 @@ video</string>
                     <connections>
                         <outlet property="commentTB" destination="byO-qb-Ikq" id="19J-mO-1j5"/>
                         <outlet property="commentTF" destination="wBV-fP-bzq" id="Bke-Ro-C9l"/>
+                        <outlet property="constraintTxtCommentBottom" destination="KQa-9n-3wx" id="Bkg-BS-StX"/>
                         <outlet property="descLbl" destination="DO4-JY-zfS" id="zHn-Yk-WpP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RGi-ol-Yk2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3343" y="943"/>
+            <point key="canvasLocation" x="3341.5999999999999" y="942.27886056971522"/>
         </scene>
         <!--Tags Users View Controller-->
         <scene sceneID="7ZE-b1-mAf">
