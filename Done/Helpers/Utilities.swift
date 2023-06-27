@@ -765,6 +765,14 @@ func getcommentTimeFormat(dateStrInTwentyFourHourFomat: String) -> String? {
     }
 }
 
+extension Date {
+    func toCurrentTimezone() -> Date {
+        let timeZoneDifference =
+        TimeInterval(TimeZone.current.secondsFromGMT())
+        return self.addingTimeInterval(timeZoneDifference)
+   }
+}
+
 
 //
 //let dateFormatter = DateFormatter()

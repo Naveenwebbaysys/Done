@@ -43,3 +43,29 @@ struct PostResponseModel: Codable {
     let status: Bool?
     let id: String?
 }
+
+
+// MARK: - PostRequestModel
+struct UpdatePostRequestModel: Codable {
+    let videoURL: String?
+    let tagPeoples: [String]?
+    let addLinks, tags: [String]?
+    let videoRestriction, description, assignedDate, commissionType: String?
+    let commissionAmount: String?
+    let dueDate: String?
+    let id : String?
+
+    enum CodingKeys: String, CodingKey {
+        case videoURL = "video_url"
+        case tagPeoples = "tag_peoples"
+        case addLinks = "add_links"
+        case tags
+        case videoRestriction = "video_restriction"
+        case description
+        case assignedDate = "assigned_date"
+        case commissionType = "commission_type"
+        case commissionAmount = "commission_amount"
+        case dueDate = "due_date"
+        case id
+    }
+}

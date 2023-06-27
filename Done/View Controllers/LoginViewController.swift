@@ -7,7 +7,7 @@
 
 import UIKit
 import KRProgressHUD
-
+import Foundation
 
 class LoginViewController: UIViewController {
     
@@ -27,10 +27,12 @@ class LoginViewController: UIViewController {
         
         //        self.emailTf.text = "Gorakrao@gmail.com"
         //        self.passwordTf.text = "gorakrao"
-        
+//
         var localTimeZoneIdentifier: String { return TimeZone.current.identifier }
         print(localTimeZoneIdentifier)
-        checkDate()
+//        checkDate()
+        
+       
         
     }
     
@@ -60,7 +62,6 @@ class LoginViewController: UIViewController {
             print(result)
             self.invalidLbl.isHidden = true
             self.showToast(message: "Login Success")
-            
             let loginResponse = try? JSONDecoder().decode(LoginResponseModel.self, from: result as! Data)
             UserDefaults.standard.setValue(loginResponse?.accessToken ?? "", forKey: k_token)
             UserDefaults.standard.setValue(loginResponse?.accessToken ?? "", forKey: k_token)
@@ -68,12 +69,8 @@ class LoginViewController: UIViewController {
             print(headers)
             profileAPICall(token: (loginResponse?.accessToken)!)
             print(loginResponse?.accessToken ?? "")
-            
-            
-            
         } failureHandler: { error in
             print(error)
-            
             //            self.showToast(message: "Email or password invalid")
             self.invalidLbl.isHidden = false
         }
@@ -111,13 +108,10 @@ class LoginViewController: UIViewController {
             UserDefaults.standard.setValue(profileResponseModel?.employee?.department  , forKey: UserDetails.deptName)
             UserDefaults.standard.setValue(profileResponseModel?.employee?.email  , forKey: UserDetails.userMailID)
             UserDefaults.standard.setValue(profileResponseModel?.employee?.id  , forKey: UserDetails.userId)
-            let homeVC = self.storyboard?.instantiateViewController(identifier: "CustomViewController") as! CustomViewController
-            self.navigationController?.pushViewController(homeVC, animated: true)
+            self.navToHomeVC()
         } failure: { error in
-            
             print(error)
         }
-        
     }
 }
 
@@ -126,9 +120,9 @@ class LoginViewController: UIViewController {
 extension LoginViewController : UITextFieldDelegate
 {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
         self.invalidLbl.isHidden = true
     }
+    
     func getDate( str : String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"

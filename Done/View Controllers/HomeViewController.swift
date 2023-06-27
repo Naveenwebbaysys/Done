@@ -68,7 +68,6 @@ class HomeViewController: UIViewController {
         self.reelsModelArray.removeAll()
         self.getpostAPICall(withType: "assigned_by_me")
         self.activityIndicator.stopAnimating()
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -421,17 +420,18 @@ extension HomeViewController {
             statusVC.postID = self.reelsModelArray[sender!.tag].id!
             statusVC.notes = self.reelsModelArray[sender!.tag].notes!
             statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
+            statusVC.reelsModelArray = self.reelsModelArray
+            statusVC.index = sender!.tag
             self.navigationController?.pushViewController(statusVC, animated: true)
         }
         else
         {
-            let statusVC = storyboard?.instantiateViewController(identifier: "CommentsViewController") as! CommentsViewController
-            statusVC.assignEmpID = (self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)!
-            statusVC.desc = self.reelsModelArray[sender!.tag].notes!
-            statusVC.empID = self.reelsModelArray[sender!.tag].id!
+            let commentsVC = storyboard?.instantiateViewController(identifier: "CommentsViewController") as! CommentsViewController
+            commentsVC.assignEmpID = (self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)!
+            commentsVC.desc = self.reelsModelArray[sender!.tag].notes!
+            commentsVC.empID = self.reelsModelArray[sender!.tag].id!
             //        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
-            self.navigationController?.pushViewController(statusVC, animated: true)
+            self.navigationController?.pushViewController(commentsVC, animated: true)
         }
-        
     }
 }

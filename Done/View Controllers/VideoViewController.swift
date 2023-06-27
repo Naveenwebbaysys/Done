@@ -200,7 +200,6 @@ extension VideoViewController : AVCapturePhotoCaptureDelegate
             return
         }
         let image = UIImage(data: data)
-        
         let  imageview = UIImageView(image: image)
         imageview.contentMode = .scaleAspectFill
         imageview.frame = view.bounds
@@ -258,19 +257,14 @@ extension VideoViewController : UIImagePickerControllerDelegate , UINavigationCo
         exportSession.outputURL = outputURL
         exportSession.outputFileType = .mp4
         exportSession.shouldOptimizeForNetworkUse = true
-        
         exportSession.exportAsynchronously {
             switch exportSession.status {
             case .completed:
                 completion(outputURL, nil)
-                
-                
             case .failed:
                 completion(nil, exportSession.error)
-                
             case .cancelled:
                 completion(nil, NSError(domain: "com.example.compressvideo", code: 0, userInfo: [NSLocalizedDescriptionKey: "Video compression cancelled"]))
-                
             default:
                 break
             }
@@ -301,23 +295,6 @@ extension VideoViewController : UIImagePickerControllerDelegate , UINavigationCo
         }
     }
 
-    func compressAndDeleteVideo(inputURL: URL) {
-//        let compressedURL = // URL for the compressed video file
-        let outPutPath = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
-        compressVideo1(inputURL: inputURL, outputURL: outPutPath) { compressedURL in
-            if let compressedURL = compressedURL {
-                do {
-                    try FileManager.default.removeItem(atPath: inputURL.path) // Delete the original video file
-                    print("Original video deleted")
-                } catch {
-                    print("Failed to delete original video: \(error.localizedDescription)")
-                }
-            } else {
-                print("Video compression failed")
-            }
-        }
-    }
-
     func deleteVideoFromAlbum(videoURL: URL) {
         PHPhotoLibrary.shared().performChanges({
             if let asset = self.fetchAssetForVideoURL(videoURL) {
@@ -336,9 +313,7 @@ extension VideoViewController : UIImagePickerControllerDelegate , UINavigationCo
         let options = PHFetchOptions()
         options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.video.rawValue)
         let fetchResult = PHAsset.fetchAssets(with: options)
-        
         var asset1: PHAsset?
-        
         fetchResult.enumerateObjects { (object, _, _) in
             if let asset = object as? PHAsset,
                let assetURL = asset.value(forKey: "filename") as? String,
@@ -347,7 +322,6 @@ extension VideoViewController : UIImagePickerControllerDelegate , UINavigationCo
                 return
             }
         }
-        
         return asset1
     }
     
@@ -373,7 +347,6 @@ extension VideoViewController : UIImagePickerControllerDelegate , UINavigationCo
     
     func dlete (dele : URL)
     {
-     
         DispatchQueue.global(qos: .background).async{
             let filemgr = FileManager.default
             if filemgr.fileExists(atPath: dele.path) {
@@ -384,9 +357,7 @@ extension VideoViewController : UIImagePickerControllerDelegate , UINavigationCo
                     print("Error deleting video")
                 }
             }
-            
         }
-      
     }
 }
 

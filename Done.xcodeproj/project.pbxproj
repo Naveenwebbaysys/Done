@@ -32,6 +32,7 @@
 		045C35712A206EEC007968C9 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045C356C2A206EEC007968C9 /* LoginModel.swift */; };
 		045C35722A206EEC007968C9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045C356D2A206EEC007968C9 /* LoginViewController.swift */; };
 		045C35742A2087E2007968C9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045C35732A2087E2007968C9 /* HomeViewController.swift */; };
+		04797C782A4970C100F2F7CE /* Navigations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04797C772A4970C000F2F7CE /* Navigations.swift */; };
 		048EB3A42A29B7A0004BE939 /* PostVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048EB3A32A29B7A0004BE939 /* PostVideoViewController.swift */; };
 		048EB3A62A2A01D8004BE939 /* AWSS3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048EB3A52A2A01D8004BE939 /* AWSS3.swift */; };
 		049764252A28D52700D577D0 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049764242A28D52700D577D0 /* VideoViewController.swift */; };
@@ -41,7 +42,6 @@
 		0497D0F82A33029800B4A185 /* ViewStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497D0F72A33029800B4A185 /* ViewStatusViewController.swift */; };
 		0497D0FA2A330DAC00B4A185 /* ViewStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497D0F92A330DAC00B4A185 /* ViewStatusModel.swift */; };
 		0497D0FF2A3327C700B4A185 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497D0FE2A3327C700B4A185 /* PlayerView.swift */; };
-		0498F05D2A372BA60043B27E /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0498F05C2A372BA60043B27E /* RecordViewController.swift */; };
 		0498F05F2A37583E0043B27E /* AWSS3Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0498F05E2A37583E0043B27E /* AWSS3Manager.swift */; };
 		049B8CE32A2DE516005926D4 /* PostVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B8CE22A2DE516005926D4 /* PostVideoModel.swift */; };
 		04A8D47F2A3468CB00BC2628 /* TagsUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A8D47E2A3468CB00BC2628 /* TagsUsersViewController.swift */; };
@@ -81,6 +81,7 @@
 		045C356C2A206EEC007968C9 /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		045C356D2A206EEC007968C9 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		045C35732A2087E2007968C9 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		04797C772A4970C000F2F7CE /* Navigations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigations.swift; sourceTree = "<group>"; };
 		048EB3A32A29B7A0004BE939 /* PostVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVideoViewController.swift; sourceTree = "<group>"; };
 		048EB3A52A2A01D8004BE939 /* AWSS3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSS3.swift; sourceTree = "<group>"; };
 		049764242A28D52700D577D0 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
@@ -90,7 +91,6 @@
 		0497D0F72A33029800B4A185 /* ViewStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStatusViewController.swift; sourceTree = "<group>"; };
 		0497D0F92A330DAC00B4A185 /* ViewStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStatusModel.swift; sourceTree = "<group>"; };
 		0497D0FE2A3327C700B4A185 /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
-		0498F05C2A372BA60043B27E /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		0498F05E2A37583E0043B27E /* AWSS3Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSS3Manager.swift; sourceTree = "<group>"; };
 		049B8CE22A2DE516005926D4 /* PostVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVideoModel.swift; sourceTree = "<group>"; };
 		04A8D47E2A3468CB00BC2628 /* TagsUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsUsersViewController.swift; sourceTree = "<group>"; };
@@ -203,9 +203,8 @@
 				041345CC2A27565300B6C553 /* CustomViewController.swift */,
 				045C35732A2087E2007968C9 /* HomeViewController.swift */,
 				049764242A28D52700D577D0 /* VideoViewController.swift */,
-				048EB3A32A29B7A0004BE939 /* PostVideoViewController.swift */,
 				0497D0F72A33029800B4A185 /* ViewStatusViewController.swift */,
-				0498F05C2A372BA60043B27E /* RecordViewController.swift */,
+				048EB3A32A29B7A0004BE939 /* PostVideoViewController.swift */,
 				04C142762A387A57005D1391 /* CommentsViewController.swift */,
 				04A8D47E2A3468CB00BC2628 /* TagsUsersViewController.swift */,
 				04D3C2CD2A333E5900A5D460 /* ProfileViewController.swift */,
@@ -234,6 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				045C35692A206EEC007968C9 /* Utilities.swift */,
+				04797C772A4970C000F2F7CE /* Navigations.swift */,
 				041345D12A2766A900B6C553 /* API's.swift */,
 				04400A9C2A3098740028CECE /* Extra.swift */,
 				0457B4022A3E164700D6581F /* ThumbnailImage.swift */,
@@ -383,7 +383,6 @@
 				0497D0F82A33029800B4A185 /* ViewStatusViewController.swift in Sources */,
 				0498F05F2A37583E0043B27E /* AWSS3Manager.swift in Sources */,
 				0497D0F52A32FECD00B4A185 /* ViewStatusTableViewCell.swift in Sources */,
-				0498F05D2A372BA60043B27E /* RecordViewController.swift in Sources */,
 				041345D22A2766A900B6C553 /* API's.swift in Sources */,
 				04C1427D2A387F7A005D1391 /* CommentsResponseModel.swift in Sources */,
 				045C35712A206EEC007968C9 /* LoginModel.swift in Sources */,
@@ -412,6 +411,7 @@
 				045C35582A206E70007968C9 /* SceneDelegate.swift in Sources */,
 				04A8D47F2A3468CB00BC2628 /* TagsUsersViewController.swift in Sources */,
 				045B4CDC2A3B34F30064CC77 /* CommissionResponseModel.swift in Sources */,
+				04797C782A4970C100F2F7CE /* Navigations.swift in Sources */,
 				04400A982A2F11520028CECE /* TagUsersTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

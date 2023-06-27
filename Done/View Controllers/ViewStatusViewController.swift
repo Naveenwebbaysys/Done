@@ -13,6 +13,8 @@ class ViewStatusViewController: UIViewController {
     var notes = ""
     var dueDate = ""
     var statusModelArray = [PostStatus]()
+    var reelsModelArray = [Post]()
+    var index = 0
     @IBOutlet weak var statusTB : UITableView!
     @IBOutlet weak var descLbl : UILabel!
     override func viewDidLoad() {
@@ -93,8 +95,12 @@ extension ViewStatusViewController {
     }
     
     @IBAction func editBtnAction() {
-//        let postVC = storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
-//        self.navigationController?.pushViewController(postVC, animated: true)
+//        navToPostVc()
         
+        let postVC = storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
+        postVC.reelsModelArray = self.reelsModelArray
+        postVC.index = index
+        postVC.isFromEdit = true
+        self.navigationController?.pushViewController(postVC, animated: true)
     }
 }

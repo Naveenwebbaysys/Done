@@ -20,6 +20,7 @@ class CommentsViewController: UIViewController {
     var empID = ""
     var createdBy = ""
     var commentsArray = [CommentsData]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.commentTB.register(UINib(nibName: "CommentsTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentsTableViewCell")
@@ -70,13 +71,6 @@ class CommentsViewController: UIViewController {
                 self.commentsArray = (commentsResponse?.data)!
                 DispatchQueue.main.async {
                     self.commentTB.reloadData()
-                    
-                    //                    if self.commentsArray.count > 1 {
-                    //                        let indexPosition = IndexPath(row: self.commentsArray.count - 1, section: 0)
-                    //
-                    //                        self.commentTB.scrollToRow(at: indexPosition, at: .bottom, animated: false)
-                    //                    }
-                    
                 }
             }
             else
@@ -154,32 +148,10 @@ extension CommentsViewController {
                     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
                     let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
                     let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
-                    //                print(createdAt)
                     let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTF.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "Text")
                     self.commentsArray.append(newcomment)
-                    //                    self.commentsArray.reverse()
                     print(self.commentsArray.count)
-                    //                    self.commentTB.transform = CGAffineTransform(scaleX: 1, y: -1)
                     self.commentTB.reloadData()
-                    //                    DispatchQueue.main.async {
-                    //                        let section = 0 // Assuming you have only one section
-                    //                        let lastRow = self.commentTB.numberOfRows(inSection: section)
-                    //                        let lastRowIndexPath = IndexPath(row: lastRow, section: section)
-                    //                        self.commentTB.insertRows(at: [lastRowIndexPath], with: .none)
-                    //
-                    //                        let indexPosition = IndexPath(row: self.commentsArray.count - 1, section: 0)
-                    //                        self.commentTB.scrollToRow(at: indexPosition, at: .bottom, animated: false)
-                    //
-                    //                        //                        let lastRowIndex =  self.commentsArray.count - 1
-                    //                        //                        let lastRowIndexPath = IndexPath(row: lastRowIndex, section: 0)
-                    //                        //                        self.commentTB.reloadData()
-                    //                        //                        let isScrolledToBottom = self.commentTB.contentOffset.y + self.commentTB.frame.size.height >= self.commentTB.contentSize.height
-                    //                        //
-                    //                        //                        if isScrolledToBottom {
-                    //                        //                            self.commentTB.scrollToRow(at: lastRowIndexPath, at: .bottom, animated: true)
-                    //                        //                        }
-                    //
-                    //                    }
                     self.commentTF.text = ""
                     
                 } failureHandler: { error in

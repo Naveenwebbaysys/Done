@@ -15,13 +15,15 @@ import iOSDropDown
 class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     
     func sendDataToFirstViewController(tagsID: [String], tagname: [String]) {
-        self.tags1 = tagsID
-        self.tagPeoples1 = tagname
+//        self.tagIDSArray = tagsID
+//        self.tagPeoples1 = tagname
+        self.tagIDSArray.append(contentsOf: tagsID)
+        self.tagPeoples1.append(contentsOf: tagname)
         self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
         print(self.tagPeopleLbl.text as Any)
     }
     
-    let countries = [ "Afghanistan", "Albania", "Algeria", "American Samoa"]
+
     var todaysDate = ""
     var futureDate = ""
     var placeholder = "Decription.."
@@ -30,9 +32,9 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     var awsS3Url = ""
     var tagPeoples1 =  [String]()
     let addLinks1 = [String]()
-    var tags1 =  [String]()
-    
-    
+    var tagIDSArray =  [String]()
+    var editURL = ""
+    var postID = ""
     @IBOutlet weak var  descriptionTV : UITextView!
     @IBOutlet weak var  commissionTypeVW : UIStackView!
     @IBOutlet weak var  commissionTypeLbl : UILabel!
@@ -49,39 +51,9 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     @IBOutlet weak var  tagPeopleLbl : UILabel!
     
     
-    
-    
-    var screen = UIScreen().bounds.size
-    var bottomVW1 : UIView = {
-        let v = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        v.backgroundColor = UIColor.red
-        //        v.layer.cornerRadius = 45
-        return v
-    }()
-    
-    var doneBtn1 : UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
-        button.backgroundColor = UIColor(hex:"98C455")
-        button.tintColor = .white
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.setTitle("Done", for: .normal)
-        button.cornerRadius = 25
-        
-        return button
-    }()
-    
-    var backBtn : UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        button.tintColor = .black
-        return button
-    }()
-    
-    var topView : UIView = {
-        let button = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
-        button.backgroundColor = UIColor(hex:"98C455")
-        
-        return button
-    }()
+    var reelsModelArray = [Post]()
+    var index = 0
+    var isFromEdit = Bool()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +63,28 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         descriptionTV.delegate = self
         commissionTypeLbl.text = "Increase"
         restrictLbl.text = "Everyone"
+        
+        print(isFromEdit)
+        
+        if isFromEdit == true {
+            
+            descriptionTV.text = self.reelsModelArray[index].notes ?? ""
+            descriptionTV.textColor = .black
+            amountTF.text = self.reelsModelArray[index].commissionAmount ?? ""
+            commissionTypeLbl.text = self.reelsModelArray[index].commissionType ?? ""
+            restrictLbl.text = self.reelsModelArray[index].videoRestriction ?? ""
+            for (i, _) in self.reelsModelArray[index].tagPeoples!.enumerated() {
+                self.tagIDSArray.append(self.reelsModelArray[index].tagPeoples![i].employeeID!)
+                self.tagPeoples1.append(self.reelsModelArray[index].tagPeoples![i].employeename!)
+            }
+            self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
+            print(self.tagPeopleLbl.text as Any)
+            editURL = self.reelsModelArray[index].videoURL ?? ""
+            postID = self.reelsModelArray[index].id ?? ""
+            
+        }
+        
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -139,9 +133,7 @@ extension PostViewController {
         }) { [weak self] (uploadedFileUrl, error) in
             guard let strongSelf = self else { return }
             if let awsS3Url = uploadedFileUrl as? String {
-                //                    strongSelf.s3UrlLabel.text = "Uploaded file url: " + finalPath
                 print("Uploaded file url: " + awsS3Url)
-                //
                 let awsS3Url = SERVERURL + awsS3Url
                 self?.createPostAPICall(str: awsS3Url)
             } else {
@@ -162,14 +154,11 @@ extension PostViewController {
             commAmount =  amountTF.text ?? ""
             commType = commissionTypeLbl.text ?? ""
             restType = restrictLbl.text ?? ""
-            //        }
             print(descText)
             print(commAmount)
             print(commType)
             print(restType)
-            
-            let postparams = PostRequestModel(videoURL: str, tagPeoples: tags1, addLinks: addLinks1, tags: [], videoRestriction: restType, description: descText, assignedDate: todaysDate, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate)
-            
+            let postparams = PostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: addLinks1, tags: [], videoRestriction: restType, description: descText, assignedDate: todaysDate, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate)
             let jsonData = try! JSONEncoder().encode(postparams)
             let params11 = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
             print(params11!)
@@ -184,17 +173,44 @@ extension PostViewController {
                             deleteVideoFromLocal(path: compressedVideoPath as! String)
                         }
                     }
-                    //                    let story = UIStoryboard(name: "Main", bundle:nil)
-                    //                    let vc = story.instantiateViewController(withIdentifier: "CustomViewController") as! CustomViewController
-                    //                    UIApplication.shared.windows.first?.rootViewController = vc
-                    //                    UIApplication.shared.windows.first?.makeKeyAndVisible()
-                    
-                    //                    let appdelegate = UIApplication.shared.delegate as! AppDelegate
-                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let homeViewController = mainStoryboard.instantiateViewController(withIdentifier: "CustomViewController") as! CustomViewController
-                    let nav = UINavigationController(rootViewController: homeViewController)
-                    UIApplication.shared.windows.first?.rootViewController = nav
-                    UIApplication.shared.windows.first?.makeKeyAndVisible()
+                    self.setRootVC()
+                }
+                else
+                {
+                    print("Error")
+                }
+                
+            } failureHandler: { error in
+                print(error)
+            }
+        }
+    }
+    
+    func updatePostAPICall(str : String)
+    {
+        var descText = ""
+        var commAmount =  ""
+        var commType = ""
+        var restType = ""
+        DispatchQueue.main.async { [self] in
+            descText = self.descriptionTV.text == "Decription.." ? "" : self.descriptionTV.text
+            commAmount =  amountTF.text ?? ""
+            commType = commissionTypeLbl.text ?? ""
+            restType = restrictLbl.text ?? ""
+            print(descText)
+            print(commAmount)
+            print(commType)
+            print(restType)
+            let postparams = UpdatePostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: addLinks1, tags: [], videoRestriction: restType, description: descText, assignedDate: todaysDate, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate, id: postID)
+            let jsonData = try! JSONEncoder().encode(postparams)
+            let params11 = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
+            print(params11!)
+            APIModel.putRequest(strURL: BASEURL + UPDATEPOSTAPI as NSString , postParams: postparams, postHeaders: headers as NSDictionary) { result in
+                print(result)
+                let postResponse = try? JSONDecoder().decode(PostResponseModel.self, from: result as! Data)
+                if postResponse?.status == true
+                {
+                    self.setRootVC()
                 }
                 else
                 {
@@ -252,9 +268,7 @@ extension PostViewController : UITextViewDelegate, UITextFieldDelegate {
 
 
 extension PostViewController  {
-    
-    
-    
+
     @IBAction func commissiondropBtnAction(){
         
         commissionTypeVW.isHidden = false
@@ -289,11 +303,9 @@ extension PostViewController  {
     @IBAction func tagUsersAction (){
         amountTF.resignFirstResponder()
         descriptionTV.resignFirstResponder()
-        
         let tagsVC = storyboard?.instantiateViewController(identifier: "TagsUsersViewController") as! TagsUsersViewController
         tagsVC.delegate = self
         self.navigationController?.pushViewController(tagsVC, animated: true)
-        
     }
     
     @IBAction func postBtnAction(){
@@ -315,7 +327,18 @@ extension PostViewController  {
         else
         {
             amountTF.borderWidth = 0
-            uploadVideoToS3Server(filePath: recordVideoURL)
+            
+            
+            if isFromEdit == true
+            {
+                self.createPostAPICall(str: editURL)
+            }
+            else
+            {
+                uploadVideoToS3Server(filePath: recordVideoURL)
+            }
+            
+           
         }
     }
     

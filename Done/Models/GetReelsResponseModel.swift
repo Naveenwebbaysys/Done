@@ -56,12 +56,13 @@ struct Post: Codable {
 
 // MARK: - TagPeople
 struct TagPeople: Codable {
-    let orderAssigneeEmployeeID, employeeID, status: String?
+    let orderAssigneeEmployeeID, employeeID, employeename, status: String?
     let comments: [Comment]?
 
     enum CodingKeys: String, CodingKey {
         case orderAssigneeEmployeeID = "order_assignee_employee_id"
         case employeeID = "employee_id"
+        case employeename = "employee_name"
         case status, comments
     }
 }
