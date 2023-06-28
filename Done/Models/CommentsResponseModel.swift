@@ -45,6 +45,23 @@ struct PostCommentModel: Codable {
     }
 }
 
+// MARK: - PostMediaCommentModel
+struct PostMediaCommentModel: Codable {
+    let assigneeEmployeeID, employeeID: Int?
+    let comment: String?
+    let commenttype : String?
+    let assigneeid : String?
+    let taskCreatedBy : String?
+    
+    enum CodingKeys: String, CodingKey {
+        case assigneeEmployeeID = "assignee_employee_id"
+        case employeeID = "employee_id"
+        case comment
+        case commenttype = "comment_type"
+        case assigneeid = "assignee_id"
+        case taskCreatedBy = "task_created_by"
+    }
+}
 
 // MARK: - PostMediaCommentModel
 struct PostMediaCommentModel: Codable {

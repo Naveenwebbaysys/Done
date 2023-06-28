@@ -13,7 +13,6 @@ class CommentsVM: NSObject {
     var controller : UIViewController?
     
     func uploadImage(UploadImage:UIImage,selectedPeople:TagPeople,postID:String,stComment:String){
-        
         KRProgressHUD.show()
         AWSS3Manager.shared.uploadImage(image: UploadImage, progress: { [weak self] (progress) in
             guard let strongSelf = self else { return }

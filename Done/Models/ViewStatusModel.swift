@@ -13,12 +13,11 @@ struct ViewStatusResponseModel: Codable {
 
 // MARK: - DataClass
 struct ViewStatusRespose: Codable {
-    let stillWorkingPosts, donePosts, approved: [PostStatus]?
+    let stillWorkingPosts, donePosts: [PostStatus]?
 
     enum CodingKeys: String, CodingKey {
         case stillWorkingPosts = "still_working_posts"
         case donePosts = "done_posts"
-        case approved
     }
 }
 
@@ -28,8 +27,7 @@ struct PostStatus: Codable {
     let employeeName: String?
     let lastmessage: String?
     let commentscount: String?
-    var isdoneCheked : Bool?
-    var isApprovedCheked : Bool?
+    
 
     enum CodingKeys: String, CodingKey {
         case postID = "post_id"
@@ -39,9 +37,6 @@ struct PostStatus: Codable {
         case employeeName = "employee_name"
         case lastmessage = "last_message"
         case commentscount = "comments_count"
-        case isdoneCheked
-        case isApprovedCheked
-        
     }
 }
 
