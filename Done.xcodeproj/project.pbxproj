@@ -52,6 +52,7 @@
 		04C1427D2A387F7A005D1391 /* CommentsResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1427C2A387F7A005D1391 /* CommentsResponseModel.swift */; };
 		04D3C2CE2A333E5900A5D460 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D3C2CD2A333E5900A5D460 /* ProfileViewController.swift */; };
 		1B09587F2A4AB454006A1F67 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B09587E2A4AB454006A1F67 /* MimeType.swift */; };
+		1B369E742A4C65C30049CD61 /* CommentsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B369E732A4C65C20049CD61 /* CommentsVM.swift */; };
 		BC4468A2FA2767193086B64B /* Pods_Done.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D80175AE176548C1C11A743 /* Pods_Done.framework */; };
 /* End PBXBuildFile section */
 
@@ -105,6 +106,7 @@
 		0D80175AE176548C1C11A743 /* Pods_Done.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Done.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		111463C9159DDB314BDB9F72 /* Pods-Done.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Done.debug.xcconfig"; path = "Target Support Files/Pods-Done/Pods-Done.debug.xcconfig"; sourceTree = "<group>"; };
 		1B09587E2A4AB454006A1F67 /* MimeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
+		1B369E732A4C65C20049CD61 /* CommentsVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsVM.swift; sourceTree = "<group>"; };
 		8E2DD0B327BFD46A42DEEAF3 /* Pods-Done.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Done.release.xcconfig"; path = "Target Support Files/Pods-Done/Pods-Done.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -169,6 +171,7 @@
 			children = (
 				045C35552A206E70007968C9 /* AppDelegate.swift */,
 				045C35572A206E70007968C9 /* SceneDelegate.swift */,
+				1B369E722A4C65C20049CD61 /* View Model */,
 				04797C762A4967EA00F2F7CE /* View Controllers */,
 				041345D02A27662900B6C553 /* Models */,
 				0497D0FD2A331C4600B4A185 /* Helpers */,
@@ -245,6 +248,14 @@
 				0457B4022A3E164700D6581F /* ThumbnailImage.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		1B369E722A4C65C20049CD61 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				1B369E732A4C65C20049CD61 /* CommentsVM.swift */,
+			);
+			path = "View Model";
 			sourceTree = "<group>";
 		};
 		59BE068D483BEC7DE6741630 /* Pods */ = {
@@ -401,6 +412,7 @@
 				045C35562A206E70007968C9 /* AppDelegate.swift in Sources */,
 				0497D0FF2A3327C700B4A185 /* PlayerView.swift in Sources */,
 				045C35722A206EEC007968C9 /* LoginViewController.swift in Sources */,
+				1B369E742A4C65C30049CD61 /* CommentsVM.swift in Sources */,
 				045C35702A206EEC007968C9 /* ServiceController.swift in Sources */,
 				048EB3A62A2A01D8004BE939 /* AWSS3.swift in Sources */,
 				049F6DC22A4C3B8E00F8DBE8 /* UpdateDoneModel.swift in Sources */,
