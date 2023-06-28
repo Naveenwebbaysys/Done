@@ -14,7 +14,7 @@ class AWSS3Manager {
     // Upload image using UIImage object
     func uploadImage(image: UIImage, progress: progressBlock?, completion: completionBlock?) {
         
-        guard let imageData = image.jpegData(compressionQuality: 1.0) else {
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else {
             let error = NSError(domain:"", code:402, userInfo:[NSLocalizedDescriptionKey: "invalid image"])
             completion?(nil, error)
             return
@@ -104,7 +104,7 @@ class AWSS3Manager {
         }
         // Start uploading using AWSS3TransferUtility
         let awsTransferUtility = AWSS3TransferUtility.default()
-        awsTransferUtility.uploadFile(fileUrl, bucket: bucketName, key: fileName, contentType: contenType.mimeType(), expression: expression, completionHandler: completionHandler).continueWith { (task) -> Any? in
+        awsTransferUtility.uploadFile(fileUrl, bucket: bucketName, key: fileName, contentType: fileName.mimeType(), expression: expression, completionHandler: completionHandler).continueWith { (task) -> Any? in
             if let error = task.error {
                 print("error is: \(error.localizedDescription)")
             }
