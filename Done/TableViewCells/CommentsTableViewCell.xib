@@ -98,7 +98,7 @@
     </objects>
     <designables>
         <designable name="3BN-HA-xhp">
-            <size key="intrinsicContentSize" width="59.666666666666664" height="39.333333333333329"/>
+            <size key="intrinsicContentSize" width="39.666666666666664" height="19.333333333333332"/>
         </designable>
     </designables>
     <resources>

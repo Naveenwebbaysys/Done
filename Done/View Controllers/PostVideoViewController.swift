@@ -127,9 +127,9 @@ extension PostViewController {
         KRProgressHUD.show()
         let videoUrl = URL(fileURLWithPath: filePath)
         AWSS3Manager.shared.uploadVideo(videoUrl: videoUrl, progress: { [weak self] (progress) in
+            KRProgressHUD.dismiss()
             guard let strongSelf = self else { return }
         }) { [weak self] (uploadedFileUrl, error) in
-            KRProgressHUD.dismiss()
             guard let strongSelf = self else { return }
             if let awsS3Url = uploadedFileUrl as? String {
                 print("Uploaded file url: " + awsS3Url)
@@ -153,10 +153,10 @@ extension PostViewController {
             commAmount =  amountTF.text ?? ""
             commType = commissionTypeLbl.text ?? ""
             restType = restrictLbl.text ?? ""
-//            print(descText)
-//            print(commAmount)
-//            print(commType)
-//            print(restType)
+            print(descText)
+            print(commAmount)
+            print(commType)
+            print(restType)
             let postparams = PostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: addLinks1, tags: [], videoRestriction: restType, description: descText, assignedDate: todaysDate, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate)
             let jsonData = try! JSONEncoder().encode(postparams)
             let params11 = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
