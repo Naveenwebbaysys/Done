@@ -111,12 +111,22 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         cell.markBtn.addTarget(self, action: #selector(markBtnAction), for: .touchUpInside)
         cell.approvedBtn.tag = indexPath.row
         cell.approvedBtn.addTarget(self, action: #selector(approvedBtnAction), for: .touchUpInside)
-        
         let lastMsg = self.statusModelArray[indexPath.row].lastmessage ?? ""
         if lastMsg.contains("--") == true
         {
             let ar = split(content: self.statusModelArray[indexPath.row].lastmessage!)
             cell.lastMsgLbl.text = ar[1] as? String
+            let url = URL(string: ar[0] as! String)
+            DispatchQueue.main.async {
+//                cell.mediaImgVW.kf.setImage(with: url)
+            }
+            
+            DispatchQueue.global().async {
+                let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+                DispatchQueue.main.async {
+                    cell.mediaImgVW.image = UIImage(data: data!)
+                }
+            }
         }
         else
         {
@@ -219,8 +229,8 @@ extension ViewStatusViewController {
         var ar = [String]()
         if content.contains("--") == true {
             ar = content.components(separatedBy: "--")
-            var media: String = ar[0]
-            var text: String = ar[1]
+            let media: String = ar[0]
+            let text: String = ar[1]
             print(media)
             print(text)
         }

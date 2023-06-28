@@ -201,8 +201,10 @@
                 <outlet property="commentCountLbl" destination="BR4-BJ-CyO" id="kdc-2J-TMa"/>
                 <outlet property="commentsBtn" destination="x2t-4h-qtv" id="Opw-Dd-3aU"/>
                 <outlet property="dateLbl" destination="PPL-KN-hAc" id="ufi-q7-xzk"/>
+                <outlet property="imgWidth" destination="9G9-e0-22P" id="FTh-ds-qCH"/>
                 <outlet property="lastMsgLbl" destination="3J3-AL-Wi8" id="hed-jm-t7s"/>
                 <outlet property="markBtn" destination="RUW-Oc-aUE" id="mx3-3i-7aL"/>
+                <outlet property="mediaImgVW" destination="4O5-kJ-Rny" id="3Qr-Nq-9wg"/>
                 <outlet property="nameLbl" destination="9kh-Fg-At1" id="GeN-EA-0Pa"/>
                 <outlet property="statusLbl" destination="TWk-K3-Kf1" id="dZG-ch-16v"/>
             </connections>
