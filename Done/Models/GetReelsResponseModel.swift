@@ -11,6 +11,12 @@ struct GetReelsResponseModel: Codable {
     let data: DataClass?
 }
 
+// MARK: - GetReelsModel
+struct GetReelsRequestModel: Encodable {
+    let sort_due_date: String?
+}
+
+
 // MARK: - DataClass
 struct DataClass: Codable {
     let posts: [Post]?

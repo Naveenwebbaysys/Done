@@ -93,6 +93,7 @@ extension ViewStatusViewController {
         commentsVC.postid = postID
         commentsVC.desc = self.descLbl.text ?? ""
         commentsVC.assignEmpID = self.statusModelArray[sender.tag].orderAssigneeEmployeeID!
+        commentsVC.postPeopleSelected = reelsModelArray[index].tagPeoples![sender.tag]
         self.navigationController?.pushViewController(commentsVC, animated: true)
     }
     

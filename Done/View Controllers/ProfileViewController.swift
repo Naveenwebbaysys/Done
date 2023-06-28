@@ -178,6 +178,7 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         //        self.getThumbnailImageFromVideoUrl(url: videoUrl!) { (thumbNailImage) in
         //            item.thumbNailImageVW.image = thumbNailImage
         //        }
+        
         item.thumbNailImageVW.image = getVideoThumbnail(url: videoUrl!)
         return item
     }

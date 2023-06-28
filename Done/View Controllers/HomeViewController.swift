@@ -151,7 +151,7 @@ class HomeViewController: UIViewController {
     
     func getpostAPICall(withType : String)
     {
-        APIModel.getRequest(strURL: BASEURL + GETREELSURL + withType, postHeaders: headers as NSDictionary) { _result in
+        APIModel.getRequest(strURL: BASEURL + GETREELSURL + withType + "&sort_due_date=desc", postHeaders: headers as NSDictionary) { _result in
             let getReelsResponseModel = try? JSONDecoder().decode(GetReelsResponseModel.self, from: _result as! Data)
             self.noTaskLbl.isHidden = true
             print(getReelsResponseModel?.data as Any)
@@ -197,25 +197,29 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         let duedate = self.reelsModelArray[indexPath.row].commissionNoOfDays1!
         let yourDate = formatter.date(from: duedate)
         formatter.dateFormat = "MMM d, yyyy"
-        let myStringDate = formatter.string(from: yourDate!)
-        print(myStringDate)
-        let days = count(expDate: myStringDate)
-        Reelcell.dateLbl.text = "Expires in " + "\(days)" + " days " + myStringDate
+        if yourDate != nil{
+            let myStringDate = formatter.string(from: yourDate!)
+            let days = count(expDate: myStringDate)
+            Reelcell.dateLbl.text = "Expires in " + "\(days)" + " days " + myStringDate
+        }
+       
         let videoURL = URL(string: self.reelsModelArray[indexPath.row].videoURL!)
-        Reelcell.videoPlayerItem = AVPlayerItem.init(url: videoURL!)
-        let playerLayer = AVPlayerLayer(player: Reelcell.avPlayer)
-        playerLayer.frame = self.view.bounds
-        Reelcell.playerView.layer.addSublayer(playerLayer)
-      
-        if firstTimeLoading == true
-        {
-            Reelcell.avPlayer?.play()
-            //            player.play()
+        if videoURL !=  nil{
+            Reelcell.videoPlayerItem = AVPlayerItem.init(url: videoURL!)
+            let playerLayer = AVPlayerLayer(player: Reelcell.avPlayer)
+            playerLayer.frame = self.view.bounds
+            Reelcell.playerView.layer.addSublayer(playerLayer)
+            if firstTimeLoading == true
+            {
+                Reelcell.avPlayer?.play()
+                //            player.play()
+            }
+            else{
+                Reelcell.avPlayer?.pause()
+                //            player.pause()
+            }
         }
-        else{
-            Reelcell.avPlayer?.pause()
-            //            player.pause()
-        }
+        
         if userID == self.reelsModelArray[indexPath.row].createdBy
         {
             Reelcell.editBtn.isHidden = false
