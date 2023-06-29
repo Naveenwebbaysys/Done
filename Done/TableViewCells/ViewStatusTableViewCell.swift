@@ -20,6 +20,8 @@ class ViewStatusTableViewCell: UITableViewCell {
     @IBOutlet weak var mediaImgVW  : UIImageView!
     @IBOutlet weak var unreadBtn : UIButton!
     @IBOutlet weak var imgWidth: NSLayoutConstraint!
+    
+    @IBOutlet weak var lastMsgHeight: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

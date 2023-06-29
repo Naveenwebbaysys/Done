@@ -194,6 +194,102 @@ class ServiceController: NSObject {
         task.resume()
     }
 
+    func getRequestWithQuiry(strURL:String,params : [String:String], postHeaders:NSDictionary,success:@escaping(_ result:Any)->Void,failure:@escaping(_ error:String) -> Void) {
+        if isConnectedToNetwork() == false {
+            print("Please Check Internet")
+            
+            return
+        }
+        
+        let urlComp = NSURLComponents(string: "https://www.drrecommendations.com/api/posts/comment.php?" + "task_created_by={task_created_by}&employee_id={employee_id}&assignee_employee_id={assignee_employee_id}")!
+
+        var items = [URLQueryItem]()
+        for (key,value) in params {
+            items.append(URLQueryItem(name: key, value: value))
+        }
+        items = items.filter{!$0.name.isEmpty}
+        if !items.isEmpty {
+            urlComp.queryItems = items
+        }
+        var request = URLRequest(url: urlComp.url!)
+        print(urlComp.url!)
+        
+        request.addValue(content_type, forHTTPHeaderField: "Content-Type")
+        request.addValue(content_type, forHTTPHeaderField: "Accept")
+        
+        request.httpMethod = "GET"
+        if postHeaders["Authorization"] != nil  {
+        }
+        if let authToken = UserDefaults.standard.string(forKey: k_token) {
+            request.setValue("Bearer" + " " + authToken,forHTTPHeaderField: "Authorization")
+        }
+        do {
+            //            let data = try! JSONSerialization.data(withJSONObject:postParams, options:.prettyPrinted)
+            //            let dataString = String(data: data, encoding: String.Encoding.utf8)!
+            let headerData = try! JSONSerialization.data(withJSONObject:postHeaders, options:.prettyPrinted)
+            let headerDataString = String(data: headerData, encoding: String.Encoding.utf8)!
+            
+            print("Request Url :\(urlComp.url)")
+            print("Request Header Data :\(headerDataString)")
+            
+            // do other stuff on success
+        }
+        catch {
+            DispatchQueue.main.async(){
+                print("JSON serialization failed:  \(error)")
+            }
+        }
+        //        if let authToken = kUserDefaults.string(forKey: kAccess_token) {
+        //            if let tokenType = kUserDefaults.string(forKey: kTokenType) {
+        //                request.setValue(tokenType + " " + authToken,forHTTPHeaderField: "Authorization")
+        //            }
+        //        }
+        let task = URLSession.shared.dataTask(with:request as URLRequest){(data,response,error) in
+            DispatchQueue.main.async(){
+                print(response as Any)
+               
+                if response != nil {
+                    let statusCode = (response as! HTTPURLResponse).statusCode
+                    print("statusCode:\(statusCode)")
+                    if statusCode == 401 {
+                        print("failuer 1")
+                        failure("unAuthorized")
+                    }
+                    if statusCode == 500 {
+                        print("failuer 1")
+                        failure("unAuthorized")
+                    }
+                    if statusCode == 404 {
+                        print("failuer 1")
+                        failure("Enter Valid Credentials")
+                    }
+                    else if error != nil
+                    {
+                        print("failuer 1")
+                        //   failure(error! as NSError)
+                    }
+                    else
+                    {
+                        print(statusCode)
+                        do{
+                            print("success 1")
+                            let parsedData = try JSONSerialization.jsonObject(with: data!, options:.mutableContainers) as! [String:Any]
+                            print(parsedData)
+                            success(data! as NSData)
+                        }
+                        catch{
+                            print("error=\(error)")
+                            return
+                        }
+                    }
+                }
+                else{
+                    print(error as Any)
+                }
+            }
+        }
+        task.resume()
+    }
     func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
         zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))

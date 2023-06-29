@@ -28,7 +28,7 @@ class ViewStatusViewController: UIViewController {
         self.statusTB.register(UINib(nibName: "ViewStatusTableViewCell", bundle: nil), forCellReuseIdentifier: "ViewStatusTableViewCell")
         self.descLbl.text = notes
         self.statusTB.rowHeight = UITableView.automaticDimension
-        self.statusTB.estimatedRowHeight = 110
+        self.statusTB.estimatedRowHeight = 120
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,19 +90,18 @@ class ViewStatusViewController: UIViewController {
 extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return self.statusModelArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ViewStatusTableViewCell", for: indexPath) as! ViewStatusTableViewCell
-        
         cell.nameLbl.text = self.statusModelArray[indexPath.row].employeeName ?? ""
-        cell.statusLbl.text = self.statusModelArray[indexPath.row].status
+//        cell.statusLbl.text = self.statusModelArray[indexPath.row].status
         // == "still_working" ? "Still working" : "Done success"
         //   cell.statusLbl.textColor = self.statusModelArray[indexPath.row].status == "still_working" ? .red : .green
-//        cell.lastMsgLbl.text = self.statusModelArray[indexPath.row].lastmessage ?? ""
+        //        cell.lastMsgLbl.text = self.statusModelArray[indexPath.row].lastmessage ?? ""
+        
         cell.commentCountLbl.text = self.statusModelArray[indexPath.row].commentscount ?? "0"
         cell.dateLbl.text = dueDate
         cell.commentsBtn.tag = indexPath.row
@@ -121,59 +120,76 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         }
         let lastMsg = self.statusModelArray[indexPath.row].lastmessage ?? ""
         var ar = [String]()
-        if lastMsg.contains("--") == true
+        if lastMsg == ""
         {
-            cell.imgWidth.constant = 40
-            ar = split(content: self.statusModelArray[indexPath.row].lastmessage!) as! [String]
-            cell.lastMsgLbl.text = ar[1]
-            let url = URL(string: ar[0])
-            self.checkMediaType(forURL: url!)
-            if (ar[0] as AnyObject).contains(".mp4") {
-                cell.mediaImgVW.image = getVideoThumbnail(url: url!)
-            }
-            else
-            {
-                DispatchQueue.main.async {
-                    cell.mediaImgVW.kf.setImage(with: url)
-                }
-            }
+            cell.lastMsgHeight.constant = 0
+            cell.imgWidth.constant = 0
         }
         else
         {
-            if (lastMsg as AnyObject).contains(".mp4") {
-                cell.mediaImgVW.image = getVideoThumbnail(url: URL(string: lastMsg)!)
-            }
-            else if (lastMsg as AnyObject).contains(".jpeg")
+            cell.lastMsgHeight.constant = 35
+            if lastMsg.contains("--") == true
             {
-                DispatchQueue.main.async {
-                    cell.mediaImgVW.kf.setImage(with: URL(string: lastMsg))
+                cell.imgWidth.constant = 35
+                ar = split(content: self.statusModelArray[indexPath.row].lastmessage!) as! [String]
+                cell.lastMsgLbl.text = ar[1]
+                let url = URL(string: ar[0])
+                self.checkMediaType(forURL: url!)
+                if (ar[0] as AnyObject).contains(".mp4") || (ar[0] as AnyObject).contains(".MOV") || (lastMsg as AnyObject).contains(".mov"){
+                    cell.mediaImgVW.image = getVideoThumbnail(url: url!)
                 }
-                
+                else if (ar[0] as AnyObject).contains(".jpeg") || (ar[0] as AnyObject).contains(".jpg")
+                {
+                    DispatchQueue.main.async {
+                        cell.mediaImgVW.kf.setImage(with: URL(string: ar[0]))
+                    }
+                }
+                else
+                {
+                    DispatchQueue.main.async {
+                        cell.mediaImgVW.kf.setImage(with: url)
+                    }
+                }
             }
             else
             {
-                cell.lastMsgLbl.text = lastMsg
-                cell.imgWidth.constant = 0
+                cell.imgWidth.constant = 35
+                if (lastMsg as AnyObject).contains(".mp4") || (lastMsg as AnyObject).contains(".MOV") || (lastMsg as AnyObject).contains(".mov"){
+                    DispatchQueue.main.async {
+                        cell.mediaImgVW.image = getVideoThumbnail(url: URL(string: lastMsg)!)
+                    }
+                }
+                else if (lastMsg as AnyObject).contains(".jpeg")  || (lastMsg as AnyObject).contains(".jpg")
+                {
+                    DispatchQueue.main.async {
+                        cell.mediaImgVW.kf.setImage(with: URL(string: lastMsg))
+                    }
+                }
+                else
+                {
+                    cell.lastMsgLbl.text = lastMsg
+                    cell.imgWidth.constant = 0
+                }
             }
         }
-        
         if self.statusModelArray[indexPath.row].isApprovedCheked == true
         {
             cell.approvedBtn.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
+            cell.markBtn.setImage(UIImage(systemName: "square"), for: .normal)
+            cell.statusLbl.text = "Approved"
         }
-        else
-        {
-            cell.approvedBtn.setImage(UIImage(systemName: "square"), for: .normal)
-        }
-        
-        if self.statusModelArray[indexPath.row].isdoneCheked == true
+        else if self.statusModelArray[indexPath.row].isdoneCheked == true
         {
             cell.markBtn.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
+            cell.approvedBtn.setImage(UIImage(systemName: "square"), for: .normal)
+            cell.statusLbl.text = "Done Success"
         }
-        else
-        {
+        else{
             cell.markBtn.setImage(UIImage(systemName: "square"), for: .normal)
+            cell.approvedBtn.setImage(UIImage(systemName: "square"), for: .normal)
+            cell.statusLbl.text = "Still working"
         }
+
         return cell
     }
     
@@ -182,13 +198,13 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
     }
 }
 
-
 extension ViewStatusViewController {
     
     @objc func commentBtnAction(_ sender : UIButton)
     {
         let commentsVC = storyboard?.instantiateViewController(withIdentifier: "CommentsViewController") as! CommentsViewController
         commentsVC.postid = postID
+        commentsVC.taskCreatedby = self.reelsModelArray[index].createdBy ?? ""
         commentsVC.desc = self.descLbl.text ?? ""
         commentsVC.postPeopleSelected = reelsModelArray[index].tagPeoples![sender.tag]
         commentsVC.assignEmpID = self.statusModelArray[sender.tag].orderAssigneeEmployeeID!
@@ -196,7 +212,7 @@ extension ViewStatusViewController {
     }
     
     @IBAction func editBtnAction() {
-//        navToPostVc()
+        //        navToPostVc()
         
         let postVC = storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
         postVC.reelsModelArray = self.reelsModelArray
@@ -239,7 +255,7 @@ extension ViewStatusViewController {
     {
         let postparams = UpdateDoneRequestModel(postID: Int(self.statusModelArray[index].postID!), employeeID: Int(self.statusModelArray[index].employeeID!), taskStatus: withTask)
         APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
-
+            
             let indexPathRow:Int = index
             let indexPosition = IndexPath(row: indexPathRow, section: 0)
             self.statusTB.reloadRows(at: [indexPosition], with: .none)
@@ -265,25 +281,25 @@ extension ViewStatusViewController {
     func checkMediaType(forURL url: URL) {
         let asset = AVURLAsset(url: url)
         let assetKeys = ["tracks"]
-
+        
         asset.loadValuesAsynchronously(forKeys: assetKeys) {
             DispatchQueue.main.async {
                 var isImage = false
                 var isVideo = false
-
+                
                 var error: NSError? = nil
                 let status = asset.statusOfValue(forKey: "tracks", error: &error)
-
+                
                 if status == .loaded {
                     let tracks = asset.tracks(withMediaType: .video)
-
+                    
                     if tracks.isEmpty {
                         isImage = true
                     } else {
                         isVideo = true
                     }
                 }
-
+                
                 // Output the result
                 if isImage {
                     print("The URL is for an image.")
@@ -297,6 +313,6 @@ extension ViewStatusViewController {
             }
         }
     }
-
+    
 }
 

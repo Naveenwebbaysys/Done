@@ -16,7 +16,7 @@ class CommentsViewController: UIViewController {
     @IBOutlet weak var commentTB : UITableView!
     @IBOutlet weak var descLbl : UILabel!
     @IBOutlet weak var constraintTxtCommentBottom: NSLayoutConstraint!
-    
+    var taskCreatedby = ""
     var postid = ""
     var desc = ""
     var assignEmpID = ""
@@ -41,9 +41,9 @@ class CommentsViewController: UIViewController {
         commentTF.leftViewMode = .always
         //        self.updateTableContentInset()
         
-//        self.commentTB.transform = CGAffineTransform(scaleX: 1, y: -1)
+        //        self.commentTB.transform = CGAffineTransform(scaleX: 1, y: -1)
         
-//        commentTF.rightView = btnColor
+        //        commentTF.rightView = btnColor
         commentTF.rightViewMode = .unlessEditing
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "camera_roll_icon"), for: .normal)
@@ -71,7 +71,8 @@ class CommentsViewController: UIViewController {
             createdBy = name as! String
         }
         //        IQKeyboardManager.shared.enable = false
-      
+        readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -123,7 +124,7 @@ class CommentsViewController: UIViewController {
             self.present(picker, animated: true)
         }
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
-   
+            
         }
         
         alertView.addAction(cameraAction)
@@ -221,7 +222,7 @@ extension CommentsViewController: UIImagePickerControllerDelegate, UINavigationC
                 self.navigationController?.pushViewController(VC, animated: true)
             }
         }else if let videoUrl = info[.mediaURL] as? URL {
-          print("Selected video ",videoUrl)
+            print("Selected video ",videoUrl)
             DispatchQueue.main.async {
                 let VC = self.storyboard?.instantiateViewController(identifier: "ImageAndVideoCommentViewController") as! ImageAndVideoCommentViewController
                 VC.selectedVideoURL = videoUrl
@@ -235,7 +236,7 @@ extension CommentsViewController: UIImagePickerControllerDelegate, UINavigationC
         picker.dismiss(animated: true, completion: nil)
     }
     
-   
+    
 }
 
 extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
@@ -248,8 +249,8 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
         let data = self.commentsArray[indexPath.row]
         if (data.commenttype ?? "" ) == "text"{
             let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsTableViewCell", for: indexPath) as! CommentsTableViewCell
-//            let currentIndex = commentsArray.count-1
-//            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+            //            let currentIndex = commentsArray.count-1
+            //            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
             //        cell.commentLbl.numberOfLines = 0
             cell.commentLbl.text = self.commentsArray[indexPath.row].comment
@@ -273,7 +274,7 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
             return cell
         }else if (data.commenttype ?? "" ) == "video"{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCommentsTableViewCell", for: indexPath) as! ImageCommentsTableViewCell
-//            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+            //            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
             cell.btnVideoPlay.isHidden = false
             cell.btnVideoPlay.tag = indexPath.row
@@ -291,13 +292,13 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
                     cell.lblComment.text = arrComment[1]
                 }
             }
-           
+            
             let sourceTimeZone = TimeZone(identifier: "America/Los_Angeles")!
             let dateString = self.commentsArray[indexPath.row].createdAt  // 2023-06-13 14:21:33
             let format = "yyyy-MM-dd HH:mm:ss"
             
             if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
-//                print("Converted Date: \(convertedDate)")
+                //                print("Converted Date: \(convertedDate)")
                 let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
                 let newDate = checkDate(givenDate: time!)
                 cell.dateLbl.text = newDate
@@ -308,7 +309,7 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCommentsTableViewCell", for: indexPath) as! ImageCommentsTableViewCell
-//            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+            //            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
             cell.btnVideoPlay.isHidden = true
             let stComment = self.commentsArray[indexPath.row].comment ?? ""
@@ -319,7 +320,7 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
                     if error == nil{
                         cell.commentImage.image = imge
                     }else{
-//                        cell.commentImage.image = UIImage(named: "ic_placeholder_neutral")
+                        //                        cell.commentImage.image = UIImage(named: "ic_placeholder_neutral")
                     }
                 }
                 
@@ -328,13 +329,13 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
                     cell.lblComment.text = arrComment[1]
                 }
             }
-           
+            
             let sourceTimeZone = TimeZone(identifier: "America/Los_Angeles")!
             let dateString = self.commentsArray[indexPath.row].createdAt  // 2023-06-13 14:21:33
             let format = "yyyy-MM-dd HH:mm:ss"
             
             if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
-//                print("Converted Date: \(convertedDate)")
+                //                print("Converted Date: \(convertedDate)")
                 let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
                 let newDate = checkDate(givenDate: time!)
                 cell.dateLbl.text = newDate
@@ -432,7 +433,15 @@ extension CommentsViewController {
         }
     }
     
-    
-    
-    
+    func readMsgAPICall(task: String, empid: String, assignID : String)
+    {
+        let queryItems = ["task_created_by" : task,
+                          "employee_id" : empid,
+                          "assignee_employee_id" : assignID]
+        
+        APIModel.getRequestWithQuiry(strURL: "", params: queryItems, postHeaders: headers as NSDictionary) { jsonResult in
+            print(jsonResult)
+        } failure: { error in
+        }
+    }
 }
