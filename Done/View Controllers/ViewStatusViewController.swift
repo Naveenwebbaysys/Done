@@ -208,8 +208,7 @@ extension ViewStatusViewController {
         commentsVC.postid = postID
         commentsVC.taskCreatedby = self.reelsModelArray[index].createdBy ?? ""
         commentsVC.desc = self.descLbl.text ?? ""
-        commentsVC.postPeopleSelected = self.statusModelArray[sender.tag] //reelsModelArray[index].tagPeoples![sender.tag]
-//        print("data==\(self.statusModelArray[sender.tag].employeeName)")
+        commentsVC.postPeopleSelected = self.statusModelArray[sender.tag]
         commentsVC.assignEmpID = self.statusModelArray[sender.tag].orderAssigneeEmployeeID!
         self.navigationController?.pushViewController(commentsVC, animated: true)
     }

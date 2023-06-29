@@ -16,6 +16,7 @@ class CommentsViewController: UIViewController {
     @IBOutlet weak var commentTB : UITableView!
     @IBOutlet weak var descLbl : UILabel!
     @IBOutlet weak var constraintTxtCommentBottom: NSLayoutConstraint!
+    
     var taskCreatedby = ""
     var postid = ""
     var desc = ""
