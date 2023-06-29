@@ -13,50 +13,53 @@ class CommentsVM: NSObject {
     static let shared = CommentsVM()
     var controller : UIViewController?
     
-    func uploadImage(UploadImage:UIImage,selectedPeople:TagPeople,postID:String,stComment:String){
-        KRProgressHUD.show()
-        AWSS3Manager.shared.uploadImage(image: UploadImage, progress: { [weak self] (progress) in
-            guard let strongSelf = self else { return }
-        }) { [weak self] (uploadedFileUrl, error) in
-            KRProgressHUD.dismiss()
-            guard let strongSelf = self else { return }
-            if let awsS3Url = uploadedFileUrl as? String {
-                print("Uploaded file url: " + awsS3Url)
-                let awsS3Url = SERVERURL + awsS3Url
-                print("upload image url --",awsS3Url)
-                //                self?.createPostAPICall(str: awsS3Url)
-                self?.addCommentsAPICall(str: awsS3Url, selectedPeople: selectedPeople, postID: postID, stComment: stComment,commentType: "image")
-            } else {
-                print("\(String(describing: error?.localizedDescription))")
-                self?.controller?.showToast(message: error!.localizedDescription)
+    func uploadImage(UploadImage:UIImage,selectedPeople:PostStatus,postID:String,stComment:String){
+        DispatchQueue.global(qos: .background).async {
+            AWSS3Manager.shared.uploadImage(image: UploadImage, progress: { [weak self] (progress) in
+                guard let strongSelf = self else { return }
+            }) { [weak self] (uploadedFileUrl, error) in
+                KRProgressHUD.dismiss()
+                guard let strongSelf = self else { return }
+                if let awsS3Url = uploadedFileUrl as? String {
+                    print("Uploaded file url: " + awsS3Url)
+                    let awsS3Url = SERVERURL + awsS3Url
+                    print("upload image url --",awsS3Url)
+                    //                self?.createPostAPICall(str: awsS3Url)
+                    self?.addCommentsAPICall(str: awsS3Url, selectedPeople: selectedPeople, postID: postID, stComment: stComment,commentType: "image")
+                } else {
+                    print("\(String(describing: error?.localizedDescription))")
+                    self?.controller?.showToast(message: error!.localizedDescription)
+                }
             }
         }
     }
     
-    func uploadVideo(fileVideo:URL,selectedPeople:TagPeople,postID:String,stComment:String){
-        compressVideo(videoURL: fileVideo) { videoURL, error in
-            if videoURL != nil{
-                KRProgressHUD.show()
-                AWSS3Manager.shared.uploadVideo(videoUrl: videoURL!, progress: { [weak self] (progress) in
-                    guard let strongSelf = self else { return }
-                }) { [weak self] (uploadedFileUrl, error) in
-                    KRProgressHUD.dismiss()
-                    guard let strongSelf = self else { return }
-                    if let awsS3Url = uploadedFileUrl as? String {
-                        //                print("Uploaded file url: " + awsS3Url)
-                        let awsS3Url = SERVERURL + awsS3Url
-                        print("upload image url --",awsS3Url)
-                        self?.addCommentsAPICall(str: awsS3Url, selectedPeople: selectedPeople, postID: postID, stComment: stComment,commentType: "video")
-                    } else {
-                        print("\(String(describing: error?.localizedDescription))")
-                        self?.controller?.showToast(message: error!.localizedDescription)
+    func uploadVideo(fileVideo:URL,selectedPeople:PostStatus,postID:String,stComment:String){
+        DispatchQueue.global(qos: .background).async {
+            self.compressVideo(videoURL: fileVideo) { videoURL, error in
+                if videoURL != nil{
+//                    KRProgressHUD.show()
+                    AWSS3Manager.shared.uploadVideo(videoUrl: videoURL!, progress: { [weak self] (progress) in
+                        guard let strongSelf = self else { return }
+                    }) { [weak self] (uploadedFileUrl, error) in
+//                        KRProgressHUD.dismiss()
+                        guard let strongSelf = self else { return }
+                        if let awsS3Url = uploadedFileUrl as? String {
+                            //                print("Uploaded file url: " + awsS3Url)
+                            let awsS3Url = SERVERURL + awsS3Url
+                            print("upload image url --",awsS3Url)
+                            self?.addCommentsAPICall(str: awsS3Url, selectedPeople: selectedPeople, postID: postID, stComment: stComment,commentType: "video")
+                        } else {
+                            print("\(String(describing: error?.localizedDescription))")
+                            self?.controller?.showToast(message: error!.localizedDescription)
+                        }
                     }
                 }
             }
         }
     }
     
-    func addCommentsAPICall(str : String,selectedPeople:TagPeople,postID:String,stComment:String,commentType:String){
+    func addCommentsAPICall(str : String,selectedPeople:PostStatus,postID:String,stComment:String,commentType:String){
         let userID = UserDefaults.standard.string(forKey: UserDetails.userId)
         var stCommentFinal = ""
         if stComment.isEmpty{
@@ -66,17 +69,15 @@ class CommentsVM: NSObject {
         }
         let postparams = PostMediaCommentModel(assigneeEmployeeID: Int(selectedPeople.orderAssigneeEmployeeID ?? "0"), employeeID: Int(selectedPeople.employeeID ?? "0"), comment: stCommentFinal, commenttype: commentType, assigneeid: postID, taskCreatedBy: userID)
         //        print("Request parameter==",postparams)
-        DispatchQueue.global(qos: .background).async {
-            //            print("This is run on the background queue")
-            APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
-                print(jsonResult)
-                self.controller?.navigationController?.popViewController(animated: true)
-            } failureHandler: { error in
-                print(error)
-            }
-            DispatchQueue.main.async {
-                print("This is run on the main queue, after the previous code in outer block")
-            }
+        //            print("This is run on the background queue")
+        APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
+            print("background post comment==\(String(data: jsonResult as! Data, encoding: .utf8))")
+//            self.controller?.navigationController?.popViewController(animated: true)
+        } failureHandler: { error in
+            print(error)
+        }
+        DispatchQueue.main.async {
+            print("This is run on the main queue, after the previous code in outer block")
         }
     }
     

@@ -1126,6 +1126,77 @@ video</string>
             </objects>
             <point key="canvasLocation" x="3342" y="1630"/>
         </scene>
+        <!--Imageview Preview View Controller-->
+        <scene sceneID="2no-Lv-IqZ">
+            <objects>
+                <viewController storyboardIdentifier="ImageviewPreviewViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Kb2-g5-GtK" customClass="ImageviewPreviewViewController" customModule="Done" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="36n-yO-5GB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZUi-g8-LqY">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <subviews>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Gw-h2-sxi">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iyO-Pg-tLS">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                            </imageView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="iyO-Pg-tLS" secondAttribute="trailing" id="DNU-Lf-rpJ"/>
+                                            <constraint firstItem="iyO-Pg-tLS" firstAttribute="top" secondItem="9Gw-h2-sxi" secondAttribute="top" id="Ev6-6J-GCc"/>
+                                            <constraint firstItem="iyO-Pg-tLS" firstAttribute="leading" secondItem="9Gw-h2-sxi" secondAttribute="leading" id="Ojg-5y-R2B"/>
+                                            <constraint firstAttribute="bottom" secondItem="iyO-Pg-tLS" secondAttribute="bottom" id="du8-cO-lxj"/>
+                                            <constraint firstItem="iyO-Pg-tLS" firstAttribute="height" secondItem="9Gw-h2-sxi" secondAttribute="height" id="iLp-wR-C4h"/>
+                                            <constraint firstItem="iyO-Pg-tLS" firstAttribute="width" secondItem="9Gw-h2-sxi" secondAttribute="width" id="yqk-qB-cAs"/>
+                                        </constraints>
+                                    </scrollView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c6X-h8-xFt">
+                                        <rect key="frame" x="15" y="15" width="31" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="c6X-h8-xFt" secondAttribute="height" multiplier="31:30" id="7jK-d7-4Zr"/>
+                                            <constraint firstAttribute="height" constant="30" id="l4T-qH-Amz"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="nav_back_white"/>
+                                        <connections>
+                                            <action selector="btnBackAction:" destination="Kb2-g5-GtK" eventType="touchUpInside" id="fro-44-NMb"/>
+                                            <action selector="btnBackAction:" destination="PKK-bY-FH6" eventType="touchUpInside" id="zr2-Ur-qO8"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="9Gw-h2-sxi" secondAttribute="bottom" id="5Gl-WG-kQw"/>
+                                    <constraint firstAttribute="trailing" secondItem="9Gw-h2-sxi" secondAttribute="trailing" id="9Ee-yc-PG6"/>
+                                    <constraint firstItem="c6X-h8-xFt" firstAttribute="top" secondItem="ZUi-g8-LqY" secondAttribute="top" constant="15" id="I2C-eP-i0D"/>
+                                    <constraint firstItem="9Gw-h2-sxi" firstAttribute="leading" secondItem="ZUi-g8-LqY" secondAttribute="leading" id="fVI-EI-Z8v"/>
+                                    <constraint firstItem="c6X-h8-xFt" firstAttribute="leading" secondItem="ZUi-g8-LqY" secondAttribute="leading" constant="15" id="kOT-cz-EfG"/>
+                                    <constraint firstItem="9Gw-h2-sxi" firstAttribute="top" secondItem="ZUi-g8-LqY" secondAttribute="top" id="xwT-Jm-jga"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="uBU-Ca-TNT"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="uBU-Ca-TNT" firstAttribute="trailing" secondItem="ZUi-g8-LqY" secondAttribute="trailing" id="AjO-Nd-BJi"/>
+                            <constraint firstItem="ZUi-g8-LqY" firstAttribute="top" secondItem="uBU-Ca-TNT" secondAttribute="top" id="HZi-0I-VA0"/>
+                            <constraint firstItem="ZUi-g8-LqY" firstAttribute="leading" secondItem="uBU-Ca-TNT" secondAttribute="leading" id="pxt-id-0kr"/>
+                            <constraint firstItem="uBU-Ca-TNT" firstAttribute="bottom" secondItem="ZUi-g8-LqY" secondAttribute="bottom" id="qpR-Rr-vy0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imagevview" destination="iyO-Pg-tLS" id="fGE-Hd-I4X"/>
+                        <outlet property="scrollviewImage" destination="9Gw-h2-sxi" id="bhS-Ax-942"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HPc-cY-mFO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4319" y="1622"/>
+        </scene>
         <!--Tags Users View Controller-->
         <scene sceneID="7ZE-b1-mAf">
             <objects>
@@ -1909,6 +1980,9 @@ $10(10)</string>
         </scene>
     </scenes>
     <designables>
+        <designable name="d13-8T-K80">
+            <size key="intrinsicContentSize" width="28.5" height="34.5"/>
+        </designable>
         <designable name="oCX-p4-B5n">
             <size key="intrinsicContentSize" width="155" height="34"/>
         </designable>

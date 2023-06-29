@@ -146,9 +146,8 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
             else if (lastMsg as AnyObject).contains(".jpeg")
             {
                 DispatchQueue.main.async {
-                    cell.mediaImgVW.kf.setImage(with: URL(string: ar[0]))
+                    cell.mediaImgVW.kf.setImage(with: URL(string: lastMsg))
                 }
-                
             }
             else
             {
@@ -190,7 +189,8 @@ extension ViewStatusViewController {
         let commentsVC = storyboard?.instantiateViewController(withIdentifier: "CommentsViewController") as! CommentsViewController
         commentsVC.postid = postID
         commentsVC.desc = self.descLbl.text ?? ""
-        commentsVC.postPeopleSelected = reelsModelArray[index].tagPeoples![sender.tag]
+        commentsVC.postPeopleSelected = self.statusModelArray[sender.tag] //reelsModelArray[index].tagPeoples![sender.tag]
+//        print("data==\(self.statusModelArray[sender.tag].employeeName)")
         commentsVC.assignEmpID = self.statusModelArray[sender.tag].orderAssigneeEmployeeID!
         self.navigationController?.pushViewController(commentsVC, animated: true)
     }

@@ -3,4 +3,54 @@
    uuid = "6EF2A94A-8BD2-43DC-B36A-2EC99832F05E"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4DF2ED3C-2510-496D-A81F-A22D535ADBC6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Done/View Controllers/ImageAndVideoCommentViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
+            landmarkName = "btnBackAction(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4DF2ED3C-2510-496D-A81F-A22D535ADBC6 - 901bb64729a3018e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Done.ImageAndVideoCommentViewController.btnBackAction(__C.UIButton) -&gt; ()"
+                  moduleName = "Done"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sagar/Desktop/Sagar/Other/Done_Project/Done/Done/View%20Controllers/ImageAndVideoCommentViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "124"
+                  endingLineNumber = "124"
+                  offsetFromSymbolStart = "336">
+               </Location>
+               <Location
+                  uuid = "4DF2ED3C-2510-496D-A81F-A22D535ADBC6 - 901bb64729a3018e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Done.ImageAndVideoCommentViewController.btnBackAction(__C.UIButton) -&gt; ()"
+                  moduleName = "Done"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sagar/Desktop/Sagar/Other/Done_Project/Done/Done/View%20Controllers/ImageAndVideoCommentViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "124"
+                  endingLineNumber = "124"
+                  offsetFromSymbolStart = "284">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

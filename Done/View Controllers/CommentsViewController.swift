@@ -23,7 +23,8 @@ class CommentsViewController: UIViewController {
     var empID = ""
     var createdBy = ""
     var commentsArray = [CommentsData]()
-    var postPeopleSelected: TagPeople?
+    var postPeopleSelected: PostStatus?
+    var postCommentImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,9 +60,6 @@ class CommentsViewController: UIViewController {
         
         IQKeyboardManager.shared.enable = false
         
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         getAllCommentsAPICall(withEmpID: assignEmpID)
         
         if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
@@ -70,6 +68,10 @@ class CommentsViewController: UIViewController {
         if let name = UserDefaults.standard.value(forKey: UserDetails.userName){
             createdBy = name as! String
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
         //        IQKeyboardManager.shared.enable = false
       
     }
@@ -218,6 +220,7 @@ extension CommentsViewController: UIImagePickerControllerDelegate, UINavigationC
                 VC.selectedImage = image
                 VC.postPeopleSelected = self.postPeopleSelected
                 VC.postid = self.postid
+                VC.delegate = self
                 self.navigationController?.pushViewController(VC, animated: true)
             }
         }else if let videoUrl = info[.mediaURL] as? URL {
@@ -227,12 +230,17 @@ extension CommentsViewController: UIImagePickerControllerDelegate, UINavigationC
                 VC.selectedVideoURL = videoUrl
                 VC.postPeopleSelected = self.postPeopleSelected
                 VC.postid = self.postid
+                VC.delegate = self
                 self.navigationController?.pushViewController(VC, animated: true)
             }
         }else{
             print("Data nooooooooo")
         }
-        picker.dismiss(animated: true, completion: nil)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            picker.dismiss(animated: true, completion: nil)
+        }
+        
     }
     
    
@@ -282,9 +290,15 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
             let arrComment = stComment.components(separatedBy: "--")
             if !arrComment.isEmpty{
                 cell.viewComment.isHidden = true
-                let videoUrl = URL(string: arrComment[0])
+               
                 DispatchQueue.main.async {
-                    cell.commentImage.image = self.getVideoThumbnail(url: videoUrl!)
+                    if (data.isLocalStore ?? false){
+                        let videoUrl = URL(fileURLWithPath: arrComment[0])
+                        cell.commentImage.image = self.getVideoThumbnail(url: videoUrl)
+                    }else{
+                        let videoUrl = URL(string: arrComment[0])
+                        cell.commentImage.image = self.getVideoThumbnail(url: videoUrl!)
+                    }
                 }
                 if arrComment.count > 1{
                     cell.viewComment.isHidden = false
@@ -311,21 +325,28 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
 //            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
             cell.btnVideoPlay.isHidden = true
-            let stComment = self.commentsArray[indexPath.row].comment ?? ""
-            let arrComment = stComment.components(separatedBy: "--")
-            if !arrComment.isEmpty{
-                cell.viewComment.isHidden = true
-                cell.commentImage.sd_setImage(with: URL.init(string: arrComment[0]), placeholderImage: nil, options: .highPriority) { (imge, error, cache, url) in
-                    if error == nil{
-                        cell.commentImage.image = imge
-                    }else{
-//                        cell.commentImage.image = UIImage(named: "ic_placeholder_neutral")
-                    }
+            if (data.isLocalStore ?? false){
+                cell.commentImage.image = postCommentImage ?? UIImage()
+                if !(data.comment ?? "").isEmpty{
+                    cell.lblComment.text = data.comment ?? ""
                 }
-                
-                if arrComment.count > 1{
-                    cell.viewComment.isHidden = false
-                    cell.lblComment.text = arrComment[1]
+            }else{
+                let stComment = self.commentsArray[indexPath.row].comment ?? ""
+                let arrComment = stComment.components(separatedBy: "--")
+                if !arrComment.isEmpty{
+                    cell.viewComment.isHidden = true
+                    cell.commentImage.sd_setImage(with: URL.init(string: arrComment[0]), placeholderImage: nil, options: .highPriority) { (imge, error, cache, url) in
+                        if error == nil{
+                            cell.commentImage.image = imge
+                        }else{
+    //                        cell.commentImage.image = UIImage(named: "ic_placeholder_neutral")
+                        }
+                    }
+                    
+                    if arrComment.count > 1{
+                        cell.viewComment.isHidden = false
+                        cell.lblComment.text = arrComment[1]
+                    }
                 }
             }
            
@@ -349,6 +370,24 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let data = self.commentsArray[indexPath.row]
+        if (data.commenttype ?? "" ) == "image"{
+            let VC = self.storyboard?.instantiateViewController(identifier: "ImageviewPreviewViewController") as! ImageviewPreviewViewController
+            if (data.isLocalStore ?? false){
+                VC.selectedImage = postCommentImage ?? UIImage()
+            }else{
+                let stComment = self.commentsArray[indexPath.row].comment ?? ""
+                let arrComment = stComment.components(separatedBy: "--")
+                if !arrComment.isEmpty{
+                    VC.selectedImageUrl = arrComment[0]
+                }
+            }
+            VC.modalPresentationStyle = .fullScreen
+            self.present(VC, animated: true)
+        }
     }
 }
 
@@ -378,9 +417,9 @@ extension CommentsViewController {
                     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
                     let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
                     let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
-                    let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTF.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "Text")
+                    let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTF.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "text",isLocalStore: true)
                     self.commentsArray.append(newcomment)
-                    print(self.commentsArray.count)
+//                    print(self.commentsArray.count)
                     self.commentTB.reloadData()
                     self.commentTF.text = ""
                     
@@ -431,8 +470,42 @@ extension CommentsViewController {
             return formattedDateString
         }
     }
+}
+
+extension CommentsViewController:delegateImageAndVideoComment{
+    func delegate_VideoUploadComment(selectedUrl: URL, stDesc: String) {
+        var stComment = ""
+        if !stDesc.isEmpty{
+            stComment = "\(selectedUrl)--\(stDesc)"
+        }else{
+            stComment = "\(selectedUrl)"
+        }
+        let destinationTime = TimeZone(identifier: "America/Los_Angeles")!
+        // 2023-06-13 14:21:33
+        let format = "yyyy-MM-dd HH:mm:ss"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
+        let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
+        let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: stComment, employeeID: self.empID, createdBy: self.createdBy, commenttype: "video",isLocalStore: true)
+        self.commentsArray.append(newcomment)
+        self.commentTB.reloadData()
+    }
     
     
+    func delegate_ImageUploadComment(selectedImage: UIImage, stDesc: String) {
+        self.postCommentImage = selectedImage
+        let destinationTime = TimeZone(identifier: "America/Los_Angeles")!
+        // 2023-06-13 14:21:33
+        let format = "yyyy-MM-dd HH:mm:ss"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
+        let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
+        let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: stDesc, employeeID: self.empID, createdBy: self.createdBy, commenttype: "image",isLocalStore: true)
+        self.commentsArray.append(newcomment)
+        self.commentTB.reloadData()
+    }
     
     
 }

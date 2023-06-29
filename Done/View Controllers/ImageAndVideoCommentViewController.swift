@@ -10,6 +10,12 @@ import IQKeyboardManagerSwift
 import KRProgressHUD
 import AVKit
 
+protocol delegateImageAndVideoComment{
+    func delegate_ImageUploadComment(selectedImage:UIImage,stDesc:String)
+    func delegate_VideoUploadComment(selectedUrl:URL,stDesc:String)
+}
+
+
 class ImageAndVideoCommentViewController: UIViewController {
     
     //MARK: - Outlet
@@ -23,8 +29,9 @@ class ImageAndVideoCommentViewController: UIViewController {
     var selectedImage:UIImage?
     var selectedVideoURL:URL?
     var player: AVPlayer?
-    var postPeopleSelected: TagPeople?
+    var postPeopleSelected: PostStatus?
     var postid = ""
+    var delegate:delegateImageAndVideoComment?
     
     //MARK: - UIView Controller Methods
     override func viewDidLoad() {
@@ -68,7 +75,11 @@ class ImageAndVideoCommentViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         
         IQKeyboardManager.shared.enable = true
-        player = nil
+        if self.player != nil{
+            self.player?.pause()
+            player = nil
+        }
+        
     }
     
     //MARK: - KeyBoard Handler
@@ -93,17 +104,25 @@ class ImageAndVideoCommentViewController: UIViewController {
     
     //MARK: - UIButton Action
     @IBAction func btnSendAction(_ sender: UIButton) {
-//        print(postPeopleSelected)
+        if self.player != nil{
+            self.player?.pause()
+            player = nil
+        }
         if selectedVideoURL != nil{
+            self.delegate?.delegate_VideoUploadComment(selectedUrl: self.selectedVideoURL!, stDesc: txtComment.text!)
             CommentsVM.shared.uploadVideo(fileVideo: selectedVideoURL!,selectedPeople: postPeopleSelected!,postID: postid,stComment: txtComment.text!)
         }else{
+            self.delegate?.delegate_ImageUploadComment(selectedImage: self.selectedImage ?? UIImage(), stDesc: txtComment.text!)
             CommentsVM.shared.uploadImage(UploadImage: selectedImage ?? UIImage(),selectedPeople: postPeopleSelected!,postID: postid,stComment: txtComment.text!)
         }
-       
-        
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func btnBackAction(_ sender: UIButton) {
+        if self.player != nil{
+            self.player?.pause()
+            player = nil
+        }
         self.navigationController?.popViewController(animated: true)
     }
     

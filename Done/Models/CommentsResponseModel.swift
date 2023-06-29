@@ -4,6 +4,7 @@
 //   let commentsResponseModel = try? JSONDecoder().decode(CommentsResponseModel.self, from: jsonData)
 
 import Foundation
+import UIKit
 
 // MARK: - CommentsResponseModel
 struct CommentsResponseModel: Codable {
@@ -17,6 +18,7 @@ struct CommentsData: Codable {
     let employeeID: String?
     let createdBy: String?
     let commenttype : String?
+    let isLocalStore : Bool?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -26,6 +28,7 @@ struct CommentsData: Codable {
         case employeeID = "employee_id"
         case createdBy = "created_by"
         case commenttype = "comment_type"
+        case isLocalStore = "isLocalStore"
     }
 }
 

@@ -52,6 +52,7 @@
 		04C1427D2A387F7A005D1391 /* CommentsResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1427C2A387F7A005D1391 /* CommentsResponseModel.swift */; };
 		04D3C2CE2A333E5900A5D460 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D3C2CD2A333E5900A5D460 /* ProfileViewController.swift */; };
 		1B09587F2A4AB454006A1F67 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B09587E2A4AB454006A1F67 /* MimeType.swift */; };
+		1B6F459D2A4DADE10086A429 /* ImageviewPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6F459C2A4DADE10086A429 /* ImageviewPreviewViewController.swift */; };
 		1B7661802A4B259600F63D0A /* ImageAndVideoCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B76617F2A4B259600F63D0A /* ImageAndVideoCommentViewController.swift */; };
 		1B7661832A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7661812A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift */; };
 		1B7661842A4B2B4500F63D0A /* ImageCommentsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B7661822A4B2B4500F63D0A /* ImageCommentsTableViewCell.xib */; };
@@ -109,6 +110,7 @@
 		0D80175AE176548C1C11A743 /* Pods_Done.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Done.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		111463C9159DDB314BDB9F72 /* Pods-Done.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Done.debug.xcconfig"; path = "Target Support Files/Pods-Done/Pods-Done.debug.xcconfig"; sourceTree = "<group>"; };
 		1B09587E2A4AB454006A1F67 /* MimeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
+		1B6F459C2A4DADE10086A429 /* ImageviewPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageviewPreviewViewController.swift; sourceTree = "<group>"; };
 		1B76617F2A4B259600F63D0A /* ImageAndVideoCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAndVideoCommentViewController.swift; sourceTree = "<group>"; };
 		1B7661812A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCommentsTableViewCell.swift; sourceTree = "<group>"; };
 		1B7661822A4B2B4500F63D0A /* ImageCommentsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCommentsTableViewCell.xib; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				04D3C2CD2A333E5900A5D460 /* ProfileViewController.swift */,
 				048EB3A32A29B7A0004BE939 /* PostVideoViewController.swift */,
 				1B76617F2A4B259600F63D0A /* ImageAndVideoCommentViewController.swift */,
+				1B6F459C2A4DADE10086A429 /* ImageviewPreviewViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				04400A952A2F0C890028CECE /* TagsResponseModel.swift in Sources */,
 				1B7661802A4B259600F63D0A /* ImageAndVideoCommentViewController.swift in Sources */,
 				041345CD2A27565300B6C553 /* CustomViewController.swift in Sources */,
+				1B6F459D2A4DADE10086A429 /* ImageviewPreviewViewController.swift in Sources */,
 				041F66FA2A4C723F009C6AB4 /* UpdateDoneModel.swift in Sources */,
 				0497D0F22A31FEC300B4A185 /* ProfileModel.swift in Sources */,
 				04D3C2CE2A333E5900A5D460 /* ProfileViewController.swift in Sources */,
