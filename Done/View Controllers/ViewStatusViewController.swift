@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ViewStatusViewController: UIViewController {
     
@@ -15,7 +16,7 @@ class ViewStatusViewController: UIViewController {
     var statusModelArray = [PostStatus]()
     var reelsModelArray = [Post]()
     var index = 0
-    
+    var task = ""
     var isFromEdit = Bool()
     @IBOutlet weak var statusTB : UITableView!
     @IBOutlet weak var descLbl : UILabel!
@@ -25,6 +26,8 @@ class ViewStatusViewController: UIViewController {
         self.statusTB.dataSource = self
         self.statusTB.register(UINib(nibName: "ViewStatusTableViewCell", bundle: nil), forCellReuseIdentifier: "ViewStatusTableViewCell")
         self.descLbl.text = notes
+        self.statusTB.rowHeight = UITableView.automaticDimension
+        self.statusTB.estimatedRowHeight = 110
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,8 +43,33 @@ class ViewStatusViewController: UIViewController {
             let viewStatusResponseModel = try? JSONDecoder().decode(ViewStatusResponseModel.self, from: jsonData as! Data)
             let a = (viewStatusResponseModel?.data?.stillWorkingPosts)!
             let b = (viewStatusResponseModel?.data?.donePosts)!
+            let c = (viewStatusResponseModel?.data?.approved)!
             self.statusModelArray.append(contentsOf: a)
             self.statusModelArray.append(contentsOf: b)
+            self.statusModelArray.append(contentsOf: c)
+            
+            for (index, _) in self.statusModelArray.enumerated() {
+                
+                if self.statusModelArray[index].status == "approved"
+                {
+                    self.statusModelArray[index].isApprovedCheked = true
+                }
+                else
+                {
+                    self.statusModelArray[index].isApprovedCheked = false
+                }
+                
+                if self.statusModelArray[index].status == "done_success"
+                {
+                    self.statusModelArray[index].isdoneCheked = true
+                }
+                else
+                {
+                    self.statusModelArray[index].isdoneCheked = false
+                }
+            }
+            
+            
             print(self.statusModelArray.count)
             self.statusTB.reloadData()
         } failure: { error in
@@ -69,10 +97,14 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ViewStatusTableViewCell", for: indexPath) as! ViewStatusTableViewCell
         
-        cell.nameLbl.text = self.statusModelArray[indexPath.row].employeeName
-        cell.statusLbl.text = self.statusModelArray[indexPath.row].status == "still_working" ? "Still working" : "Done success"
+        cell.nameLbl.text = self.statusModelArray[indexPath.row].employeeName ?? ""
+        cell.statusLbl.text = self.statusModelArray[indexPath.row].status
+       
+        
+        // == "still_working" ? "Still working" : "Done success"
         //        cell.statusLbl.textColor = self.statusModelArray[indexPath.row].status == "still_working" ? .red : .green
-        cell.commentCountLbl.text = self.statusModelArray[indexPath.row].commentscount
+        cell.lastMsgLbl.text = self.statusModelArray[indexPath.row].lastmessage ?? ""
+        cell.commentCountLbl.text = self.statusModelArray[indexPath.row].commentscount ?? "0"
         cell.dateLbl.text = dueDate
         cell.commentsBtn.tag = indexPath.row
         cell.commentsBtn.addTarget(self, action: #selector(commentBtnAction), for: .touchUpInside)
@@ -80,6 +112,7 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         cell.markBtn.addTarget(self, action: #selector(markBtnAction), for: .touchUpInside)
         cell.approvedBtn.tag = indexPath.row
         cell.approvedBtn.addTarget(self, action: #selector(approvedBtnAction), for: .touchUpInside)
+        
         let lastMsg = self.statusModelArray[indexPath.row].lastmessage ?? ""
         if lastMsg.contains("--") == true
         {
@@ -123,7 +156,7 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 65
+        return UITableView.automaticDimension
     }
 }
 
@@ -135,8 +168,8 @@ extension ViewStatusViewController {
         let commentsVC = storyboard?.instantiateViewController(withIdentifier: "CommentsViewController") as! CommentsViewController
         commentsVC.postid = postID
         commentsVC.desc = self.descLbl.text ?? ""
-        commentsVC.assignEmpID = self.statusModelArray[sender.tag].orderAssigneeEmployeeID!
         commentsVC.postPeopleSelected = reelsModelArray[index].tagPeoples![sender.tag]
+        commentsVC.assignEmpID = self.statusModelArray[sender.tag].orderAssigneeEmployeeID!
         self.navigationController?.pushViewController(commentsVC, animated: true)
     }
     
@@ -149,7 +182,6 @@ extension ViewStatusViewController {
         postVC.isFromEdit = true
         self.navigationController?.pushViewController(postVC, animated: true)
     }
-
     
     @objc func markBtnAction(_ sender : UIButton) {
         if self.statusModelArray[sender.tag].isdoneCheked == true
@@ -207,5 +239,5 @@ extension ViewStatusViewController {
         }
         return ar as NSArray
     }
-
 }
+

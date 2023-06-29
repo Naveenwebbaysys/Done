@@ -268,6 +268,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="commentsBtn" destination="y8H-TA-sjC" id="wmc-JV-nYH"/>
+                <outlet property="commissionBtn" destination="MXa-id-eDD" id="R60-px-tte"/>
                 <outlet property="countLbl" destination="3go-K7-UOa" id="L4e-Fr-jDU"/>
                 <outlet property="dateLbl" destination="CFB-I9-eX1" id="l3h-KP-gcO"/>
                 <outlet property="doneBtn" destination="SZh-gj-2p9" id="ODM-Sa-eKC"/>
