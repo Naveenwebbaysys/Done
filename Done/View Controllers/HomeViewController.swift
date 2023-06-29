@@ -197,9 +197,10 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         let duedate = self.reelsModelArray[indexPath.row].commissionNoOfDays1!
         let yourDate = formatter.date(from: duedate)
         formatter.dateFormat = "MMM d, yyyy"
+        var days = 0
         if yourDate != nil{
             let myStringDate = formatter.string(from: yourDate!)
-            let days = count(expDate: myStringDate)
+            days = count(expDate: myStringDate)
             Reelcell.dateLbl.text = "Expires in " + "\(days)" + " days " + myStringDate
         }
        
@@ -240,7 +241,9 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
                 Reelcell.countLbl.text = self.reelsModelArray[indexPath.row].tagPeoples?[0].comments?[0].comment
             }
         }
-        
+        Reelcell.commissionBtn.tag = indexPath.row
+        let amount = "$" + (self.reelsModelArray[indexPath.row].commissionAmount ?? "0") + " - DUE IN " + "\(days)" + " DAYS "
+        Reelcell.commissionBtn.setTitle(amount, for: .normal)
         Reelcell.doneBtn.tag = indexPath.row
         Reelcell.doneBtn.addTarget(self, action: #selector(statusBtnTapped(_:)), for: .touchUpInside)
         Reelcell.commentsBtn.tag = indexPath.row
