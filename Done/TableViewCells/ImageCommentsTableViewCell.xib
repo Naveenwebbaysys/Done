@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -54,11 +55,23 @@
                                                     <constraint firstAttribute="width" constant="120" id="gwf-h9-uAA"/>
                                                 </constraints>
                                             </imageView>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TeG-OZ-Vpb">
+                                                <rect key="frame" x="45" y="65" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="TeG-OZ-Vpb" secondAttribute="height" multiplier="1:1" id="DBr-6W-P1g"/>
+                                                    <constraint firstAttribute="height" constant="30" id="vku-hT-fQ1"/>
+                                                </constraints>
+                                                <color key="tintColor" name="App_color"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="play.circle.fill" catalog="system"/>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="Cgq-py-atw" firstAttribute="leading" secondItem="dH2-oF-L6N" secondAttribute="leading" id="556-4n-tIT"/>
                                             <constraint firstAttribute="bottom" secondItem="Cgq-py-atw" secondAttribute="bottom" id="B0d-1N-PTP"/>
+                                            <constraint firstItem="TeG-OZ-Vpb" firstAttribute="centerX" secondItem="Cgq-py-atw" secondAttribute="centerX" id="IFZ-R7-xO9"/>
+                                            <constraint firstItem="TeG-OZ-Vpb" firstAttribute="centerY" secondItem="Cgq-py-atw" secondAttribute="centerY" id="mWH-6S-tIj"/>
                                             <constraint firstItem="Cgq-py-atw" firstAttribute="top" secondItem="dH2-oF-L6N" secondAttribute="top" id="pFJ-SJ-b9P"/>
                                         </constraints>
                                     </view>
@@ -129,6 +142,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="btnVideoPlay" destination="TeG-OZ-Vpb" id="WCx-0O-EuR"/>
                 <outlet property="commentImage" destination="Cgq-py-atw" id="CU7-1G-DiZ"/>
                 <outlet property="dateLbl" destination="IwB-mu-Jlt" id="Ej8-K4-Wto"/>
                 <outlet property="lblComment" destination="5HE-KM-ZpQ" id="Xt0-QL-dxU"/>
@@ -144,6 +158,10 @@
         </designable>
     </designables>
     <resources>
+        <image name="play.circle.fill" catalog="system" width="128" height="123"/>
+        <namedColor name="App_color">
+            <color red="0.59600001573562622" green="0.76899999380111694" blue="0.33300000429153442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

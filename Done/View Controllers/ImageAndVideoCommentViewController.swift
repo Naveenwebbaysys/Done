@@ -88,7 +88,12 @@ class ImageAndVideoCommentViewController: UIViewController {
     //MARK: - UIButton Action
     @IBAction func btnSendAction(_ sender: UIButton) {
 //        print(postPeopleSelected)
-        CommentsVM.shared.uploadImage(UploadImage: selectedImage ?? UIImage(),selectedPeople: postPeopleSelected!,postID: postid,stComment: txtComment.text!)
+        if selectedVideoURL != nil{
+            CommentsVM.shared.uploadVideo(fileVideo: selectedVideoURL!,selectedPeople: postPeopleSelected!,postID: postid,stComment: txtComment.text!)
+        }else{
+            CommentsVM.shared.uploadImage(UploadImage: selectedImage ?? UIImage(),selectedPeople: postPeopleSelected!,postID: postid,stComment: txtComment.text!)
+        }
+       
         
     }
     

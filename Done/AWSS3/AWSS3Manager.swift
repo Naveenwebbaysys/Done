@@ -81,12 +81,12 @@ class AWSS3Manager {
                     let url = AWSS3.default().configuration.endpoint.url
                     let publicURL = url?.appendingPathComponent(BUCKET_NAME).appendingPathComponent(fileName)
                     
-                    print("Uploaded to:\(String(describing: publicURL))")
+//                    print("Uploaded to:\(String(describing: publicURL))")
                     if let response = task.response {
                         let fileURL = response.url
-                        print("Uploaded file URL: \(String(describing: fileURL))")
-                        print("Base URL: " + "https://d1g0ba8hbbwly8.cloudfront.net")
-                        print("Split URL: \(String(describing: response.url?.relativePath))")
+//                        print("Uploaded file URL: \(String(describing: fileURL))")
+//                        print("Base URL: " + "https://d1g0ba8hbbwly8.cloudfront.net")
+//                        print("Split URL: \(String(describing: response.url?.relativePath))")
                         if let completionBlock = completion {
                             completionBlock(response.url!.relativePath, nil)
                         }

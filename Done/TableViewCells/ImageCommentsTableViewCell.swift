@@ -14,10 +14,11 @@ class ImageCommentsTableViewCell: UITableViewCell {
     @IBOutlet weak var commentImage: UIImageView!
     @IBOutlet weak var viewComment: UIView!
     @IBOutlet weak var lblComment: PaddingLabel!
+    @IBOutlet weak var btnVideoPlay: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        self.selectionStyle = .none
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

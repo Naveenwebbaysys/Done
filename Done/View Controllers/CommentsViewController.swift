@@ -8,7 +8,8 @@
 import UIKit
 import IQKeyboardManagerSwift
 import SDWebImage
-
+import AVFoundation
+import AVKit
 class CommentsViewController: UIViewController {
     
     @IBOutlet weak var commentTF : UITextField!
@@ -40,7 +41,7 @@ class CommentsViewController: UIViewController {
         commentTF.leftViewMode = .always
         //        self.updateTableContentInset()
         
-        self.commentTB.transform = CGAffineTransform(scaleX: 1, y: -1)
+//        self.commentTB.transform = CGAffineTransform(scaleX: 1, y: -1)
         
 //        commentTF.rightView = btnColor
         commentTF.rightViewMode = .unlessEditing
@@ -147,6 +148,55 @@ class CommentsViewController: UIViewController {
             )
         }
     }
+    
+    func getVideoThumbnail(url: URL) -> UIImage? {
+        //let url = url as URL
+        let request = URLRequest(url: url)
+        let cache = URLCache.shared
+        if let cachedResponse = cache.cachedResponse(for: request), let image = UIImage(data: cachedResponse.data) {
+            return image
+        }
+        
+        let asset = AVAsset(url: url)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+        imageGenerator.maximumSize = CGSize(width: 120, height: 120)
+        
+        var time = asset.duration
+        time.value = min(time.value, 2)
+        
+        var image: UIImage?
+        
+        do {
+            let cgImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
+            image = UIImage(cgImage: cgImage)
+        } catch { }
+        
+        if let image = image, let data = image.pngData(), let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil) {
+            let cachedResponse = CachedURLResponse(response: response, data: data)
+            let newImg = UIImage(data: data)
+            cache.storeCachedResponse(cachedResponse, for: request)
+        }
+        
+        return image
+    }
+    
+    @objc func btnVideoPlayAction(_ sender : UIButton){
+        let data = self.commentsArray[sender.tag]
+        if (data.commenttype ?? "" ) == "video"{
+            let stComment = data.comment ?? ""
+            let arrComment = stComment.components(separatedBy: "--")
+            if !arrComment.isEmpty{
+                let videoUrl = URL(string: arrComment[0])
+                let player = AVPlayer(url: videoUrl!)
+                let playerViewController = AVPlayerViewController()
+                playerViewController.player = player
+                self.present(playerViewController, animated: true) {
+                    playerViewController.player!.play()
+                }
+            }
+        }
+    }
 }
 
 extension CommentsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -170,6 +220,8 @@ extension CommentsViewController: UIImagePickerControllerDelegate, UINavigationC
             DispatchQueue.main.async {
                 let VC = self.storyboard?.instantiateViewController(identifier: "ImageAndVideoCommentViewController") as! ImageAndVideoCommentViewController
                 VC.selectedVideoURL = videoUrl
+                VC.postPeopleSelected = self.postPeopleSelected
+                VC.postid = self.postid
                 self.navigationController?.pushViewController(VC, animated: true)
             }
         }else{
@@ -192,7 +244,7 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
         if (data.commenttype ?? "" ) == "text"{
             let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsTableViewCell", for: indexPath) as! CommentsTableViewCell
 //            let currentIndex = commentsArray.count-1
-            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+//            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
             //        cell.commentLbl.numberOfLines = 0
             cell.commentLbl.text = self.commentsArray[indexPath.row].comment
@@ -214,11 +266,46 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
                 print("Failed to convert date.")
             }
             return cell
+        }else if (data.commenttype ?? "" ) == "video"{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCommentsTableViewCell", for: indexPath) as! ImageCommentsTableViewCell
+//            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+            cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
+            cell.btnVideoPlay.isHidden = false
+            cell.btnVideoPlay.tag = indexPath.row
+            cell.btnVideoPlay.addTarget(self, action: #selector(btnVideoPlayAction), for: .touchUpInside)
+            let stComment = self.commentsArray[indexPath.row].comment ?? ""
+            let arrComment = stComment.components(separatedBy: "--")
+            if !arrComment.isEmpty{
+                cell.viewComment.isHidden = true
+                let videoUrl = URL(string: arrComment[0])
+                DispatchQueue.main.async {
+                    cell.commentImage.image = self.getVideoThumbnail(url: videoUrl!)
+                }
+                if arrComment.count > 1{
+                    cell.viewComment.isHidden = false
+                    cell.lblComment.text = arrComment[1]
+                }
+            }
+           
+            let sourceTimeZone = TimeZone(identifier: "America/Los_Angeles")!
+            let dateString = self.commentsArray[indexPath.row].createdAt  // 2023-06-13 14:21:33
+            let format = "yyyy-MM-dd HH:mm:ss"
+            
+            if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
+//                print("Converted Date: \(convertedDate)")
+                let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
+                let newDate = checkDate(givenDate: time!)
+                cell.dateLbl.text = newDate
+                
+            } else {
+                print("Failed to convert date.")
+            }
+            return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCommentsTableViewCell", for: indexPath) as! ImageCommentsTableViewCell
-            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+//            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
-          
+            cell.btnVideoPlay.isHidden = true
             let stComment = self.commentsArray[indexPath.row].comment ?? ""
             let arrComment = stComment.components(separatedBy: "--")
             if !arrComment.isEmpty{
