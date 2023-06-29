@@ -146,7 +146,7 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
             else if (lastMsg as AnyObject).contains(".jpeg")
             {
                 DispatchQueue.main.async {
-                    cell.mediaImgVW.kf.setImage(with: URL(string: ar[0]))
+                    cell.mediaImgVW.kf.setImage(with: URL(string: lastMsg))
                 }
                 
             }
