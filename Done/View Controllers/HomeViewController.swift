@@ -242,7 +242,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
             }
         }
         Reelcell.commissionBtn.tag = indexPath.row
-        let amount = "$" + (self.reelsModelArray[indexPath.row].commissionAmount ?? "0") + " - DUE IN" + "\(days)" + " DAYS "
+        let amount = "$" + (self.reelsModelArray[indexPath.row].commissionAmount ?? "0") + " - DUE IN " + "\(days)" + " DAYS "
         Reelcell.commissionBtn.setTitle(amount, for: .normal)
         Reelcell.doneBtn.tag = indexPath.row
         Reelcell.doneBtn.addTarget(self, action: #selector(statusBtnTapped(_:)), for: .touchUpInside)

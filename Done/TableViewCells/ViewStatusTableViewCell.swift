@@ -18,7 +18,7 @@ class ViewStatusTableViewCell: UITableViewCell {
     @IBOutlet weak var markBtn      : UIButton!
     @IBOutlet weak var approvedBtn  : UIButton!
     @IBOutlet weak var mediaImgVW  : UIImageView!
-    
+    @IBOutlet weak var unreadBtn : UIButton!
     @IBOutlet weak var imgWidth: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()

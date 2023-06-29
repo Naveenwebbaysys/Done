@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import SystemConfiguration
 import AuthenticationServices
-
+import AVFoundation
 
 
 let aooColor = UIColor(hex:"98C455")
@@ -876,3 +876,52 @@ func deleteVideoFromLocal (path : String)
 }
 
 
+
+func getVideoThumbnail(url: URL) -> UIImage? {
+    //let url = url as URL
+    let request = URLRequest(url: url)
+    let cache = URLCache.shared
+    if let cachedResponse = cache.cachedResponse(for: request), let image = UIImage(data: cachedResponse.data) {
+        return image
+    }
+    
+    let asset = AVAsset(url: url)
+    let imageGenerator = AVAssetImageGenerator(asset: asset)
+    imageGenerator.appliesPreferredTrackTransform = true
+    imageGenerator.maximumSize = CGSize(width: 120, height: 120)
+    
+    var time = asset.duration
+    time.value = min(time.value, 2)
+    
+    var image: UIImage?
+    
+    do {
+        let cgImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
+        image = UIImage(cgImage: cgImage)
+    } catch { }
+    
+    if let image = image, let data = image.pngData(), let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil) {
+        let cachedResponse = CachedURLResponse(response: response, data: data)
+        let newImg = UIImage(data: data)
+        cache.storeCachedResponse(cachedResponse, for: request)
+    }
+    
+    return image
+}
+
+
+extension URL {
+    /// Returns a new URL by adding the query items, or nil if the URL doesn't support it.
+    /// URL must conform to RFC 3986.
+    func appending(_ queryItems: [URLQueryItem]) -> URL? {
+        guard var urlComponents = URLComponents(url: self, resolvingAgainstBaseURL: true) else {
+            // URL is not conforming to RFC 3986 (maybe it is only conforming to RFC 1808, RFC 1738, and RFC 2732)
+            return nil
+        }
+        // append the query items to the existing ones
+        urlComponents.queryItems = (urlComponents.queryItems ?? []) + queryItems
+
+        // return the url from new url components
+        return urlComponents.url
+    }
+}

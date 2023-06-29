@@ -119,6 +119,7 @@ class ServiceController: NSObject {
         let request = NSMutableURLRequest(url: fileUrl! as URL)
         request.addValue(content_type, forHTTPHeaderField: "Content-Type")
         request.addValue(content_type, forHTTPHeaderField: "Accept")
+        
         request.httpMethod = "GET"
         if postHeaders["Authorization"] != nil  {
         }
@@ -315,7 +316,7 @@ class ServiceController: NSObject {
             print("Please Check Internet")
             return
         }
-        KRProgressHUD.show()
+//        KRProgressHUD.show()
         let kAccess_token       : String = "kAccess_token"
         let kToken_type          = "kToken_type"
         let kClient_id           = "kClient_id"
@@ -355,7 +356,7 @@ class ServiceController: NSObject {
             }
         }
         let task = URLSession.shared.dataTask(with: request as URLRequest) {(data, response, error) in
-            KRProgressHUD.dismiss()
+//            KRProgressHUD.dismiss()
             //            print(data)
             //            print(response)
             //            print(error)

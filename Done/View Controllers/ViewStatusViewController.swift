@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import AVFoundation
 
 class ViewStatusViewController: UIViewController {
     
@@ -99,11 +100,9 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         
         cell.nameLbl.text = self.statusModelArray[indexPath.row].employeeName ?? ""
         cell.statusLbl.text = self.statusModelArray[indexPath.row].status
-       
-        
         // == "still_working" ? "Still working" : "Done success"
-        //        cell.statusLbl.textColor = self.statusModelArray[indexPath.row].status == "still_working" ? .red : .green
-        cell.lastMsgLbl.text = self.statusModelArray[indexPath.row].lastmessage ?? ""
+        //   cell.statusLbl.textColor = self.statusModelArray[indexPath.row].status == "still_working" ? .red : .green
+//        cell.lastMsgLbl.text = self.statusModelArray[indexPath.row].lastmessage ?? ""
         cell.commentCountLbl.text = self.statusModelArray[indexPath.row].commentscount ?? "0"
         cell.dateLbl.text = dueDate
         cell.commentsBtn.tag = indexPath.row
@@ -112,27 +111,50 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         cell.markBtn.addTarget(self, action: #selector(markBtnAction), for: .touchUpInside)
         cell.approvedBtn.tag = indexPath.row
         cell.approvedBtn.addTarget(self, action: #selector(approvedBtnAction), for: .touchUpInside)
-        
+        if self.statusModelArray[indexPath.row].createdbycommentcount == "1"
+        {
+            cell.unreadBtn.isHidden = false
+        }
+        else
+        {
+            cell.unreadBtn.isHidden = true
+        }
         let lastMsg = self.statusModelArray[indexPath.row].lastmessage ?? ""
+        var ar = [String]()
         if lastMsg.contains("--") == true
         {
-            let ar = split(content: self.statusModelArray[indexPath.row].lastmessage!)
-            cell.lastMsgLbl.text = ar[1] as? String
-            let url = URL(string: ar[0] as! String)
-            DispatchQueue.main.async {
-//                cell.mediaImgVW.kf.setImage(with: url)
+            cell.imgWidth.constant = 40
+            ar = split(content: self.statusModelArray[indexPath.row].lastmessage!) as! [String]
+            cell.lastMsgLbl.text = ar[1]
+            let url = URL(string: ar[0])
+            self.checkMediaType(forURL: url!)
+            if (ar[0] as AnyObject).contains(".mp4") {
+                cell.mediaImgVW.image = getVideoThumbnail(url: url!)
             }
-            
-            DispatchQueue.global().async {
-                let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+            else
+            {
                 DispatchQueue.main.async {
-                    cell.mediaImgVW.image = UIImage(data: data!)
+                    cell.mediaImgVW.kf.setImage(with: url)
                 }
             }
         }
         else
         {
-            cell.lastMsgLbl.text = self.statusModelArray[indexPath.row].lastmessage ?? ""
+            if (lastMsg as AnyObject).contains(".mp4") {
+                cell.mediaImgVW.image = getVideoThumbnail(url: URL(string: lastMsg)!)
+            }
+            else if (lastMsg as AnyObject).contains(".jpeg")
+            {
+                DispatchQueue.main.async {
+                    cell.mediaImgVW.kf.setImage(with: URL(string: ar[0]))
+                }
+                
+            }
+            else
+            {
+                cell.lastMsgLbl.text = lastMsg
+                cell.imgWidth.constant = 0
+            }
         }
         
         if self.statusModelArray[indexPath.row].isApprovedCheked == true
@@ -239,5 +261,42 @@ extension ViewStatusViewController {
         }
         return ar as NSArray
     }
+    
+    func checkMediaType(forURL url: URL) {
+        let asset = AVURLAsset(url: url)
+        let assetKeys = ["tracks"]
+
+        asset.loadValuesAsynchronously(forKeys: assetKeys) {
+            DispatchQueue.main.async {
+                var isImage = false
+                var isVideo = false
+
+                var error: NSError? = nil
+                let status = asset.statusOfValue(forKey: "tracks", error: &error)
+
+                if status == .loaded {
+                    let tracks = asset.tracks(withMediaType: .video)
+
+                    if tracks.isEmpty {
+                        isImage = true
+                    } else {
+                        isVideo = true
+                    }
+                }
+
+                // Output the result
+                if isImage {
+                    print("The URL is for an image.")
+                    // You can load and display the image using UIImage here
+                } else if isVideo {
+                    print("The URL is for a video.")
+                    // You can play the video using AVPlayer or display a thumbnail here
+                } else {
+                    print("The URL is not a valid image or video.")
+                }
+            }
+        }
+    }
+
 }
 

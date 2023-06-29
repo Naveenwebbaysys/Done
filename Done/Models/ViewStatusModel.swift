@@ -30,6 +30,7 @@ struct PostStatus: Codable {
     let commentscount: String?
     var isdoneCheked : Bool?
     var isApprovedCheked : Bool?
+    var createdbycommentcount : String?
 
     enum CodingKeys: String, CodingKey {
         case postID = "post_id"
@@ -41,6 +42,7 @@ struct PostStatus: Codable {
         case commentscount = "comments_count"
         case isdoneCheked
         case isApprovedCheked
+        case createdbycommentcount = "created_by_comment_count"
         
     }
 }
