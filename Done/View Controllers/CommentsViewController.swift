@@ -88,7 +88,12 @@ class CommentsViewController: UIViewController {
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height {
             print("Notification: Keyboard will show")
-            constraintTxtCommentBottom.constant = keyboardHeight + 10
+            var bottomPadding:CGFloat = 0
+            if #available(iOS 13.0, *) {
+                let window = UIApplication.shared.windows.first
+                bottomPadding = window?.safeAreaInsets.bottom ?? 0
+            }
+            constraintTxtCommentBottom.constant = keyboardHeight - bottomPadding
             self.view.layoutIfNeeded()
         }
     }

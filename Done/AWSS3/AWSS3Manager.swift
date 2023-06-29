@@ -36,7 +36,7 @@ class AWSS3Manager {
     
     // Upload video from local path url
     func uploadVideo(videoUrl: URL, progress: progressBlock?, completion: completionBlock?) {
-        let fileName = self.getUniqueFileName(fileUrl: videoUrl) // "iosdone/" 
+        let fileName = "\(ProcessInfo.processInfo.globallyUniqueString).mp4"//self.getUniqueFileName(fileUrl: videoUrl) // "iosdone/" 
         self.uploadfile(fileUrl: videoUrl, fileName: fileName, contenType: "mov/mp4", progress: progress, completion: completion)
     }
     
