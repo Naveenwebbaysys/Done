@@ -428,6 +428,9 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
             let VC = self.storyboard?.instantiateViewController(identifier: "ImageviewPreviewViewController") as! ImageviewPreviewViewController
             if (data.isLocalStore ?? false){
                 VC.selectedData = data.isLocalImageData ?? Data()
+                if !(data.comment ?? "").isEmpty{
+                    VC.selectedImageComment = data.comment ?? ""
+                }
             }else{
                 let stComment = self.commentsArray[indexPath.row].comment ?? ""
                 let arrComment = stComment.components(separatedBy: "--")
