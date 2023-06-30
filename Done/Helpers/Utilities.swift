@@ -939,3 +939,34 @@ func count (expDate : String) -> Int {
     print(diffInDays!)
     return diffInDays! + 1
 }
+
+extension UIButton {
+
+    static func customSystemButton(title: String, subtitle: String) -> UIButton {
+        let style = NSMutableParagraphStyle()
+        style.alignment = NSTextAlignment.center
+        style.lineBreakMode = NSLineBreakMode.byWordWrapping
+
+        let titleAttributes: [NSAttributedString.Key : Any] = [
+            NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue,
+            NSAttributedString.Key.font : UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body),
+            NSAttributedString.Key.paragraphStyle : style
+        ]
+        let subtitleAttributes = [
+            NSAttributedString.Key.font : UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body),
+            NSAttributedString.Key.paragraphStyle : style
+        ]
+
+        let attributedString = NSMutableAttributedString(string: title, attributes: titleAttributes)
+        attributedString.append(NSAttributedString(string: "\n"))
+        attributedString.append(NSAttributedString(string: subtitle, attributes: subtitleAttributes))
+
+        let button = UIButton(type: UIButton.ButtonType.system)
+        button.setAttributedTitle(attributedString, for: UIControl.State.normal)
+        button.titleLabel?.numberOfLines = 0
+        button.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
+
+        return button
+    }
+
+}

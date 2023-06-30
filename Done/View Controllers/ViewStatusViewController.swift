@@ -195,6 +195,23 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+//        tableView.deselectRow(at: indexPath, animated: true) // Deselect the row to remove the default selection highlight
+//
+//            if let cell = tableView.cellForRow(at: indexPath) {
+//                cell.selectedBackgroundView = UIView() // Set an empty UIView as the selectedBackgroundView
+//            }
+        
+        let commentsVC = storyboard?.instantiateViewController(withIdentifier: "CommentsViewController") as! CommentsViewController
+        commentsVC.postid = postID
+        commentsVC.taskCreatedby = self.reelsModelArray[index].createdBy ?? ""
+        commentsVC.desc = self.descLbl.text ?? ""
+        commentsVC.postPeopleSelected = self.statusModelArray[indexPath.row]
+        commentsVC.assignEmpID = self.statusModelArray[indexPath.row].orderAssigneeEmployeeID!
+        self.navigationController?.pushViewController(commentsVC, animated: true)
+        
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }

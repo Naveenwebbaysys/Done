@@ -54,11 +54,7 @@ class HomeViewController: UIViewController {
         activityIndicator.startAnimating()
         view.addSubview(activityIndicator)
         
-        userID = UserDefaults.standard.value(forKey: UserDetails.userId) as! String
-        if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
-            userID = (id as? String)!
-            getCommissionAPICall(withID: userID)
-        }
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,6 +64,11 @@ class HomeViewController: UIViewController {
         self.reelsModelArray.removeAll()
         self.getpostAPICall(withType: "assigned_by_me")
         self.activityIndicator.stopAnimating()
+        userID = UserDefaults.standard.value(forKey: UserDetails.userId) as! String
+        if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
+            userID = (id as? String)!
+            getCommissionAPICall(withID: userID)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -125,9 +126,22 @@ class HomeViewController: UIViewController {
                 self.doneCommission =  (commissionResponse?.data?.doneCommission?.commission ?? "") + "(" + (commissionResponse?.data?.doneCommission?.commissionCount ?? "") + ")"
                 
             }
-            self.assignBtn.setTitle("Assigend by me $" + self.assignCommission, for: .normal)
-            self.stillBtn.setTitle("Still working $" +  self.stillworkingCommission, for: .normal)
-            self.donecBtn.setTitle("Done $" + self.doneCommission, for: .normal)
+            print(self.assignCommission)
+            print(self.stillworkingCommission)
+            print(self.stillworkingCommission)
+            
+            let part1 = NSAttributedString(string: "Assigend by me $"  + self.assignCommission)
+            self.assignBtn.setAttributedTitle(part1, for: .normal)
+            self.assignBtn.titleLabel?.textAlignment = .center
+            
+            let part2 = NSAttributedString(string: "Still working $" +  self.stillworkingCommission)
+            self.stillBtn.setAttributedTitle(part2, for: .normal)
+            self.stillBtn.titleLabel?.textAlignment = .center
+            
+            let part3 = NSAttributedString(string: "Done $" + self.doneCommission)
+            self.donecBtn.setAttributedTitle(part3, for: .normal)
+            self.donecBtn.titleLabel?.textAlignment = .center
+            
         } failure: { error in
             print(error)
         }

@@ -141,8 +141,8 @@ class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDeleg
         let outPutPath = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
         if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path) {  ///(fileURL) {
             //            var complete : ALAssetsLibraryWriteVideoCompletionBlock = {reason in print("reason \(reason)")}
-            UISaveVideoAtPathToSavedPhotosAlbum(url.path as String, nil, nil, nil)
-            UserDefaults.standard.set(url.path, forKey: "originalVideoPath")
+//            UISaveVideoAtPathToSavedPhotosAlbum(url.path as String, nil, nil, nil)
+//            UserDefaults.standard.set(url.path, forKey: "originalVideoPath")
         } else {
             print("the file must be bad!")
         }
@@ -153,9 +153,9 @@ class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDeleg
                     print("Failed to compress video: \(error.localizedDescription)")
                 } else if let compressedURL = resulstCompressedURL {
                     print("Video compressed successfully. Compressed video URL: \(compressedURL)")
-                    UISaveVideoAtPathToSavedPhotosAlbum(compressedURL.path,nil,nil, nil)
-                    UserDefaults.standard.set(url, forKey: "originalVideo")
-                    UserDefaults.standard.set(compressedURL.path, forKey: "compressedVideoPath")
+//                    UISaveVideoAtPathToSavedPhotosAlbum(compressedURL.path,nil,nil, nil)
+//                    UserDefaults.standard.set(url, forKey: "originalVideo")
+//                    UserDefaults.standard.set(compressedURL.path, forKey: "compressedVideoPath")
                     print(compressedURL.path)
                     guard let compressedData = NSData(contentsOf: compressedURL) else {
                         return

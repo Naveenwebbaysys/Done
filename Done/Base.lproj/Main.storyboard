@@ -279,7 +279,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jeb-3k-6Qr">
                                 <rect key="frame" x="0.0" y="20" width="375" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bsr-wW-DOB">
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="bsr-wW-DOB">
                                         <rect key="frame" x="0.0" y="2" width="120" height="35"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -288,69 +288,38 @@
                                         </constraints>
                                         <color key="tintColor" red="0.59607843140000005" green="0.76862745099999996" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal">
-                                            <attributedString key="attributedTitle">
-                                                <fragment>
-                                                    <string key="content">Assigned by me
-$10(12)</string>
-                                                    <attributes>
-                                                        <color key="NSColor" red="0.59607845540000004" green="0.76862752440000004" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <font key="NSFont" metaFont="cellTitle"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
-                                        </state>
                                         <connections>
                                             <action selector="assignedBtnAct" destination="bKs-y9-Tld" eventType="touchUpInside" id="sc9-Ug-5W4"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MCD-HH-Uud">
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="MCD-HH-Uud">
                                         <rect key="frame" x="125" y="2" width="154" height="35"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="qqa-xR-Msf"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="tintColor" red="0.59607843140000005" green="0.76862745099999996" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal">
-                                            <attributedString key="attributedTitle">
-                                                <fragment>
-                                                    <string key="content">Still working
-$10(10)</string>
-                                                    <attributes>
-                                                        <color key="NSColor" red="0.60000002379999995" green="0.76862752440000004" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <font key="NSFont" metaFont="cellTitle"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
+                                            <color key="titleColor" red="0.60000002379999995" green="0.76862752440000004" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
                                         <connections>
                                             <action selector="stillBtnAct" destination="bKs-y9-Tld" eventType="touchUpInside" id="ank-IC-dKo"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dne-8f-Yk0">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="dne-8f-Yk0">
                                         <rect key="frame" x="284" y="2" width="90" height="35"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="90" id="Nfl-EQ-qsG"/>
                                             <constraint firstAttribute="height" constant="35" id="TDO-HF-DPi"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="tintColor" red="0.59607843140000005" green="0.76862745099999996" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal">
-                                            <attributedString key="attributedTitle">
-                                                <fragment>
-                                                    <string key="content">Done
-$10(10)</string>
-                                                    <attributes>
-                                                        <color key="NSColor" red="0.60000002379999995" green="0.76862752440000004" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <font key="NSFont" metaFont="cellTitle"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
+                                            <color key="titleColor" red="0.60000002379999995" green="0.76862752440000004" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
                                         <connections>
                                             <action selector="doneBtnAct" destination="bKs-y9-Tld" eventType="touchUpInside" id="6lV-ZT-nji"/>
@@ -446,12 +415,6 @@ $10(10)</string>
                                     <constraint firstItem="2ff-p4-uei" firstAttribute="centerY" secondItem="fiZ-jQ-o2a" secondAttribute="centerY" id="ddN-Pf-BOw"/>
                                 </constraints>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tM6-hY-re8">
-                                <rect key="frame" x="0.0" y="78" width="375" height="589"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <viewLayoutGuide key="contentLayoutGuide" id="t3Y-xP-ITf"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="1Bw-YS-aOo"/>
-                            </scrollView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="HhA-gw-4LR">
                                 <rect key="frame" x="10" y="80" width="355" height="130"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -927,7 +890,7 @@ video</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A9g-yG-fnr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4336.8000000000002" y="929.68515742128943"/>
+            <point key="canvasLocation" x="4215" y="917"/>
         </scene>
         <!--Comments View Controller-->
         <scene sceneID="KRs-Tq-mrI">
@@ -1557,9 +1520,10 @@ video</string>
                                 <color key="textColor" red="0.59607843140000005" green="0.76862745099999996" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="uAW-ff-iY3">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="uAW-ff-iY3">
                                 <rect key="frame" x="5" y="100.5" width="365" height="566.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="yrI-IR-6vN"/>
@@ -1743,7 +1707,7 @@ video</string>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="kMz-JJ-t5n">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="226"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="5" minimumInteritemSpacing="5" id="fq4-dy-p0k">
+                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="1" minimumInteritemSpacing="1" id="fq4-dy-p0k">
                                             <size key="itemSize" width="128" height="128"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>

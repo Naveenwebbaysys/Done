@@ -13,12 +13,13 @@ struct CommissionResponseModel: Codable {
 
 // MARK: - DataClass
 struct CommissionData: Codable {
-    let stillWorkingCommission, doneCommission, assignedByCommission: Commission?
+    let stillWorkingCommission, doneCommission, assignedByCommission, approvedcommission: Commission?
 
     enum CodingKeys: String, CodingKey {
         case stillWorkingCommission = "still_working_commission"
         case doneCommission = "done_commission"
         case assignedByCommission = "assigned_by_commission"
+        case approvedcommission = "approved_commission"
     }
 }
 

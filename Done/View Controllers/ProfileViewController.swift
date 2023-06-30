@@ -40,8 +40,8 @@ class ProfileViewController: UIViewController {
         self.aulbumCW.register(UINib(nibName: "AulbumCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AulbumCollectionViewCell")
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 8
-        layout.minimumInteritemSpacing = 4
+        layout.minimumLineSpacing = 1
+        layout.minimumInteritemSpacing = 1
         aulbumCW.setCollectionViewLayout(layout, animated: true)
     }
     
@@ -197,14 +197,14 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         /// 2
-        return UIEdgeInsets(top: 1.0, left: 5.0, bottom: 1.0, right: 5.0)
+        return UIEdgeInsets(top: 1.0, left: 1.0, bottom: 1.0, right: 1.0)
     }
     
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let lay = collectionViewLayout as! UICollectionViewFlowLayout
         let widthPerItem = collectionView.frame.width / 3 - lay.minimumInteritemSpacing
-        return CGSize(width: widthPerItem - 5, height: 120)
+        return CGSize(width: widthPerItem - 1, height: 130)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
