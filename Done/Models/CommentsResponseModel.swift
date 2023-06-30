@@ -19,7 +19,8 @@ struct CommentsData: Codable {
     let createdBy: String?
     let commenttype : String?
     let isLocalStore : Bool?
-
+    let isLocalImageData : Data?
+    
     enum CodingKeys: String, CodingKey {
         case id
         case assigneeEmployeeID = "assignee_employee_id"
@@ -29,6 +30,7 @@ struct CommentsData: Codable {
         case createdBy = "created_by"
         case commenttype = "comment_type"
         case isLocalStore = "isLocalStore"
+        case isLocalImageData = "isLocalImageData"
     }
 }
 

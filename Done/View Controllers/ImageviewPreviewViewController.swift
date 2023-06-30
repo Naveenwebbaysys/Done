@@ -51,6 +51,7 @@ class ImageviewPreviewViewController: UIViewController,UIScrollViewDelegate {
         
         if selectedImageComment != nil{
             viewComment.isHidden = false
+//            print(selectedImageComment)
             lblComment.text = selectedImageComment ?? ""
         }
     }

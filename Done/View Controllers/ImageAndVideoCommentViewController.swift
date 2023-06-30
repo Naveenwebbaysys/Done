@@ -11,7 +11,7 @@ import KRProgressHUD
 import AVKit
 
 protocol delegateImageAndVideoComment{
-    func delegate_ImageUploadComment(selectedImage:UIImage,stDesc:String)
+    func delegate_ImageUploadComment(selectedData: Data,stDesc:String)
     func delegate_VideoUploadComment(selectedUrl:URL,stDesc:String)
 }
 
@@ -119,8 +119,14 @@ class ImageAndVideoCommentViewController: UIViewController, UITextViewDelegate {
             self.delegate?.delegate_VideoUploadComment(selectedUrl: self.selectedVideoURL!, stDesc: commentTV.text == "Comment..." ? "" : commentTV.text!)
             CommentsVM.shared.uploadVideo(fileVideo: selectedVideoURL!,selectedPeople: postPeopleSelected!,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!)
         }else{
-            self.delegate?.delegate_ImageUploadComment(selectedImage: self.selectedImage ?? UIImage(), stDesc: commentTV.text == "Comment..." ? "" : commentTV.text!)
-            CommentsVM.shared.uploadImage(UploadImage: selectedImage ?? UIImage(),selectedPeople: postPeopleSelected!,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!)
+            if self.selectedImage != nil{
+                guard let imageData = self.selectedImage!.jpegData(compressionQuality: 0.5) else {
+                    let error = NSError(domain:"", code:402, userInfo:[NSLocalizedDescriptionKey: "invalid image"])
+                    return
+                }
+                self.delegate?.delegate_ImageUploadComment(selectedData: imageData, stDesc: commentTV.text == "Comment..." ? "" : commentTV.text!)
+                CommentsVM.shared.uploadImage(UploadImage: selectedImage ?? UIImage(),selectedPeople: postPeopleSelected!,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!)
+            }
         }
         self.navigationController?.popViewController(animated: true)
     }
