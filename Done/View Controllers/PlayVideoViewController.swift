@@ -131,9 +131,12 @@ extension PlayVideoViewController {
         else
         {
             let commentsVC = storyboard?.instantiateViewController(identifier: "CommentsViewController") as! CommentsViewController
+           
             commentsVC.assignEmpID = (self.reelModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)!
             commentsVC.desc = self.reelModelArray[sender!.tag].notes!
             commentsVC.empID = self.reelModelArray[sender!.tag].id!
+            commentsVC.employeeID = (self.reelModelArray[sender!.tag].tagPeoples?[0].employeeID)!
+            commentsVC.postid = self.reelModelArray[sender!.tag].id!
             //        statusVC.dueDate = dateHelper(srt: self.reelModelArray[sender!.tag].commissionNoOfDays1!)
             self.navigationController?.pushViewController(commentsVC, animated: true)
         }

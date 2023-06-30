@@ -34,6 +34,8 @@ class ImageAndVideoCommentViewController: UIViewController, UITextViewDelegate {
     var postPeopleSelected: PostStatus?
     var postid = ""
     var delegate:delegateImageAndVideoComment?
+    var orderAssigneeEmployeeID = ""
+    var employeeID = ""
     
     //MARK: - UIView Controller Methods
     override func viewDidLoad() {
@@ -117,7 +119,7 @@ class ImageAndVideoCommentViewController: UIViewController, UITextViewDelegate {
         }
         if selectedVideoURL != nil{
             self.delegate?.delegate_VideoUploadComment(selectedUrl: self.selectedVideoURL!, stDesc: commentTV.text == "Comment..." ? "" : commentTV.text!)
-            CommentsVM.shared.uploadVideo(fileVideo: selectedVideoURL!,selectedPeople: postPeopleSelected!,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!)
+            CommentsVM.shared.uploadVideo(fileVideo: selectedVideoURL!,stOrderAssigneeEmployeeID:self.orderAssigneeEmployeeID,employeeID:self.employeeID,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!)
         }else{
             if self.selectedImage != nil{
                 guard let imageData = self.selectedImage!.jpegData(compressionQuality: 0.5) else {
@@ -125,7 +127,7 @@ class ImageAndVideoCommentViewController: UIViewController, UITextViewDelegate {
                     return
                 }
                 self.delegate?.delegate_ImageUploadComment(selectedData: imageData, stDesc: commentTV.text == "Comment..." ? "" : commentTV.text!)
-                CommentsVM.shared.uploadImage(UploadImage: selectedImage ?? UIImage(),selectedPeople: postPeopleSelected!,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!)
+                CommentsVM.shared.uploadImage(UploadImage: selectedImage ?? UIImage(),stOrderAssigneeEmployeeID:self.orderAssigneeEmployeeID,employeeID:self.employeeID,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!)
             }
         }
         self.navigationController?.popViewController(animated: true)

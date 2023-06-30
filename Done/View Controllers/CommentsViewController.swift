@@ -28,6 +28,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     var createdBy = ""
     var commentsArray = [CommentsData]()
     var postPeopleSelected: PostStatus?
+//    var orderAssigneeEmployeeID = ""
+    var employeeID = ""
+    
 //    var postCommentImage: UIImage?
     
     override func viewDidLoad() {
@@ -265,6 +268,8 @@ extension CommentsViewController: UIImagePickerControllerDelegate, UINavigationC
                 VC.postPeopleSelected = self.postPeopleSelected
                 VC.postid = self.postid
                 VC.delegate = self
+                VC.orderAssigneeEmployeeID = self.assignEmpID
+                VC.employeeID = self.employeeID
                 self.navigationController?.pushViewController(VC, animated: true)
             }
         }else if let videoUrl = info[.mediaURL] as? URL {
@@ -275,6 +280,8 @@ extension CommentsViewController: UIImagePickerControllerDelegate, UINavigationC
                 VC.postPeopleSelected = self.postPeopleSelected
                 VC.postid = self.postid
                 VC.delegate = self
+                VC.orderAssigneeEmployeeID = self.assignEmpID
+                VC.employeeID = self.employeeID
                 self.navigationController?.pushViewController(VC, animated: true)
             }
         }else{

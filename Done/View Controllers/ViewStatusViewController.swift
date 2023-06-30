@@ -19,6 +19,7 @@ class ViewStatusViewController: UIViewController {
     var index = 0
     var task = ""
     var isFromEdit = Bool()
+    
     @IBOutlet weak var statusTB : UITableView!
     @IBOutlet weak var descLbl : UILabel!
     override func viewDidLoad() {
@@ -209,6 +210,7 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         commentsVC.desc = self.descLbl.text ?? ""
         commentsVC.postPeopleSelected = self.statusModelArray[indexPath.row]
         commentsVC.assignEmpID = self.statusModelArray[indexPath.row].orderAssigneeEmployeeID!
+        commentsVC.employeeID = self.statusModelArray[indexPath.row].employeeID!
         self.navigationController?.pushViewController(commentsVC, animated: true)
         
     }
@@ -227,6 +229,7 @@ extension ViewStatusViewController {
         commentsVC.desc = self.descLbl.text ?? ""
         commentsVC.postPeopleSelected = self.statusModelArray[sender.tag]
         commentsVC.assignEmpID = self.statusModelArray[sender.tag].orderAssigneeEmployeeID!
+        commentsVC.employeeID = self.statusModelArray[sender.tag].employeeID!
         self.navigationController?.pushViewController(commentsVC, animated: true)
     }
     

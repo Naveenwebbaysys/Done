@@ -525,9 +525,13 @@ extension HomeViewController {
         else
         {
             let commentsVC = storyboard?.instantiateViewController(identifier: "CommentsViewController") as! CommentsViewController
+            print(self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)
             commentsVC.assignEmpID = (self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)!
             commentsVC.desc = self.reelsModelArray[sender!.tag].notes!
             commentsVC.empID = self.reelsModelArray[sender!.tag].id!
+            commentsVC.employeeID = (self.reelsModelArray[sender!.tag].tagPeoples?[0].employeeID)!
+            commentsVC.postid = self.reelsModelArray[sender!.tag].id!
+//            commentsVC.postPeopleSelected = self.reelsModelArray[sender!.tag].tagPeoples?[0]
             //        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
             self.navigationController?.pushViewController(commentsVC, animated: true)
         }
