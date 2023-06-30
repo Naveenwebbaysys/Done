@@ -25,7 +25,7 @@ class ViewStatusTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+        selectedBackgroundView = UIView()
         lastMsgLbl.minimumScaleFactor = 0.5 // Optional: Set a minimum scale factor for text truncation if needed
             
             // Set the desired minimum height

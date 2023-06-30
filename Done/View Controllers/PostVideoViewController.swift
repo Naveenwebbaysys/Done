@@ -163,12 +163,12 @@ extension PostViewController {
                 let postResponse = try? JSONDecoder().decode(PostResponseModel.self, from: result as! Data)
                 if postResponse?.status == true
                 {
-                    if let compressedVideoPath = UserDefaults.standard.value(forKey: "compressedVideoPath") {
-                        do {
-                            print(compressedVideoPath)
-                            deleteVideoFromLocal(path: compressedVideoPath as! String)
-                        }
-                    }
+//                    if let compressedVideoPath = UserDefaults.standard.value(forKey: "compressedVideoPath") {
+//                        do {
+//                            print(compressedVideoPath)
+//                            deleteVideoFromLocal(path: compressedVideoPath as! String)
+//                        }
+//                    }
                     self.setRootVC()
                 }
                 else
