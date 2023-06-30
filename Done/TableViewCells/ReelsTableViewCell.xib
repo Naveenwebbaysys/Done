@@ -272,6 +272,7 @@
                 <outlet property="countLbl" destination="3go-K7-UOa" id="L4e-Fr-jDU"/>
                 <outlet property="dateLbl" destination="CFB-I9-eX1" id="l3h-KP-gcO"/>
                 <outlet property="doneBtn" destination="SZh-gj-2p9" id="ODM-Sa-eKC"/>
+                <outlet property="dontBtnWidth" destination="U1C-Vt-GdH" id="0Nh-h3-vbN"/>
                 <outlet property="editBtn" destination="TdX-7D-JsA" id="QDb-iE-92w"/>
                 <outlet property="editHeight" destination="mhJ-bA-YzI" id="gBN-H4-isu"/>
                 <outlet property="marqueeLabel" destination="P4j-dl-9NT" id="3D5-gn-ZMb"/>

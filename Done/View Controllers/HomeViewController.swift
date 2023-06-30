@@ -14,6 +14,7 @@ import KRProgressHUD
 class HomeViewController: UIViewController {
     private var lastContentOffset: CGFloat = 0
     var assignCommission = ""
+    var idFromDone = false
     var stillworkingCommission = ""
     var doneCommission = ""
     var repeatStarted = false
@@ -103,6 +104,7 @@ class HomeViewController: UIViewController {
     
     @IBAction func assignedBtnAct() {
         observers()
+        idFromDone = false
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
@@ -115,6 +117,7 @@ class HomeViewController: UIViewController {
     
     @IBAction func stillBtnAct() {
         observers()
+        idFromDone = false
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
@@ -126,6 +129,7 @@ class HomeViewController: UIViewController {
     }
     @IBAction func doneBtnAct() {
         observers()
+        idFromDone = true
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
@@ -150,15 +154,15 @@ class HomeViewController: UIViewController {
             print(self.stillworkingCommission)
             print(self.stillworkingCommission)
             
-            let part1 = NSAttributedString(string: "Assigend by me $"  + self.assignCommission)
+            let part1 = NSAttributedString(string: "Assigend by me $"  + "\n" + self.assignCommission)
             self.assignBtn.setAttributedTitle(part1, for: .normal)
             self.assignBtn.titleLabel?.textAlignment = .center
             
-            let part2 = NSAttributedString(string: "Still working $" +  self.stillworkingCommission)
+            let part2 = NSAttributedString(string: "Still working $" + "\n" +  self.stillworkingCommission)
             self.stillBtn.setAttributedTitle(part2, for: .normal)
             self.stillBtn.titleLabel?.textAlignment = .center
             
-            let part3 = NSAttributedString(string: "Done $" + self.doneCommission)
+            let part3 = NSAttributedString(string: "Done $" + "\n" + self.doneCommission)
             self.donecBtn.setAttributedTitle(part3, for: .normal)
             self.donecBtn.titleLabel?.textAlignment = .center
             
@@ -268,7 +272,14 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
                 //            player.pause()
             }
         }
-        
+        if idFromDone == true
+        {
+            Reelcell.dontBtnWidth.constant = 90
+        }
+        else
+        {
+            Reelcell.dontBtnWidth.constant = 0
+        }
         if userID == self.reelsModelArray[indexPath.row].createdBy
         {
             Reelcell.editBtn.isHidden = false

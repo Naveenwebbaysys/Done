@@ -109,6 +109,23 @@ class ProfileViewController: UIViewController {
                 self.assignCommission = (commissionResponse?.data?.assignedByCommission?.commission ?? "") + "(" + (commissionResponse?.data?.assignedByCommission?.commissionCount ?? "") + ")"
                 self.stillworkingCommission = (commissionResponse?.data?.stillWorkingCommission?.commission ?? "") + "(" + (commissionResponse?.data?.stillWorkingCommission?.commissionCount ?? "") + ")"
                 self.doneCommission =  (commissionResponse?.data?.doneCommission?.commission ?? "") + "(" + (commissionResponse?.data?.doneCommission?.commissionCount ?? "") + ")"
+                
+                print(self.assignCommission)
+                print(self.stillworkingCommission)
+                print(self.stillworkingCommission)
+                let part1 = NSAttributedString(string: "Assigend by me $" + "\n" + self.assignCommission)
+                self.assignBtn.setAttributedTitle(part1, for: .normal)
+                self.assignBtn.titleLabel?.textAlignment = .center
+                
+                let part2 = NSAttributedString(string: "Still working $" + "\n" +  self.stillworkingCommission)
+                self.stillBtn.setAttributedTitle(part2, for: .normal)
+                self.stillBtn.titleLabel?.textAlignment = .center
+                
+                let part3 = NSAttributedString(string: "Done $" + "\n" + self.doneCommission)
+                self.donecBtn.setAttributedTitle(part3, for: .normal)
+                self.donecBtn.titleLabel?.textAlignment = .center
+                
+                
             }
             
         } failure: { error in
@@ -121,7 +138,7 @@ class ProfileViewController: UIViewController {
         APIModel.getRequest(strURL: BASEURL + GETREELSURL + withType , postHeaders: headers as NSDictionary) { _result in
             let getReelsResponseModel = try? JSONDecoder().decode(GetReelsResponseModel.self, from: _result as! Data)
             print(getReelsResponseModel?.data as Any)
-            if getReelsResponseModel?.data?.posts?.count != 0
+            if getReelsResponseModel?.data != nil
             {
                 self.reelsModelArray = (getReelsResponseModel?.data?.posts)!
             }
