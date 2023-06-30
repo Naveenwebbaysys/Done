@@ -64,7 +64,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3J3-AL-Wi8">
-                                <rect key="frame" x="42" y="45" width="223" height="35"/>
+                                <rect key="frame" x="45" y="45" width="220" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="35" id="VBu-ew-xRn"/>
                                 </constraints>
@@ -72,8 +72,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_dummy_user_pic" translatesAutoresizingMaskIntoConstraints="NO" id="4O5-kJ-Rny">
-                                <rect key="frame" x="7" y="45" width="30" height="30"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="4O5-kJ-Rny">
+                                <rect key="frame" x="10" y="45" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="rQS-Xx-Zjt"/>
                                     <constraint firstAttribute="height" constant="30" id="tYr-Fb-qri"/>
@@ -142,17 +142,17 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3QU-MY-EWI">
-                                <rect key="frame" x="1" y="45" width="5" height="5"/>
+                                <rect key="frame" x="1" y="45" width="8" height="8"/>
                                 <color key="backgroundColor" systemColor="systemIndigoColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="5" id="2KR-za-MDR"/>
-                                    <constraint firstAttribute="width" constant="5" id="aic-Yz-trn"/>
+                                    <constraint firstAttribute="height" constant="8" id="2KR-za-MDR"/>
+                                    <constraint firstAttribute="width" constant="8" id="aic-Yz-trn"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title=" "/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="2.5"/>
+                                        <real key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </button>
@@ -247,8 +247,8 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="app_Icon" width="345.5" height="77"/>
         <image name="comments_icon" width="35.5" height="30.5"/>
-        <image name="home_dummy_user_pic" width="45" height="45"/>
         <namedColor name="App_color">
             <color red="0.59600001573562622" green="0.76899999380111694" blue="0.33300000429153442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

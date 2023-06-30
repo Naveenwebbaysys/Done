@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,12 +24,78 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vYg-eU-YSr">
                                 <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                             </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ePo-dq-Aaj">
+                                <rect key="frame" x="85" y="130.66666666666666" width="15" height="14"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="15" id="h0w-tb-kBK"/>
+                                    <constraint firstAttribute="height" constant="14" id="xEM-PN-JxV"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phD-TV-Xki">
+                                <rect key="frame" x="62" y="130" width="18" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="18" id="co8-Yd-bfz"/>
+                                    <constraint firstAttribute="height" constant="15" id="d8c-3N-UDc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_dollor" translatesAutoresizingMaskIntoConstraints="NO" id="efL-wA-gfE">
+                                <rect key="frame" x="2" y="130" width="15" height="15"/>
+                                <color key="tintColor" name="App_color"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="15" id="P72-pT-kF9"/>
+                                    <constraint firstAttribute="height" constant="15" id="z7z-Tg-8Zy"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NKK-AE-PVW">
+                                <rect key="frame" x="19" y="130" width="18" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="OG5-YK-SOE"/>
+                                    <constraint firstAttribute="width" constant="18" id="bhY-ae-ewF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="comments_icon" translatesAutoresizingMaskIntoConstraints="NO" id="6Ur-ua-ZTG">
+                                <rect key="frame" x="42" y="130" width="15" height="15"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="27A-B8-rcy"/>
+                                    <constraint firstAttribute="width" constant="15" id="QAu-L7-PCu"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mb6-2m-1p2">
+                                <rect key="frame" x="104" y="130" width="18" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="18" id="ubU-1w-xnm"/>
+                                    <constraint firstAttribute="height" constant="15" id="zgP-0B-8T8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="vYg-eU-YSr" secondAttribute="bottom" id="4f3-mF-Ue3"/>
+                            <constraint firstItem="phD-TV-Xki" firstAttribute="centerY" secondItem="6Ur-ua-ZTG" secondAttribute="centerY" id="61e-Cn-WrN"/>
                             <constraint firstItem="vYg-eU-YSr" firstAttribute="top" secondItem="oN1-Yf-ABI" secondAttribute="top" id="CAW-P8-72v"/>
                             <constraint firstItem="vYg-eU-YSr" firstAttribute="leading" secondItem="oN1-Yf-ABI" secondAttribute="leading" id="DxA-SN-Puf"/>
+                            <constraint firstItem="phD-TV-Xki" firstAttribute="leading" secondItem="6Ur-ua-ZTG" secondAttribute="trailing" constant="5" id="EbG-rA-VLk"/>
+                            <constraint firstItem="NKK-AE-PVW" firstAttribute="leading" secondItem="efL-wA-gfE" secondAttribute="trailing" constant="2" id="JIa-Ko-vuz"/>
+                            <constraint firstAttribute="bottom" secondItem="efL-wA-gfE" secondAttribute="bottom" constant="5" id="PIb-hS-pE6"/>
+                            <constraint firstItem="mb6-2m-1p2" firstAttribute="leading" secondItem="ePo-dq-Aaj" secondAttribute="trailing" constant="4" id="PZS-XX-MpX"/>
+                            <constraint firstItem="ePo-dq-Aaj" firstAttribute="leading" secondItem="phD-TV-Xki" secondAttribute="trailing" constant="5" id="R3l-5G-EKK"/>
+                            <constraint firstItem="6Ur-ua-ZTG" firstAttribute="centerY" secondItem="NKK-AE-PVW" secondAttribute="centerY" id="Zm4-3d-Z2d"/>
                             <constraint firstAttribute="trailing" secondItem="vYg-eU-YSr" secondAttribute="trailing" id="efO-2r-RER"/>
+                            <constraint firstItem="6Ur-ua-ZTG" firstAttribute="leading" secondItem="NKK-AE-PVW" secondAttribute="trailing" constant="5" id="mIu-Of-uzQ"/>
+                            <constraint firstItem="ePo-dq-Aaj" firstAttribute="centerY" secondItem="phD-TV-Xki" secondAttribute="centerY" id="o96-ou-CuL"/>
+                            <constraint firstItem="NKK-AE-PVW" firstAttribute="centerY" secondItem="efL-wA-gfE" secondAttribute="centerY" id="tNl-By-XRe"/>
+                            <constraint firstItem="mb6-2m-1p2" firstAttribute="centerY" secondItem="ePo-dq-Aaj" secondAttribute="centerY" id="uex-8P-S6H"/>
+                            <constraint firstItem="efL-wA-gfE" firstAttribute="leading" secondItem="oN1-Yf-ABI" secondAttribute="leading" constant="2" id="wPb-sV-aKS"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -41,9 +108,20 @@
                 <constraint firstAttribute="trailing" secondItem="oN1-Yf-ABI" secondAttribute="trailing" id="yJB-9Y-FXs"/>
             </constraints>
             <connections>
+                <outlet property="amountLbl" destination="NKK-AE-PVW" id="TrN-7A-8xS"/>
+                <outlet property="assignCountLbl" destination="mb6-2m-1p2" id="8uA-aN-QeT"/>
+                <outlet property="commentCountLbl" destination="phD-TV-Xki" id="leb-yM-Vwz"/>
                 <outlet property="thumbNailImageVW" destination="vYg-eU-YSr" id="Tbu-E4-yFk"/>
             </connections>
-            <point key="canvasLocation" x="139" y="20"/>
+            <point key="canvasLocation" x="138.93129770992365" y="19.718309859154932"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="comments_icon" width="35.5" height="30.5"/>
+        <image name="ic_dollor" width="18" height="22"/>
+        <image name="profile_icon" width="25.5" height="27.5"/>
+        <namedColor name="App_color">
+            <color red="0.59600001573562622" green="0.76899999380111694" blue="0.33300000429153442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>
