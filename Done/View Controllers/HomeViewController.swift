@@ -13,6 +13,7 @@ import KRProgressHUD
 
 class HomeViewController: UIViewController {
     private var lastContentOffset: CGFloat = 0
+    var menuIndex = 0
     var assignCommission = ""
     var idFromDone = false
     var stillworkingCommission = ""
@@ -70,7 +71,16 @@ class HomeViewController: UIViewController {
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
-        stType = "assigned_by_me"
+        
+        if menuIndex == 0{
+            stType = "assigned_by_me"
+        }
+        else if menuIndex == 1{
+            stType = "still_working"
+        }
+        else if menuIndex == 2{
+            stType = "done_success"
+        }
         self.getpostAPICall(withType: stType, page: currentPage)
         self.activityIndicator.stopAnimating()
         userID = UserDefaults.standard.value(forKey: UserDetails.userId) as! String
@@ -96,6 +106,8 @@ class HomeViewController: UIViewController {
         if repeatStarted == true {
             NotificationCenter.default.removeObserver(self)
         }
+        
+        UserDefaults.standard.set(menuIndex, forKey: "menuIndex")
     }
     
     @IBAction func backBtnAction(){
@@ -104,6 +116,7 @@ class HomeViewController: UIViewController {
     
     @IBAction func assignedBtnAct() {
         observers()
+        menuIndex = 0
         idFromDone = false
         self.reelsModelArray.removeAll()
         isLastPage = false
@@ -117,6 +130,7 @@ class HomeViewController: UIViewController {
     
     @IBAction func stillBtnAct() {
         observers()
+        menuIndex = 1
         idFromDone = false
         self.reelsModelArray.removeAll()
         isLastPage = false
@@ -129,6 +143,7 @@ class HomeViewController: UIViewController {
     }
     @IBAction func doneBtnAct() {
         observers()
+        menuIndex = 2
         idFromDone = true
         self.reelsModelArray.removeAll()
         isLastPage = false
@@ -265,20 +280,18 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
             if firstTimeLoading == true
             {
                 Reelcell.avPlayer?.play()
-                //            player.play()
             }
             else{
                 Reelcell.avPlayer?.pause()
-                //            player.pause()
             }
         }
         if idFromDone == true
         {
-            Reelcell.dontBtnWidth.constant = 90
+            Reelcell.dontBtnWidth.constant = 0
         }
         else
         {
-            Reelcell.dontBtnWidth.constant = 0
+            Reelcell.dontBtnWidth.constant = 100
         }
         if userID == self.reelsModelArray[indexPath.row].createdBy
         {

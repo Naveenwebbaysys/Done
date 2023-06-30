@@ -155,7 +155,7 @@ class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDeleg
                     print("Video compressed successfully. Compressed video URL: \(compressedURL)")
 //                    UISaveVideoAtPathToSavedPhotosAlbum(compressedURL.path,nil,nil, nil)
 //                    UserDefaults.standard.set(url, forKey: "originalVideo")
-//                    UserDefaults.standard.set(compressedURL.path, forKey: "compressedVideoPath")
+                    UserDefaults.standard.set(compressedURL.path, forKey: "compressedVideoPath")
                     print(compressedURL.path)
                     guard let compressedData = NSData(contentsOf: compressedURL) else {
                         return
