@@ -925,3 +925,17 @@ extension URL {
         return urlComponents.url
     }
 }
+
+func count (expDate : String) -> Int {
+    print(expDate)
+    let dateFormatter1 = DateFormatter()
+    let dateFormatter2 = DateFormatter()
+    dateFormatter1.dateFormat = "MMM d, yyyy"
+    dateFormatter2.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+    let today = dateFormatter2.string(from: Date())
+    let formatedStartDate1 = dateFormatter2.date(from: today)
+    let formatedStartDate2 = dateFormatter1.date(from: expDate)
+    let diffInDays = Calendar.current.dateComponents([.day], from: formatedStartDate1!, to: formatedStartDate2!).day
+    print(diffInDays!)
+    return diffInDays! + 1
+}

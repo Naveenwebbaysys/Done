@@ -50,7 +50,7 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     @IBOutlet weak var  amountTF : UITextField!
     @IBOutlet weak var  linksTF : UITextField!
     @IBOutlet weak var  tagPeopleLbl : UILabel!
-    
+    @IBOutlet weak var  linksTW : UITableView!
     
     var reelsModelArray = [Post]()
     var index = 0
@@ -66,9 +66,9 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         restrictLbl.text = "Everyone"
         
         print(isFromEdit)
-        
+        self.linksTW.frame = CGRect(x: 5, y: linksTF.frame.maxY + 10, width: linksTF.frame.width, height: 200)
+        linksTW.borderColor = .clear
         if isFromEdit == true {
-            
             descriptionTV.text = self.reelsModelArray[index].notes ?? ""
             descriptionTV.textColor = .black
             amountTF.text = self.reelsModelArray[index].commissionAmount ?? ""
@@ -153,10 +153,7 @@ extension PostViewController {
             commAmount =  amountTF.text ?? ""
             commType = commissionTypeLbl.text ?? ""
             restType = restrictLbl.text ?? ""
-//            print(descText)
-//            print(commAmount)
-//            print(commType)
-//            print(restType)
+
             let postparams = PostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: addLinks1, tags: [], videoRestriction: restType, description: descText, assignedDate: todaysDate, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate)
             let jsonData = try! JSONEncoder().encode(postparams)
             let params11 = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]

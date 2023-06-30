@@ -166,36 +166,53 @@ extension ProfileViewController {
 extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         return self.reelsModelArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let item = collectionView.dequeueReusableCell(withReuseIdentifier: "AulbumCollectionViewCell", for: indexPath) as! AulbumCollectionViewCell
-        
         let videoUrl = URL(string: self.reelsModelArray[indexPath.row].videoURL!)
-        //        self.getThumbnailImageFromVideoUrl(url: videoUrl!) { (thumbNailImage) in
-        //            item.thumbNailImageVW.image = thumbNailImage
-        //        }
-        
         item.thumbNailImageVW.image = getVideoThumbnail(url: videoUrl!)
+        item.amountLbl.text = self.reelsModelArray[indexPath.row].commissionAmount ?? ""
+        
+        if userID == self.reelsModelArray[indexPath.row].createdBy
+        {
+            item.commentCountLbl.text = self.reelsModelArray[indexPath.row].totalcommentscount
+        }
+        else
+        {
+            if self.reelsModelArray[indexPath.row].tagPeoples?[0].comments?.isEmpty == true {
+                item.commentCountLbl.text = "0"
+            }
+            else
+            {
+                item.commentCountLbl.text = self.reelsModelArray[indexPath.row].tagPeoples?[0].comments?[0].comment
+            }
+        }
+        
+        item.assignCountLbl.text = "\(self.reelsModelArray[indexPath.row].tagPeoples?.count ?? 0)"
+        
         return item
     }
+    
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         /// 2
         return UIEdgeInsets(top: 1.0, left: 5.0, bottom: 1.0, right: 5.0)
     }
     
-    /// 3
-    func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        /// 4
+    func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         let lay = collectionViewLayout as! UICollectionViewFlowLayout
-        /// 5
         let widthPerItem = collectionView.frame.width / 3 - lay.minimumInteritemSpacing
-        /// 6
         return CGSize(width: widthPerItem - 5, height: 120)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let viewVidepVC = storyboard?.instantiateViewController(withIdentifier: "PlayVideoViewController") as! PlayVideoViewController
+        viewVidepVC.reelModelArray.removeAll()
+        viewVidepVC.reelModelArray.append(self.reelsModelArray[indexPath.row])
+        self.navigationController?.pushViewController(viewVidepVC, animated: true)
     }
     
 }
@@ -244,8 +261,8 @@ extension ProfileViewController {
             }
         }
     }
-
-
+    
+    
     
     
 }

@@ -194,7 +194,7 @@ class ServiceController: NSObject {
         task.resume()
     }
 
-    func getRequestWithQuiry(strURL:String,params : [String:String], postHeaders:NSDictionary,success:@escaping(_ result:Any)->Void,failure:@escaping(_ error:String) -> Void) {
+    func patchRequestWithQuiry(strURL:String,params : [String:String], postHeaders:NSDictionary,success:@escaping(_ result:Any)->Void,failure:@escaping(_ error:String) -> Void) {
         if isConnectedToNetwork() == false {
             print("Please Check Internet")
             
@@ -217,7 +217,7 @@ class ServiceController: NSObject {
         request.addValue(content_type, forHTTPHeaderField: "Content-Type")
         request.addValue(content_type, forHTTPHeaderField: "Accept")
         
-        request.httpMethod = "GET"
+        request.httpMethod = "PATCH"
         if postHeaders["Authorization"] != nil  {
         }
         if let authToken = UserDefaults.standard.string(forKey: k_token) {
@@ -290,6 +290,7 @@ class ServiceController: NSObject {
         }
         task.resume()
     }
+    
     func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
         zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
