@@ -16,10 +16,12 @@ protocol delegateImageAndVideoComment{
 }
 
 
-class ImageAndVideoCommentViewController: UIViewController {
+class ImageAndVideoCommentViewController: UIViewController, UITextViewDelegate {
     
     //MARK: - Outlet
-    @IBOutlet weak var txtComment: UITextField!
+//    @IBOutlet weak var txtComment: UITextField!
+    @IBOutlet weak var commentTV: UITextView!
+    @IBOutlet weak var constraintTxtCommentHeight: NSLayoutConstraint!
     @IBOutlet weak var imageviewSelectedImage: UIImageView!
     @IBOutlet weak var viewBackBG: UIView!
     @IBOutlet weak var constraintTxtCommentBottom: NSLayoutConstraint!
@@ -38,10 +40,10 @@ class ImageAndVideoCommentViewController: UIViewController {
         super.viewDidLoad()
         CommentsVM.shared.controller = self
         self.imageviewSelectedImage.image = selectedImage ?? UIImage()
-        txtComment.layer.cornerRadius = txtComment.bounds.height / 2
-        let paddingView: UIView = UIView(frame: CGRect(x: 5, y: 5, width: 5, height: 20))
-        txtComment.leftView = paddingView
-        txtComment.leftViewMode = .always
+//        txtComment.layer.cornerRadius = txtComment.bounds.height / 2
+//        let paddingView: UIView = UIView(frame: CGRect(x: 5, y: 5, width: 5, height: 20))
+//        txtComment.leftView = paddingView
+//        txtComment.leftViewMode = .always
         viewBackBG.layer.cornerRadius = viewBackBG.bounds.height / 2
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -55,7 +57,6 @@ class ImageAndVideoCommentViewController: UIViewController {
             player = AVPlayer()
             let playerLayer = AVPlayerLayer(player: player)
             playerLayer.frame = self.view.bounds
-//            playerLayer.videoGravity = .resizeAspectFill
             viewVideo.layer.addSublayer(playerLayer)
             
         
@@ -70,6 +71,9 @@ class ImageAndVideoCommentViewController: UIViewController {
             }
         }
        
+        commentTV.backgroundColor = .clear
+        commentTV.text = "Comment..."
+        commentTV.textColor = UIColor.lightGray
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -79,6 +83,9 @@ class ImageAndVideoCommentViewController: UIViewController {
             self.player?.pause()
             player = nil
         }
+        
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
     
@@ -91,7 +98,7 @@ class ImageAndVideoCommentViewController: UIViewController {
                 let window = UIApplication.shared.windows.first
                 bottomPadding = window?.safeAreaInsets.bottom ?? 0
             }
-            constraintTxtCommentBottom.constant = bottomPadding
+            constraintTxtCommentBottom.constant = keyboardHeight - bottomPadding
             self.view.layoutIfNeeded()
         }
     }
@@ -109,11 +116,11 @@ class ImageAndVideoCommentViewController: UIViewController {
             player = nil
         }
         if selectedVideoURL != nil{
-            self.delegate?.delegate_VideoUploadComment(selectedUrl: self.selectedVideoURL!, stDesc: txtComment.text!)
-            CommentsVM.shared.uploadVideo(fileVideo: selectedVideoURL!,selectedPeople: postPeopleSelected!,postID: postid,stComment: txtComment.text!)
+            self.delegate?.delegate_VideoUploadComment(selectedUrl: self.selectedVideoURL!, stDesc: commentTV.text == "Comment..." ? "" : commentTV.text!)
+            CommentsVM.shared.uploadVideo(fileVideo: selectedVideoURL!,selectedPeople: postPeopleSelected!,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!)
         }else{
-            self.delegate?.delegate_ImageUploadComment(selectedImage: self.selectedImage ?? UIImage(), stDesc: txtComment.text!)
-            CommentsVM.shared.uploadImage(UploadImage: selectedImage ?? UIImage(),selectedPeople: postPeopleSelected!,postID: postid,stComment: txtComment.text!)
+            self.delegate?.delegate_ImageUploadComment(selectedImage: self.selectedImage ?? UIImage(), stDesc: commentTV.text == "Comment..." ? "" : commentTV.text!)
+            CommentsVM.shared.uploadImage(UploadImage: selectedImage ?? UIImage(),selectedPeople: postPeopleSelected!,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!)
         }
         self.navigationController?.popViewController(animated: true)
     }
@@ -126,4 +133,32 @@ class ImageAndVideoCommentViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if let oldString = textView.text {
+            let newString = oldString.replacingCharacters(in: Range(range, in: oldString)!,with: text)
+            if !newString.isEmpty{
+                constraintTxtCommentHeight.constant = self.commentTV.contentSize.height > 40 ? 55 : 40
+            }else{
+                self.constraintTxtCommentHeight.constant = 40
+            }
+        }else{
+            self.constraintTxtCommentHeight.constant = 40
+        }
+       
+        return true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Comment..."
+            textView.textColor = UIColor.lightGray
+        }
+    }
 }

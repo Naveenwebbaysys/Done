@@ -10,12 +10,15 @@ import IQKeyboardManagerSwift
 import SDWebImage
 import AVFoundation
 import AVKit
-class CommentsViewController: UIViewController {
+
+class CommentsViewController: UIViewController, UITextViewDelegate {
     
-    @IBOutlet weak var commentTF : UITextField!
+//    @IBOutlet weak var commentTF : UITextField!
     @IBOutlet weak var commentTB : UITableView!
     @IBOutlet weak var descLbl : UILabel!
     @IBOutlet weak var constraintTxtCommentBottom: NSLayoutConstraint!
+    @IBOutlet weak var commentTV: UITextView!
+    @IBOutlet weak var constraintTxtCommentHeight: NSLayoutConstraint!
     
     var taskCreatedby = ""
     var postid = ""
@@ -38,22 +41,7 @@ class CommentsViewController: UIViewController {
         self.commentTB.dataSource = self
         
         self.descLbl.text = desc
-        let paddingView: UIView = UIView(frame: CGRect(x: 5, y: 5, width: 5, height: 20))
-        commentTF.leftView = paddingView
-        commentTF.leftViewMode = .always
-        //        self.updateTableContentInset()
-        
-        //        self.commentTB.transform = CGAffineTransform(scaleX: 1, y: -1)
-        
-        //        commentTF.rightView = btnColor
-        commentTF.rightViewMode = .unlessEditing
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "camera_roll_icon"), for: .normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -16, bottom: 0, right: 0)
-        button.frame = CGRect(x: CGFloat(commentTF.frame.size.width - 25), y: CGFloat(5), width: CGFloat(25), height: CGFloat(25))
-        button.addTarget(self, action: #selector(self.cameraClick), for: .touchUpInside)
-        commentTF.rightView = button
-        commentTF.rightViewMode = .always
+
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -69,18 +57,24 @@ class CommentsViewController: UIViewController {
         if let name = UserDefaults.standard.value(forKey: UserDetails.userName){
             createdBy = name as! String
         }
+        
+        commentTV.backgroundColor = .clear
+        commentTV.text = "Comment..."
+        commentTV.textColor = UIColor.lightGray
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
         //        IQKeyboardManager.shared.enable = false
-        readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
+        //        readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
         
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         
         IQKeyboardManager.shared.enable = true
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     // Remove observers in deinit
@@ -108,7 +102,7 @@ class CommentsViewController: UIViewController {
         self.view.layoutIfNeeded()
     }
     
-    @IBAction func cameraClick(_ sender: Any) {
+    @IBAction func cameraClick(_ sender: UIButton) {
         print("Camera click")
         
         let alertView = UIAlertController(title: "Please choose one", message: nil, preferredStyle: .actionSheet)
@@ -117,6 +111,8 @@ class CommentsViewController: UIViewController {
             picker.sourceType = .camera
             picker.mediaTypes = ["public.image","public.movie"]
             picker.delegate = self
+            picker.videoMaximumDuration = TimeInterval(30.0)
+            picker.allowsEditing = false
             self.present(picker, animated: true)
         }
         let photoLibraryAction: UIAlertAction = UIAlertAction(title: "Photo Library", style: .default) { action -> Void in
@@ -124,6 +120,8 @@ class CommentsViewController: UIViewController {
             picker.sourceType = .photoLibrary
             picker.mediaTypes = ["public.image","public.movie"]
             picker.delegate = self
+            picker.videoMaximumDuration = TimeInterval(30.0)
+            picker.allowsEditing = false
             self.present(picker, animated: true)
         }
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
@@ -146,7 +144,9 @@ class CommentsViewController: UIViewController {
                 self.commentsArray = (commentsResponse?.data)!
                 DispatchQueue.main.async {
                     self.commentTB.reloadData()
+                    self.tableviewBottomScroll()
                 }
+                
             }
             else
             {
@@ -196,14 +196,52 @@ class CommentsViewController: UIViewController {
             let stComment = data.comment ?? ""
             let arrComment = stComment.components(separatedBy: "--")
             if !arrComment.isEmpty{
-                let videoUrl = URL(string: arrComment[0])
-                let player = AVPlayer(url: videoUrl!)
-                let playerViewController = AVPlayerViewController()
-                playerViewController.player = player
-                self.present(playerViewController, animated: true) {
-                    playerViewController.player!.play()
+                let VC = self.storyboard?.instantiateViewController(identifier: "VideoPerviewViewController") as! VideoPerviewViewController
+                print(arrComment[0])
+                VC.selectedVideoURL = arrComment[0]
+                if arrComment.count > 1{
+                    VC.selectedVideoComment = arrComment[1]
                 }
+                VC.modalPresentationStyle = .fullScreen
+                self.present(VC, animated: true)
             }
+        }
+    }
+    
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if let oldString = textView.text {
+            let newString = oldString.replacingCharacters(in: Range(range, in: oldString)!,with: text)
+            if !newString.isEmpty{
+                constraintTxtCommentHeight.constant = self.commentTV.contentSize.height > 40 ? 55 : 40
+            }else{
+                self.constraintTxtCommentHeight.constant = 40
+            }
+        }else{
+            self.constraintTxtCommentHeight.constant = 40
+        }
+       
+        return true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Comment..."
+            textView.textColor = UIColor.lightGray
+        }
+    }
+    
+    func tableviewBottomScroll(){
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: self.commentsArray.count-1, section: 0)
+            self.commentTB.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
 }
@@ -292,7 +330,7 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
             let arrComment = stComment.components(separatedBy: "--")
             if !arrComment.isEmpty{
                 cell.viewComment.isHidden = true
-               
+                
                 DispatchQueue.main.async {
                     if (data.isLocalStore ?? false){
                         let videoUrl = URL(fileURLWithPath: arrComment[0])
@@ -327,10 +365,11 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
             //            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
             cell.btnVideoPlay.isHidden = true
-
+            
             if (data.isLocalStore ?? false){
                 cell.commentImage.image = postCommentImage ?? UIImage()
                 if !(data.comment ?? "").isEmpty{
+                    cell.viewComment.isHidden = false
                     cell.lblComment.text = data.comment ?? ""
                 }
             }else{
@@ -342,7 +381,7 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
                         if error == nil{
                             cell.commentImage.image = imge
                         }else{
-    //                        cell.commentImage.image = UIImage(named: "ic_placeholder_neutral")
+                            //                        cell.commentImage.image = UIImage(named: "ic_placeholder_neutral")
                         }
                     }
                     
@@ -387,6 +426,9 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
                 if !arrComment.isEmpty{
                     VC.selectedImageUrl = arrComment[0]
                 }
+                if arrComment.count > 1{
+                    VC.selectedImageComment = arrComment[1]
+                }
             }
             VC.modalPresentationStyle = .fullScreen
             self.present(VC, animated: true)
@@ -405,10 +447,10 @@ extension CommentsViewController {
     @IBAction func sendCommentBtnAction()
     {
         print(self.commentsArray.count)
-        if commentTF.text != ""
+        if commentTV.text != "Comment..."
         {
             //            self.commentTF.resignFirstResponder()
-            let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTF.text, commenttype: "text", assigneeid: "38944")
+            let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text, commenttype: "text", assigneeid: "38944")
             DispatchQueue.global(qos: .background).async {
                 print("This is run on the background queue")
                 APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
@@ -420,11 +462,11 @@ extension CommentsViewController {
                     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
                     let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
                     let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
-                    let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTF.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "text",isLocalStore: true)
+                    let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTV.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "text",isLocalStore: true)
                     self.commentsArray.append(newcomment)
-//                    print(self.commentsArray.count)
+                    //                    print(self.commentsArray.count)
                     self.commentTB.reloadData()
-                    self.commentTF.text = ""
+                    self.commentTV.text = ""
                     
                 } failureHandler: { error in
                     print(error)
@@ -493,6 +535,7 @@ extension CommentsViewController:delegateImageAndVideoComment{
         let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: stComment, employeeID: self.empID, createdBy: self.createdBy, commenttype: "video",isLocalStore: true)
         self.commentsArray.append(newcomment)
         self.commentTB.reloadData()
+        self.tableviewBottomScroll()
     }
     
     
@@ -500,6 +543,11 @@ extension CommentsViewController:delegateImageAndVideoComment{
         self.postCommentImage = selectedImage
         let destinationTime = TimeZone(identifier: "America/Los_Angeles")!
         // 2023-06-13 14:21:33
+        //        var stComment = ""
+        //        if !stDesc.isEmpty{
+        //            stComment = "test--\(stDesc)"
+        //        }
+        
         let format = "yyyy-MM-dd HH:mm:ss"
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
@@ -508,9 +556,10 @@ extension CommentsViewController:delegateImageAndVideoComment{
         let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: stDesc, employeeID: self.empID, createdBy: self.createdBy, commenttype: "image",isLocalStore: true)
         self.commentsArray.append(newcomment)
         self.commentTB.reloadData()
+        self.tableviewBottomScroll()
     }
     
-
+    
     func readMsgAPICall(task: String, empid: String, assignID : String)
     {
         let queryItems = ["task_created_by" : task,
@@ -522,5 +571,5 @@ extension CommentsViewController:delegateImageAndVideoComment{
         } failure: { error in
         }
     }
-
+    
 }

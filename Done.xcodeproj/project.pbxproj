@@ -56,6 +56,7 @@
 		1B7661802A4B259600F63D0A /* ImageAndVideoCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B76617F2A4B259600F63D0A /* ImageAndVideoCommentViewController.swift */; };
 		1B7661832A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7661812A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift */; };
 		1B7661842A4B2B4500F63D0A /* ImageCommentsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B7661822A4B2B4500F63D0A /* ImageCommentsTableViewCell.xib */; };
+		1B943BAC2A4E87C2008BAE1B /* VideoPerviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B943BAB2A4E87C2008BAE1B /* VideoPerviewViewController.swift */; };
 		1BFECB0D2A4C42D900823B86 /* CommentsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFECB0C2A4C42D900823B86 /* CommentsVM.swift */; };
 		BC4468A2FA2767193086B64B /* Pods_Done.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D80175AE176548C1C11A743 /* Pods_Done.framework */; };
 /* End PBXBuildFile section */
@@ -114,6 +115,7 @@
 		1B76617F2A4B259600F63D0A /* ImageAndVideoCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAndVideoCommentViewController.swift; sourceTree = "<group>"; };
 		1B7661812A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCommentsTableViewCell.swift; sourceTree = "<group>"; };
 		1B7661822A4B2B4500F63D0A /* ImageCommentsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCommentsTableViewCell.xib; sourceTree = "<group>"; };
+		1B943BAB2A4E87C2008BAE1B /* VideoPerviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPerviewViewController.swift; sourceTree = "<group>"; };
 		1BFECB0C2A4C42D900823B86 /* CommentsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsVM.swift; sourceTree = "<group>"; };
 		8E2DD0B327BFD46A42DEEAF3 /* Pods-Done.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Done.release.xcconfig"; path = "Target Support Files/Pods-Done/Pods-Done.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -228,6 +230,7 @@
 				048EB3A32A29B7A0004BE939 /* PostVideoViewController.swift */,
 				1B76617F2A4B259600F63D0A /* ImageAndVideoCommentViewController.swift */,
 				1B6F459C2A4DADE10086A429 /* ImageviewPreviewViewController.swift */,
+				1B943BAB2A4E87C2008BAE1B /* VideoPerviewViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -442,6 +445,7 @@
 				1B6F459D2A4DADE10086A429 /* ImageviewPreviewViewController.swift in Sources */,
 				041F66FA2A4C723F009C6AB4 /* UpdateDoneModel.swift in Sources */,
 				0497D0F22A31FEC300B4A185 /* ProfileModel.swift in Sources */,
+				1B943BAC2A4E87C2008BAE1B /* VideoPerviewViewController.swift in Sources */,
 				04D3C2CE2A333E5900A5D460 /* ProfileViewController.swift in Sources */,
 				045C35742A2087E2007968C9 /* HomeViewController.swift in Sources */,
 				045C35582A206E70007968C9 /* SceneDelegate.swift in Sources */,

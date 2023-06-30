@@ -12,14 +12,19 @@ class ImageviewPreviewViewController: UIViewController,UIScrollViewDelegate {
     //MARK: - Outlet
     @IBOutlet weak var imagevview: UIImageView!
     @IBOutlet weak var scrollviewImage: UIScrollView!
+    @IBOutlet weak var viewComment: UIView!
+    @IBOutlet weak var lblComment: UILabel!
+    
     
     //MARK: - Varibale
     var selectedImageUrl:String?
     var selectedImage:UIImage?
+    var selectedImageComment:String?
     
     //MARK: - UIView Controller Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewComment.isHidden = true
         imagevview.translatesAutoresizingMaskIntoConstraints = false
         imagevview.contentMode = .scaleAspectFit
         
@@ -28,8 +33,7 @@ class ImageviewPreviewViewController: UIViewController,UIScrollViewDelegate {
         scrollviewImage.showsHorizontalScrollIndicator = false
         scrollviewImage.showsVerticalScrollIndicator = false
         scrollviewImage.delegate = self
-        
-        
+      
         if selectedImage != nil{
             imagevview.image = selectedImage
         }else{
@@ -44,6 +48,11 @@ class ImageviewPreviewViewController: UIViewController,UIScrollViewDelegate {
         let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
         doubleTapRecognizer.numberOfTapsRequired = 2
         self.view.addGestureRecognizer(doubleTapRecognizer)
+        
+        if selectedImageComment != nil{
+            viewComment.isHidden = false
+            lblComment.text = selectedImageComment ?? ""
+        }
     }
     
     
