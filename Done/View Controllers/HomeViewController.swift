@@ -9,6 +9,7 @@ import UIKit
 import AVFoundation
 import AVKit
 import HMSegmentedControl
+import KRProgressHUD
 
 class HomeViewController: UIViewController {
     private var lastContentOffset: CGFloat = 0
@@ -27,6 +28,9 @@ class HomeViewController: UIViewController {
     var reelsModelArray = [Post]()
     var firstTimeLoading = true
     var currentlyPlayingCell: ReelsTableViewCell?
+    var currentPage:Int = 1
+    var isLastPage: Bool = false
+    var stType: String = "assigned_by_me"
     
     @IBOutlet weak var indvw : UIView!
     @IBOutlet weak var segmentVW : UIView!
@@ -65,8 +69,12 @@ class HomeViewController: UIViewController {
         self.noTaskLbl.isHidden = true
         self.firstTimeLoading = true
         self.navigationController?.isNavigationBarHidden = true
+        
         self.reelsModelArray.removeAll()
-        self.getpostAPICall(withType: "assigned_by_me")
+        isLastPage = false
+        currentPage = 1
+        stType = "assigned_by_me"
+        self.getpostAPICall(withType: stType, page: currentPage)
         self.activityIndicator.stopAnimating()
     }
     
@@ -94,7 +102,11 @@ class HomeViewController: UIViewController {
     
     @IBAction func assignedBtnAct() {
         observers()
-        self.getpostAPICall(withType: "assigned_by_me")
+        self.reelsModelArray.removeAll()
+        isLastPage = false
+        currentPage = 1
+        stType = "assigned_by_me"
+        self.getpostAPICall(withType: stType , page: currentPage)
         UIView.animate(withDuration: 0.5) {
             self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
         }
@@ -102,14 +114,22 @@ class HomeViewController: UIViewController {
     
     @IBAction func stillBtnAct() {
         observers()
-        self.getpostAPICall(withType: "still_working")
+        self.reelsModelArray.removeAll()
+        isLastPage = false
+        currentPage = 1
+        stType = "still_working"
+        self.getpostAPICall(withType: stType, page: currentPage)
         UIView.animate(withDuration: 0.5) {
             self.indvw.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
         }
     }
     @IBAction func doneBtnAct() {
         observers()
-        self.getpostAPICall(withType: "done_success")
+        self.reelsModelArray.removeAll()
+        isLastPage = false
+        currentPage = 1
+        stType = "done_success"
+        self.getpostAPICall(withType: stType, page: currentPage)
         UIView.animate(withDuration: 0.5) {
             self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
         }
@@ -149,15 +169,26 @@ class HomeViewController: UIViewController {
     }
     
     
-    func getpostAPICall(withType : String)
-    {
-        APIModel.getRequest(strURL: BASEURL + GETREELSURL + withType + "&sort_due_date=desc", postHeaders: headers as NSDictionary) { _result in
+    func getpostAPICall(withType : String,page:Int){
+        let url = BASEURL + GETREELSURL + withType + "&sort_due_date=desc" + "&page_no=\(page)"
+        print(url)
+        if page == 1{
+            KRProgressHUD.show()
+        }
+        APIModel.backGroundGetRequest(strURL: url, postHeaders: headers as NSDictionary) { _result in
+            if page == 1{
+                KRProgressHUD.dismiss()
+            }
             let getReelsResponseModel = try? JSONDecoder().decode(GetReelsResponseModel.self, from: _result as! Data)
             self.noTaskLbl.isHidden = true
             print(getReelsResponseModel?.data as Any)
             if getReelsResponseModel?.data?.posts?.isEmpty == false
             {
-                self.reelsModelArray = (getReelsResponseModel?.data?.posts)!
+//                self.reelsModelArray = (getReelsResponseModel?.data?.posts)!
+                for data in (getReelsResponseModel?.data?.posts ?? [Post]()){
+                    self.reelsModelArray.append(data)
+                }
+                self.isLastPage = (getReelsResponseModel?.data?.posts ?? [Post]()).count == 10 ? false : true
                 if let cell = self.tblInstaReels.visibleCells.first as? ReelsTableViewCell {
                     cell.reloadBtn.isHidden = true
                 }
@@ -170,6 +201,9 @@ class HomeViewController: UIViewController {
             }
             self.tblInstaReels.reloadData()
         } failure: { error in
+            if page == 1{
+                KRProgressHUD.dismiss()
+            }
             print(error)
         }
     }
@@ -254,6 +288,14 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
 
         NotificationCenter.default.addObserver(self, selector: #selector(restartPlayback), name: .AVPlayerItemDidPlayToEndTime, object: Reelcell.avPlayer?.currentItem)
         
+        if indexPath.row == self.reelsModelArray.count - 4{
+            if !isLastPage{
+                print("Coniddtion done.",indexPath.row)
+                currentPage += 1
+                self.getpostAPICall(withType: stType, page: currentPage)
+            }
+           
+        }
         return Reelcell
     }
     
@@ -349,7 +391,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
                 if currentHeight > (cellHeight * 0.95){
                     if visibleIP != indexPaths?[i]{
                         visibleIP = indexPaths?[i]
-                        print ("visible = \(String(describing: indexPaths?[i]))")
+//                        print ("visible = \(String(describing: indexPaths?[i]))")
                         if let videoCell = cells[i] as? ReelsTableViewCell{
                             self.playVideoOnTheCell(cell: videoCell, indexPath: (indexPaths?[i])!)
                         }
@@ -387,7 +429,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         let formatedStartDate1 = dateFormatter2.date(from: today)
         let formatedStartDate2 = dateFormatter1.date(from: expDate)
         let diffInDays = Calendar.current.dateComponents([.day], from: formatedStartDate1!, to: formatedStartDate2!).day
-        print(diffInDays!)
+//        print(diffInDays!)
         return diffInDays! + 1
     }
     

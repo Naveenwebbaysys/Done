@@ -107,7 +107,6 @@ class ServiceController: NSObject {
     }
     
     ///MARK:- Get Request
-    
     func getRequest(strURL:String,postHeaders:NSDictionary,success:@escaping(_ result:Any)->Void,failure:@escaping(_ error:String) -> Void) {
         if isConnectedToNetwork() == false {
             print("Please Check Internet")
@@ -151,6 +150,90 @@ class ServiceController: NSObject {
             DispatchQueue.main.async(){
                 print(response as Any)
                 KRProgressHUD.dismiss()
+                if response != nil {
+                    let statusCode = (response as! HTTPURLResponse).statusCode
+                    print("statusCode:\(statusCode)")
+                    if statusCode == 401 {
+                        print("failuer 1")
+                        failure("unAuthorized")
+                    }
+                    if statusCode == 500 {
+                        print("failuer 1")
+                        failure("unAuthorized")
+                    }
+                    if statusCode == 404 {
+                        print("failuer 1")
+                        failure("Enter Valid Credentials")
+                    }
+                    else if error != nil
+                    {
+                        print("failuer 1")
+                        //   failure(error! as NSError)
+                    }
+                    else
+                    {
+                        print(statusCode)
+                        do{
+                            print("success 1")
+                            let parsedData = try JSONSerialization.jsonObject(with: data!, options:.mutableContainers) as! [String:Any]
+                            print(parsedData)
+                            success(data! as NSData)
+                        }
+                        catch{
+                            print("error=\(error)")
+                            return
+                        }
+                    }
+                }
+                else{
+                    print(error as Any)
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func backGroundGetRequest(strURL:String,postHeaders:NSDictionary,success:@escaping(_ result:Any)->Void,failure:@escaping(_ error:String) -> Void) {
+        if isConnectedToNetwork() == false {
+            print("Please Check Internet")
+            
+            return
+        }
+        let fileUrl = NSURL(string: strURL)
+        let request = NSMutableURLRequest(url: fileUrl! as URL)
+        request.addValue(content_type, forHTTPHeaderField: "Content-Type")
+        request.addValue(content_type, forHTTPHeaderField: "Accept")
+        
+        request.httpMethod = "GET"
+        if postHeaders["Authorization"] != nil  {
+        }
+        if let authToken = UserDefaults.standard.string(forKey: k_token) {
+            request.setValue("Bearer" + " " + authToken,forHTTPHeaderField: "Authorization")
+        }
+        do {
+            //            let data = try! JSONSerialization.data(withJSONObject:postParams, options:.prettyPrinted)
+            //            let dataString = String(data: data, encoding: String.Encoding.utf8)!
+            let headerData = try! JSONSerialization.data(withJSONObject:postHeaders, options:.prettyPrinted)
+            let headerDataString = String(data: headerData, encoding: String.Encoding.utf8)!
+            
+            print("Request Url :\(strURL)")
+            print("Request Header Data :\(headerDataString)")
+            
+            // do other stuff on success
+        }
+        catch {
+            DispatchQueue.main.async(){
+                print("JSON serialization failed:  \(error)")
+            }
+        }
+        //        if let authToken = kUserDefaults.string(forKey: kAccess_token) {
+        //            if let tokenType = kUserDefaults.string(forKey: kTokenType) {
+        //                request.setValue(tokenType + " " + authToken,forHTTPHeaderField: "Authorization")
+        //            }
+        //        }
+        let task = URLSession.shared.dataTask(with:request as URLRequest){(data,response,error) in
+            DispatchQueue.main.async(){
+                print(response as Any)
                 if response != nil {
                     let statusCode = (response as! HTTPURLResponse).statusCode
                     print("statusCode:\(statusCode)")
