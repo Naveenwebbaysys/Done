@@ -28,7 +28,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     var createdBy = ""
     var commentsArray = [CommentsData]()
     var postPeopleSelected: PostStatus?
-    var postCommentImage: UIImage?
+//    var postCommentImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -241,8 +241,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     func tableviewBottomScroll(){
 //        DispatchQueue.main.async {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            let indexPath = IndexPath(row: self.commentsArray.count-1, section: 0)
-            self.commentTB.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            if !self.commentsArray.isEmpty{
+                let indexPath = IndexPath(row: self.commentsArray.count-1, section: 0)
+                self.commentTB.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
         }
 //        }
     }
@@ -425,7 +427,7 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
         if (data.commenttype ?? "" ) == "image"{
             let VC = self.storyboard?.instantiateViewController(identifier: "ImageviewPreviewViewController") as! ImageviewPreviewViewController
             if (data.isLocalStore ?? false){
-                VC.selectedImage = postCommentImage ?? UIImage()
+                VC.selectedData = data.isLocalImageData ?? Data()
             }else{
                 let stComment = self.commentsArray[indexPath.row].comment ?? ""
                 let arrComment = stComment.components(separatedBy: "--")

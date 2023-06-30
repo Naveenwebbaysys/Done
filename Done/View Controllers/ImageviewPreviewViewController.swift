@@ -18,7 +18,7 @@ class ImageviewPreviewViewController: UIViewController,UIScrollViewDelegate {
     
     //MARK: - Varibale
     var selectedImageUrl:String?
-    var selectedImage:UIImage?
+    var selectedData:Data?
     var selectedImageComment:String?
     
     //MARK: - UIView Controller Methods
@@ -34,8 +34,8 @@ class ImageviewPreviewViewController: UIViewController,UIScrollViewDelegate {
         scrollviewImage.showsVerticalScrollIndicator = false
         scrollviewImage.delegate = self
       
-        if selectedImage != nil{
-            imagevview.image = selectedImage
+        if selectedData != nil{
+            imagevview.image = UIImage(data: selectedData!)
         }else{
             imagevview.sd_setImage(with: URL.init(string: selectedImageUrl ?? ""), placeholderImage: nil, options: .highPriority) { (imge, error, cache, url) in
                 if error == nil{
