@@ -566,7 +566,7 @@ extension CommentsViewController:delegateImageAndVideoComment{
                           "employee_id" : empid,
                           "assignee_employee_id" : assignID]
         
-        APIModel.getRequestWithQuiry(strURL: "", params: queryItems, postHeaders: headers as NSDictionary) { jsonResult in
+        APIModel.patchRequestWithQuiry(strURL: "", params: queryItems, postHeaders: headers as NSDictionary) { jsonResult in
             print(jsonResult)
         } failure: { error in
         }
