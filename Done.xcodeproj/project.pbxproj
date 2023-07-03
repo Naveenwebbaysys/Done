@@ -15,6 +15,7 @@
 		041F66F72A4C700E009C6AB4 /* ViewStatusTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041F66F52A4C700E009C6AB4 /* ViewStatusTableViewCell.xib */; };
 		041F66F82A4C700E009C6AB4 /* ViewStatusTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041F66F62A4C700E009C6AB4 /* ViewStatusTableViewCell.swift */; };
 		041F66FA2A4C723F009C6AB4 /* UpdateDoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041F66F92A4C723F009C6AB4 /* UpdateDoneModel.swift */; };
+		043DFB8B2A52932F005BA06D /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DFB8A2A52932F005BA06D /* FiltersViewController.swift */; };
 		04400A952A2F0C890028CECE /* TagsResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04400A942A2F0C890028CECE /* TagsResponseModel.swift */; };
 		04400A982A2F11520028CECE /* TagUsersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04400A962A2F11520028CECE /* TagUsersTableViewCell.swift */; };
 		04400A992A2F11520028CECE /* TagUsersTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04400A972A2F11520028CECE /* TagUsersTableViewCell.xib */; };
@@ -74,6 +75,7 @@
 		041F66F52A4C700E009C6AB4 /* ViewStatusTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewStatusTableViewCell.xib; sourceTree = "<group>"; };
 		041F66F62A4C700E009C6AB4 /* ViewStatusTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewStatusTableViewCell.swift; sourceTree = "<group>"; };
 		041F66F92A4C723F009C6AB4 /* UpdateDoneModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateDoneModel.swift; sourceTree = "<group>"; };
+		043DFB8A2A52932F005BA06D /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		04400A942A2F0C890028CECE /* TagsResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsResponseModel.swift; sourceTree = "<group>"; };
 		04400A962A2F11520028CECE /* TagUsersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagUsersTableViewCell.swift; sourceTree = "<group>"; };
 		04400A972A2F11520028CECE /* TagUsersTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagUsersTableViewCell.xib; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				049764242A28D52700D577D0 /* VideoViewController.swift */,
 				0497D0F72A33029800B4A185 /* ViewStatusViewController.swift */,
 				04C142762A387A57005D1391 /* CommentsViewController.swift */,
+				043DFB8A2A52932F005BA06D /* FiltersViewController.swift */,
 				04D3C2CD2A333E5900A5D460 /* ProfileViewController.swift */,
 				0475B38B2A4E9FAA00D05BDD /* PlayVideoViewController.swift */,
 				04A8D47E2A3468CB00BC2628 /* TagsUsersViewController.swift */,
@@ -458,6 +461,7 @@
 				1B7661802A4B259600F63D0A /* ImageAndVideoCommentViewController.swift in Sources */,
 				041345CD2A27565300B6C553 /* CustomViewController.swift in Sources */,
 				1B6F459D2A4DADE10086A429 /* ImageviewPreviewViewController.swift in Sources */,
+				043DFB8B2A52932F005BA06D /* FiltersViewController.swift in Sources */,
 				041F66FA2A4C723F009C6AB4 /* UpdateDoneModel.swift in Sources */,
 				0497D0F22A31FEC300B4A185 /* ProfileModel.swift in Sources */,
 				1B943BAC2A4E87C2008BAE1B /* VideoPerviewViewController.swift in Sources */,

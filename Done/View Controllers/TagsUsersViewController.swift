@@ -21,6 +21,7 @@ class TagsUsersViewController: UIViewController {
     var isSerching = false
     var isDropSownVisible = 0
     var tagsUsersArray  =  [TagUsers]()
+    var recentUsersArray  =  [TagUsers]()
     var backUpUsersArray  =  [TagUsers]()
     var filteredTagsUsersArray  =  [TagUsers]()
     var departmentsArry = [String]()
@@ -49,7 +50,9 @@ class TagsUsersViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.departmentsArry.append("Select Department")
+       
         getTagUsersAPICall()
+
     }
     
     func getTagUsersAPICall(){
@@ -59,8 +62,24 @@ class TagsUsersViewController: UIViewController {
             let tagsResponseModel = try? JSONDecoder().decode(TagsResponseModel.self, from: jsonData as! Data)
             if tagsResponseModel?.data != nil
             {
+                
+//                let arrayLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+//                let arrayRemoveLetters = ["a", "e", "g", "h"]
+//                let arrayRemainingLetters = arrayLetters.filter {
+//                    !arrayRemoveLetters.contains($0)
+//                }
+//
+//                let gg = self.tagsUsersArray.filter {
+//
+//                    !self.recentUsersArray.contains(where: $0.id)
+//                }
+                
+              
+                
                 self.tagsUsersArray = (tagsResponseModel?.data)!
                 self.backUpUsersArray = (tagsResponseModel?.data)!
+                
+                recentTagUsersAPICall()
                 
                 for (index, _) in self.tagsUsersArray.enumerated() {
                     if !self.departmentsArry.contains(self.tagsUsersArray[index].departmentName!){
@@ -85,34 +104,115 @@ class TagsUsersViewController: UIViewController {
             print(error)
         }
     }
+    
+    func recentTagUsersAPICall(){
+        
+        APIModel.getRequest(strURL: BASEURL + GETTAGUSERS + "?recent=1", postHeaders: headers as NSDictionary) { [self] jsonData in
+            print(jsonData)
+            let tagsResponseModel = try? JSONDecoder().decode(TagsResponseModel.self, from: jsonData as! Data)
+            if tagsResponseModel?.data != nil
+            {
+                self.recentUsersArray = (tagsResponseModel?.data)!
+                
+                print(self.tagsUsersArray.count)
+                print(self.recentUsersArray.count)
+                self.tagsUsersArray = tagsUsersArray.filter { item in
+                    !recentUsersArray.contains { $0.id == item.id }
+                }
+                
+                print(self.tagsUsersArray.count)
+                print(self.recentUsersArray.count)
+                self.tagsTableVw.reloadData()
+                
+            }
+            else
+            {
+                print("Tag users data empty")
+            }
+        } failure: { error in
+            print(error)
+        }
+    }
 }
 
 extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        return section == 0 ? " Recent" : " All"
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+//        view.tintColor = UIColor.red
+           let header = view as! UITableViewHeaderFooterView
+           header.textLabel?.textColor = UIColor(named: "App_color")
+            header.textLabel?.font =  UIFont.boldSystemFont(ofSize: 18.0)
+        
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return isSerching == false ? self.tagsUsersArray.count : self.filteredTagsUsersArray.count
+        if section == 0
+        {
+            return  self.recentUsersArray.count
+        }
+        else
+        {
+            return isSerching == false ? self.tagsUsersArray.count : self.filteredTagsUsersArray.count
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TagUsersTableViewCell", for: indexPath) as! TagUsersTableViewCell
-        let firstName = isSerching == false ? (self.tagsUsersArray[indexPath.row].firstName ?? "") : (self.filteredTagsUsersArray[indexPath.row].firstName ?? "")
-        let lastName = isSerching == false ?  (self.tagsUsersArray[indexPath.row].lastName ?? "") : (self.filteredTagsUsersArray[indexPath.row].lastName ?? "")
-        
-        let deptName = isSerching == false ? (self.tagsUsersArray[indexPath.row].departmentName ?? "") : (self.filteredTagsUsersArray[indexPath.row].departmentName ?? "")
-        
-        cell.taguserNameLbl.text = firstName + " " + lastName
-//        cell.deptLbl.text = self.tagsUsersArray[indexPath.row].departmentName ?? ""
-        cell.deptLbl.text = deptName
-        cell.seletionBtn.addTarget(self, action: #selector(selectuserAction), for: .touchUpInside)
-        cell.seletionBtn.tag = indexPath.row
-        
-        let id = isSerching == false ? self.tagsUsersArray[indexPath.row].id! : self.filteredTagsUsersArray[indexPath.row].id!
-        if self.tags1.contains(id){
-            cell.seletionBtn.setImage(UIImage(systemName: "circlebadge.fill"), for: .normal)
-            cell.seletionBtn.tintColor = UIColor(hex:"98C455")
-        }else{
-            cell.seletionBtn.setImage(UIImage(systemName: "circlebadge"), for: .normal)
-            cell.seletionBtn.tintColor = .darkGray
+        if indexPath.section == 0
+        {
+            let firstName = self.recentUsersArray[indexPath.row].firstName ?? ""
+            let lastName = self.recentUsersArray[indexPath.row].lastName ?? ""
+            
+            let deptName = self.recentUsersArray[indexPath.row].departmentName ?? ""
+            
+            cell.taguserNameLbl.text = firstName + " " + lastName
+            //        cell.deptLbl.text = self.tagsUsersArray[indexPath.row].departmentName ?? ""
+            cell.deptLbl.text = deptName
+            cell.seletionBtn.addTarget(self, action: #selector(selectuserAction), for: .touchUpInside)
+            cell.seletionBtn.tag = indexPath.row
+            
+            let id = self.recentUsersArray[indexPath.row].id!
+//            if self.tags1.contains(id){
+//                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge.fill"), for: .normal)
+//                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
+//            }else{
+//                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge"), for: .normal)
+//                cell.seletionBtn.tintColor = .darkGray
+//            }
+        }
+        else
+        {
+            let firstName = isSerching == false ? (self.tagsUsersArray[indexPath.row].firstName ?? "") : (self.filteredTagsUsersArray[indexPath.row].firstName ?? "")
+            let lastName = isSerching == false ?  (self.tagsUsersArray[indexPath.row].lastName ?? "") : (self.filteredTagsUsersArray[indexPath.row].lastName ?? "")
+            
+            let deptName = isSerching == false ? (self.tagsUsersArray[indexPath.row].departmentName ?? "") : (self.filteredTagsUsersArray[indexPath.row].departmentName ?? "")
+            
+            cell.taguserNameLbl.text = firstName + " " + lastName
+            //        cell.deptLbl.text = self.tagsUsersArray[indexPath.row].departmentName ?? ""
+            cell.deptLbl.text = deptName
+            cell.seletionBtn.addTarget(self, action: #selector(selectuserAction), for: .touchUpInside)
+            cell.seletionBtn.tag = indexPath.row
+            
+            let id = isSerching == false ? self.tagsUsersArray[indexPath.row].id! : self.filteredTagsUsersArray[indexPath.row].id!
+            if self.tags1.contains(id){
+                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge.fill"), for: .normal)
+                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
+            }else{
+                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge"), for: .normal)
+                cell.seletionBtn.tintColor = .darkGray
+            }
         }
         return cell
     }
@@ -241,7 +341,7 @@ extension TagsUsersViewController: UITextFieldDelegate
                 self.filteredTagsUsersArray[index].isSelected = false
             }
         }
-        self.tagsTableVw.reloadData()
+        self.tagsTableVw.reloadSections([1], with: .none)
         return true
     }
 }

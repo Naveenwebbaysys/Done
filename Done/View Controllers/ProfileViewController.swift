@@ -17,6 +17,7 @@ class ProfileViewController: UIViewController {
     var assignCommission = ""
     var stillworkingCommission = ""
     var doneCommission = ""
+    var approvedCommission = ""
     
     private let itemsPerRow: CGFloat = 3
     @IBOutlet weak var segmentVW : UIView!
@@ -30,8 +31,14 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var assignBtn : UIButton!
     @IBOutlet weak var stillBtn : UIButton!
     @IBOutlet weak var donecBtn : UIButton!
+    @IBOutlet weak var doneApprovedBtn : UIButton!
     @IBOutlet weak var indvw : UIView!
     
+    @IBOutlet weak var stackVW : UIStackView!
+    var assignLbl = UILabel()
+    var stillLbl = UILabel()
+    var doneLbl = UILabel()
+    var approvedLbl = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +50,26 @@ class ProfileViewController: UIViewController {
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
         aulbumCW.setCollectionViewLayout(layout, animated: true)
+        
+        assignLbl.frame = CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
+        stillLbl.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
+        doneLbl.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
+        approvedLbl.frame = CGRect(x: self.doneApprovedBtn.frame.minX, y: self.doneApprovedBtn.frame.maxY + 5, width: self.doneApprovedBtn.frame.width, height: 3)
+        
+        stillLbl.isHidden = true
+        doneLbl.isHidden = true
+        approvedLbl.isHidden = true
+        
+        assignLbl.backgroundColor = UIColor(named: "App_color")
+        stillLbl.backgroundColor = UIColor(named: "App_color")
+        doneLbl.backgroundColor = UIColor(named: "App_color")
+        approvedLbl.backgroundColor = UIColor(named: "App_color")
+        
+        self.stackVW.addSubview(assignLbl)
+        self.stackVW.addSubview(stillLbl)
+        self.stackVW.addSubview(doneLbl)
+        self.stackVW.addSubview(approvedLbl)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,29 +101,58 @@ class ProfileViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         
+        
     }
     
     @IBAction func assignedBtnAct() {
         self.getpostAPICall(withType: "assigned_by_me")
         self.noTaskLbl.isHidden = true
-        UIView.animate(withDuration: 0.5) {
-            self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
-        }
+//        UIView.animate(withDuration: 0.5) {
+//            self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
+//        }
+        
+        self.assignLbl.isHidden = false
+        self.stillLbl.isHidden = true
+        self.doneLbl.isHidden = true
+        self.approvedLbl.isHidden = true
     }
     
     @IBAction func stillBtnAct() {
         self.getpostAPICall(withType: "still_working")
         self.noTaskLbl.isHidden = true
-        UIView.animate(withDuration: 0.5) {
-            self.indvw.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
-        }
+//        UIView.animate(withDuration: 0.5) {
+//            self.indvw.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
+//        }
+        
+        self.assignLbl.isHidden = true
+        self.stillLbl.isHidden = false
+        self.doneLbl.isHidden = true
+        self.approvedLbl.isHidden = true
     }
     @IBAction func doneBtnAct() {
         self.getpostAPICall(withType: "done_success")
         self.noTaskLbl.isHidden = true
-        UIView.animate(withDuration: 0.5) {
-            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
-        }
+//        UIView.animate(withDuration: 0.5) {
+//            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
+//        }
+        
+        self.assignLbl.isHidden = true
+        self.stillLbl.isHidden = true
+        self.doneLbl.isHidden = false
+        self.approvedLbl.isHidden = true
+    }
+    
+    @IBAction func doneApprovedBtnAct() {
+        self.getpostAPICall(withType: "approved")
+        self.noTaskLbl.isHidden = true
+//        UIView.animate(withDuration: 0.5) {
+//            self.indvw.frame = CGRect(x: self.doneApprovedBtn.frame.minX, y: self.doneApprovedBtn.frame.maxY + 5, width: self.doneApprovedBtn.frame.width, height: 3)
+//        }
+        
+        self.assignLbl.isHidden = true
+        self.stillLbl.isHidden = true
+        self.doneLbl.isHidden = true
+        self.approvedLbl.isHidden = false
     }
     
     func getCommissionAPICall(withID : String){
@@ -105,27 +161,33 @@ class ProfileViewController: UIViewController {
             let commissionResponse = try? JSONDecoder().decode(CommissionResponseModel.self, from: jsonData as! Data)
             if commissionResponse?.data != nil
             {
-                //                self.commissionLbl.text = "$ " + (commissionResponse?.data?.doneCommission?.commission ?? "")
+                self.commissionLbl.text = "$ " + (commissionResponse?.data?.doneCommission?.commission ?? "")
+                
                 self.assignCommission = (commissionResponse?.data?.assignedByCommission?.commission ?? "") + "(" + (commissionResponse?.data?.assignedByCommission?.commissionCount ?? "") + ")"
                 self.stillworkingCommission = (commissionResponse?.data?.stillWorkingCommission?.commission ?? "") + "(" + (commissionResponse?.data?.stillWorkingCommission?.commissionCount ?? "") + ")"
                 self.doneCommission =  (commissionResponse?.data?.doneCommission?.commission ?? "") + "(" + (commissionResponse?.data?.doneCommission?.commissionCount ?? "") + ")"
                 
+                self.approvedCommission = (commissionResponse?.data?.approvedcommission?.commission ?? "") + "(" + (commissionResponse?.data?.approvedcommission?.commissionCount ?? "") + ")"
+                
                 print(self.assignCommission)
                 print(self.stillworkingCommission)
                 print(self.stillworkingCommission)
-                let part1 = NSAttributedString(string: "Assigend by me $" + "\n" + self.assignCommission)
+                
+                let part1 = NSAttributedString(string: "Assigend by me  $"  + self.assignCommission)
                 self.assignBtn.setAttributedTitle(part1, for: .normal)
                 self.assignBtn.titleLabel?.textAlignment = .center
                 
-                let part2 = NSAttributedString(string: "Still working $" + "\n" +  self.stillworkingCommission)
+                let part2 = NSAttributedString(string: "Still working  $"  + "\n" +  self.stillworkingCommission)
                 self.stillBtn.setAttributedTitle(part2, for: .normal)
                 self.stillBtn.titleLabel?.textAlignment = .center
                 
-                let part3 = NSAttributedString(string: "Done $" + "\n" + self.doneCommission)
+                let part3 = NSAttributedString(string: "Done Need to Check $"  + self.doneCommission)
                 self.donecBtn.setAttributedTitle(part3, for: .normal)
                 self.donecBtn.titleLabel?.textAlignment = .center
                 
-                
+                let part4 = NSAttributedString(string: "Done Approved $" + "\n" + self.approvedCommission)
+                self.doneApprovedBtn.setAttributedTitle(part4, for: .normal)
+                self.doneApprovedBtn.titleLabel?.textAlignment = .center
             }
             
         } failure: { error in
@@ -141,6 +203,11 @@ class ProfileViewController: UIViewController {
             if getReelsResponseModel?.data != nil
             {
                 self.reelsModelArray = (getReelsResponseModel?.data?.posts)!
+                if self.reelsModelArray.count == 0
+                {
+                    print("No Reels found")
+                    self.noTaskLbl.isHidden = false
+                }
             }
             else
             {
