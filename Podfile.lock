@@ -13,6 +13,7 @@ PODS:
     - AWSAuthCore (= 2.33.0)
     - AWSCognitoIdentityProvider (= 2.33.0)
     - AWSCore (= 2.33.0)
+  - DropDown (2.3.13)
   - HMSegmentedControl (1.5.6)
   - iOSDropDown (0.4.0)
   - IQKeyboardManagerSwift (6.5.11)
@@ -28,6 +29,7 @@ PODS:
 DEPENDENCIES:
   - AWSS3
   - AWSUserPoolsSignIn
+  - DropDown
   - HMSegmentedControl
   - iOSDropDown
   - IQKeyboardManagerSwift
@@ -44,6 +46,7 @@ SPEC REPOS:
     - AWSCore
     - AWSS3
     - AWSUserPoolsSignIn
+    - DropDown
     - HMSegmentedControl
     - iOSDropDown
     - IQKeyboardManagerSwift
@@ -60,6 +63,7 @@ SPEC CHECKSUMS:
   AWSCore: ff962198e35c750cb1d59cd459c51f1990e3ec68
   AWSS3: 910b5a6ec6c6b749f6a0657483118cae54f83a11
   AWSUserPoolsSignIn: 466cd07b16c9718343a2da7f03d42f571056a581
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   HMSegmentedControl: 34c1f54d822d8308e7b24f5d901ec674dfa31352
   iOSDropDown: ce9daa584eaa5567cafc1b633e3cc7eb6d9cea42
   IQKeyboardManagerSwift: c7955c0bdbf7b2eb29bb7daaa44e3d90f55a9a85
@@ -69,6 +73,6 @@ SPEC CHECKSUMS:
   SDWebImage: 1c39de67663e5eebb2f41324d5d580eeea12dd4c
   SwiftyCam: 6e57914771d972fbe508e759dc9d0150a44a93fd
 
-PODFILE CHECKSUM: 75e78eec9398d188cfebb60a0d816c2845bfdd24
+PODFILE CHECKSUM: 93f507971dc21132963d3f10eb8798a1683a37a3
 
 COCOAPODS: 1.11.2

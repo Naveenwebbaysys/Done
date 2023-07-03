@@ -18,6 +18,7 @@ target 'Done' do
   pod "SwiftyCam"
   pod 'HMSegmentedControl'
   pod 'SDWebImage'
+  pod 'DropDown'
 end
 #
 

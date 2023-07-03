@@ -10,15 +10,16 @@ import AVFoundation
 import AWSS3
 import AWSCore
 import KRProgressHUD
-import iOSDropDown
+//import iOSDropDown
+import DropDown
 
 class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     
     func sendDataToFirstViewController(tagsID: [String], tagname: [String]) {
         self.tagIDSArray = tagsID
         self.tagPeoples1 = tagname
-//        self.tagIDSArray.append(contentsOf: tagsID)
-//        self.tagPeoples1.append(contentsOf: tagname)
+        //        self.tagIDSArray.append(contentsOf: tagsID)
+        //        self.tagPeoples1.append(contentsOf: tagname)
         self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
         print(self.tagPeopleLbl.text as Any)
     }
@@ -31,30 +32,45 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     var uuid = ""
     var awsS3Url = ""
     var tagPeoples1 =  [String]()
-    let addLinks1 = [String]()
+//    let addLinks1 = [String]()
     var tagIDSArray =  [String]()
     var editURL = ""
     var postID = ""
+    
     @IBOutlet weak var screenTitleLbl : UILabel!
     @IBOutlet weak var  descriptionTV : UITextView!
-    @IBOutlet weak var  commissionTypeVW : UIStackView!
     @IBOutlet weak var  commissionTypeLbl : UILabel!
-    @IBOutlet weak var  increseBtn : UIButton!
-    @IBOutlet weak var  decreaseBtn : UIButton!
-    @IBOutlet weak var  restrictVW : UIStackView!
-    @IBOutlet weak var  assigenedBtn : UIButton!
-    @IBOutlet weak var  everyOneBtn : UIButton!
     @IBOutlet weak var  restrictLbl : UILabel!
-    @IBOutlet weak var  commissionTF : UILabel!
     @IBOutlet weak var  dateLbl : UILabel!
     @IBOutlet weak var  amountTF : UITextField!
     @IBOutlet weak var  linksTF : UITextField!
     @IBOutlet weak var  tagPeopleLbl : UILabel!
     @IBOutlet weak var  linksTW : UITableView!
+    @IBOutlet weak var btnCommission: UIButton!
+    @IBOutlet weak var btnRestrict: UIButton!
+    @IBOutlet weak var btnProjectType: UIView!
+    @IBOutlet weak var lblProjectType: UILabel!
+    @IBOutlet weak var viewCategory: UIView!
+    @IBOutlet weak var viewSubCategory: UIView!
+    @IBOutlet weak var lblCategoryTitle: UILabel!
+    @IBOutlet weak var lblSubCategoryTitle: UILabel!
+    @IBOutlet weak var constraintTableviewHeight: NSLayoutConstraint!
+    
     
     var reelsModelArray = [Post]()
     var index = 0
     var isFromEdit = Bool()
+    let commissionTypeDropDown = DropDown()
+    let restrictTypeDropDown = DropDown()
+    let projectTypeDropDown = DropDown()
+    let allCategoryDropDown = DropDown()
+    let subCategoryDropDown = DropDown()
+    var isOpenProject:Bool = true
+    var arrAllCategory = [Category]()
+    var arrSelectAllCategory = [Category]()
+    var arrSubCategory = [Category]()
+    var arrSelectSubCategory = [Category]()
+    var arrLinkData = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,9 +79,10 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         descriptionTV.textColor = .lightGray
         descriptionTV.delegate = self
         commissionTypeLbl.text = "Increase"
-        restrictLbl.text = "Everyone"
-        
-        print(isFromEdit)
+        restrictLbl.text = "Assigned People"
+        lblProjectType.text = "Open For Anyone To Work On"
+        self.setProjectType()
+        //        print(isFromEdit)
         self.linksTW.frame = CGRect(x: 5, y: linksTF.frame.maxY + 10, width: linksTF.frame.width, height: 200)
         linksTW.borderColor = .clear
         if isFromEdit == true {
@@ -83,7 +100,70 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             editURL = self.reelsModelArray[index].videoURL ?? ""
             postID = self.reelsModelArray[index].id ?? ""
             screenTitleLbl.text = "Update Task"
+            if self.reelsModelArray[index].projectType == "open_for_anyone_to_work_on"{
+                lblProjectType.text  = "Open For Anyone To Work On"
+                self.viewSubCategory.isHidden = false
+            }else{
+                lblProjectType.text  = "Already Know Who I Want To Work On This Project"
+                self.viewSubCategory.isHidden = true
+            }
+        
+            self.getSubCategoryAPICall(id: self.reelsModelArray[index].categoryId ?? "")
+            
+            self.arrLinkData = self.reelsModelArray[index].addLinks ?? [String]()
+            self.setTableviewHeight()
         }
+        
+        commissionTypeDropDown.anchorView = btnCommission
+        commissionTypeDropDown.dataSource = ["Increase", "Decrease"]
+        commissionTypeDropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            commissionTypeLbl.text = item
+        }
+        
+        restrictTypeDropDown.anchorView = btnRestrict
+        restrictTypeDropDown.dataSource = ["Assigned People", "Everyone"]
+        restrictTypeDropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            restrictLbl.text = item
+        }
+        
+        projectTypeDropDown.anchorView = btnProjectType
+        projectTypeDropDown.dataSource = ["Open For Anyone to Work On", "Already Know Who I Want To Work On This Project"]
+        projectTypeDropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            lblProjectType.text = item
+            self.isOpenProject = index == 0 ? true : false
+            self.setProjectType()
+        }
+        
+        allCategoryDropDown.anchorView = viewCategory
+        allCategoryDropDown.backgroundColor = .white
+        allCategoryDropDown.textColor = UIColor.init(red: 152/255, green: 196/255, blue: 85/255, alpha: 1.0)
+        allCategoryDropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            lblCategoryTitle.text = item
+            if index != 0 {
+                getSubCategoryAPICall(id: arrAllCategory[index - 1].id)
+                self.arrSelectAllCategory = [arrAllCategory[index - 1]]
+                self.viewSubCategory.isHidden = false
+            }else{
+                self.viewSubCategory.isHidden = true
+            }
+            
+        }
+        
+        subCategoryDropDown.anchorView = viewSubCategory
+        subCategoryDropDown.backgroundColor = .white
+        subCategoryDropDown.textColor = UIColor.init(red: 152/255, green: 196/255, blue: 85/255, alpha: 1.0)
+        subCategoryDropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            lblSubCategoryTitle.text = item
+            self.arrSelectSubCategory = [arrSubCategory[index - 1]]
+        }
+        
+        
+        self.getAllCategoryAPICall()
     }
     
     override func viewDidLayoutSubviews() {
@@ -109,7 +189,7 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         print(todaysDate)
         print(futureDate)
         
-        self.dateLbl.text = dateFormatter1.string(from: Date())
+        self.dateLbl.text = dateFormatter1.string(from: xyz)
         
     }
     
@@ -117,6 +197,126 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         
     }
     
+    
+    @IBAction func commissiondropBtnAction(_ sender: UIButton) {
+        commissionTypeDropDown.show()
+    }
+    
+    @IBAction func restrictionBtnAction(_ sender: UIButton) {
+        restrictTypeDropDown.show()
+    }
+    
+    @IBAction func btnProjectType(_ sender: UIButton) {
+        projectTypeDropDown.show()
+        
+    }
+    
+    @IBAction func btnCategoryAction(_ sender: UIButton) {
+        var arrData: [String] = [String]()
+        arrData.append("Select Category")
+        for data in arrAllCategory{
+            arrData.append(data.name)
+        }
+        
+        allCategoryDropDown.dataSource = arrData
+        allCategoryDropDown.show()
+    }
+    
+    @IBAction func btnSubCategory(_ sender: UIButton) {
+        var arrData: [String] = [String]()
+        arrData.append("Select Sub Category")
+        for data in arrSubCategory{
+            arrData.append(data.name)
+        }
+//        print(arrData.count)
+        subCategoryDropDown.dataSource = arrData
+        subCategoryDropDown.show()
+    }
+    
+    func setProjectType(){
+        if isOpenProject{
+            self.viewCategory.isHidden = false
+        }else{
+            self.viewCategory.isHidden = true
+            self.viewSubCategory.isHidden = true
+        }
+    }
+    
+    @IBAction func btnAddLinkAction(_ sender: UIButton) {
+        if !(linksTF.text ?? "").isEmpty{
+            self.arrLinkData.append(linksTF.text ?? "")
+            self.setTableviewHeight()
+            self.linksTF.text = ""
+        }
+    
+    }
+    
+    @objc func btnDeleteLink(_ sender : UIButton){
+        self.arrLinkData.remove(at: sender.tag)
+        self.setTableviewHeight()
+    }
+    
+    func setTableviewHeight(){
+        if arrLinkData.isEmpty{
+            self.linksTW.isHidden = true
+            self.constraintTableviewHeight.constant = 0
+        }else{
+            self.linksTW.isHidden = false
+            self.linksTW.reloadData()
+            self.constraintTableviewHeight.constant = CGFloat(40 * arrLinkData.count)
+        }
+       
+    }
+    
+    func getAllCategoryAPICall(){
+        let categoryAPI = BASEURL + CATEGORY_PROJECTTYPE
+        APIModel.getRequest(strURL: categoryAPI, postHeaders: headers as NSDictionary) { jsonData in
+            let categoryResponse = try? JSONDecoder().decode(CategoryResponseModel.self, from: jsonData as! Data)
+            if categoryResponse?.data != nil{
+                self.arrAllCategory = categoryResponse?.data.categories ?? [Category]()
+                
+                if self.isFromEdit == true{
+                    let data = self.arrAllCategory.filter { Category in
+                        Category.id == self.reelsModelArray[self.index].categoryId
+                    }
+                    if !data.isEmpty{
+                        self.arrSelectAllCategory = data
+                        self.lblCategoryTitle.text = data[0].name
+                    }
+                }
+            }else{
+                print("No Category found")
+            }
+        } failure: { error in
+            print(error
+            )
+        }
+    }
+    
+    func getSubCategoryAPICall(id:String){
+        let categoryAPI = BASEURL + CATEGORY_PROJECTTYPE + "?parent_id=\(id)"
+        APIModel.getRequest(strURL: categoryAPI, postHeaders: headers as NSDictionary) { jsonData in
+            let categoryResponse = try? JSONDecoder().decode(CategoryResponseModel.self, from: jsonData as! Data)
+            if categoryResponse?.data != nil{
+                self.arrSubCategory = categoryResponse?.data.categories ?? [Category]()
+                
+                if self.isFromEdit == true{
+                    let data = self.arrSubCategory.filter { Category in
+                        Category.id == self.reelsModelArray[self.index].subcategoryId
+                    }
+                    if !data.isEmpty{
+                        self.arrSelectSubCategory = data
+                        self.lblSubCategoryTitle.text = data[0].name
+                    }
+                }
+            }else{
+                print("No Category found")
+            }
+        } failure: { error in
+            print(error
+            )
+        }
+    }
 }
 
 
@@ -153,8 +353,25 @@ extension PostViewController {
             commAmount =  amountTF.text ?? ""
             commType = commissionTypeLbl.text ?? ""
             restType = restrictLbl.text ?? ""
-
-            let postparams = PostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: addLinks1, tags: [], videoRestriction: restType, description: descText, assignedDate: todaysDate, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate)
+            
+            var stCategoryID: String = ""
+            if !arrSelectAllCategory.isEmpty{
+                stCategoryID = arrSelectAllCategory[0].id
+            }
+            
+            var stSubCategoryID: String = ""
+            if !arrSelectSubCategory.isEmpty{
+                stSubCategoryID = arrSelectSubCategory[0].id
+            }
+            
+            var stProjectType: String = ""
+            if lblProjectType.text  == "Open For Anyone To Work On"{
+                stProjectType = "open_for_anyone_to_work_on"
+            }else{
+                stProjectType = "already_know_who_i_want_to_work_on_this_project"
+            }
+            
+            let postparams = PostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: arrLinkData, tags: [], videoRestriction: restType, description: descText, assignedDate: todaysDate, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate,categoryId: stCategoryID,subcategoryId: stSubCategoryID,projectType: stProjectType)
             let jsonData = try! JSONEncoder().encode(postparams)
             let params11 = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
             print(params11!)
@@ -163,12 +380,12 @@ extension PostViewController {
                 let postResponse = try? JSONDecoder().decode(PostResponseModel.self, from: result as! Data)
                 if postResponse?.status == true
                 {
-//                    if let compressedVideoPath = UserDefaults.standard.value(forKey: "compressedVideoPath") {
-//                        do {
-//                            print(compressedVideoPath)
-//                            deleteVideoFromLocal(path: compressedVideoPath as! String)
-//                        }
-//                    }
+                    //                    if let compressedVideoPath = UserDefaults.standard.value(forKey: "compressedVideoPath") {
+                    //                        do {
+                    //                            print(compressedVideoPath)
+                    //                            deleteVideoFromLocal(path: compressedVideoPath as! String)
+                    //                        }
+                    //                    }
                     self.setRootVC()
                 }
                 else
@@ -193,11 +410,28 @@ extension PostViewController {
             commAmount =  amountTF.text ?? ""
             commType = commissionTypeLbl.text ?? ""
             restType = restrictLbl.text ?? ""
-            print(descText)
-            print(commAmount)
-            print(commType)
-            print(restType)
-            let postparams = UpdatePostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: addLinks1, tags: [], videoRestriction: restType, description: descText, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate, id: postID)
+            //            print(descText)
+            //            print(commAmount)
+            //            print(commType)
+            //            print(restType)
+            var stCategoryID: String = ""
+            if !arrSelectAllCategory.isEmpty{
+                stCategoryID = arrSelectAllCategory[0].id
+            }
+            
+            var stSubCategoryID: String = ""
+            if !arrSelectSubCategory.isEmpty{
+                stSubCategoryID = arrSelectSubCategory[0].id
+            }
+            
+            var stProjectType: String = ""
+            if lblProjectType.text  == "Open For Anyone To Work On"{
+                stProjectType = "open_for_anyone_to_work_on"
+            }else{
+                stProjectType = "already_know_who_i_want_to_work_on_this_project"
+            }
+            
+            let postparams = UpdatePostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: arrLinkData, tags: [], videoRestriction: restType, description: descText, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate, id: postID,categoryId: stCategoryID,subcategoryId: stSubCategoryID,projectType: stProjectType)
             let jsonData = try! JSONEncoder().encode(postparams)
             let params11 = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
             print(params11!)
@@ -260,41 +494,39 @@ extension PostViewController : UITextViewDelegate, UITextFieldDelegate {
 }
 
 
-
-
+extension PostViewController :UITableViewDelegate,UITableViewDataSource{
+    // MARK: - UITableview Delegate & DataSource Method
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return arrLinkData.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell: AddLinksPostCell! = tableView.dequeueReusableCell(withIdentifier: "AddLinksPostCell") as? AddLinksPostCell
+        if cell == nil {
+            tableView.register(UINib(nibName: "AddLinksPostCell", bundle: nil), forCellReuseIdentifier:"AddLinksPostCell")
+            cell = tableView.dequeueReusableCell(withIdentifier: "AddLinksPostCell") as? AddLinksPostCell
+        }
+        
+        let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
+        let underlineAttributedString = NSAttributedString(string: self.arrLinkData[indexPath.row], attributes: underlineAttribute)
+        cell.lblLink.attributedText = underlineAttributedString
+        cell.btnDelete.tag = indexPath.row
+        cell.btnDelete.addTarget(self, action: #selector(btnDeleteLink), for: .touchUpInside)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        guard let url = URL(string: arrLinkData[indexPath.row]) else { return }
+        UIApplication.shared.open(arrLinkData[indexPath.row].convertToUrl())
+    }
+}
 
 extension PostViewController  {
-
-    @IBAction func commissiondropBtnAction(){
-        
-        commissionTypeVW.isHidden = false
-    }
     
-    @IBAction func restrictionBtnAction(){
-        
-        restrictVW.isHidden = false
-    }
-    
-    
-    @IBAction func increseBtnAction(){
-        commissionTypeVW.isHidden = true
-        commissionTypeLbl.text = "Increase"
-    }
-    
-    @IBAction func decreaseAction(){
-        commissionTypeVW.isHidden = true
-        commissionTypeLbl.text = "Decrease"
-    }
-    @IBAction func assigenedBtnAction(){
-        restrictVW.isHidden = true
-        restrictLbl.text = "Assigned People"
-    }
-    
-    @IBAction func everyOneBtnAction(){
-        
-        restrictVW.isHidden = true
-        restrictLbl.text = "Everyone"
-    }
     
     @IBAction func tagUsersAction (){
         amountTF.resignFirstResponder()
@@ -317,24 +549,38 @@ extension PostViewController  {
             amountTF.borderWidth = 1
             amountTF.borderColor = .red
             amountTF.cornerRadius = 6
+            return
         }
-        else if tagPeoples1.count == 0
+        
+        
+        if isOpenProject{
+            if arrSelectAllCategory.isEmpty{
+                showToast(message: "Please select category")
+                return
+            }
+            
+            if arrSelectSubCategory.isEmpty{
+                showToast(message: "Please select sub category")
+                return
+            }
+        }
+        
+        if tagPeoples1.count == 0
         {
             showToast(message: "Please select tag people")
+            return
+        }
+        
+        amountTF.borderWidth = 0
+        if isFromEdit == true
+        {
+            self.updatePostAPICall(str: editURL)
         }
         else
         {
-            amountTF.borderWidth = 0
-            if isFromEdit == true
-            {
-                self.updatePostAPICall(str: editURL)
-            }
-            else
-            {
-                uploadVideoToS3Server(filePath: recordVideoURL)
-            }
-
+            uploadVideoToS3Server(filePath: recordVideoURL)
         }
+        
     }
     
     @IBAction func backBtnAction()
@@ -342,3 +588,4 @@ extension PostViewController  {
         self.navigationController?.popViewController(animated: true)
     }
 }
+

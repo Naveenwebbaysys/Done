@@ -20,6 +20,10 @@ struct PostRequestModel: Codable {
     let videoRestriction, description, assignedDate, commissionType: String?
     let commissionAmount: String?
     let dueDate: String?
+    let categoryId: String?
+    let subcategoryId: String?
+    let projectType: String?
+    
 
     enum CodingKeys: String, CodingKey {
         case videoURL = "video_url"
@@ -32,6 +36,10 @@ struct PostRequestModel: Codable {
         case commissionType = "commission_type"
         case commissionAmount = "commission_amount"
         case dueDate = "due_date"
+        case categoryId = "category_id"
+        case subcategoryId = "subcategory_id"
+        case projectType = "project_type"
+        
     }
 }
 
@@ -54,6 +62,9 @@ struct UpdatePostRequestModel: Codable {
     let commissionAmount: String?
     let dueDate: String?
     let id : String?
+    let categoryId: String?
+    let subcategoryId: String?
+    let projectType: String?
 
     enum CodingKeys: String, CodingKey {
         case videoURL = "video_url"
@@ -67,5 +78,8 @@ struct UpdatePostRequestModel: Codable {
         case commissionAmount = "commission_amount"
         case dueDate = "due_date"
         case id
+        case categoryId = "category_id"
+        case subcategoryId = "subcategory_id"
+        case projectType = "project_type"
     }
 }
