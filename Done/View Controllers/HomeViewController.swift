@@ -155,6 +155,12 @@ class HomeViewController: UIViewController {
         }
     }
     
+    @IBAction func filterBtnAct() {
+        
+//        let filterVC = self.storyboard?.instantiateViewController(withIdentifier: "FiltersViewController") as! FiltersViewController
+//        self.navigationController?.pushViewController(filterVC, animated: true)
+    }
+    
     func getCommissionAPICall(withID : String){
         APIModel.getRequest(strURL: BASEURL + COMMISSIONAPI + withID , postHeaders: headers as NSDictionary) { jsonData in
             let commissionResponse = try? JSONDecoder().decode(CommissionResponseModel.self, from: jsonData as! Data)
