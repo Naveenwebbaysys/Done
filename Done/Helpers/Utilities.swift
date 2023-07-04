@@ -262,14 +262,14 @@ extension UIView {
         }
     }
     
-//    var width: CGFloat {
-//        get {
-//            self.frame.size.width
-//        }
-//        set {
-//            self.frame.size.width = newValue
-//        }
-//    }
+    var headerWidth: CGFloat {
+        get {
+            self.frame.size.width
+        }
+        set {
+            self.frame.size.width = newValue
+        }
+    }
 }
 
 

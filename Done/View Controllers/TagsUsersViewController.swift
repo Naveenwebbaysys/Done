@@ -152,7 +152,7 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = UIColor(named: "App_color")
         header.textLabel?.font =  UIFont.boldSystemFont(ofSize: 18.0)
-        header.textLabel?.width = tagsTableVw.frame.width
+        header.textLabel?.headerWidth = tagsTableVw.frame.width
         
     }
     
