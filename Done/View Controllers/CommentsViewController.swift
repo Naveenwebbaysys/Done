@@ -10,6 +10,7 @@ import IQKeyboardManagerSwift
 import SDWebImage
 import AVFoundation
 import AVKit
+import DropDown
 
 class CommentsViewController: UIViewController, UITextViewDelegate {
     
@@ -30,7 +31,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     var postPeopleSelected: PostStatus?
 //    var orderAssigneeEmployeeID = ""
     var employeeID = ""
-    
+    var editCommentIndex: Int = -1
 //    var postCommentImage: UIImage?
     
     override func viewDidLoad() {
@@ -140,7 +141,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     
     func getAllCommentsAPICall(withEmpID : String)
     {
-        let commentAPI = BASEURL + GETCOMMENTSAPI + withEmpID
+        let commentAPI = BASEURL + GETCOMMENTSAPI + withEmpID + "&page_no=1"
         APIModel.getRequest(strURL: commentAPI, postHeaders: headers as NSDictionary) { jsonData in
             let commentsResponse = try? JSONDecoder().decode(CommentsResponseModel.self, from: jsonData as! Data)
             if commentsResponse?.data != nil{
@@ -191,6 +192,50 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         }
         
         return image
+    }
+    
+    @objc func longTextPressed(sender: UILongPressGestureRecognizer) {
+        if sender.state == .began{
+            print("longpressed==",sender.view?.tag ?? 0)
+            let cell = commentTB.cellForRow(at: IndexPath(row: sender.view?.tag ?? 0, section: 0)) as! CommentsTableViewCell
+            let commentMenu = DropDown()
+            commentMenu.anchorView = cell.viewBG
+            commentMenu.bottomOffset = CGPoint(x: 5, y:(cell.viewBG.bounds.height))
+            commentMenu.width = 250
+            commentMenu.dataSource = ["Edit", "Delete"]
+            commentMenu.selectionAction = { [unowned self] (index: Int, item: String) in
+                print("Selected item: \(item) at index: \(index)")
+                if index == 0{
+                    self.editCommentIndex = sender.view?.tag ?? 0
+                    self.commentTV.text = commentsArray[self.editCommentIndex].comment ?? ""
+                    commentTV.textColor = UIColor.black
+                }else{
+                    self.editCommentIndex = sender.view?.tag ?? 0
+                    self.deleteAPICall()
+                }
+            }
+            commentMenu.show()
+        }
+    }
+    
+    @objc func longImageVideoPressed(sender: UILongPressGestureRecognizer) {
+        if sender.state == .began{
+            print("longpressed==",sender.view?.tag ?? 0)
+            let cell = commentTB.cellForRow(at: IndexPath(row: sender.view?.tag ?? 0, section: 0)) as! ImageCommentsTableViewCell
+            let commentMenu = DropDown()
+            commentMenu.anchorView = cell.viewComment
+            commentMenu.bottomOffset = CGPoint(x: 5, y:(cell.viewComment.bounds.height))
+            commentMenu.width = 250
+            commentMenu.dataSource = ["Delete"]
+            commentMenu.selectionAction = { [unowned self] (index: Int, item: String) in
+                print("Selected item: \(item) at index: \(index)")
+                
+                self.editCommentIndex = sender.view?.tag ?? 0
+                self.deleteAPICall()
+                
+            }
+            commentMenu.show()
+        }
     }
     
     @objc func btnVideoPlayAction(_ sender : UIButton){
@@ -329,6 +374,12 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
             } else {
                 print("Failed to convert date.")
             }
+            cell.tag = indexPath.row
+            if self.commentsArray[indexPath.row].employeeID == (UserDefaults.standard.value(forKey: UserDetails.userId) as! String){
+                let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longTextPressed))
+                cell.addGestureRecognizer(longPressRecognizer)
+            }
+          
             return cell
         }else if (data.commenttype ?? "" ) == "video"{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCommentsTableViewCell", for: indexPath) as! ImageCommentsTableViewCell
@@ -359,6 +410,11 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
                     cell.viewComment.isHidden = false
                     cell.lblComment.text = arrComment[1]
                 }
+            }
+            cell.tag = indexPath.row
+            if self.commentsArray[indexPath.row].employeeID == (UserDefaults.standard.value(forKey: UserDetails.userId) as! String){
+                let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longImageVideoPressed))
+                cell.addGestureRecognizer(longPressRecognizer)
             }
             
             let sourceTimeZone = TimeZone(identifier: "America/Los_Angeles")!
@@ -410,6 +466,11 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
             let sourceTimeZone = TimeZone(identifier: "America/Los_Angeles")!
             let dateString = self.commentsArray[indexPath.row].createdAt  // 2023-06-13 14:21:33
             let format = "yyyy-MM-dd HH:mm:ss"
+            cell.tag = indexPath.row
+            if self.commentsArray[indexPath.row].employeeID == (UserDefaults.standard.value(forKey: UserDetails.userId) as! String){
+                let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longImageVideoPressed))
+                cell.addGestureRecognizer(longPressRecognizer)
+            }
             
             if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
                 //                print("Converted Date: \(convertedDate)")
@@ -467,31 +528,74 @@ extension CommentsViewController {
         print(self.commentsArray.count)
         if commentTV.text != "Comment..."
         {
-            //            self.commentTF.resignFirstResponder()
-            let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text, commenttype: "text", assigneeid: "38944")
-            DispatchQueue.global(qos: .background).async {
-                print("This is run on the background queue")
-                APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
-                    print(jsonResult)
-                    let destinationTime = TimeZone(identifier: "America/Los_Angeles")!
-                    // 2023-06-13 14:21:33
-                    let format = "yyyy-MM-dd HH:mm:ss"
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
-                    let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
-                    let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
-                    let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTV.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "text",isLocalStore: true, isLocalImageData: nil)
-                    self.commentsArray.append(newcomment)
-                    //                    print(self.commentsArray.count)
-                    self.commentTB.reloadData()
-                    self.commentTV.text = ""
-                    
-                } failureHandler: { error in
-                    print(error)
+            
+            if editCommentIndex >= 0{
+                print("edit")
+                self.updatesAPICall()
+            }else{
+                print("new")
+                let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text, commenttype: "text", assigneeid: "38944")
+                DispatchQueue.global(qos: .background).async {
+                    print("This is run on the background queue")
+                    APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
+                        print(jsonResult)
+                        let destinationTime = TimeZone(identifier: "America/Los_Angeles")!
+                        // 2023-06-13 14:21:33
+                        let format = "yyyy-MM-dd HH:mm:ss"
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+                        let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
+                        let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
+                        let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTV.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "text",isLocalStore: true, isLocalImageData: nil)
+                        self.commentsArray.append(newcomment)
+                        //                    print(self.commentsArray.count)
+                        self.commentTB.reloadData()
+                        self.commentTV.text = ""
+                        self.commentTV.resignFirstResponder()
+                        self.tableviewBottomScroll()
+                        
+                    } failureHandler: { error in
+                        print(error)
+                    }
+                    DispatchQueue.main.async {
+                        print("This is run on the main queue, after the previous code in outer block")
+                    }
                 }
-                DispatchQueue.main.async {
-                    print("This is run on the main queue, after the previous code in outer block")
-                }
+            }
+        }
+             
+    }
+    
+    
+    func updatesAPICall(){
+        if editCommentIndex >= 0{
+            let dataComment = commentsArray[editCommentIndex]
+            let postparams = UpdateCommentRequestModel(id: dataComment.id, comment: (commentTV.text ?? "") == "Comment..." ? "" : (commentTV.text ?? ""))
+            APIModel.putRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
+                
+                var dataOfComment = self.commentsArray[self.editCommentIndex]
+                dataOfComment.comment = (self.commentTV.text ?? "") == "Comment..." ? "" : (self.commentTV.text ?? "")
+                self.commentsArray[self.editCommentIndex] = dataOfComment
+                self.commentTV.resignFirstResponder()
+                self.commentTB.reloadData()
+                self.commentTV.text = ""
+                
+            } failureHandler: { error in
+                print(error)
+            }
+        }
+    }
+    
+    func deleteAPICall(){
+        if editCommentIndex >= 0{
+            let dataComment = commentsArray[editCommentIndex]
+            let postparams = DeleteCommentRequestModel(id: dataComment.id ?? "", postID: postid, taskCreatedBy: (UserDefaults.standard.value(forKey: UserDetails.userId) as! String))
+//            print(postparams)
+            APIModel.deleteRequest(strURL: BASEURL + CREATEPOSTAPI + "?id=\(dataComment.id ?? "")&assignee_id=\(postid)" as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
+                self.commentsArray.remove(at: self.editCommentIndex)
+                self.commentTB.reloadData()
+            } failureHandler: { error in
+                print(error)
             }
         }
     }

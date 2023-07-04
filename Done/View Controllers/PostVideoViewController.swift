@@ -103,9 +103,11 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             if self.reelsModelArray[index].projectType == "open_for_anyone_to_work_on"{
                 lblProjectType.text  = "Open For Anyone To Work On"
                 self.viewSubCategory.isHidden = false
+                self.viewCategory.isHidden = false
             }else{
                 lblProjectType.text  = "Already Know Who I Want To Work On This Project"
                 self.viewSubCategory.isHidden = true
+                self.viewCategory.isHidden = true
             }
         
             self.getSubCategoryAPICall(id: self.reelsModelArray[index].categoryId ?? "")
@@ -129,7 +131,7 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         }
         
         projectTypeDropDown.anchorView = btnProjectType
-        projectTypeDropDown.dataSource = ["Open For Anyone to Work On", "Already Know Who I Want To Work On This Project"]
+        projectTypeDropDown.dataSource = ["Open For Anyone To Work On", "Already Know Who I Want To Work On This Project"]
         projectTypeDropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             print("Selected item: \(item) at index: \(index)")
             lblProjectType.text = item
@@ -365,7 +367,7 @@ extension PostViewController {
             }
             
             var stProjectType: String = ""
-            if lblProjectType.text  == "Open For Anyone To Work On"{
+            if (lblProjectType.text ?? "")  == "Open For Anyone To Work On"{
                 stProjectType = "open_for_anyone_to_work_on"
             }else{
                 stProjectType = "already_know_who_i_want_to_work_on_this_project"
@@ -425,7 +427,8 @@ extension PostViewController {
             }
             
             var stProjectType: String = ""
-            if lblProjectType.text  == "Open For Anyone To Work On"{
+            print(lblProjectType.text ?? "")
+            if (lblProjectType.text ?? "")  == "Open For Anyone To Work On"{
                 stProjectType = "open_for_anyone_to_work_on"
             }else{
                 stProjectType = "already_know_who_i_want_to_work_on_this_project"

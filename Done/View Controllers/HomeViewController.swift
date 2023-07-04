@@ -92,7 +92,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         indvw.frame = CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 1, width: self.assignBtn.frame.width, height: 2)
-        print(self.assignBtn.width)
+//        print(self.assignBtn.width)
         print(self.indvw.frame)
     }
     override func viewWillDisappear(_ animated: Bool) {

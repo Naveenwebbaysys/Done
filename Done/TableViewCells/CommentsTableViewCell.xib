@@ -92,6 +92,7 @@
                 <outlet property="commentLbl" destination="3BN-HA-xhp" id="A7E-vt-3kW"/>
                 <outlet property="dateLbl" destination="1nk-9R-kVo" id="B9f-aq-qC8"/>
                 <outlet property="userNameLbl" destination="Ror-Qg-1sz" id="Jan-2a-bn4"/>
+                <outlet property="viewBG" destination="AvW-fX-YC7" id="aqy-mF-lCc"/>
             </connections>
             <point key="canvasLocation" x="138.93129770992365" y="19.718309859154932"/>
         </tableViewCell>

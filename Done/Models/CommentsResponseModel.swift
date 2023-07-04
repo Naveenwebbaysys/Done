@@ -14,7 +14,7 @@ struct CommentsResponseModel: Codable {
 
 // MARK: - Datum
 struct CommentsData: Codable {
-    let id, assigneeEmployeeID, createdAt, comment: String?
+    var id, assigneeEmployeeID, createdAt, comment: String?
     let employeeID: String?
     let createdBy: String?
     let commenttype : String?
@@ -68,3 +68,23 @@ struct PostMediaCommentModel: Codable {
     }
 }
 
+struct UpdateCommentRequestModel: Codable {
+    let id: String?
+    let comment : String?
+    enum CodingKeys: String, CodingKey {
+        case id = "id"
+        case comment = "comment"
+    }
+}
+
+
+struct DeleteCommentRequestModel: Codable {
+    let id: String?
+    let postID : String?
+    let taskCreatedBy : String?
+    enum CodingKeys: String, CodingKey {
+        case id = "id"
+        case postID = "post_id"
+        case taskCreatedBy = "task_created_by"
+    }
+}
