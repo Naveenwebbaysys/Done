@@ -30,5 +30,7 @@ let UPDATEPOSTASDONE = "api/posts/mark-post-as-done.php"
 let READLASTMSGAPI = "task_created_by={task_created_by}&employee_id={employee_id}&assignee_employee_id={assignee_employee_id}"
 let CATEGORY_PROJECTTYPE = "api/posts/categories.php"
 
+let TOTALCOMMENTCOUNT = "api/posts/comment.php?assignee_id="
+
 
 //https://picsum.photos/v2/list?page={page}&limit={limit}

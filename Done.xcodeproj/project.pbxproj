@@ -48,6 +48,7 @@
 		0498F05F2A37583E0043B27E /* AWSS3Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0498F05E2A37583E0043B27E /* AWSS3Manager.swift */; };
 		049B8CE32A2DE516005926D4 /* PostVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049B8CE22A2DE516005926D4 /* PostVideoModel.swift */; };
 		04A8D47F2A3468CB00BC2628 /* TagsUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A8D47E2A3468CB00BC2628 /* TagsUsersViewController.swift */; };
+		04BA36D02A544FD5004808F3 /* TotalCommentCountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BA36CF2A544FD5004808F3 /* TotalCommentCountModel.swift */; };
 		04C142772A387A57005D1391 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C142762A387A57005D1391 /* CommentsViewController.swift */; };
 		04C1427A2A387CE9005D1391 /* CommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C142782A387CE9005D1391 /* CommentsTableViewCell.swift */; };
 		04C1427B2A387CE9005D1391 /* CommentsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04C142792A387CE9005D1391 /* CommentsTableViewCell.xib */; };
@@ -110,6 +111,7 @@
 		0498F05E2A37583E0043B27E /* AWSS3Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSS3Manager.swift; sourceTree = "<group>"; };
 		049B8CE22A2DE516005926D4 /* PostVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVideoModel.swift; sourceTree = "<group>"; };
 		04A8D47E2A3468CB00BC2628 /* TagsUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsUsersViewController.swift; sourceTree = "<group>"; };
+		04BA36CF2A544FD5004808F3 /* TotalCommentCountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalCommentCountModel.swift; sourceTree = "<group>"; };
 		04C142762A387A57005D1391 /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		04C142782A387CE9005D1391 /* CommentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsTableViewCell.swift; sourceTree = "<group>"; };
 		04C142792A387CE9005D1391 /* CommentsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentsTableViewCell.xib; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				045B4CDB2A3B34F30064CC77 /* CommissionResponseModel.swift */,
 				041F66F92A4C723F009C6AB4 /* UpdateDoneModel.swift */,
 				1BB7E9EE2A52C626005D7399 /* CategoryResponseModel.swift */,
+				04BA36CF2A544FD5004808F3 /* TotalCommentCountModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 				041345CF2A27661D00B6C553 /* GetReelsResponseModel.swift in Sources */,
 				041345D52A27900800B6C553 /* ReelsTableViewCell.swift in Sources */,
 				049B8CE32A2DE516005926D4 /* PostVideoModel.swift in Sources */,
+				04BA36D02A544FD5004808F3 /* TotalCommentCountModel.swift in Sources */,
 				048EB3A42A29B7A0004BE939 /* PostVideoViewController.swift in Sources */,
 				04400A9F2A30B1150028CECE /* SplashScreenViewController.swift in Sources */,
 				041F66F82A4C700E009C6AB4 /* ViewStatusTableViewCell.swift in Sources */,

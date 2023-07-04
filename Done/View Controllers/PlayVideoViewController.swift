@@ -13,6 +13,9 @@ class PlayVideoViewController: UIViewController {
     @IBOutlet weak var palyVideoTV : UITableView!
     var reelModelArray = [Post]()
     var userID = ""
+    var assigneeComments = [AssigneeComment]()
+    var totalComments =  [TotalComment]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,7 +26,7 @@ class PlayVideoViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-
+        toalCommentsCount(withAssinID: self.reelModelArray[0].id ?? "")
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -34,6 +37,22 @@ class PlayVideoViewController: UIViewController {
             (cell as! ReelsTableViewCell).stopPlayback()
         }
         
+    }
+    
+    func toalCommentsCount (withAssinID : String)
+    {
+        print(BASEURL + TOTALCOMMENTCOUNT + withAssinID)
+        APIModel.optionsRequest(strURL: BASEURL + TOTALCOMMENTCOUNT + withAssinID, postHeaders: headers as NSDictionary) { jsonData in
+            
+            let totalCommentCount = try? JSONDecoder().decode(TotalCommentCountModel.self, from: jsonData as! Data)
+
+            self.assigneeComments = (totalCommentCount?.assigneeComments)!
+            self.totalComments = (totalCommentCount?.totalComments)!
+            self.palyVideoTV.reloadData()
+        } failure: { error in
+            
+        }
+
     }
     
     @IBAction func backBtnAction()
@@ -79,7 +98,15 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
         {
             Reelcell.editBtn.isHidden = false
             Reelcell.doneBtn.setTitle("View Status", for: .normal)
-            Reelcell.countLbl.text = self.reelModelArray[indexPath.row].totalcommentscount
+            if self.totalComments.count > 0
+            {
+                Reelcell.countLbl.text = self.totalComments[0].totalCommentsCount
+            }
+            else
+            {
+                Reelcell.countLbl.text = "0"
+            }
+            
             Reelcell.editHeight.constant = 30
         }
         else
@@ -87,12 +114,22 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
             Reelcell.editHeight.constant = 0
             Reelcell.editBtn.isHidden = true
             Reelcell.doneBtn.setTitle("Done?", for: .normal)
-            if self.reelModelArray[indexPath.row].tagPeoples?[0].comments?.isEmpty == true {
-                Reelcell.countLbl.text = "0"
+            if self.assigneeComments.count >  0 {
+                
+                var comment  : Int = 0
+               
+                for (index, _) in self.assigneeComments.enumerated() {
+                   
+                    let a = Int(self.assigneeComments[index].assigneecomments!)
+                    comment += a!
+                }
+                
+                Reelcell.countLbl.text = "\(comment)"
             }
             else
             {
-                Reelcell.countLbl.text = self.reelModelArray[indexPath.row].tagPeoples?[0].comments?[0].comment
+                Reelcell.countLbl.text = "0"
+//                Reelcell.countLbl.text = self.reelModelArray[indexPath.row].tagPeoples?[0].comments?[0].comment
             }
         }
         Reelcell.commissionBtn.tag = indexPath.row

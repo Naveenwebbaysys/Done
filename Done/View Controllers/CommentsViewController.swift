@@ -71,12 +71,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
                 IQKeyboardManager.shared.enable = false
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        //        readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
-        
+            readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        
         IQKeyboardManager.shared.enable = true
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -527,9 +525,8 @@ extension CommentsViewController {
     @IBAction func sendCommentBtnAction()
     {
         print(self.commentsArray.count)
-        if commentTV.text != "Comment..."
+        if commentTV.text != "Comment..." &&  commentTV.text != ""
         {
-            
             if editCommentIndex >= 0{
                 print("edit")
                 self.updatesAPICall()
