@@ -11,10 +11,11 @@ import SDWebImage
 import AVFoundation
 import AVKit
 import DropDown
+import Photos
 
 class CommentsViewController: UIViewController, UITextViewDelegate {
     
-//    @IBOutlet weak var commentTF : UITextField!
+    //    @IBOutlet weak var commentTF : UITextField!
     @IBOutlet weak var commentTB : UITableView!
     @IBOutlet weak var descLbl : UILabel!
     @IBOutlet weak var constraintTxtCommentBottom: NSLayoutConstraint!
@@ -29,10 +30,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     var createdBy = ""
     var commentsArray = [CommentsData]()
     var postPeopleSelected: PostStatus?
-//    var orderAssigneeEmployeeID = ""
+    //    var orderAssigneeEmployeeID = ""
     var employeeID = ""
     var editCommentIndex: Int = -1
-//    var postCommentImage: UIImage?
+    //    var postCommentImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,9 +46,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         self.commentTB.dataSource = self
         
         self.descLbl.text = desc
-
         
-      
+        
+        
         
         
         IQKeyboardManager.shared.enable = false
@@ -68,13 +69,15 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-                IQKeyboardManager.shared.enable = false
+        IQKeyboardManager.shared.enable = false
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-            readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
+                readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        
         IQKeyboardManager.shared.enable = true
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -110,22 +113,36 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         
         let alertView = UIAlertController(title: "Please choose one", message: nil, preferredStyle: .actionSheet)
         let cameraAction: UIAlertAction = UIAlertAction(title: "Camera", style: .default) { action -> Void in
-            let picker = UIImagePickerController()
-            picker.sourceType = .camera
-            picker.mediaTypes = ["public.image","public.movie"]
-            picker.delegate = self
-            picker.videoMaximumDuration = TimeInterval(30.0)
-            picker.allowsEditing = false
-            self.present(picker, animated: true)
+            AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
+                if response {
+                    DispatchQueue.main.async {
+                        let picker = UIImagePickerController()
+                        picker.sourceType = .camera
+                        picker.mediaTypes = ["public.image","public.movie"]
+                        picker.delegate = self
+                        picker.videoMaximumDuration = TimeInterval(30.0)
+                        picker.allowsEditing = false
+                        self.present(picker, animated: true)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        let alertView = UIAlertController(title: "Are you sure?", message: "We appreciate your concern about denying this permission, but it will give you a seamless experience.", preferredStyle: .alert)
+                        let cancelAction: UIAlertAction = UIAlertAction(title: "Allow Later", style: .cancel) { action -> Void in
+                            alertView.dismiss(animated: true, completion: nil)
+                        }
+                        let allowNowAction: UIAlertAction = UIAlertAction(title: "Allow Now", style: .default) { action -> Void in
+                            UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                        }
+                        alertView.addAction(cancelAction)
+                        alertView.addAction(allowNowAction)
+                        let rootVC = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController
+                        rootVC?.present(alertView, animated: true, completion: nil)
+                    }
+                }
+            }
         }
         let photoLibraryAction: UIAlertAction = UIAlertAction(title: "Photo Library", style: .default) { action -> Void in
-            let picker = UIImagePickerController()
-            picker.sourceType = .photoLibrary
-            picker.mediaTypes = ["public.image","public.movie"]
-            picker.delegate = self
-            picker.videoMaximumDuration = TimeInterval(30.0)
-            picker.allowsEditing = false
-            self.present(picker, animated: true)
+            self.galleryOpen()
         }
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
             
@@ -267,7 +284,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         }else{
             self.constraintTxtCommentHeight.constant = 40
         }
-       
+        
         return true
     }
     
@@ -286,14 +303,99 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     }
     
     func tableviewBottomScroll(){
-//        DispatchQueue.main.async {
+        //        DispatchQueue.main.async {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             if !self.commentsArray.isEmpty{
                 let indexPath = IndexPath(row: self.commentsArray.count-1, section: 0)
                 self.commentTB.scrollToRow(at: indexPath, at: .bottom, animated: true)
             }
         }
-//        }
+        //        }
+    }
+    func openPhotos(){
+        DispatchQueue.main.async {
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                let picker = UIImagePickerController()
+                picker.sourceType = .photoLibrary
+                picker.mediaTypes = ["public.image","public.movie"]
+                picker.delegate = self
+                picker.videoMaximumDuration = TimeInterval(30.0)
+                picker.allowsEditing = false
+                self.present(picker, animated: true)
+            }
+        }
+    }
+    func galleryOpen(){
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized:
+            self.openPhotos()
+            break
+        case .denied, .restricted :
+            DispatchQueue.main.async {
+                let alertView = UIAlertController(title: "Are you sure?", message: "We appreciate your concern about denying this permission, but it will give you a seamless experience.", preferredStyle: .alert)
+                let cancelAction: UIAlertAction = UIAlertAction(title: "Allow Later", style: .cancel) { action -> Void in
+                    alertView.dismiss(animated: true, completion: nil)
+                }
+                let allowNowAction: UIAlertAction = UIAlertAction(title: "Allow Now", style: .default) { action -> Void in
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                }
+                alertView.addAction(cancelAction)
+                alertView.addAction(allowNowAction)
+                let rootVC = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController
+                rootVC?.present(alertView, animated: true, completion: nil)
+            }
+            break
+        case .limited:
+            self.openPhotos()
+            break
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { status in
+                switch status {
+                case .authorized:
+                    DispatchQueue.main.async {
+                        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                            let picker = UIImagePickerController()
+                            picker.sourceType = .photoLibrary
+                            picker.mediaTypes = ["public.image","public.movie"]
+                            picker.delegate = self
+                            picker.videoMaximumDuration = TimeInterval(30.0)
+                            picker.allowsEditing = false
+                            self.present(picker, animated: true)
+                        }
+                    }
+                    break
+                case .limited:
+                    self.openPhotos()
+                    break
+                case .denied, .restricted:
+                    DispatchQueue.main.async {
+                        let alertView = UIAlertController(title: "Are you sure?", message: "We appreciate your concern about denying this permission, but it will give you a seamless experience.", preferredStyle: .alert)
+                        let cancelAction: UIAlertAction = UIAlertAction(title: "Allow Later", style: .cancel) { action -> Void in
+                            alertView.dismiss(animated: true, completion: nil)
+                        }
+                        let allowNowAction: UIAlertAction = UIAlertAction(title: "Allow Now", style: .default) { action -> Void in
+                            UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                        }
+                        alertView.addAction(cancelAction)
+                        alertView.addAction(allowNowAction)
+                        let rootVC = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController
+                        rootVC?.present(alertView, animated: true, completion: nil)
+                    }
+                    break
+                case .notDetermined:
+                    break
+                    
+                @unknown default:
+                    break
+                }
+            }
+            
+        @unknown default:
+            break
+        }
+        
+        
     }
 }
 
@@ -378,7 +480,7 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
                 let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longTextPressed))
                 cell.addGestureRecognizer(longPressRecognizer)
             }
-          
+            
             return cell
         }else if (data.commenttype ?? "" ) == "video"{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCommentsTableViewCell", for: indexPath) as! ImageCommentsTableViewCell
@@ -525,43 +627,45 @@ extension CommentsViewController {
     @IBAction func sendCommentBtnAction()
     {
         print(self.commentsArray.count)
-        if commentTV.text != "Comment..." &&  commentTV.text != ""
+        if commentTV.text != "Comment..."
         {
             if editCommentIndex >= 0{
                 print("edit")
                 self.updatesAPICall()
             }else{
                 print("new")
-                let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text, commenttype: "text", assigneeid: postid)
-                DispatchQueue.global(qos: .background).async {
-                    print("This is run on the background queue")
-                    APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
-                        print(jsonResult)
-                        let destinationTime = TimeZone(identifier: "America/Los_Angeles")!
-                        // 2023-06-13 14:21:33
-                        let format = "yyyy-MM-dd HH:mm:ss"
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
-                        let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
-                        let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
-                        let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTV.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "text",isLocalStore: true, isLocalImageData: nil)
-                        self.commentsArray.append(newcomment)
-                        //                    print(self.commentsArray.count)
-                        self.commentTB.reloadData()
-                        self.commentTV.text = ""
-                        self.commentTV.resignFirstResponder()
-                        self.tableviewBottomScroll()
-                        
-                    } failureHandler: { error in
-                        print(error)
-                    }
-                    DispatchQueue.main.async {
-                        print("This is run on the main queue, after the previous code in outer block")
+                if !(commentTV.text ?? "").isEmpty{
+                    let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text, commenttype: "text", assigneeid: postid)
+                    DispatchQueue.global(qos: .background).async {
+                        print("This is run on the background queue")
+                        APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
+                            print(jsonResult)
+                            let destinationTime = TimeZone(identifier: "America/Los_Angeles")!
+                            // 2023-06-13 14:21:33
+                            let format = "yyyy-MM-dd HH:mm:ss"
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+                            let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
+                            let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
+                            let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTV.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "text",isLocalStore: true, isLocalImageData: nil)
+                            self.commentsArray.append(newcomment)
+                            //                    print(self.commentsArray.count)
+                            self.commentTB.reloadData()
+                            self.commentTV.text = ""
+                            self.commentTV.resignFirstResponder()
+                            self.tableviewBottomScroll()
+                            
+                        } failureHandler: { error in
+                            print(error)
+                        }
+                        DispatchQueue.main.async {
+                            print("This is run on the main queue, after the previous code in outer block")
+                        }
                     }
                 }
             }
         }
-             
+        
     }
     
     
@@ -588,7 +692,7 @@ extension CommentsViewController {
         if editCommentIndex >= 0{
             let dataComment = commentsArray[editCommentIndex]
             let postparams = DeleteCommentRequestModel(id: dataComment.id ?? "", postID: postid, taskCreatedBy: (UserDefaults.standard.value(forKey: UserDetails.userId) as! String))
-//            print(postparams)
+            //            print(postparams)
             APIModel.deleteRequest(strURL: BASEURL + CREATEPOSTAPI + "?id=\(dataComment.id ?? "")&assignee_id=\(postid)" as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
                 self.commentsArray.remove(at: self.editCommentIndex)
                 self.commentTB.reloadData()
@@ -660,7 +764,7 @@ extension CommentsViewController:delegateImageAndVideoComment{
     
     
     func delegate_ImageUploadComment(selectedData: Data, stDesc: String) {
-//        self.postCommentImage = selectedImage
+        //        self.postCommentImage = selectedImage
         let destinationTime = TimeZone(identifier: "America/Los_Angeles")!
         // 2023-06-13 14:21:33
         //        var stComment = ""

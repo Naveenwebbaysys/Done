@@ -7,84 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "89800825-1701-4D0C-886B-E045EBC6CB82"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Done/View Controllers/HomeViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "506"
-            endingLineNumber = "506"
-            landmarkName = "HomeViewController"
-            landmarkType = "21">
-            <Locations>
-               <Location
-                  uuid = "89800825-1701-4D0C-886B-E045EBC6CB82 - 4ef3e628cace37b6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.statusBtnTapped(Swift.Optional&lt;__C.UIButton&gt;) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sagar/Desktop/Sagar/Other/Done_Project/Done/Done/View%20Controllers/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "506"
-                  endingLineNumber = "506"
-                  offsetFromSymbolStart = "1732">
-               </Location>
-               <Location
-                  uuid = "89800825-1701-4D0C-886B-E045EBC6CB82 - 4ef3e628cace37b6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.statusBtnTapped(Swift.Optional&lt;__C.UIButton&gt;) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sagar/Desktop/Sagar/Other/Done_Project/Done/Done/View%20Controllers/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "506"
-                  endingLineNumber = "506"
-                  offsetFromSymbolStart = "1764">
-               </Location>
-               <Location
-                  uuid = "89800825-1701-4D0C-886B-E045EBC6CB82 - 4ef3e628cace37b6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.statusBtnTapped(Swift.Optional&lt;__C.UIButton&gt;) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sagar/Desktop/Sagar/Other/Done_Project/Done/Done/View%20Controllers/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "506"
-                  endingLineNumber = "506"
-                  offsetFromSymbolStart = "1828">
-               </Location>
-               <Location
-                  uuid = "89800825-1701-4D0C-886B-E045EBC6CB82 - 4ef3e628cace37f4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Done.HomeViewController.statusBtnTapped(Swift.Optional&lt;__C.UIButton&gt;) -&gt; ()"
-                  moduleName = "Done"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sagar/Desktop/Sagar/Other/Done_Project/Done/Done/View%20Controllers/HomeViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "508"
-                  endingLineNumber = "508"
-                  offsetFromSymbolStart = "128">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "A1BC2F68-FD02-4E6D-9501-E85B4BBF8CE0"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -158,6 +80,21 @@
                   startingLineNumber = "442"
                   endingLineNumber = "442"
                   offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "688B82D2-1BCD-41D2-9C4F-70E5DE62F95A - 75d3bae52e14c89a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in Done.PostViewController.updatePostAPICall(str: Swift.String) -&gt; ()"
+                  moduleName = "Done"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sagar/Desktop/Sagar/Other/Done_Project/Done/Done/View%20Controllers/PostVideoViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "441"
+                  endingLineNumber = "441"
+                  offsetFromSymbolStart = "6120">
                </Location>
             </Locations>
          </BreakpointContent>
