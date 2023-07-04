@@ -528,14 +528,13 @@ extension CommentsViewController {
         print(self.commentsArray.count)
         if commentTV.text != "Comment..."
         {
-<<<<<<< HEAD
             
             if editCommentIndex >= 0{
                 print("edit")
                 self.updatesAPICall()
             }else{
                 print("new")
-                let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text, commenttype: "text", assigneeid: "38944")
+                let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text, commenttype: "text", assigneeid: postid)
                 DispatchQueue.global(qos: .background).async {
                     print("This is run on the background queue")
                     APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
@@ -561,32 +560,6 @@ extension CommentsViewController {
                     DispatchQueue.main.async {
                         print("This is run on the main queue, after the previous code in outer block")
                     }
-=======
-            //            self.commentTF.resignFirstResponder()
-            let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text, commenttype: "text", assigneeid: postid)
-            DispatchQueue.global(qos: .background).async {
-                print("This is run on the background queue")
-                APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
-                    print(jsonResult)
-                    let destinationTime = TimeZone(identifier: "America/Los_Angeles")!
-                    // 2023-06-13 14:21:33
-                    let format = "yyyy-MM-dd HH:mm:ss"
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
-                    let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
-                    let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
-                    let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTV.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "text",isLocalStore: true, isLocalImageData: nil)
-                    self.commentsArray.append(newcomment)
-                    //                    print(self.commentsArray.count)
-                    self.commentTB.reloadData()
-                    self.commentTV.text = ""
-                    
-                } failureHandler: { error in
-                    print(error)
-                }
-                DispatchQueue.main.async {
-                    print("This is run on the main queue, after the previous code in outer block")
->>>>>>> master
                 }
             }
         }
