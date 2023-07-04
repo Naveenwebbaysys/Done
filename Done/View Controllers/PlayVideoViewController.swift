@@ -26,6 +26,16 @@ class PlayVideoViewController: UIViewController {
 
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        
+        for cell in palyVideoTV.visibleCells {
+            print(":::: viewDidDisappear ::::")
+            (cell as! ReelsTableViewCell).avPlayer?.seek(to: CMTime.zero)
+            (cell as! ReelsTableViewCell).stopPlayback()
+        }
+        
+    }
+    
     @IBAction func backBtnAction()
     {
         self.navigationController?.popViewController(animated: true)

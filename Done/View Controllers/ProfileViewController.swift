@@ -101,7 +101,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         
-        
+       
     }
     
     @IBAction func assignedBtnAct() {

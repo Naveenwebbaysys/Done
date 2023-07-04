@@ -68,7 +68,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        //        IQKeyboardManager.shared.enable = false
+                IQKeyboardManager.shared.enable = false
         //        readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
         
     }
@@ -140,7 +140,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     
     func getAllCommentsAPICall(withEmpID : String)
     {
-        let commentAPI = BASEURL + GETCOMMENTSAPI + withEmpID
+        let commentAPI = BASEURL + GETCOMMENTSAPI + withEmpID + "&page_no=1"
         APIModel.getRequest(strURL: commentAPI, postHeaders: headers as NSDictionary) { jsonData in
             let commentsResponse = try? JSONDecoder().decode(CommentsResponseModel.self, from: jsonData as! Data)
             if commentsResponse?.data != nil{
@@ -468,7 +468,7 @@ extension CommentsViewController {
         if commentTV.text != "Comment..."
         {
             //            self.commentTF.resignFirstResponder()
-            let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text, commenttype: "text", assigneeid: "38944")
+            let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text, commenttype: "text", assigneeid: postid)
             DispatchQueue.global(qos: .background).async {
                 print("This is run on the background queue")
                 APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in

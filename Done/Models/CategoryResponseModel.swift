@@ -28,7 +28,7 @@ struct CategoryData: Codable {
 
 // MARK: - Category
 struct Category: Codable {
-    let id, typeOfCategory, name, parentID: String
+    var id, typeOfCategory, name, parentID: String
     
     enum CodingKeys: String, CodingKey {
         case id = "id"

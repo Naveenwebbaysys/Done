@@ -335,13 +335,12 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
 
         NotificationCenter.default.addObserver(self, selector: #selector(restartPlayback), name: .AVPlayerItemDidPlayToEndTime, object: Reelcell.avPlayer?.currentItem)
         
-        if indexPath.row == self.reelsModelArray.count - 4{
+        if indexPath.row == self.reelsModelArray.count - 4 {
             if !isLastPage{
                 print("Coniddtion done.",indexPath.row)
                 currentPage += 1
                 self.getpostAPICall(withType: stType, page: currentPage)
             }
-           
         }
         return Reelcell
     }
