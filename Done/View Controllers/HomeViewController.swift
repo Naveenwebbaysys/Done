@@ -71,15 +71,18 @@ class HomeViewController: UIViewController {
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
-        
+        self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
         if menuIndex == 0{
             stType = "assigned_by_me"
+            self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
         }
         else if menuIndex == 1{
             stType = "still_working"
+            self.indvw.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
         }
         else if menuIndex == 2{
             stType = "done_success"
+            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
         }
         self.getpostAPICall(withType: stType, page: currentPage)
         self.activityIndicator.stopAnimating()
@@ -92,7 +95,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         indvw.frame = CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 1, width: self.assignBtn.frame.width, height: 2)
-//        print(self.assignBtn.width)
         print(self.indvw.frame)
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -332,13 +334,12 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
 
         NotificationCenter.default.addObserver(self, selector: #selector(restartPlayback), name: .AVPlayerItemDidPlayToEndTime, object: Reelcell.avPlayer?.currentItem)
         
-        if indexPath.row == self.reelsModelArray.count - 4{
+        if indexPath.row == self.reelsModelArray.count - 4 {
             if !isLastPage{
                 print("Coniddtion done.",indexPath.row)
                 currentPage += 1
                 self.getpostAPICall(withType: stType, page: currentPage)
             }
-           
         }
         return Reelcell
     }

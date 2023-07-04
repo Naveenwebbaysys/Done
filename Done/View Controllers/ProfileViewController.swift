@@ -101,7 +101,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         
-        
+       
     }
     
     @IBAction func assignedBtnAct() {
@@ -255,7 +255,7 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item = collectionView.dequeueReusableCell(withReuseIdentifier: "AulbumCollectionViewCell", for: indexPath) as! AulbumCollectionViewCell
-        let videoUrl = URL(string: self.reelsModelArray[indexPath.row].videoURL!)
+        let videoUrl = URL(string: self.reelsModelArray[indexPath.row].videoURL ?? "")
         item.thumbNailImageVW.image = getVideoThumbnail(url: videoUrl!)
         item.amountLbl.text = self.reelsModelArray[indexPath.row].commissionAmount ?? ""
         
