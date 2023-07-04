@@ -106,6 +106,7 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             }else{
                 lblProjectType.text  = "Already Know Who I Want To Work On This Project"
                 self.viewSubCategory.isHidden = true
+                self.viewCategory.isHidden = true
             }
         
             self.getSubCategoryAPICall(id: self.reelsModelArray[index].categoryId ?? "")

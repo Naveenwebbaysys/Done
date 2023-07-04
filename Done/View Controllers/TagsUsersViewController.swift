@@ -50,9 +50,9 @@ class TagsUsersViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.departmentsArry.append("Select Department")
-       
+        
         getTagUsersAPICall()
-
+        
     }
     
     func getTagUsersAPICall(){
@@ -63,18 +63,18 @@ class TagsUsersViewController: UIViewController {
             if tagsResponseModel?.data != nil
             {
                 
-//                let arrayLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
-//                let arrayRemoveLetters = ["a", "e", "g", "h"]
-//                let arrayRemainingLetters = arrayLetters.filter {
-//                    !arrayRemoveLetters.contains($0)
-//                }
-//
-//                let gg = self.tagsUsersArray.filter {
-//
-//                    !self.recentUsersArray.contains(where: $0.id)
-//                }
+                //                let arrayLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+                //                let arrayRemoveLetters = ["a", "e", "g", "h"]
+                //                let arrayRemainingLetters = arrayLetters.filter {
+                //                    !arrayRemoveLetters.contains($0)
+                //                }
+                //
+                //                let gg = self.tagsUsersArray.filter {
+                //
+                //                    !self.recentUsersArray.contains(where: $0.id)
+                //                }
                 
-              
+                
                 
                 self.tagsUsersArray = (tagsResponseModel?.data)!
                 self.backUpUsersArray = (tagsResponseModel?.data)!
@@ -144,14 +144,15 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        return section == 0 ? " Recent" : " All"
+        return section == 0 ? (self.recentUsersArray.count != 0 ? " Recent" : "" ): " All"
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-//        view.tintColor = UIColor.red
-           let header = view as! UITableViewHeaderFooterView
-           header.textLabel?.textColor = UIColor(named: "App_color")
-            header.textLabel?.font =  UIFont.boldSystemFont(ofSize: 18.0)
+        //        view.tintColor = UIColor.red
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor(named: "App_color")
+        header.textLabel?.font =  UIFont.boldSystemFont(ofSize: 18.0)
+        header.textLabel?.width = tagsTableVw.frame.width
         
     }
     
@@ -184,13 +185,13 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
             cell.seletionBtn.tag = indexPath.row
             
             let id = self.recentUsersArray[indexPath.row].id!
-//            if self.tags1.contains(id){
-//                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge.fill"), for: .normal)
-//                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
-//            }else{
-//                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge"), for: .normal)
-//                cell.seletionBtn.tintColor = .darkGray
-//            }
+            if self.tags1.contains(id){
+                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge.fill"), for: .normal)
+                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
+            }else{
+                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge"), for: .normal)
+                cell.seletionBtn.tintColor = .darkGray
+            }
         }
         else
         {
@@ -230,37 +231,78 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
 extension TagsUsersViewController{
     
     @objc func selectuserAction(_ sender : UIButton){
+        
+        let point = sender.convert(CGPoint.zero, to: self.tagsTableVw as UIView)
+        let indexPath: IndexPath! = tagsTableVw.indexPathForRow(at: point)
+        print("indexPath.row is = \(indexPath.row) && indexPath.section is = \(indexPath.section)")
+        
         if isSerching == false
         {
-            if self.tags1.contains(self.tagsUsersArray[sender.tag].id!){
-                if let idx = self.tags1.firstIndex(where: { $0 == self.tagsUsersArray[sender.tag].id!}) {
-                    self.tagPeoples1.remove(at: idx)
-                    self.tags1.remove(at: idx)
+            if indexPath.section == 0
+            {
+                if self.tags1.contains(self.recentUsersArray[sender.tag].id!){
+                    if let idx = self.tags1.firstIndex(where: { $0 == self.recentUsersArray[sender.tag].id!}) {
+                        self.tagPeoples1.remove(at: idx)
+                        self.tags1.remove(at: idx)
+                    }
+                }
+                else{
+                    self.tagPeoples1.append(self.recentUsersArray[sender.tag].firstName!)
+                    self.tags1.append(self.recentUsersArray[sender.tag].id!)
                 }
             }
-            else{
-                self.tagPeoples1.append(self.tagsUsersArray[sender.tag].firstName!)
-                self.tags1.append(self.tagsUsersArray[sender.tag].id!)
+            else
+            {
+                if self.tags1.contains(self.tagsUsersArray[sender.tag].id!){
+                    if let idx = self.tags1.firstIndex(where: { $0 == self.tagsUsersArray[sender.tag].id!}) {
+                        self.tagPeoples1.remove(at: idx)
+                        self.tags1.remove(at: idx)
+                    }
+                }
+                else{
+                    self.tagPeoples1.append(self.tagsUsersArray[sender.tag].firstName!)
+                    self.tags1.append(self.tagsUsersArray[sender.tag].id!)
+                }
             }
+            
+            
+            
+            
         }
         else
         {
-            if self.tags1.contains(self.filteredTagsUsersArray[sender.tag].id!){
-                if let idx = self.tags1.firstIndex(where: { $0 == self.filteredTagsUsersArray[sender.tag].id!}) {
-                    self.tagPeoples1.remove(at: idx)
-                    self.tags1.remove(at: idx)
+            if indexPath.section == 0
+            {
+                if self.tags1.contains(self.recentUsersArray[sender.tag].id!){
+                    if let idx = self.tags1.firstIndex(where: { $0 == self.recentUsersArray[sender.tag].id!}) {
+                        self.tagPeoples1.remove(at: idx)
+                        self.tags1.remove(at: idx)
+                    }
+                }
+                else{
+                    self.tagPeoples1.append(self.recentUsersArray[sender.tag].firstName!)
+                    self.tags1.append(self.recentUsersArray[sender.tag].id!)
                 }
             }
-            else{
-                self.tagPeoples1.append(self.filteredTagsUsersArray[sender.tag].firstName!)
-                self.tags1.append(self.filteredTagsUsersArray[sender.tag].id!)
+            else
+            {
+                if self.tags1.contains(self.filteredTagsUsersArray[sender.tag].id!){
+                    if let idx = self.tags1.firstIndex(where: { $0 == self.filteredTagsUsersArray[sender.tag].id!}) {
+                        self.tagPeoples1.remove(at: idx)
+                        self.tags1.remove(at: idx)
+                    }
+                }
+                else{
+                    self.tagPeoples1.append(self.filteredTagsUsersArray[sender.tag].firstName!)
+                    self.tags1.append(self.filteredTagsUsersArray[sender.tag].id!)
+                }
             }
         }
         print(self.tagPeoples1)
         print(self.tags1)
         //        self.tagsTableVw.reloadData()
         let indexPathRow:Int = sender.tag
-        let indexPosition = IndexPath(row: indexPathRow, section: 0)
+        let indexPosition = IndexPath(row: indexPath.row, section: indexPath.section)
         self.tagsTableVw.reloadRows(at: [indexPosition], with: .none)
         
     }
@@ -309,8 +351,8 @@ extension TagsUsersViewController{
 extension TagsUsersViewController: UITextFieldDelegate
 {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        tagPeoples1 =  [String]()
-//        tags1 =  [String]()
+        //        tagPeoples1 =  [String]()
+        //        tags1 =  [String]()
         
         let updatedString : String = ((textField.text as NSString?)?.replacingCharacters(in: range, with: string))!
         
