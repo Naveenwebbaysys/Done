@@ -37,7 +37,8 @@ class ReelsTableViewCell: UITableViewCell {
         self.setupMoviePlayer()
         reloadBtn.isHidden = true
         countLbl.text = "0"
- 
+        
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
