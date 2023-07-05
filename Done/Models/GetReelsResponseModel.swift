@@ -41,6 +41,7 @@ struct Post: Codable {
     let commissionType, commissionAmount, videoRestriction, notes,subcategoryId,categoryId: String?
     let createdOn, createdBy, commissionNoOfDays1, assigneeName: String?
     let totalcommentscount : String?
+    let categoryname,subcategoryname : String?
     let tagPeoples: [TagPeople]?
     
     enum CodingKeys: String, CodingKey {
@@ -60,7 +61,8 @@ struct Post: Codable {
         case totalcommentscount = "total_comments_count"
         case subcategoryId = "subcategory_id"
         case categoryId = "category_id"
-        
+        case categoryname = "categoryname"
+        case subcategoryname = "subcategoryname"
     }
 }
 

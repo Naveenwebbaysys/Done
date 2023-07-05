@@ -60,7 +60,11 @@ class HomeViewController: UIViewController {
         activityIndicator.color = .white
         activityIndicator.startAnimating()
         view.addSubview(activityIndicator)
-        
+        if #available(iOS 11.0, *) {
+            tblInstaReels.contentInsetAdjustmentBehavior = .never
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = false
+        }
        
     }
     
@@ -224,7 +228,7 @@ class HomeViewController: UIViewController {
             }
             let getReelsResponseModel = try? JSONDecoder().decode(GetReelsResponseModel.self, from: _result as! Data)
             self.noTaskLbl.isHidden = true
-            print(getReelsResponseModel?.data as Any)
+//            print(getReelsResponseModel?.data as Any)
             if getReelsResponseModel?.data?.posts?.isEmpty == false
             {
 //                self.reelsModelArray = (getReelsResponseModel?.data?.posts)!
@@ -259,6 +263,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.reelsModelArray.count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let Reelcell = self.tblInstaReels.dequeueReusableCell(withIdentifier: "ReelsTableViewCell") as! ReelsTableViewCell
         //var visibleIP : IndexPath?
@@ -278,7 +283,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         if yourDate != nil{
             let myStringDate = formatter.string(from: yourDate!)
             days = count(expDate: myStringDate)
-            Reelcell.dateLbl.text = "Expires in " + "\(days)" + " days " + myStringDate
+            Reelcell.dateLbl.text = "Expires in " + "\(days)" + " days - " + myStringDate
         }
        
         let videoURL = URL(string: self.reelsModelArray[indexPath.row].videoURL!)
@@ -286,6 +291,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
             Reelcell.videoPlayerItem = AVPlayerItem.init(url: videoURL!)
             let playerLayer = AVPlayerLayer(player: Reelcell.avPlayer)
             playerLayer.frame = self.view.bounds
+            playerLayer.videoGravity = AVLayerVideoGravity.resize
             Reelcell.playerView.layer.addSublayer(playerLayer)
             if firstTimeLoading == true
             {
@@ -341,7 +347,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         Reelcell.editBtn.addTarget(self, action: #selector(editBtnTapped(_:)), for: .touchUpInside)
         Reelcell.commentsBtn.addTarget(self, action: #selector(commentsBtnTapped(_:)), for: .touchUpInside)
         Reelcell.avPlayer?.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
-
+        Reelcell.lblCategoryNameAndSubCategory.text = "#\(self.reelsModelArray[indexPath.row].categoryname ?? "") , #\(self.reelsModelArray[indexPath.row].subcategoryname ?? "")"
         NotificationCenter.default.addObserver(self, selector: #selector(restartPlayback), name: .AVPlayerItemDidPlayToEndTime, object: Reelcell.avPlayer?.currentItem)
         
         if indexPath.row == self.reelsModelArray.count - 4 {

@@ -34,6 +34,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     var employeeID = ""
     var editCommentIndex: Int = -1
     //    var postCommentImage: UIImage?
+    var isLastPage: Bool = false
+    var currentPage:Int = 1
+    var apiCallingStart: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,14 +49,11 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         self.commentTB.dataSource = self
         
         self.descLbl.text = desc
-        
-        
-        
-        
+    
         
         IQKeyboardManager.shared.enable = false
-        
-        getAllCommentsAPICall(withEmpID: assignEmpID)
+        currentPage = 1
+        getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
         
         if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
             empID = id as! String
@@ -65,6 +65,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         commentTV.backgroundColor = .clear
         commentTV.text = "Comment..."
         commentTV.textColor = UIColor.lightGray
+        commentTB.transform = CGAffineTransform(scaleX: 1, y: -1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,8 +73,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         IQKeyboardManager.shared.enable = false
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-                readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
-        
+//        readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
+//        self.updateTableContentInset()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -155,18 +156,32 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         rootVC?.present(alertView, animated: true, completion: nil)
     }
     
-    func getAllCommentsAPICall(withEmpID : String)
-    {
-        let commentAPI = BASEURL + GETCOMMENTSAPI + withEmpID + "&page_no=1"
+    func getAllCommentsAPICall(withEmpID : String,Pageno:Int){
+        let commentAPI = BASEURL + GETCOMMENTSAPI + withEmpID + "&page_no=\(Pageno)"
+        self.apiCallingStart = true
         APIModel.getRequest(strURL: commentAPI, postHeaders: headers as NSDictionary) { jsonData in
+            self.apiCallingStart = false
             let commentsResponse = try? JSONDecoder().decode(CommentsResponseModel.self, from: jsonData as! Data)
             if commentsResponse?.data != nil{
-                self.commentsArray = (commentsResponse?.data)!
+//                self.commentsArray = (commentsResponse?.data)!
+                let numberOfData = (commentsResponse?.data ?? [CommentsData]()).count
+                let oldnumberOfData = self.commentsArray.count
+                for data in (commentsResponse?.data ?? [CommentsData]()){
+//                    self.commentsArray.insert(data, at: 0)
+                    self.commentsArray.append(data)
+                }
+                self.isLastPage = (commentsResponse?.data ?? [CommentsData]()).isEmpty ? true : false
                 DispatchQueue.main.async {
                     self.commentTB.reloadData()
-                    self.tableviewBottomScroll()
+                    if Pageno == 1{
+                        self.tableviewBottomScroll()
+                    }else{
+//                        let numberofRow = (numberOfData) - (oldnumberOfData) < 0 ? 0 : (numberOfData) - (oldnumberOfData)
+//                        print("scroll",numberofRow)
+//                        let indexPath = IndexPath(row: oldnumberOfData - 5, section: 0)
+//                        self.commentTB.scrollToRow(at: indexPath, at: .bottom, animated: false)
+                    }
                 }
-                
             }
             else
             {
@@ -306,7 +321,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         //        DispatchQueue.main.async {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             if !self.commentsArray.isEmpty{
-                let indexPath = IndexPath(row: self.commentsArray.count-1, section: 0)
+                let indexPath = IndexPath(row: 0, section: 0)
                 self.commentTB.scrollToRow(at: indexPath, at: .bottom, animated: true)
             }
         }
@@ -451,8 +466,10 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let data = self.commentsArray[indexPath.row]
+        
         if (data.commenttype ?? "" ) == "text"{
             let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsTableViewCell", for: indexPath) as! CommentsTableViewCell
+            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             //            let currentIndex = commentsArray.count-1
             //            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
@@ -481,9 +498,18 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
                 cell.addGestureRecognizer(longPressRecognizer)
             }
             
+            if indexPath.row == self.commentsArray.count - 4 {
+                if !isLastPage{
+                    print("Coniddtion done.",indexPath.row)
+                    currentPage += 1
+                    self.getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
+                }
+            }
+            
             return cell
         }else if (data.commenttype ?? "" ) == "video"{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCommentsTableViewCell", for: indexPath) as! ImageCommentsTableViewCell
+            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             //            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
             cell.btnVideoPlay.isHidden = false
@@ -531,9 +557,19 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
             } else {
                 print("Failed to convert date.")
             }
+            
+            if indexPath.row == self.commentsArray.count - 4 {
+                if !isLastPage{
+                    print("Coniddtion done.",indexPath.row)
+                    currentPage += 1
+                    self.getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
+                }
+            }
+            
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCommentsTableViewCell", for: indexPath) as! ImageCommentsTableViewCell
+            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             //            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
             cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
             cell.btnVideoPlay.isHidden = true
@@ -582,6 +618,15 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
             } else {
                 print("Failed to convert date.")
             }
+            
+            if indexPath.row == self.commentsArray.count - 4 {
+                if !isLastPage{
+                    print("Coniddtion done.",indexPath.row)
+                    currentPage += 1
+                    self.getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
+                }
+            }
+            
             return cell
         }
         
@@ -614,6 +659,9 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
             self.present(VC, animated: true)
         }
     }
+    
+   
+    
 }
 
 
@@ -648,7 +696,7 @@ extension CommentsViewController {
                             let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
                             let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
                             let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTV.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "text",isLocalStore: true, isLocalImageData: nil)
-                            self.commentsArray.append(newcomment)
+                            self.commentsArray.insert(newcomment, at: 0)
                             //                    print(self.commentsArray.count)
                             self.commentTB.reloadData()
                             self.commentTV.text = ""
@@ -757,7 +805,7 @@ extension CommentsViewController:delegateImageAndVideoComment{
         let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
         let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
         let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: stComment, employeeID: self.empID, createdBy: self.createdBy, commenttype: "video",isLocalStore: true, isLocalImageData: nil)
-        self.commentsArray.append(newcomment)
+        self.commentsArray.insert(newcomment, at: 0)
         self.commentTB.reloadData()
         self.tableviewBottomScroll()
     }
@@ -778,7 +826,7 @@ extension CommentsViewController:delegateImageAndVideoComment{
         let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
         let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
         let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: stDesc, employeeID: self.empID, createdBy: self.createdBy, commenttype: "image",isLocalStore: true, isLocalImageData: selectedData)
-        self.commentsArray.append(newcomment)
+        self.commentsArray.insert(newcomment, at: 0)
         self.commentTB.reloadData()
         self.tableviewBottomScroll()
     }

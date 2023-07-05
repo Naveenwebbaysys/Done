@@ -26,6 +26,7 @@ class ReelsTableViewCell: UITableViewCell {
     @IBOutlet weak var editBtn : UIButton!
     @IBOutlet weak var commissionBtn : UIButton!
     
+    @IBOutlet weak var lblCategoryNameAndSubCategory: UILabel!
     @IBOutlet weak var dontBtnWidth: NSLayoutConstraint!
     let activityIndicator = UIActivityIndicatorView(style: .large)
     var avPlayer: AVPlayer?
