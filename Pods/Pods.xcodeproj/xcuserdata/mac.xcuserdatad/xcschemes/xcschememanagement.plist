@@ -93,6 +93,16 @@
 			<key>orderHint</key>
 			<integer>10</integer>
 		</dict>
+		<key>MDFInternationalization.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>18</integer>
+		</dict>
+		<key>MaterialComponents.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>19</integer>
+		</dict>
 		<key>Pods-Done.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -103,7 +113,7 @@
 		<key>SDWebImage.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>17</integer>
+			<integer>15</integer>
 		</dict>
 		<key>SwiftyCam.xcscheme</key>
 		<dict>

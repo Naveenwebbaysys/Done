@@ -8,9 +8,11 @@
 import UIKit
 import iOSDropDown
 import AVFoundation
-
+import KRProgressHUD
 
 class ProfileViewController: UIViewController {
+    var currentPage:Int = 1
+    var isLastPage: Bool = false
     var selectedIndex = 0
     var menuIndex = 0
     var reelsModelArray = [Post]()
@@ -75,6 +77,9 @@ class ProfileViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.reelsModelArray.removeAll()
+        isLastPage = false
+        currentPage = 1
         self.noTaskLbl.isHidden = true
         assignCommission = ""
         stillworkingCommission = ""
@@ -100,25 +105,27 @@ class ProfileViewController: UIViewController {
         
         //        self.noTaskLbl.isHidden = true
         self.reelsModelArray.removeAll()
-        
         if menuIndex == 0{
             stType = "assigned_by_me"
             showAssignIndicater()
-            
         }
+        
         else if menuIndex == 1{
             stType = "still_working"
+            showStillWorking()
         }
+        
         else if menuIndex == 2{
             stType = "done_success"
-
+            showDoneSuccess()
         }
+        
         else if menuIndex == 3 {
-            self.getpostAPICall(withType: "approved")
+            stType = "approved"
+            showdoneApproved()
         }
-        
-        self.getpostAPICall(withType: stType)
-        
+//        self.getpostAPICall(withType: stType)
+        self.getpostAPICall(withType: stType, page: currentPage)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -131,42 +138,81 @@ class ProfileViewController: UIViewController {
         self.stillLbl.isHidden = true
         self.doneLbl.isHidden = true
         self.approvedLbl.isHidden = true
+        isLastPage = false
     }
+    
+    func showStillWorking()
+    {
+        self.assignLbl.isHidden = true
+        self.stillLbl.isHidden = false
+        self.doneLbl.isHidden = true
+        self.approvedLbl.isHidden = true
+        isLastPage = false
+    }
+    
+    func showDoneSuccess()
+    {
+        self.assignLbl.isHidden = true
+        self.stillLbl.isHidden = true
+        self.doneLbl.isHidden = false
+        self.approvedLbl.isHidden = true
+        isLastPage = false
+    }
+    
+    func showdoneApproved()
+    {
+        self.assignLbl.isHidden = true
+        self.stillLbl.isHidden = true
+        self.doneLbl.isHidden = true
+        self.approvedLbl.isHidden = false
+    }
+    
     @IBAction func assignedBtnAct() {
         menuIndex = 0
-        self.getpostAPICall(withType: "assigned_by_me")
+        self.reelsModelArray.removeAll()
+        isLastPage = false
+        currentPage = 1
+        stType = "assigned_by_me"
+        self.getpostAPICall(withType: stType , page: currentPage)
         self.noTaskLbl.isHidden = true
         showAssignIndicater()
+        isLastPage = false
         
     }
     
     @IBAction func stillBtnAct() {
         menuIndex = 1
-        self.getpostAPICall(withType: "still_working")
+        self.reelsModelArray.removeAll()
+        isLastPage = false
+        currentPage = 1
+        stType = "still_working"
+        self.getpostAPICall(withType: stType, page: currentPage)
+   
         self.noTaskLbl.isHidden = true
-        self.assignLbl.isHidden = true
-        self.stillLbl.isHidden = false
-        self.doneLbl.isHidden = true
-        self.approvedLbl.isHidden = true
+        showStillWorking()
+        
     }
     @IBAction func doneBtnAct() {
         menuIndex = 2
-        self.getpostAPICall(withType: "done_success")
+        self.reelsModelArray.removeAll()
+        isLastPage = false
+        currentPage = 1
+        stType = "done_success"
+        self.getpostAPICall(withType: stType, page: currentPage)
         self.noTaskLbl.isHidden = true
-        self.assignLbl.isHidden = true
-        self.stillLbl.isHidden = true
-        self.doneLbl.isHidden = false
-        self.approvedLbl.isHidden = true
+        showDoneSuccess()
+       
     }
     
     @IBAction func doneApprovedBtnAct() {
         menuIndex = 3
-        self.getpostAPICall(withType: "approved")
+        self.reelsModelArray.removeAll()
+        isLastPage = false
+        currentPage = 1
+        stType = "approved"
+        self.getpostAPICall(withType: stType, page: currentPage)
         self.noTaskLbl.isHidden = true
-        self.assignLbl.isHidden = true
-        self.stillLbl.isHidden = true
-        self.doneLbl.isHidden = true
-        self.approvedLbl.isHidden = false
+        showdoneApproved()
     }
     
     func getCommissionAPICall(withID : String){
@@ -209,14 +255,30 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    func getpostAPICall(withType : String){
+    func getpostAPICall(withType : String, page:Int){
         self.reelsModelArray.removeAll()
-        APIModel.getRequest(strURL: BASEURL + GETREELSURL + withType , postHeaders: headers as NSDictionary) { _result in
+        let url = BASEURL + GETREELSURL + withType + "&sort_due_date=desc" + "&page_no=\(page)"
+        print(url)
+        if page == 1{
+            KRProgressHUD.show()
+        }
+        
+        APIModel.getRequest(strURL: url , postHeaders: headers as NSDictionary) { _result in
+            if page == 1{
+                KRProgressHUD.dismiss()
+            }
+            
             let getReelsResponseModel = try? JSONDecoder().decode(GetReelsResponseModel.self, from: _result as! Data)
             print(getReelsResponseModel?.data as Any)
             if getReelsResponseModel?.data != nil
             {
-                self.reelsModelArray = (getReelsResponseModel?.data?.posts)!
+                for data in (getReelsResponseModel?.data?.posts ?? [Post]()){
+                    self.reelsModelArray.append(data)
+                }
+                self.isLastPage = (getReelsResponseModel?.data?.posts ?? [Post]()).count == 10 ? false : true
+//                if let cell = self.tblInstaReels.visibleCells.first as? ReelsTableViewCell {
+//                    
+//                }
                 if self.reelsModelArray.count == 0
                 {
                     print("No Reels found")
@@ -231,6 +293,9 @@ class ProfileViewController: UIViewController {
             self.aulbumCW.reloadData()
             //
         } failure: { error in
+            if page == 1{
+                KRProgressHUD.dismiss()
+            }
             print(error)
         }
     }
@@ -271,7 +336,10 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         let item = collectionView.dequeueReusableCell(withReuseIdentifier: "AulbumCollectionViewCell", for: indexPath) as! AulbumCollectionViewCell
         let videoUrl = URL(string: self.reelsModelArray[indexPath.row].videoURL ?? "")
         item.thumbNailImageVW.image = getVideoThumbnail(url: videoUrl!)
-        item.amountLbl.text = self.reelsModelArray[indexPath.row].commissionAmount ?? ""
+        let amount = self.reelsModelArray[indexPath.row].commissionAmount ?? "0"
+        
+        let tagpeople = self.reelsModelArray[indexPath.row].tagPeoples?.count ?? 0
+        item.amountLbl.text = "\(Int(amount)! * tagpeople)"
         
         if userID == self.reelsModelArray[indexPath.row].createdBy
         {
@@ -290,6 +358,13 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         
         item.assignCountLbl.text = "\(self.reelsModelArray[indexPath.row].tagPeoples?.count ?? 0)"
         
+        if indexPath.row == self.reelsModelArray.count - 4 {
+            if !isLastPage{
+                print("Coniddtion done.",indexPath.row)
+                currentPage += 1
+                self.getpostAPICall(withType: stType, page: currentPage)
+            }
+        }
         return item
     }
     
