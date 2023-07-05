@@ -12,6 +12,8 @@ import AWSCore
 import KRProgressHUD
 //import iOSDropDown
 import DropDown
+import MaterialComponents
+
 
 class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     
@@ -55,7 +57,8 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     @IBOutlet weak var lblCategoryTitle: UILabel!
     @IBOutlet weak var lblSubCategoryTitle: UILabel!
     @IBOutlet weak var constraintTableviewHeight: NSLayoutConstraint!
-    
+   @IBOutlet weak var viewVideoUploadProgress: UIView!
+    @IBOutlet weak var btnPost: UIButton!
     
     var reelsModelArray = [Post]()
     var index = 0
@@ -71,6 +74,7 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     var arrSubCategory = [Category]()
     var arrSelectSubCategory = [Category]()
     var arrLinkData = [String]()
+    let progressView = MDCProgressView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,6 +118,23 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             
             self.arrLinkData = self.reelsModelArray[index].addLinks ?? [String]()
             self.setTableviewHeight()
+        }else{
+            progressView.mode = .indeterminate
+            progressView.progressTintColor = UIColor.init(red: 152/255, green: 196/255, blue: 85/255, alpha: 1.0)
+            progressView.trackTintColor = UIColor.init(red: 152/255, green: 196/255, blue: 85/255, alpha: 0.4)
+            progressView.frame = CGRect(x: 0, y: 0, width: viewVideoUploadProgress.bounds.width, height: viewVideoUploadProgress.bounds.height)
+            progressView.layer.cornerRadius = 2.5
+            self.viewVideoUploadProgress.addSubview(progressView)
+            progressView.startAnimating()
+            self.btnPost.isEnabled = false
+            self.btnPost.backgroundColor = .lightGray
+            if let recordVideo = UserDefaults.standard.value(forKey: "compressedVideoPath") as? String
+            {
+                recordVideoURL = recordVideo
+            }
+            print("recordVideoURL -> " + recordVideoURL)
+            
+            self.uploadVideoToS3Server(filePath: recordVideoURL)
         }
         
         commissionTypeDropDown.anchorView = btnCommission
@@ -163,7 +184,6 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             lblSubCategoryTitle.text = item
             self.arrSelectSubCategory = [arrSubCategory[index - 1]]
         }
-        
         
         self.getAllCategoryAPICall()
     }
@@ -326,20 +346,25 @@ extension PostViewController {
     
     func uploadVideoToS3Server (filePath : String)
     {
-        KRProgressHUD.show()
-        let videoUrl = URL(fileURLWithPath: filePath)
-        AWSS3Manager.shared.uploadVideo(videoUrl: videoUrl, progress: { [weak self] (progress) in
-            guard let strongSelf = self else { return }
-        }) { [weak self] (uploadedFileUrl, error) in
-            KRProgressHUD.dismiss()
-            guard let strongSelf = self else { return }
-            if let awsS3Url = uploadedFileUrl as? String {
-                print("Uploaded file url: " + awsS3Url)
-                let awsS3Url = SERVERURL + awsS3Url
-                self?.createPostAPICall(str: awsS3Url)
-            } else {
-                print("\(String(describing: error?.localizedDescription))")
-                self!.showToast(message: error!.localizedDescription)
+        DispatchQueue.global(qos: .background).async {
+            let videoUrl = URL(fileURLWithPath: filePath)
+            AWSS3Manager.shared.uploadVideo(videoUrl: videoUrl, progress: { [weak self] (progress) in
+                guard let strongSelf = self else { return }
+            }) { [weak self] (uploadedFileUrl, error) in
+                
+                guard let strongSelf = self else { return }
+                if let awsS3Url = uploadedFileUrl as? String {
+                    print("Uploaded file url: " + awsS3Url)
+                    self?.awsS3Url = SERVERURL + awsS3Url
+                    self?.viewVideoUploadProgress.isHidden = true
+                    self?.progressView.stopAnimating()
+                    self?.btnPost.isEnabled = true
+                    self?.btnPost.backgroundColor = UIColor.init(red: 152/255, green: 196/255, blue: 85/255, alpha: 1.0)
+                    
+                } else {
+                    print("\(String(describing: error?.localizedDescription))")
+                    self!.showToast(message: error!.localizedDescription)
+                }
             }
         }
     }
@@ -372,13 +397,15 @@ extension PostViewController {
             }else{
                 stProjectType = "already_know_who_i_want_to_work_on_this_project"
             }
-            
+            KRProgressHUD.show()
+           
             let postparams = PostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: arrLinkData, tags: [], videoRestriction: restType, description: descText, assignedDate: todaysDate, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate,categoryId: stCategoryID,subcategoryId: stSubCategoryID,projectType: stProjectType)
             let jsonData = try! JSONEncoder().encode(postparams)
             let params11 = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
             print(params11!)
             APIModel.postRequest(strURL: BASEURL + CREATEPOSTURL as NSString , postParams: postparams, postHeaders: headers as NSDictionary) { result in
                 print(result)
+                KRProgressHUD.dismiss()
                 let postResponse = try? JSONDecoder().decode(PostResponseModel.self, from: result as! Data)
                 if postResponse?.status == true
                 {
@@ -542,12 +569,6 @@ extension PostViewController  {
     }
     
     @IBAction func postBtnAction(){
-        if let recordVideo = UserDefaults.standard.value(forKey: "compressedVideoPath") as? String
-        {
-            recordVideoURL = recordVideo
-        }
-        print("recordVideoURL -> " + recordVideoURL)
-        
         if amountTF.text == "" {
             amountTF.borderWidth = 1
             amountTF.borderColor = .red
@@ -581,7 +602,7 @@ extension PostViewController  {
         }
         else
         {
-            uploadVideoToS3Server(filePath: recordVideoURL)
+            self.createPostAPICall(str: awsS3Url)
         }
         
     }

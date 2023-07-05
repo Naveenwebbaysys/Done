@@ -19,6 +19,7 @@ target 'Done' do
   pod 'HMSegmentedControl'
   pod 'SDWebImage'
   pod 'DropDown'
+  pod 'MaterialComponents/ProgressView'
 end
 #
 
