@@ -12,12 +12,14 @@ import AVFoundation
 
 class ProfileViewController: UIViewController {
     var selectedIndex = 0
+    var menuIndex = 0
     var reelsModelArray = [Post]()
     var userID = ""
     var assignCommission = ""
     var stillworkingCommission = ""
     var doneCommission = ""
     var approvedCommission = ""
+    var stType: String = "assigned_by_me"
     
     private let itemsPerRow: CGFloat = 3
     @IBOutlet weak var segmentVW : UIView!
@@ -78,7 +80,10 @@ class ProfileViewController: UIViewController {
         stillworkingCommission = ""
         doneCommission = ""
         selectedIndex = 0
-        
+        if let i = UserDefaults.standard.value(forKey: "menuIndex")
+        {
+            menuIndex = i as! Int
+        }
         if let name = UserDefaults.standard.value(forKey: UserDetails.userName){
             self.nameLbl.text = name as? String
         }
@@ -95,47 +100,59 @@ class ProfileViewController: UIViewController {
         
         //        self.noTaskLbl.isHidden = true
         self.reelsModelArray.removeAll()
-        self.getpostAPICall(withType: "assigned_by_me")
+        
+        if menuIndex == 0{
+            stType = "assigned_by_me"
+            showAssignIndicater()
+            
+        }
+        else if menuIndex == 1{
+            stType = "still_working"
+        }
+        else if menuIndex == 2{
+            stType = "done_success"
+
+        }
+        else if menuIndex == 3 {
+            self.getpostAPICall(withType: "approved")
+        }
+        
+        self.getpostAPICall(withType: stType)
         
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        
-       
+    override func viewWillDisappear(_ animated: Bool) {
+        UserDefaults.standard.set(menuIndex, forKey: "menuIndex")
     }
     
-    @IBAction func assignedBtnAct() {
-        self.getpostAPICall(withType: "assigned_by_me")
-        self.noTaskLbl.isHidden = true
-//        UIView.animate(withDuration: 0.5) {
-//            self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
-//        }
-        
+    func showAssignIndicater()
+    {
         self.assignLbl.isHidden = false
         self.stillLbl.isHidden = true
         self.doneLbl.isHidden = true
         self.approvedLbl.isHidden = true
     }
+    @IBAction func assignedBtnAct() {
+        menuIndex = 0
+        self.getpostAPICall(withType: "assigned_by_me")
+        self.noTaskLbl.isHidden = true
+        showAssignIndicater()
+        
+    }
     
     @IBAction func stillBtnAct() {
+        menuIndex = 1
         self.getpostAPICall(withType: "still_working")
         self.noTaskLbl.isHidden = true
-//        UIView.animate(withDuration: 0.5) {
-//            self.indvw.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
-//        }
-        
         self.assignLbl.isHidden = true
         self.stillLbl.isHidden = false
         self.doneLbl.isHidden = true
         self.approvedLbl.isHidden = true
     }
     @IBAction func doneBtnAct() {
+        menuIndex = 2
         self.getpostAPICall(withType: "done_success")
         self.noTaskLbl.isHidden = true
-//        UIView.animate(withDuration: 0.5) {
-//            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
-//        }
-        
         self.assignLbl.isHidden = true
         self.stillLbl.isHidden = true
         self.doneLbl.isHidden = false
@@ -143,12 +160,9 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func doneApprovedBtnAct() {
+        menuIndex = 3
         self.getpostAPICall(withType: "approved")
         self.noTaskLbl.isHidden = true
-//        UIView.animate(withDuration: 0.5) {
-//            self.indvw.frame = CGRect(x: self.doneApprovedBtn.frame.minX, y: self.doneApprovedBtn.frame.maxY + 5, width: self.doneApprovedBtn.frame.width, height: 3)
-//        }
-        
         self.assignLbl.isHidden = true
         self.stillLbl.isHidden = true
         self.doneLbl.isHidden = true
@@ -161,7 +175,7 @@ class ProfileViewController: UIViewController {
             let commissionResponse = try? JSONDecoder().decode(CommissionResponseModel.self, from: jsonData as! Data)
             if commissionResponse?.data != nil
             {
-                self.commissionLbl.text = "$ " + (commissionResponse?.data?.doneCommission?.commission ?? "")
+                self.commissionLbl.text = "$ " + (commissionResponse?.data?.approvedcommission?.commission ?? "")
                 
                 self.assignCommission = (commissionResponse?.data?.assignedByCommission?.commission ?? "") + "(" + (commissionResponse?.data?.assignedByCommission?.commissionCount ?? "") + ")"
                 self.stillworkingCommission = (commissionResponse?.data?.stillWorkingCommission?.commission ?? "") + "(" + (commissionResponse?.data?.stillWorkingCommission?.commissionCount ?? "") + ")"
@@ -177,15 +191,15 @@ class ProfileViewController: UIViewController {
                 self.assignBtn.setAttributedTitle(part1, for: .normal)
                 self.assignBtn.titleLabel?.textAlignment = .center
                 
-                let part2 = NSAttributedString(string: "Still working  $"  + "\n" +  self.stillworkingCommission)
+                let part2 = NSAttributedString(string: "Still working  "  + "\n" +  "$" + self.stillworkingCommission)
                 self.stillBtn.setAttributedTitle(part2, for: .normal)
                 self.stillBtn.titleLabel?.textAlignment = .center
                 
-                let part3 = NSAttributedString(string: "Done Need to Check $"  + self.doneCommission)
+                let part3 = NSAttributedString(string: "Done Need to Check "  + "$" + self.doneCommission)
                 self.donecBtn.setAttributedTitle(part3, for: .normal)
                 self.donecBtn.titleLabel?.textAlignment = .center
                 
-                let part4 = NSAttributedString(string: "Done Approved $" + "\n" + self.approvedCommission)
+                let part4 = NSAttributedString(string: "Done Approved " + "\n" + "$" + self.approvedCommission)
                 self.doneApprovedBtn.setAttributedTitle(part4, for: .normal)
                 self.doneApprovedBtn.titleLabel?.textAlignment = .center
             }

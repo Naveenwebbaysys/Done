@@ -287,6 +287,7 @@ extension ViewStatusViewController {
             print(error)
         }
     }
+    
     func split(content : String) -> NSArray
     {
         var ar = [String]()

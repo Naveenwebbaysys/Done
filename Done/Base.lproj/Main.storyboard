@@ -328,7 +328,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="App_color"/>
                                     </view>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ctR-wv-y2V">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ctR-wv-y2V">
                                         <rect key="frame" x="345" y="5.5" width="25" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="25" id="fF6-7H-Wa0"/>
@@ -1207,8 +1207,8 @@
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aXU-BM-9iA">
                                         <rect key="frame" x="0.0" y="0.0" width="371" height="50"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="SlF-e7-Hjh">
-                                                <rect key="frame" x="0.0" y="0.0" width="510" height="44"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="SlF-e7-Hjh">
+                                                <rect key="frame" x="0.0" y="0.0" width="455" height="44"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Bs8-Vn-pkF">
                                                         <rect key="frame" x="0.0" y="0.0" width="100" height="44"/>
@@ -1221,15 +1221,14 @@
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="Assigend by me  $"/>
                                                         <connections>
-                                                            <action selector="assignedBtnAct" destination="bKs-y9-Tld" eventType="touchUpInside" id="oMG-fZ-tzt"/>
                                                             <action selector="assignedBtnAct" destination="5Xv-Ze-GgY" eventType="touchUpInside" id="vBJ-eo-Wo4"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="QKR-wL-SYS">
-                                                        <rect key="frame" x="110" y="0.0" width="120" height="44"/>
+                                                        <rect key="frame" x="105" y="0.0" width="100" height="44"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="120" id="nHM-Gy-ybT"/>
+                                                            <constraint firstAttribute="width" constant="100" id="nHM-Gy-ybT"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                                                         <color key="tintColor" red="0.59607843140000005" green="0.76862745099999996" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -1242,7 +1241,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ozM-Sn-bSW">
-                                                        <rect key="frame" x="240" y="0.0" width="130" height="44"/>
+                                                        <rect key="frame" x="210" y="0.0" width="130" height="44"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="130" id="0zI-yC-5to"/>
@@ -1258,13 +1257,13 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="CWr-cc-2yF">
-                                                        <rect key="frame" x="380" y="0.0" width="130" height="44"/>
+                                                        <rect key="frame" x="345" y="0.0" width="110" height="44"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="130" id="fkG-JN-J4z"/>
+                                                            <constraint firstAttribute="width" constant="110" id="fkG-JN-J4z"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Button">
+                                                        <state key="normal" title="Done Approved">
                                                             <color key="titleColor" name="App_color"/>
                                                         </state>
                                                         <connections>

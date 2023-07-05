@@ -14,6 +14,7 @@ import KRProgressHUD
 class HomeViewController: UIViewController {
     private var lastContentOffset: CGFloat = 0
     var menuIndex = 0
+    var isSuccess = false
     var assignCommission = ""
     var idFromDone = false
     var stillworkingCommission = ""
@@ -66,6 +67,7 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.noTaskLbl.isHidden = true
         self.firstTimeLoading = true
+        self.isSuccess = false
         self.navigationController?.isNavigationBarHidden = true
         
         self.reelsModelArray.removeAll()
@@ -177,15 +179,15 @@ class HomeViewController: UIViewController {
             print(self.stillworkingCommission)
             print(self.stillworkingCommission)
             
-            let part1 = NSAttributedString(string: "Assigend by me $"  + "\n" + self.assignCommission)
+            let part1 = NSAttributedString(string: "Assigend by me "  + "\n" + "$" + self.assignCommission)
             self.assignBtn.setAttributedTitle(part1, for: .normal)
             self.assignBtn.titleLabel?.textAlignment = .center
             
-            let part2 = NSAttributedString(string: "Still working $" + "\n" +  self.stillworkingCommission)
+            let part2 = NSAttributedString(string: "Still working " + "\n" + "$" + self.stillworkingCommission)
             self.stillBtn.setAttributedTitle(part2, for: .normal)
             self.stillBtn.titleLabel?.textAlignment = .center
             
-            let part3 = NSAttributedString(string: "Done $" + "\n" + self.doneCommission)
+            let part3 = NSAttributedString(string: "Done " + "\n" + "$" + self.doneCommission)
             self.donecBtn.setAttributedTitle(part3, for: .normal)
             self.donecBtn.titleLabel?.textAlignment = .center
             
@@ -312,7 +314,15 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         {
             Reelcell.editHeight.constant = 0
             Reelcell.editBtn.isHidden = true
-            Reelcell.doneBtn.setTitle("Done?", for: .normal)
+            if  isSuccess == true
+            {
+                Reelcell.doneBtn.setTitle("Success", for: .normal)
+            }
+            else
+            {
+                Reelcell.doneBtn.setTitle("Done?", for: .normal)
+            }
+            
             if self.reelsModelArray[indexPath.row].tagPeoples?[0].comments?.isEmpty == true {
                 Reelcell.countLbl.text = "0"
             }
@@ -419,6 +429,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
                 self.playVideoOnTheCell(cell: videoCell, indexPath: (indexPaths?.last)!)
             }
         }
+        
         if cellCount >= 2 {
             firstTimeLoading = false
             for i in 0..<cellCount{
@@ -507,14 +518,23 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
 extension HomeViewController {
     @objc func statusBtnTapped(_ sender: UIButton?) {
         print("Tapped")
-        let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
-        statusVC.postID = self.reelsModelArray[sender!.tag].id ?? ""
-        statusVC.notes = self.reelsModelArray[sender!.tag].notes ?? ""
-        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
-        statusVC.index = sender!.tag
-        statusVC.reelsModelArray = self.reelsModelArray
-        statusVC.isFromEdit = true
-        self.navigationController?.pushViewController(statusVC, animated: true)
+//        let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
+//        statusVC.postID = self.reelsModelArray[sender!.tag].id ?? ""
+//        statusVC.notes = self.reelsModelArray[sender!.tag].notes ?? ""
+//        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
+//        statusVC.index = sender!.tag
+//        statusVC.reelsModelArray = self.reelsModelArray
+//        statusVC.isFromEdit = true
+//        self.navigationController?.pushViewController(statusVC, animated: true)
+        
+        if sender?.titleLabel?.text ==  "Done?"
+        {
+            updatesAPICall(withTask: "done_success", index: sender!.tag)
+        }
+        else
+        {
+            
+        }
     }
     
     @objc func commentsBtnTapped(_ sender: UIButton?) {
@@ -553,5 +573,21 @@ extension HomeViewController {
         postVC.isFromEdit = true
         self.navigationController?.pushViewController(postVC, animated: true)
         
+    }
+    
+    func updatesAPICall(withTask: String, index : Int)
+    {
+        let postparams = UpdateDoneRequestModel(postID: Int(self.reelsModelArray[index].id!), employeeID: Int(userID), taskStatus: withTask)
+        APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
+            self.isSuccess = true
+//            self.reelsModelArray[index].
+            let indexPathRow:Int = index
+            let indexPosition = IndexPath(row: indexPathRow, section: 0)
+            self.tblInstaReels.reloadRows(at: [indexPosition], with: .none)
+            
+        } failureHandler: { error in
+            
+            print(error)
+        }
     }
 }

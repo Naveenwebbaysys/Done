@@ -18,11 +18,17 @@ class CustomViewController: UITabBarController {
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         
-        if selectedIndex == 1
+        if selectedIndex == 2
         {
-//            let postVC = self.storyboard?.instantiateViewController(withIdentifier: "RecordViewController") as! RecordViewController
-//            self.navigationController?.pushViewController(postVC, animated: true)
+            UserDefaults.standard.set(0, forKey: "menuIndex")
         }
+       
+        if let i = UserDefaults.standard.value(forKey: "menuIndex")
+        {
+            print(i)
+        }
+        
+        
         
     }
     
