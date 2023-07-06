@@ -8,14 +8,20 @@
 import UIKit
 import AVFoundation
 
+protocol indexProtocol {
+    func indexID(i: Int)
+}
 class PlayVideoViewController: UIViewController {
-
+    var selectedIndex = Int()
+    var delegate: indexProtocol? = nil
+    
     @IBOutlet weak var palyVideoTV : UITableView!
     var reelModelArray = [Post]()
     var userID = ""
     var assigneeComments = [AssigneeComment]()
     var totalComments =  [TotalComment]()
-    
+    var isSuccess = false
+    var idFromDone = Bool()
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,6 +32,7 @@ class PlayVideoViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.isSuccess = false
         toalCommentsCount(withAssinID: self.reelModelArray[0].id ?? "")
     }
     
@@ -57,6 +64,7 @@ class PlayVideoViewController: UIViewController {
     
     @IBAction func backBtnAction()
     {
+        self.delegate?.indexID(i: selectedIndex)
         self.navigationController?.popViewController(animated: true)
     }
 }
@@ -93,6 +101,14 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
             Reelcell.playerView.layer.addSublayer(playerLayer)
             Reelcell.avPlayer?.play()
         }
+        if idFromDone == true
+        {
+            Reelcell.dontBtnWidth.constant = 0
+        }
+        else
+        {
+            Reelcell.dontBtnWidth.constant = 100
+        }
         
         if userID == self.reelModelArray[indexPath.row].createdBy
         {
@@ -113,7 +129,15 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
         {
             Reelcell.editHeight.constant = 0
             Reelcell.editBtn.isHidden = true
-            Reelcell.doneBtn.setTitle("Done?", for: .normal)
+            if  isSuccess == true
+            {
+                Reelcell.doneBtn.setTitle("Success", for: .normal)
+            }
+            else
+            {
+                Reelcell.doneBtn.setTitle("Done?", for: .normal)
+            }
+          
             if self.assigneeComments.count >  0 {
                 
                 var comment  : Int = 0
@@ -152,7 +176,13 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
 
 extension PlayVideoViewController {
     @objc func statusBtnTapped(_ sender: UIButton?) {
+        
         print("Tapped")
+        if sender?.titleLabel?.text ==  "Done?"
+        {
+            updatesAPICall(withTask: "done_success", index: sender!.tag)
+        }
+        else {
         let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
         statusVC.postID = self.reelModelArray[sender!.tag].id ?? ""
         statusVC.notes = self.reelModelArray[sender!.tag].notes ?? ""
@@ -161,6 +191,7 @@ extension PlayVideoViewController {
         statusVC.reelsModelArray = self.reelModelArray
         statusVC.isFromEdit = true
         self.navigationController?.pushViewController(statusVC, animated: true)
+    }
     }
     
     @objc func commentsBtnTapped(_ sender: UIButton?) {
@@ -198,5 +229,21 @@ extension PlayVideoViewController {
         postVC.isFromEdit = true
         self.navigationController?.pushViewController(postVC, animated: true)
         
+    }
+    
+    func updatesAPICall(withTask: String, index : Int)
+    {
+        let postparams = UpdateDoneRequestModel(postID: Int(self.reelModelArray[index].id!), employeeID: Int(userID), taskStatus: withTask)
+        APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
+            self.isSuccess = true
+//            self.reelsModelArray[index].
+            let indexPathRow:Int = index
+            let indexPosition = IndexPath(row: indexPathRow, section: 0)
+            self.palyVideoTV.reloadRows(at: [indexPosition], with: .none)
+            
+        } failureHandler: { error in
+            
+            print(error)
+        }
     }
 }

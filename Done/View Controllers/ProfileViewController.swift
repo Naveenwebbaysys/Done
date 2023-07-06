@@ -10,9 +10,15 @@ import iOSDropDown
 import AVFoundation
 import KRProgressHUD
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, indexProtocol {
+    
+    func indexID(i: Int) {
+        menuIndex = i
+    }
+    
     var currentPage:Int = 1
     var isLastPage: Bool = false
+    var idFromDone = false
     var selectedIndex = 0
     var menuIndex = 0
     var reelsModelArray = [Post]()
@@ -64,10 +70,10 @@ class ProfileViewController: UIViewController {
         doneLbl.isHidden = true
         approvedLbl.isHidden = true
         
-        assignLbl.backgroundColor = UIColor(named: "App_color")
-        stillLbl.backgroundColor = UIColor(named: "App_color")
-        doneLbl.backgroundColor = UIColor(named: "App_color")
-        approvedLbl.backgroundColor = UIColor(named: "App_color")
+//        assignLbl.backgroundColor = UIColor(named: "App_color")
+//        stillLbl.backgroundColor = UIColor(named: "App_color")
+//        doneLbl.backgroundColor = UIColor(named: "App_color")
+//        approvedLbl.backgroundColor = UIColor(named: "App_color")
         
         self.stackVW.addSubview(assignLbl)
         self.stackVW.addSubview(stillLbl)
@@ -78,6 +84,10 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.reelsModelArray.removeAll()
+        if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
+            userID = (id as? String)!
+            getCommissionAPICall(withID: userID)
+        }
         isLastPage = false
         currentPage = 1
         self.noTaskLbl.isHidden = true
@@ -85,10 +95,10 @@ class ProfileViewController: UIViewController {
         stillworkingCommission = ""
         doneCommission = ""
         selectedIndex = 0
-        if let i = UserDefaults.standard.value(forKey: "menuIndex")
-        {
-            menuIndex = i as! Int
-        }
+//        if let i = UserDefaults.standard.value(forKey: "menuIndex")
+//        {
+//            menuIndex = i as! Int
+//        }
         if let name = UserDefaults.standard.value(forKey: UserDetails.userName){
             self.nameLbl.text = name as? String
         }
@@ -98,14 +108,12 @@ class ProfileViewController: UIViewController {
         if let dept = UserDefaults.standard.value(forKey: UserDetails.deptName){
             self.deptLbl.text = dept as? String
         }
-        if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
-            userID = (id as? String)!
-            getCommissionAPICall(withID: userID)
-        }
+       
         
         //        self.noTaskLbl.isHidden = true
         self.reelsModelArray.removeAll()
         if menuIndex == 0{
+            
             stType = "assigned_by_me"
             showAssignIndicater()
         }
@@ -126,48 +134,72 @@ class ProfileViewController: UIViewController {
         }
 //        self.getpostAPICall(withType: stType)
         self.getpostAPICall(withType: stType, page: currentPage)
+        showAssignIndicater()
     }
     
+    override func viewDidLayoutSubviews() {
+        showAssignIndicater()
+        
+    }
     override func viewWillDisappear(_ animated: Bool) {
-        UserDefaults.standard.set(menuIndex, forKey: "menuIndex")
+//        UserDefaults.standard.set(menuIndex, forKey: "menuIndex")
     }
     
     func showAssignIndicater()
     {
-        self.assignLbl.isHidden = false
-        self.stillLbl.isHidden = true
-        self.doneLbl.isHidden = true
-        self.approvedLbl.isHidden = true
+//        self.assignLbl.isHidden = false
+//        self.stillLbl.isHidden = true
+//        self.doneLbl.isHidden = true
+//        self.approvedLbl.isHidden = true
+        self.assignBtn.titleLabel?.textColor = UIColor(named: "App_color")
+        self.stillBtn.titleLabel?.textColor = .white
+        self.donecBtn.titleLabel?.textColor = .white
+        self.doneApprovedBtn.titleLabel?.textColor = .white
         isLastPage = false
     }
     
     func showStillWorking()
     {
-        self.assignLbl.isHidden = true
-        self.stillLbl.isHidden = false
-        self.doneLbl.isHidden = true
-        self.approvedLbl.isHidden = true
+//        self.assignLbl.isHidden = true
+//        self.stillLbl.isHidden = false
+//        self.doneLbl.isHidden = true
+//        self.approvedLbl.isHidden = true
+        self.assignBtn.titleLabel?.textColor = .white
+        self.stillBtn.titleLabel?.textColor = UIColor(named: "App_color")
+        self.donecBtn.titleLabel?.textColor = .white
+        self.doneApprovedBtn.titleLabel?.textColor = .white
         isLastPage = false
     }
     
     func showDoneSuccess()
     {
-        self.assignLbl.isHidden = true
-        self.stillLbl.isHidden = true
-        self.doneLbl.isHidden = false
-        self.approvedLbl.isHidden = true
+//        self.assignLbl.isHidden = true
+//        self.stillLbl.isHidden = true
+//        self.doneLbl.isHidden = false
+//        self.approvedLbl.isHidden = true
+        self.assignBtn.titleLabel?.textColor = .white
+        self.stillBtn.titleLabel?.textColor = .white
+        self.donecBtn.titleLabel?.textColor = UIColor(named: "App_color")
+        self.doneApprovedBtn.titleLabel?.textColor = .white
         isLastPage = false
     }
     
     func showdoneApproved()
     {
-        self.assignLbl.isHidden = true
-        self.stillLbl.isHidden = true
-        self.doneLbl.isHidden = true
-        self.approvedLbl.isHidden = false
+//        self.assignLbl.isHidden = true
+//        self.stillLbl.isHidden = true
+//        self.doneLbl.isHidden = true
+//        self.approvedLbl.isHidden = false
+        self.assignBtn.titleLabel?.textColor = .white
+        self.stillBtn.titleLabel?.textColor = .white
+        self.donecBtn.titleLabel?.textColor = .white
+        self.doneApprovedBtn.titleLabel?.textColor = UIColor(named: "App_color")
+        isLastPage = false
+        
     }
     
     @IBAction func assignedBtnAct() {
+        idFromDone = false
         menuIndex = 0
         self.reelsModelArray.removeAll()
         isLastPage = false
@@ -181,6 +213,7 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func stillBtnAct() {
+        idFromDone = false
         menuIndex = 1
         self.reelsModelArray.removeAll()
         isLastPage = false
@@ -193,6 +226,7 @@ class ProfileViewController: UIViewController {
         
     }
     @IBAction func doneBtnAct() {
+        idFromDone = true
         menuIndex = 2
         self.reelsModelArray.removeAll()
         isLastPage = false
@@ -205,6 +239,7 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func doneApprovedBtnAct() {
+        idFromDone = true
         menuIndex = 3
         self.reelsModelArray.removeAll()
         isLastPage = false
@@ -385,6 +420,9 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         let viewVidepVC = storyboard?.instantiateViewController(withIdentifier: "PlayVideoViewController") as! PlayVideoViewController
         viewVidepVC.reelModelArray.removeAll()
         viewVidepVC.reelModelArray.append(self.reelsModelArray[indexPath.row])
+        viewVidepVC.idFromDone = idFromDone
+        viewVidepVC.selectedIndex = menuIndex
+        viewVidepVC.delegate? = self
         self.navigationController?.pushViewController(viewVidepVC, animated: true)
     }
     

@@ -45,6 +45,7 @@ class TagsUsersViewController: UIViewController {
         //        dropdownTF.semanticContentAttribute = .forceRightToLeft
         dropdownTF.textColor = .black
         dropdownTF.arrowSize = 12
+        dropdownTF.arrowColor = UIColor(named: "App_color")!
         dropdownTF.resignFirstResponder()
     }
     
@@ -186,11 +187,11 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
             
             let id = self.recentUsersArray[indexPath.row].id!
             if self.tags1.contains(id){
-                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge.fill"), for: .normal)
-                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
+                cell.seletionBtn.setImage(UIImage(named: "check"), for: .normal)
+//                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
             }else{
-                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge"), for: .normal)
-                cell.seletionBtn.tintColor = .darkGray
+                cell.seletionBtn.setImage(UIImage(named: "uncheck"), for: .normal)
+//                cell.seletionBtn.tintColor = .darkGray
             }
         }
         else
@@ -208,11 +209,12 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
             
             let id = isSerching == false ? self.tagsUsersArray[indexPath.row].id! : self.filteredTagsUsersArray[indexPath.row].id!
             if self.tags1.contains(id){
-                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge.fill"), for: .normal)
-                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
+                cell.seletionBtn.setImage(UIImage(named: "check"), for: .normal)
+                
+//                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
             }else{
-                cell.seletionBtn.setImage(UIImage(systemName: "circlebadge"), for: .normal)
-                cell.seletionBtn.tintColor = .darkGray
+                cell.seletionBtn.setImage(UIImage(named: "uncheck"), for: .normal)
+//                cell.seletionBtn.tintColor = .darkGray
             }
         }
         return cell

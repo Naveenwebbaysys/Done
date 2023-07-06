@@ -43,8 +43,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var donecBtn : UIButton!
     @IBOutlet weak var tblInstaReels: UITableView!
     
-    
-    
+
     //MARK:- View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,10 +64,10 @@ class HomeViewController: UIViewController {
         } else {
             self.automaticallyAdjustsScrollViewInsets = false
         }
-       
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         self.noTaskLbl.isHidden = true
         self.firstTimeLoading = true
         self.isSuccess = false
@@ -81,27 +80,31 @@ class HomeViewController: UIViewController {
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
-        self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
+//        self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
         if menuIndex == 0{
             stType = "assigned_by_me"
-            self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
+            self.assignBtn.titleLabel?.textColor = UIColor(named: "App_color")
+            self.stillBtn.titleLabel?.textColor = .white
+            self.donecBtn.titleLabel?.textColor = .white
+//            self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
         }
         else if menuIndex == 1{
             stType = "still_working"
-            self.indvw.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
+            self.stillBtn.titleLabel?.textColor = UIColor(named: "App_color")
+//            self.indvw.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
         }
         else if menuIndex == 2{
             stType = "done_success"
-            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
+            self.donecBtn.titleLabel?.textColor = UIColor(named: "App_color")
+//            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
         }
         self.getpostAPICall(withType: stType, page: currentPage)
         self.activityIndicator.stopAnimating()
-        
     }
     
     override func viewDidLayoutSubviews() {
 //        indvw.frame = CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 1, width: self.assignBtn.frame.width, height: 2)
-        print(self.indvw.frame)
+       
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -123,6 +126,9 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func assignedBtnAct() {
+        self.assignBtn.titleLabel?.textColor = UIColor(named: "App_color")
+        self.stillBtn.titleLabel?.textColor = .white
+        self.donecBtn.titleLabel?.textColor = .white
         getCommissionAPICall(withID: userID)
         observers()
         menuIndex = 0
@@ -132,12 +138,15 @@ class HomeViewController: UIViewController {
         currentPage = 1
         stType = "assigned_by_me"
         self.getpostAPICall(withType: stType , page: currentPage)
-        UIView.animate(withDuration: 0.5) {
-            self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
-        }
+//        UIView.animate(withDuration: 0.5) {
+//            self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
+//        }
     }
     
     @IBAction func stillBtnAct() {
+        self.assignBtn.titleLabel?.textColor = .white
+        self.stillBtn.titleLabel?.textColor = UIColor(named: "App_color")
+        self.donecBtn.titleLabel?.textColor = .white
         getCommissionAPICall(withID: userID)
         observers()
         menuIndex = 1
@@ -147,12 +156,15 @@ class HomeViewController: UIViewController {
         currentPage = 1
         stType = "still_working"
         self.getpostAPICall(withType: stType, page: currentPage)
-        UIView.animate(withDuration: 0.5) {
-            self.indvw.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
-        }
+//        UIView.animate(withDuration: 0.5) {
+//            self.indvw.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
+//        }
        
     }
     @IBAction func doneBtnAct() {
+        self.assignBtn.titleLabel?.textColor = .white
+        self.stillBtn.titleLabel?.textColor = .white
+        self.donecBtn.titleLabel?.textColor = UIColor(named: "App_color")
         getCommissionAPICall(withID: userID)
         observers()
         menuIndex = 2
@@ -162,9 +174,9 @@ class HomeViewController: UIViewController {
         currentPage = 1
         stType = "done_success"
         self.getpostAPICall(withType: stType, page: currentPage)
-        UIView.animate(withDuration: 0.5) {
-            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
-        }
+//        UIView.animate(withDuration: 0.5) {
+//            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
+//        }
         
     }
     
@@ -188,17 +200,20 @@ class HomeViewController: UIViewController {
             print(self.stillworkingCommission)
             print(self.stillworkingCommission)
             
-            let part1 = NSAttributedString(string: "Assigend by me "  + "\n" + "$" + self.assignCommission)
+            let part1 = NSAttributedString(string: "Work I need Done"  + "\n" + "$" + self.assignCommission)
             self.assignBtn.setAttributedTitle(part1, for: .normal)
             self.assignBtn.titleLabel?.textAlignment = .center
+//            self.assignBtn.titleLabel?.textColor = UIColor(named: "App_color")
             
             let part2 = NSAttributedString(string: "Still working " + "\n" + "$" + self.stillworkingCommission)
             self.stillBtn.setAttributedTitle(part2, for: .normal)
             self.stillBtn.titleLabel?.textAlignment = .center
+//            self.stillBtn.titleLabel?.textColor = .white
             
             let part3 = NSAttributedString(string: "Done " + "\n" + "$" + self.doneCommission)
             self.donecBtn.setAttributedTitle(part3, for: .normal)
             self.donecBtn.titleLabel?.textAlignment = .center
+//            self.donecBtn.titleLabel?.textColor = .white
             
         } failure: { error in
             print(error)
@@ -219,7 +234,6 @@ class HomeViewController: UIViewController {
             NotificationCenter.default.removeObserver(self)
         }
     }
-    
     
     func getpostAPICall(withType : String,page:Int){
         let url = BASEURL + GETREELSURL + withType + "&sort_due_date=desc" + "&page_no=\(page)"
