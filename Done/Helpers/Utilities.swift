@@ -270,6 +270,14 @@ extension UIView {
             self.frame.size.width = newValue
         }
     }
+    
+    func setRoundCornersBY(corners : CACornerMask , cornerRaduis : CGFloat = 15){
+        if #available(iOS 11.0, *){
+            self.clipsToBounds = true
+            self.layer.cornerRadius = cornerRaduis
+            self.layer.maskedCorners = corners
+        }
+    }
 }
 
 

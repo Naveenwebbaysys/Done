@@ -54,12 +54,20 @@
 		04C1427B2A387CE9005D1391 /* CommentsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04C142792A387CE9005D1391 /* CommentsTableViewCell.xib */; };
 		04C1427D2A387F7A005D1391 /* CommentsResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1427C2A387F7A005D1391 /* CommentsResponseModel.swift */; };
 		04D3C2CE2A333E5900A5D460 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D3C2CD2A333E5900A5D460 /* ProfileViewController.swift */; };
+		1B066CFE2A56D08A007F07C6 /* ReceivedTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B066CFC2A56D08A007F07C6 /* ReceivedTextTableViewCell.swift */; };
+		1B066CFF2A56D08A007F07C6 /* ReceivedTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B066CFD2A56D08A007F07C6 /* ReceivedTextTableViewCell.xib */; };
+		1B066D022A56D2ED007F07C6 /* SenderImageAndVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B066D002A56D2ED007F07C6 /* SenderImageAndVideoTableViewCell.swift */; };
+		1B066D032A56D2ED007F07C6 /* SenderImageAndVideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B066D012A56D2ED007F07C6 /* SenderImageAndVideoTableViewCell.xib */; };
+		1B066D062A56D542007F07C6 /* ReceivedImageVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B066D042A56D542007F07C6 /* ReceivedImageVideoTableViewCell.swift */; };
+		1B066D072A56D542007F07C6 /* ReceivedImageVideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B066D052A56D542007F07C6 /* ReceivedImageVideoTableViewCell.xib */; };
 		1B09587F2A4AB454006A1F67 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B09587E2A4AB454006A1F67 /* MimeType.swift */; };
 		1B6F459D2A4DADE10086A429 /* ImageviewPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6F459C2A4DADE10086A429 /* ImageviewPreviewViewController.swift */; };
 		1B7661802A4B259600F63D0A /* ImageAndVideoCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B76617F2A4B259600F63D0A /* ImageAndVideoCommentViewController.swift */; };
 		1B7661832A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7661812A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift */; };
 		1B7661842A4B2B4500F63D0A /* ImageCommentsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B7661822A4B2B4500F63D0A /* ImageCommentsTableViewCell.xib */; };
 		1B943BAC2A4E87C2008BAE1B /* VideoPerviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B943BAB2A4E87C2008BAE1B /* VideoPerviewViewController.swift */; };
+		1BB75EE92A56C997001930A1 /* SenderTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB75EE72A56C997001930A1 /* SenderTextTableViewCell.swift */; };
+		1BB75EEA2A56C997001930A1 /* SenderTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BB75EE82A56C997001930A1 /* SenderTextTableViewCell.xib */; };
 		1BB7E9EF2A52C626005D7399 /* CategoryResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB7E9EE2A52C626005D7399 /* CategoryResponseModel.swift */; };
 		1BB7E9F22A52CDD7005D7399 /* AddLinksPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB7E9F02A52CDD7005D7399 /* AddLinksPostCell.swift */; };
 		1BB7E9F32A52CDD7005D7399 /* AddLinksPostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BB7E9F12A52CDD7005D7399 /* AddLinksPostCell.xib */; };
@@ -119,12 +127,20 @@
 		04D3C2CD2A333E5900A5D460 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		0D80175AE176548C1C11A743 /* Pods_Done.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Done.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		111463C9159DDB314BDB9F72 /* Pods-Done.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Done.debug.xcconfig"; path = "Target Support Files/Pods-Done/Pods-Done.debug.xcconfig"; sourceTree = "<group>"; };
+		1B066CFC2A56D08A007F07C6 /* ReceivedTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedTextTableViewCell.swift; sourceTree = "<group>"; };
+		1B066CFD2A56D08A007F07C6 /* ReceivedTextTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReceivedTextTableViewCell.xib; sourceTree = "<group>"; };
+		1B066D002A56D2ED007F07C6 /* SenderImageAndVideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenderImageAndVideoTableViewCell.swift; sourceTree = "<group>"; };
+		1B066D012A56D2ED007F07C6 /* SenderImageAndVideoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SenderImageAndVideoTableViewCell.xib; sourceTree = "<group>"; };
+		1B066D042A56D542007F07C6 /* ReceivedImageVideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedImageVideoTableViewCell.swift; sourceTree = "<group>"; };
+		1B066D052A56D542007F07C6 /* ReceivedImageVideoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReceivedImageVideoTableViewCell.xib; sourceTree = "<group>"; };
 		1B09587E2A4AB454006A1F67 /* MimeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
 		1B6F459C2A4DADE10086A429 /* ImageviewPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageviewPreviewViewController.swift; sourceTree = "<group>"; };
 		1B76617F2A4B259600F63D0A /* ImageAndVideoCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAndVideoCommentViewController.swift; sourceTree = "<group>"; };
 		1B7661812A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCommentsTableViewCell.swift; sourceTree = "<group>"; };
 		1B7661822A4B2B4500F63D0A /* ImageCommentsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCommentsTableViewCell.xib; sourceTree = "<group>"; };
 		1B943BAB2A4E87C2008BAE1B /* VideoPerviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPerviewViewController.swift; sourceTree = "<group>"; };
+		1BB75EE72A56C997001930A1 /* SenderTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenderTextTableViewCell.swift; sourceTree = "<group>"; };
+		1BB75EE82A56C997001930A1 /* SenderTextTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SenderTextTableViewCell.xib; sourceTree = "<group>"; };
 		1BB7E9EE2A52C626005D7399 /* CategoryResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryResponseModel.swift; sourceTree = "<group>"; };
 		1BB7E9F02A52CDD7005D7399 /* AddLinksPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinksPostCell.swift; sourceTree = "<group>"; };
 		1BB7E9F12A52CDD7005D7399 /* AddLinksPostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddLinksPostCell.xib; sourceTree = "<group>"; };
@@ -227,6 +243,14 @@
 				1B7661822A4B2B4500F63D0A /* ImageCommentsTableViewCell.xib */,
 				1BB7E9F02A52CDD7005D7399 /* AddLinksPostCell.swift */,
 				1BB7E9F12A52CDD7005D7399 /* AddLinksPostCell.xib */,
+				1BB75EE72A56C997001930A1 /* SenderTextTableViewCell.swift */,
+				1BB75EE82A56C997001930A1 /* SenderTextTableViewCell.xib */,
+				1B066CFC2A56D08A007F07C6 /* ReceivedTextTableViewCell.swift */,
+				1B066CFD2A56D08A007F07C6 /* ReceivedTextTableViewCell.xib */,
+				1B066D002A56D2ED007F07C6 /* SenderImageAndVideoTableViewCell.swift */,
+				1B066D012A56D2ED007F07C6 /* SenderImageAndVideoTableViewCell.xib */,
+				1B066D042A56D542007F07C6 /* ReceivedImageVideoTableViewCell.swift */,
+				1B066D052A56D542007F07C6 /* ReceivedImageVideoTableViewCell.xib */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -368,6 +392,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B066CFF2A56D08A007F07C6 /* ReceivedTextTableViewCell.xib in Resources */,
 				045C35622A206E71007968C9 /* LaunchScreen.storyboard in Resources */,
 				04400A992A2F11520028CECE /* TagUsersTableViewCell.xib in Resources */,
 				045B4CE22A3B3AA90064CC77 /* AulbumCollectionViewCell.xib in Resources */,
@@ -377,7 +402,10 @@
 				045C355D2A206E70007968C9 /* Main.storyboard in Resources */,
 				04C1427B2A387CE9005D1391 /* CommentsTableViewCell.xib in Resources */,
 				0441AE542A3CD5C4008119FB /* Color.xcassets in Resources */,
+				1BB75EEA2A56C997001930A1 /* SenderTextTableViewCell.xib in Resources */,
 				1B7661842A4B2B4500F63D0A /* ImageCommentsTableViewCell.xib in Resources */,
+				1B066D072A56D542007F07C6 /* ReceivedImageVideoTableViewCell.xib in Resources */,
+				1B066D032A56D2ED007F07C6 /* SenderImageAndVideoTableViewCell.xib in Resources */,
 				1BB7E9F32A52CDD7005D7399 /* AddLinksPostCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -433,6 +461,7 @@
 			files = (
 				045B4CE12A3B3AA90064CC77 /* AulbumCollectionViewCell.swift in Sources */,
 				0497D0F82A33029800B4A185 /* ViewStatusViewController.swift in Sources */,
+				1B066D022A56D2ED007F07C6 /* SenderImageAndVideoTableViewCell.swift in Sources */,
 				0498F05F2A37583E0043B27E /* AWSS3Manager.swift in Sources */,
 				041345D22A2766A900B6C553 /* API's.swift in Sources */,
 				04C1427D2A387F7A005D1391 /* CommentsResponseModel.swift in Sources */,
@@ -440,6 +469,7 @@
 				1B7661832A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift in Sources */,
 				045C35712A206EEC007968C9 /* LoginModel.swift in Sources */,
 				1BFECB0D2A4C42D900823B86 /* CommentsVM.swift in Sources */,
+				1B066CFE2A56D08A007F07C6 /* ReceivedTextTableViewCell.swift in Sources */,
 				04400A9D2A3098740028CECE /* Extra.swift in Sources */,
 				1B09587F2A4AB454006A1F67 /* MimeType.swift in Sources */,
 				04C1427A2A387CE9005D1391 /* CommentsTableViewCell.swift in Sources */,
@@ -455,6 +485,7 @@
 				045C356E2A206EEC007968C9 /* Utilities.swift in Sources */,
 				049764252A28D52700D577D0 /* VideoViewController.swift in Sources */,
 				041345CF2A27661D00B6C553 /* GetReelsResponseModel.swift in Sources */,
+				1B066D062A56D542007F07C6 /* ReceivedImageVideoTableViewCell.swift in Sources */,
 				041345D52A27900800B6C553 /* ReelsTableViewCell.swift in Sources */,
 				049B8CE32A2DE516005926D4 /* PostVideoModel.swift in Sources */,
 				04BA36D02A544FD5004808F3 /* TotalCommentCountModel.swift in Sources */,
@@ -471,6 +502,7 @@
 				1B943BAC2A4E87C2008BAE1B /* VideoPerviewViewController.swift in Sources */,
 				04D3C2CE2A333E5900A5D460 /* ProfileViewController.swift in Sources */,
 				045C35742A2087E2007968C9 /* HomeViewController.swift in Sources */,
+				1BB75EE92A56C997001930A1 /* SenderTextTableViewCell.swift in Sources */,
 				045C35582A206E70007968C9 /* SceneDelegate.swift in Sources */,
 				1BB7E9EF2A52C626005D7399 /* CategoryResponseModel.swift in Sources */,
 				04A8D47F2A3468CB00BC2628 /* TagsUsersViewController.swift in Sources */,
