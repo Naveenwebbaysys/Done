@@ -14,7 +14,8 @@ class CommentsVM: NSObject {
     var controller : UIViewController?
     
     func uploadImage(UploadImage:UIImage,stOrderAssigneeEmployeeID:String,employeeID:String,postID:String,stComment:String){
-        DispatchQueue.global(qos: .background).async {
+        KRProgressHUD.show()
+//        DispatchQueue.global(qos: .background).async {
             AWSS3Manager.shared.uploadImage(image: UploadImage, progress: { [weak self] (progress) in
                 guard let strongSelf = self else { return }
             }) { [weak self] (uploadedFileUrl, error) in
@@ -31,11 +32,12 @@ class CommentsVM: NSObject {
                     self?.controller?.showToast(message: error!.localizedDescription)
                 }
             }
-        }
+//        }
     }
     
     func uploadVideo(fileVideo:URL,stOrderAssigneeEmployeeID:String,employeeID:String,postID:String,stComment:String){
-        DispatchQueue.global(qos: .background).async {
+        KRProgressHUD.show()
+//        DispatchQueue.global(qos: .background).async {
             self.compressVideo(videoURL: fileVideo) { videoURL, error in
                 if videoURL != nil{
                     //                    KRProgressHUD.show()
@@ -56,7 +58,7 @@ class CommentsVM: NSObject {
                     }
                 }
             }
-        }
+//        }
     }
     
     func addCommentsAPICall(str : String,stOrderAssigneeEmployeeID:String,employeeID:String,postID:String,stComment:String,commentType:String){
@@ -71,6 +73,8 @@ class CommentsVM: NSObject {
                 print("Request parameter==",postparams)
         //            print("This is run on the background queue")
         APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
+            KRProgressHUD.dismiss()
+            self.controller?.navigationController?.popViewController(animated: true)
             print("background post comment==\(String(data: jsonResult as! Data, encoding: .utf8))")
             //            self.controller?.navigationController?.popViewController(animated: true)
         } failureHandler: { error in

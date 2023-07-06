@@ -73,7 +73,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         IQKeyboardManager.shared.enable = false
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
+//        readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
 //        self.updateTableContentInset()
     }
     
@@ -430,7 +430,7 @@ extension CommentsViewController: UIImagePickerControllerDelegate, UINavigationC
                 VC.postid = self.postid
                 VC.delegate = self
                 VC.orderAssigneeEmployeeID = self.assignEmpID
-                VC.employeeID = self.employeeID
+                VC.employeeID = self.empID
                 self.navigationController?.pushViewController(VC, animated: true)
             }
         }else if let videoUrl = info[.mediaURL] as? URL {
@@ -442,7 +442,7 @@ extension CommentsViewController: UIImagePickerControllerDelegate, UINavigationC
                 VC.postid = self.postid
                 VC.delegate = self
                 VC.orderAssigneeEmployeeID = self.assignEmpID
-                VC.employeeID = self.employeeID
+                VC.employeeID = self.empID
                 self.navigationController?.pushViewController(VC, animated: true)
             }
         }else{
@@ -660,7 +660,7 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
         }
     }
     
-   
+    
     
 }
 

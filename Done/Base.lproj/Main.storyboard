@@ -2259,10 +2259,11 @@ video</string>
                                                         </subviews>
                                                     </stackView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NIp-rg-Den">
-                                                        <rect key="frame" x="137" y="671.5" width="101" height="40"/>
+                                                        <rect key="frame" x="137.5" y="671.5" width="100" height="40"/>
                                                         <color key="backgroundColor" red="0.59607843140000005" green="0.76862745099999996" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="Kad-Kp-qdL"/>
+                                                            <constraint firstAttribute="width" constant="100" id="mRS-67-I66"/>
                                                         </constraints>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -2345,6 +2346,7 @@ video</string>
                         <outlet property="btnProjectType" destination="UBU-hD-i42" id="SVh-vC-QHx"/>
                         <outlet property="btnRestrict" destination="7uq-CJ-CZR" id="TfY-iZ-q79"/>
                         <outlet property="commissionTypeLbl" destination="fpy-lt-9IR" id="DjB-Zg-uZb"/>
+                        <outlet property="constraintBtnPostWidth" destination="mRS-67-I66" id="Vok-DE-X09"/>
                         <outlet property="constraintTableviewHeight" destination="byV-Ob-WP3" id="9oe-Qv-yg2"/>
                         <outlet property="dateLbl" destination="03w-nO-8Mk" id="ypT-qx-PYp"/>
                         <outlet property="descriptionTV" destination="qZ7-9U-III" id="Bux-eR-GfB"/>

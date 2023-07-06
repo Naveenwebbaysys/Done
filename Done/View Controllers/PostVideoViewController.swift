@@ -59,6 +59,7 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     @IBOutlet weak var constraintTableviewHeight: NSLayoutConstraint!
    @IBOutlet weak var viewVideoUploadProgress: UIView!
     @IBOutlet weak var btnPost: UIButton!
+    @IBOutlet weak var constraintBtnPostWidth: NSLayoutConstraint!
     
     var reelsModelArray = [Post]()
     var index = 0
@@ -118,7 +119,11 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             
             self.arrLinkData = self.reelsModelArray[index].addLinks ?? [String]()
             self.setTableviewHeight()
+            self.btnPost.setTitle("Update post", for: .normal)
+            self.constraintBtnPostWidth.constant = 150
         }else{
+            self.btnPost.setTitle("Post", for: .normal)
+            self.constraintBtnPostWidth.constant = 100
             progressView.mode = .indeterminate
             progressView.progressTintColor = UIColor.init(red: 152/255, green: 196/255, blue: 85/255, alpha: 1.0)
             progressView.trackTintColor = UIColor.init(red: 152/255, green: 196/255, blue: 85/255, alpha: 0.4)

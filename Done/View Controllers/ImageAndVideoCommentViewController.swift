@@ -130,7 +130,7 @@ class ImageAndVideoCommentViewController: UIViewController, UITextViewDelegate {
                 CommentsVM.shared.uploadImage(UploadImage: selectedImage ?? UIImage(),stOrderAssigneeEmployeeID:self.orderAssigneeEmployeeID,employeeID:self.employeeID,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!)
             }
         }
-        self.navigationController?.popViewController(animated: true)
+       
     }
     
     @IBAction func btnBackAction(_ sender: UIButton) {
