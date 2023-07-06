@@ -276,6 +276,7 @@ class ProfileViewController: UIViewController {
                     self.reelsModelArray.append(data)
                 }
                 self.isLastPage = (getReelsResponseModel?.data?.posts ?? [Post]()).count == 10 ? false : true
+                self.aulbumCW.reloadData()
 //                if let cell = self.tblInstaReels.visibleCells.first as? ReelsTableViewCell {
 //                    
 //                }
@@ -290,7 +291,7 @@ class ProfileViewController: UIViewController {
                 print("No Reels found")
                 self.noTaskLbl.isHidden = false
             }
-            self.aulbumCW.reloadData()
+           
             //
         } failure: { error in
             if page == 1{
@@ -358,7 +359,7 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         
         item.assignCountLbl.text = "\(self.reelsModelArray[indexPath.row].tagPeoples?.count ?? 0)"
         
-        if indexPath.row == self.reelsModelArray.count - 4 {
+        if indexPath.row == self.reelsModelArray.count - 1 {
             if !isLastPage{
                 print("Coniddtion done.",indexPath.row)
                 currentPage += 1

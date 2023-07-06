@@ -524,14 +524,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
 extension HomeViewController {
     @objc func statusBtnTapped(_ sender: UIButton?) {
         print("Tapped")
-//        let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
-//        statusVC.postID = self.reelsModelArray[sender!.tag].id ?? ""
-//        statusVC.notes = self.reelsModelArray[sender!.tag].notes ?? ""
-//        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
-//        statusVC.index = sender!.tag
-//        statusVC.reelsModelArray = self.reelsModelArray
-//        statusVC.isFromEdit = true
-//        self.navigationController?.pushViewController(statusVC, animated: true)
+
         
         if sender?.titleLabel?.text ==  "Done?"
         {
@@ -539,7 +532,14 @@ extension HomeViewController {
         }
         else
         {
-            
+                    let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
+                    statusVC.postID = self.reelsModelArray[sender!.tag].id ?? ""
+                    statusVC.notes = self.reelsModelArray[sender!.tag].notes ?? ""
+                    statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
+                    statusVC.index = sender!.tag
+                    statusVC.reelsModelArray = self.reelsModelArray
+                    statusVC.isFromEdit = true
+                    self.navigationController?.pushViewController(statusVC, animated: true)
         }
     }
     

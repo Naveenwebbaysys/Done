@@ -73,7 +73,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         IQKeyboardManager.shared.enable = false
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-//        readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
+        readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
 //        self.updateTableContentInset()
     }
     
