@@ -521,6 +521,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnComment" destination="L43-yZ-zuV" id="aS2-BI-g4t"/>
                         <outlet property="commentTB" destination="byO-qb-Ikq" id="19J-mO-1j5"/>
                         <outlet property="commentTV" destination="PfC-ma-YWr" id="2Pf-Uw-zYw"/>
                         <outlet property="constraintTxtCommentBottom" destination="QTK-GT-vAe" id="VdB-Y4-sTu"/>

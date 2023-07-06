@@ -21,7 +21,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var constraintTxtCommentBottom: NSLayoutConstraint!
     @IBOutlet weak var commentTV: UITextView!
     @IBOutlet weak var constraintTxtCommentHeight: NSLayoutConstraint!
-    
+    @IBOutlet weak var btnComment: UIButton!
     var taskCreatedby = ""
     var postid = ""
     var desc = ""
@@ -672,8 +672,8 @@ extension CommentsViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func sendCommentBtnAction()
-    {
+    @IBAction func sendCommentBtnAction(){
+        
         print(self.commentsArray.count)
         if commentTV.text != "Comment..."
         {
@@ -683,10 +683,12 @@ extension CommentsViewController {
             }else{
                 print("new")
                 if !(commentTV.text ?? "").isEmpty{
-                    let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text, commenttype: "text", assigneeid: postid)
+                    btnComment.isUserInteractionEnabled = false
+                    let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text ?? "", commenttype: "text", assigneeid: postid)
                     DispatchQueue.global(qos: .background).async {
                         print("This is run on the background queue")
                         APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
+                            self.btnComment.isUserInteractionEnabled = true
                             print(jsonResult)
                             let destinationTime = TimeZone(identifier: "America/Los_Angeles")!
                             // 2023-06-13 14:21:33
@@ -700,7 +702,7 @@ extension CommentsViewController {
                             //                    print(self.commentsArray.count)
                             self.commentTB.reloadData()
                             self.commentTV.text = ""
-                            self.commentTV.resignFirstResponder()
+//                            self.commentTV.resignFirstResponder()
                             self.tableviewBottomScroll()
                             
                         } failureHandler: { error in
@@ -710,6 +712,8 @@ extension CommentsViewController {
                             print("This is run on the main queue, after the previous code in outer block")
                         }
                     }
+                }else{
+                    btnComment.isUserInteractionEnabled = true
                 }
             }
         }
@@ -719,14 +723,16 @@ extension CommentsViewController {
     
     func updatesAPICall(){
         if editCommentIndex >= 0{
+            btnComment.isUserInteractionEnabled = false
             let dataComment = commentsArray[editCommentIndex]
             let postparams = UpdateCommentRequestModel(id: dataComment.id, comment: (commentTV.text ?? "") == "Comment..." ? "" : (commentTV.text ?? ""))
+            print("update comment-",postparams)
             APIModel.putRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
-                
+                self.btnComment.isUserInteractionEnabled = true
                 var dataOfComment = self.commentsArray[self.editCommentIndex]
                 dataOfComment.comment = (self.commentTV.text ?? "") == "Comment..." ? "" : (self.commentTV.text ?? "")
                 self.commentsArray[self.editCommentIndex] = dataOfComment
-                self.commentTV.resignFirstResponder()
+//                self.commentTV.resignFirstResponder()
                 self.commentTB.reloadData()
                 self.commentTV.text = ""
                 
