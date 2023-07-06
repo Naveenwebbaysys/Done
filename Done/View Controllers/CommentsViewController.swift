@@ -22,6 +22,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var commentTV: UITextView!
     @IBOutlet weak var constraintTxtCommentHeight: NSLayoutConstraint!
     @IBOutlet weak var btnComment: UIButton!
+    @IBOutlet weak var btnCamera: UIButton!
+    @IBOutlet weak var btnAttachmentChat: UIButton!
+    @IBOutlet weak var viewChatBG: UIView!
+    
     var taskCreatedby = ""
     var postid = ""
     var desc = ""
@@ -40,16 +44,21 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.commentTB.register(UINib(nibName: "CommentsTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentsTableViewCell")
-        self.commentTB.register(UINib(nibName: "ImageCommentsTableViewCell", bundle: nil), forCellReuseIdentifier: "ImageCommentsTableViewCell")
+//        self.commentTB.register(UINib(nibName: "CommentsTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentsTableViewCell")
+//        self.commentTB.register(UINib(nibName: "ImageCommentsTableViewCell", bundle: nil), forCellReuseIdentifier: "ImageCommentsTableViewCell")
+       
+        self.commentTB.register(UINib(nibName: "SenderTextTableViewCell", bundle: nil), forCellReuseIdentifier: "SenderTextTableViewCell")
+        self.commentTB.register(UINib(nibName: "ReceivedTextTableViewCell", bundle: nil), forCellReuseIdentifier: "ReceivedTextTableViewCell")
+        self.commentTB.register(UINib(nibName: "SenderImageAndVideoTableViewCell", bundle: nil), forCellReuseIdentifier: "SenderImageAndVideoTableViewCell")
+        self.commentTB.register(UINib(nibName: "ReceivedImageVideoTableViewCell", bundle: nil), forCellReuseIdentifier: "ReceivedImageVideoTableViewCell")
+        
+        
         
         self.commentTB.rowHeight = UITableView.automaticDimension
         self.commentTB.estimatedRowHeight = 70
         self.commentTB.delegate = self
         self.commentTB.dataSource = self
         
-        self.descLbl.text = desc
-    
         
         IQKeyboardManager.shared.enable = false
         currentPage = 1
@@ -66,6 +75,8 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         commentTV.text = "Comment..."
         commentTV.textColor = UIColor.lightGray
         commentTB.transform = CGAffineTransform(scaleX: 1, y: -1)
+        
+        self.showCameraBtn()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -109,6 +120,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         self.view.layoutIfNeeded()
     }
     
+    //MARK: - UIButton Action
+    @IBAction func btnAttachmentChatAction(_ sender: UIButton) {
+    }
     @IBAction func cameraClick(_ sender: UIButton) {
         print("Camera click")
         
@@ -239,6 +253,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
                 if index == 0{
                     self.editCommentIndex = sender.view?.tag ?? 0
                     self.commentTV.text = commentsArray[self.editCommentIndex].comment ?? ""
+                    self.showSendBtn()
                     commentTV.textColor = UIColor.black
                 }else{
                     self.editCommentIndex = sender.view?.tag ?? 0
@@ -292,14 +307,18 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         if let oldString = textView.text {
             let newString = oldString.replacingCharacters(in: Range(range, in: oldString)!,with: text)
             if !newString.isEmpty{
+                print("height--",self.commentTV.contentSize.height)
                 constraintTxtCommentHeight.constant = self.commentTV.contentSize.height > 40 ? 55 : 40
+                self.showSendBtn()
             }else{
                 self.constraintTxtCommentHeight.constant = 40
+                self.showCameraBtn()
             }
         }else{
             self.constraintTxtCommentHeight.constant = 40
+            self.showCameraBtn()
         }
-        
+        self.viewChatBG.layer.cornerRadius =  self.viewChatBG.bounds.height / 2
         return true
     }
     
@@ -327,6 +346,17 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         }
         //        }
     }
+    
+    func showCameraBtn(){
+        btnComment.isHidden = true
+        btnCamera.isHidden = false
+    }
+    
+    func showSendBtn(){
+        btnComment.isHidden = false
+        btnCamera.isHidden = true
+    }
+    
     func openPhotos(){
         DispatchQueue.main.async {
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
@@ -462,174 +492,337 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.commentsArray.count
+//        6
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let data = self.commentsArray[indexPath.row]
+        let sourceTimeZone = TimeZone(identifier: "America/Los_Angeles")!
+        let dateString = self.commentsArray[indexPath.row].createdAt  // 2023-06-13 14:21:33
+        let format = "yyyy-MM-dd HH:mm:ss"
         
+        let userID = UserDefaults.standard.value(forKey: UserDetails.userId) as! String
         if (data.commenttype ?? "" ) == "text"{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsTableViewCell", for: indexPath) as! CommentsTableViewCell
-            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
-            //            let currentIndex = commentsArray.count-1
-            //            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
-            cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
-            //        cell.commentLbl.numberOfLines = 0
-            cell.commentLbl.text = self.commentsArray[indexPath.row].comment
-            
-            let sourceTimeZone = TimeZone(identifier: "America/Los_Angeles")!
-            let dateString = self.commentsArray[indexPath.row].createdAt  // 2023-06-13 14:21:33
-            let format = "yyyy-MM-dd HH:mm:ss"
-            
-            if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
-                print("Converted Date: \(convertedDate)")
-                let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
-                print(time)
-                
-                let newDate = checkDate(givenDate: time!)
-                print(newDate)
-                cell.dateLbl.text = newDate
-                
-            } else {
-                print("Failed to convert date.")
-            }
-            cell.tag = indexPath.row
-            if self.commentsArray[indexPath.row].employeeID == (UserDefaults.standard.value(forKey: UserDetails.userId) as! String){
-                let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longTextPressed))
-                cell.addGestureRecognizer(longPressRecognizer)
-            }
-            
-            if indexPath.row == self.commentsArray.count - 4 {
-                if !isLastPage{
-                    print("Coniddtion done.",indexPath.row)
-                    currentPage += 1
-                    self.getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
+            if data.employeeID == userID{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SenderTextTableViewCell", for: indexPath) as! SenderTextTableViewCell
+                cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+                cell.lblName.text = self.commentsArray[indexPath.row].createdBy
+                cell.lblMessage.text = self.commentsArray[indexPath.row].comment
+                if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
+                    let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
+                    let newDate = checkDate(givenDate: time!)
+                    cell.lblTime.text = newDate
+                } else {
+                    print("Failed to convert date.")
                 }
-            }
-            
-            return cell
-        }else if (data.commenttype ?? "" ) == "video"{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCommentsTableViewCell", for: indexPath) as! ImageCommentsTableViewCell
-            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
-            //            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
-            cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
-            cell.btnVideoPlay.isHidden = false
-            cell.btnVideoPlay.tag = indexPath.row
-            cell.btnVideoPlay.addTarget(self, action: #selector(btnVideoPlayAction), for: .touchUpInside)
-            let stComment = self.commentsArray[indexPath.row].comment ?? ""
-            let arrComment = stComment.components(separatedBy: "--")
-            if !arrComment.isEmpty{
-                cell.viewComment.isHidden = true
+                cell.tag = indexPath.row
+                if self.commentsArray[indexPath.row].employeeID == (UserDefaults.standard.value(forKey: UserDetails.userId) as! String){
+                    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longTextPressed))
+                    cell.addGestureRecognizer(longPressRecognizer)
+                }
                 
-                DispatchQueue.global(qos: .background).async { [self] in
-                    if (data.isLocalStore ?? false){
-                        let videoUrl = URL(fileURLWithPath: arrComment[0])
-                        DispatchQueue.main.async {
-                            cell.commentImage.image = self.getVideoThumbnail(url: videoUrl)
-                        }
-                    }else{
-                        let videoUrl = URL(string: arrComment[0])
-                        DispatchQueue.main.async {
-                            cell.commentImage.image = self.getVideoThumbnail(url: videoUrl!)
-                        }
+                if indexPath.row == self.commentsArray.count - 4 {
+                    if !isLastPage{
+                        print("Coniddtion done.",indexPath.row)
+                        currentPage += 1
+                        self.getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
                     }
                 }
-                if arrComment.count > 1{
-                    cell.viewComment.isHidden = false
-                    cell.lblComment.text = arrComment[1]
-                }
-            }
-            cell.tag = indexPath.row
-            if self.commentsArray[indexPath.row].employeeID == (UserDefaults.standard.value(forKey: UserDetails.userId) as! String){
-                let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longImageVideoPressed))
-                cell.addGestureRecognizer(longPressRecognizer)
-            }
-            
-            let sourceTimeZone = TimeZone(identifier: "America/Los_Angeles")!
-            let dateString = self.commentsArray[indexPath.row].createdAt  // 2023-06-13 14:21:33
-            let format = "yyyy-MM-dd HH:mm:ss"
-            
-            if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
-                //                print("Converted Date: \(convertedDate)")
-                let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
-                let newDate = checkDate(givenDate: time!)
-                cell.dateLbl.text = newDate
-                
-            } else {
-                print("Failed to convert date.")
-            }
-            
-            if indexPath.row == self.commentsArray.count - 4 {
-                if !isLastPage{
-                    print("Coniddtion done.",indexPath.row)
-                    currentPage += 1
-                    self.getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
-                }
-            }
-            
-            return cell
-        }else{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCommentsTableViewCell", for: indexPath) as! ImageCommentsTableViewCell
-            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
-            //            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
-            cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
-            cell.btnVideoPlay.isHidden = true
-            cell.viewComment.isHidden = true
-            if (data.isLocalStore ?? false){
-                cell.commentImage.image = UIImage(data: data.isLocalImageData ?? Data())
-                if !(data.comment ?? "").isEmpty{
-                    cell.viewComment.isHidden = false
-                    cell.lblComment.text = data.comment ?? ""
-                }
+                return cell
             }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ReceivedTextTableViewCell", for: indexPath) as! ReceivedTextTableViewCell
+                cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+                cell.lblName.text = self.commentsArray[indexPath.row].createdBy
+                cell.lblMessage.text = self.commentsArray[indexPath.row].comment
+                if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
+                    let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
+                    let newDate = checkDate(givenDate: time!)
+                    cell.lblTime.text = newDate
+                } else {
+                    print("Failed to convert date.")
+                }
+                cell.tag = indexPath.row
+                if self.commentsArray[indexPath.row].employeeID == (UserDefaults.standard.value(forKey: UserDetails.userId) as! String){
+                    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longTextPressed))
+                    cell.addGestureRecognizer(longPressRecognizer)
+                }
+                
+                if indexPath.row == self.commentsArray.count - 4 {
+                    if !isLastPage{
+                        print("Coniddtion done.",indexPath.row)
+                        currentPage += 1
+                        self.getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
+                    }
+                }
+                return cell
+            }
+        }else if (data.commenttype ?? "" ) == "video"{
+            if data.employeeID == userID{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SenderImageAndVideoTableViewCell", for: indexPath) as! SenderImageAndVideoTableViewCell
+                cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+                cell.lblName.text = self.commentsArray[indexPath.row].createdBy
+                cell.btnVideoPlay.isHidden = false
+                cell.btnVideoPlay.tag = indexPath.row
+                cell.btnVideoPlay.addTarget(self, action: #selector(btnVideoPlayAction), for: .touchUpInside)
                 let stComment = self.commentsArray[indexPath.row].comment ?? ""
                 let arrComment = stComment.components(separatedBy: "--")
                 if !arrComment.isEmpty{
-                    cell.viewComment.isHidden = true
-                    cell.commentImage.sd_setImage(with: URL.init(string: arrComment[0]), placeholderImage: nil, options: .highPriority) { (imge, error, cache, url) in
-                        if error == nil{
-                            cell.commentImage.image = imge
+                    cell.lblMessage.text = nil
+                    cell.lblMessage.isHidden = true
+                    DispatchQueue.global(qos: .background).async { [self] in
+                        if (data.isLocalStore ?? false){
+                            let videoUrl = URL(fileURLWithPath: arrComment[0])
+                            DispatchQueue.main.async {
+                                cell.commentImage.image = self.getVideoThumbnail(url: videoUrl)
+                            }
                         }else{
-                            //                        cell.commentImage.image = UIImage(named: "ic_placeholder_neutral")
+                            let videoUrl = URL(string: arrComment[0])
+                            DispatchQueue.main.async {
+                                cell.commentImage.image = self.getVideoThumbnail(url: videoUrl!)
+                            }
                         }
                     }
-                    
                     if arrComment.count > 1{
-                        cell.viewComment.isHidden = false
-                        cell.lblComment.text = arrComment[1]
+                        cell.lblMessage.isHidden = false
+                        cell.lblMessage.text = arrComment[1]
                     }
                 }
-            }
-            
-            let sourceTimeZone = TimeZone(identifier: "America/Los_Angeles")!
-            let dateString = self.commentsArray[indexPath.row].createdAt  // 2023-06-13 14:21:33
-            let format = "yyyy-MM-dd HH:mm:ss"
-            cell.tag = indexPath.row
-            if self.commentsArray[indexPath.row].employeeID == (UserDefaults.standard.value(forKey: UserDetails.userId) as! String){
-                let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longImageVideoPressed))
-                cell.addGestureRecognizer(longPressRecognizer)
-            }
-            
-            if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
-                //                print("Converted Date: \(convertedDate)")
-                let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
-                let newDate = checkDate(givenDate: time!)
-                cell.dateLbl.text = newDate
-                
-            } else {
-                print("Failed to convert date.")
-            }
-            
-            if indexPath.row == self.commentsArray.count - 4 {
-                if !isLastPage{
-                    print("Coniddtion done.",indexPath.row)
-                    currentPage += 1
-                    self.getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
+                if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
+                    let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
+                    let newDate = checkDate(givenDate: time!)
+                    cell.lblTime.text = newDate
+                } else {
+                    print("Failed to convert date.")
                 }
+                cell.tag = indexPath.row
+                if self.commentsArray[indexPath.row].employeeID == (UserDefaults.standard.value(forKey: UserDetails.userId) as! String){
+                    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longImageVideoPressed))
+                    cell.addGestureRecognizer(longPressRecognizer)
+                }
+                if indexPath.row == self.commentsArray.count - 4 {
+                    if !isLastPage{
+                        print("Coniddtion done.",indexPath.row)
+                        currentPage += 1
+                        self.getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
+                    }
+                }
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ReceivedImageVideoTableViewCell", for: indexPath) as! ReceivedImageVideoTableViewCell
+                cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+                cell.lblName.text = self.commentsArray[indexPath.row].createdBy
+                cell.btnVideoPlay.isHidden = false
+                cell.btnVideoPlay.tag = indexPath.row
+                cell.btnVideoPlay.addTarget(self, action: #selector(btnVideoPlayAction), for: .touchUpInside)
+                let stComment = self.commentsArray[indexPath.row].comment ?? ""
+                let arrComment = stComment.components(separatedBy: "--")
+                if !arrComment.isEmpty{
+                    cell.lblMessage.isHidden = true
+                    cell.lblMessage.text = nil
+                    DispatchQueue.global(qos: .background).async { [self] in
+                        if (data.isLocalStore ?? false){
+                            let videoUrl = URL(fileURLWithPath: arrComment[0])
+                            DispatchQueue.main.async {
+                                cell.commentImage.image = self.getVideoThumbnail(url: videoUrl)
+                            }
+                        }else{
+                            let videoUrl = URL(string: arrComment[0])
+                            DispatchQueue.main.async {
+                                cell.commentImage.image = self.getVideoThumbnail(url: videoUrl!)
+                            }
+                        }
+                    }
+                    if arrComment.count > 1{
+                        cell.lblMessage.isHidden = false
+                        cell.lblMessage.text = arrComment[1]
+                    }
+                }
+                if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
+                    let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
+                    let newDate = checkDate(givenDate: time!)
+                    cell.lblTime.text = newDate
+                } else {
+                    print("Failed to convert date.")
+                }
+                cell.tag = indexPath.row
+                if self.commentsArray[indexPath.row].employeeID == (UserDefaults.standard.value(forKey: UserDetails.userId) as! String){
+                    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longImageVideoPressed))
+                    cell.addGestureRecognizer(longPressRecognizer)
+                }
+                if indexPath.row == self.commentsArray.count - 4 {
+                    if !isLastPage{
+                        print("Coniddtion done.",indexPath.row)
+                        currentPage += 1
+                        self.getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
+                    }
+                }
+                return cell
             }
-            
-            return cell
+        }else{
+            if data.employeeID == userID{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SenderImageAndVideoTableViewCell", for: indexPath) as! SenderImageAndVideoTableViewCell
+                cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+                cell.lblName.text = self.commentsArray[indexPath.row].createdBy
+                cell.btnVideoPlay.isHidden = true
+                cell.lblMessage.isHidden = true
+                if (data.isLocalStore ?? false){
+                    cell.commentImage.image = UIImage(data: data.isLocalImageData ?? Data())
+                    if !(data.comment ?? "").isEmpty{
+                        cell.lblMessage.isHidden = false
+                        cell.lblMessage.text = data.comment ?? ""
+                    }
+                }else{
+                    let stComment = self.commentsArray[indexPath.row].comment ?? ""
+                    let arrComment = stComment.components(separatedBy: "--")
+                    if !arrComment.isEmpty{
+                        cell.lblMessage.isHidden = true
+                        cell.commentImage.sd_setImage(with: URL.init(string: arrComment[0]), placeholderImage: nil, options: .highPriority) { (imge, error, cache, url) in
+                            if error == nil{
+                                cell.commentImage.image = imge
+                            }else{
+                                //                        cell.commentImage.image = UIImage(named: "ic_placeholder_neutral")
+                            }
+                        }
+                        
+                        if arrComment.count > 1{
+                            cell.lblMessage.isHidden = false
+                            cell.lblMessage.text = arrComment[1]
+                        }
+                    }
+                }
+                if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
+                    let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
+                    let newDate = checkDate(givenDate: time!)
+                    cell.lblTime.text = newDate
+                } else {
+                    print("Failed to convert date.")
+                }
+                cell.tag = indexPath.row
+                if self.commentsArray[indexPath.row].employeeID == (UserDefaults.standard.value(forKey: UserDetails.userId) as! String){
+                    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longImageVideoPressed))
+                    cell.addGestureRecognizer(longPressRecognizer)
+                }
+                if indexPath.row == self.commentsArray.count - 4 {
+                    if !isLastPage{
+                        print("Coniddtion done.",indexPath.row)
+                        currentPage += 1
+                        self.getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
+                    }
+                }
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ReceivedImageVideoTableViewCell", for: indexPath) as! ReceivedImageVideoTableViewCell
+                cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+                cell.lblName.text = self.commentsArray[indexPath.row].createdBy
+                cell.btnVideoPlay.isHidden = true
+                cell.lblMessage.isHidden = true
+                if (data.isLocalStore ?? false){
+                    cell.commentImage.image = UIImage(data: data.isLocalImageData ?? Data())
+                    if !(data.comment ?? "").isEmpty{
+                        cell.lblMessage.isHidden = false
+                        cell.lblMessage.text = data.comment ?? ""
+                    }
+                }else{
+                    let stComment = self.commentsArray[indexPath.row].comment ?? ""
+                    let arrComment = stComment.components(separatedBy: "--")
+                    if !arrComment.isEmpty{
+                        cell.lblMessage.isHidden = true
+                        cell.commentImage.sd_setImage(with: URL.init(string: arrComment[0]), placeholderImage: nil, options: .highPriority) { (imge, error, cache, url) in
+                            if error == nil{
+                                cell.commentImage.image = imge
+                            }else{
+                                //                        cell.commentImage.image = UIImage(named: "ic_placeholder_neutral")
+                            }
+                        }
+                        
+                        if arrComment.count > 1{
+                            cell.lblMessage.isHidden = false
+                            cell.lblMessage.text = arrComment[1]
+                        }
+                    }
+                }
+                if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
+                    let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
+                    let newDate = checkDate(givenDate: time!)
+                    cell.lblTime.text = newDate
+                } else {
+                    print("Failed to convert date.")
+                }
+                cell.tag = indexPath.row
+                if self.commentsArray[indexPath.row].employeeID == (UserDefaults.standard.value(forKey: UserDetails.userId) as! String){
+                    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longImageVideoPressed))
+                    cell.addGestureRecognizer(longPressRecognizer)
+                }
+                if indexPath.row == self.commentsArray.count - 4 {
+                    if !isLastPage{
+                        print("Coniddtion done.",indexPath.row)
+                        currentPage += 1
+                        self.getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
+                    }
+                }
+                return cell
+            }
+            //            let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCommentsTableViewCell", for: indexPath) as! ImageCommentsTableViewCell
+            //            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+            //            //            cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
+            //            cell.userNameLbl.text = self.commentsArray[indexPath.row].createdBy
+            //            cell.btnVideoPlay.isHidden = true
+            //            cell.viewComment.isHidden = true
+            //            if (data.isLocalStore ?? false){
+            //                cell.commentImage.image = UIImage(data: data.isLocalImageData ?? Data())
+            //                if !(data.comment ?? "").isEmpty{
+            //                    cell.viewComment.isHidden = false
+            //                    cell.lblComment.text = data.comment ?? ""
+            //                }
+            //            }else{
+            //                let stComment = self.commentsArray[indexPath.row].comment ?? ""
+            //                let arrComment = stComment.components(separatedBy: "--")
+            //                if !arrComment.isEmpty{
+            //                    cell.viewComment.isHidden = true
+            //                    cell.commentImage.sd_setImage(with: URL.init(string: arrComment[0]), placeholderImage: nil, options: .highPriority) { (imge, error, cache, url) in
+            //                        if error == nil{
+            //                            cell.commentImage.image = imge
+            //                        }else{
+            //                            //                        cell.commentImage.image = UIImage(named: "ic_placeholder_neutral")
+            //                        }
+            //                    }
+            //
+            //                    if arrComment.count > 1{
+            //                        cell.viewComment.isHidden = false
+            //                        cell.lblComment.text = arrComment[1]
+            //                    }
+            //                }
+            //            }
+            //
+            //            let sourceTimeZone = TimeZone(identifier: "America/Los_Angeles")!
+            //            let dateString = self.commentsArray[indexPath.row].createdAt  // 2023-06-13 14:21:33
+            //            let format = "yyyy-MM-dd HH:mm:ss"
+            //            cell.tag = indexPath.row
+            //            if self.commentsArray[indexPath.row].employeeID == (UserDefaults.standard.value(forKey: UserDetails.userId) as! String){
+            //                let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longImageVideoPressed))
+            //                cell.addGestureRecognizer(longPressRecognizer)
+            //            }
+            //
+            //            if let convertedDate = convertDate(from: sourceTimeZone, to: TimeZone.current, dateString: dateString!, format: format) {
+            //                //                print("Converted Date: \(convertedDate)")
+            //                let time = getRequiredFormat(dateStrInTwentyFourHourFomat: convertedDate)
+            //                let newDate = checkDate(givenDate: time!)
+            //                cell.dateLbl.text = newDate
+            //
+            //            } else {
+            //                print("Failed to convert date.")
+            //            }
+            //
+            //            if indexPath.row == self.commentsArray.count - 4 {
+            //                if !isLastPage{
+            //                    print("Coniddtion done.",indexPath.row)
+            //                    currentPage += 1
+            //                    self.getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
+            //                }
+            //            }
+            //
+            //            return cell
         }
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -702,6 +895,7 @@ extension CommentsViewController {
                             //                    print(self.commentsArray.count)
                             self.commentTB.reloadData()
                             self.commentTV.text = ""
+                            self.showCameraBtn()
 //                            self.commentTV.resignFirstResponder()
                             self.tableviewBottomScroll()
                             
@@ -735,7 +929,7 @@ extension CommentsViewController {
 //                self.commentTV.resignFirstResponder()
                 self.commentTB.reloadData()
                 self.commentTV.text = ""
-                
+                self.showCameraBtn()
             } failureHandler: { error in
                 print(error)
             }
