@@ -73,7 +73,11 @@ class HomeViewController: UIViewController {
         self.firstTimeLoading = true
         self.isSuccess = false
         self.navigationController?.isNavigationBarHidden = true
-        
+        userID = UserDefaults.standard.value(forKey: UserDetails.userId) as! String
+        if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
+            userID = (id as? String)!
+            getCommissionAPICall(withID: userID)
+        }
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
@@ -92,15 +96,11 @@ class HomeViewController: UIViewController {
         }
         self.getpostAPICall(withType: stType, page: currentPage)
         self.activityIndicator.stopAnimating()
-        userID = UserDefaults.standard.value(forKey: UserDetails.userId) as! String
-        if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
-            userID = (id as? String)!
-            getCommissionAPICall(withID: userID)
-        }
+        
     }
     
     override func viewDidLayoutSubviews() {
-        indvw.frame = CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 1, width: self.assignBtn.frame.width, height: 2)
+//        indvw.frame = CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 1, width: self.assignBtn.frame.width, height: 2)
         print(self.indvw.frame)
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -123,6 +123,7 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func assignedBtnAct() {
+        getCommissionAPICall(withID: userID)
         observers()
         menuIndex = 0
         idFromDone = false
@@ -137,6 +138,7 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func stillBtnAct() {
+        getCommissionAPICall(withID: userID)
         observers()
         menuIndex = 1
         idFromDone = false
@@ -148,8 +150,10 @@ class HomeViewController: UIViewController {
         UIView.animate(withDuration: 0.5) {
             self.indvw.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
         }
+       
     }
     @IBAction func doneBtnAct() {
+        getCommissionAPICall(withID: userID)
         observers()
         menuIndex = 2
         idFromDone = true
@@ -161,6 +165,7 @@ class HomeViewController: UIViewController {
         UIView.animate(withDuration: 0.5) {
             self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
         }
+        
     }
     
     @IBAction func filterBtnAct() {

@@ -256,30 +256,29 @@ class ProfileViewController: UIViewController {
     }
     
     func getpostAPICall(withType : String, page:Int){
-        self.reelsModelArray.removeAll()
+//        self.reelsModelArray.removeAll()
         let url = BASEURL + GETREELSURL + withType + "&sort_due_date=desc" + "&page_no=\(page)"
         print(url)
-        if page == 1{
-            KRProgressHUD.show()
-        }
+//        if page == 1{
+//            KRProgressHUD.show()
+//        }
         
         APIModel.getRequest(strURL: url , postHeaders: headers as NSDictionary) { _result in
-            if page == 1{
-                KRProgressHUD.dismiss()
-            }
+//            if page == 1{
+//                KRProgressHUD.dismiss()
+//            }
             
             let getReelsResponseModel = try? JSONDecoder().decode(GetReelsResponseModel.self, from: _result as! Data)
-            print(getReelsResponseModel?.data as Any)
+//            print(getReelsResponseModel?.data as Any)
             if getReelsResponseModel?.data != nil
             {
+                print(getReelsResponseModel?.data?.posts?.count)
                 for data in (getReelsResponseModel?.data?.posts ?? [Post]()){
                     self.reelsModelArray.append(data)
                 }
                 self.isLastPage = (getReelsResponseModel?.data?.posts ?? [Post]()).count == 10 ? false : true
                 self.aulbumCW.reloadData()
-//                if let cell = self.tblInstaReels.visibleCells.first as? ReelsTableViewCell {
-//                    
-//                }
+
                 if self.reelsModelArray.count == 0
                 {
                     print("No Reels found")
@@ -359,7 +358,7 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         
         item.assignCountLbl.text = "\(self.reelsModelArray[indexPath.row].tagPeoples?.count ?? 0)"
         
-        if indexPath.row == self.reelsModelArray.count - 1 {
+        if indexPath.row == self.reelsModelArray.count - 3 {
             if !isLastPage{
                 print("Coniddtion done.",indexPath.row)
                 currentPage += 1
@@ -388,6 +387,19 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         viewVidepVC.reelModelArray.append(self.reelsModelArray[indexPath.row])
         self.navigationController?.pushViewController(viewVidepVC, animated: true)
     }
+    
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let offsetY = scrollView.contentOffset.y
+//        let contentHeight = scrollView.contentSize.height
+//        let visibleHeight = scrollView.frame.height
+//
+//        if offsetY > contentHeight - visibleHeight {
+//            print("Showing next page")
+//            currentPage += 1
+//            self.getpostAPICall(withType: stType, page: currentPage)
+//        }
+//
+//    }
     
 }
 
