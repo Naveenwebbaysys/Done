@@ -46,6 +46,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
     @IBOutlet weak var assignBtn : UIButton!
     @IBOutlet weak var stillBtn : UIButton!
     @IBOutlet weak var donecBtn : UIButton!
+    @IBOutlet weak var iNeedDoneBtn : UIButton!
     @IBOutlet weak var tblInstaReels: UITableView!
     
 
@@ -91,6 +92,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
             self.assignBtn.titleLabel?.textColor = UIColor(named: "App_color")
             self.stillBtn.titleLabel?.textColor = .white
             self.donecBtn.titleLabel?.textColor = .white
+            self.iNeedDoneBtn.titleLabel?.textColor = .white
 //            self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
         }
         else if menuIndex == 1{
@@ -101,6 +103,11 @@ class HomeViewController: UIViewController,delegateFiltersVC {
         else if menuIndex == 2{
             stType = "done_success"
             self.donecBtn.titleLabel?.textColor = UIColor(named: "App_color")
+//            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
+        }
+        else if menuIndex == 3{
+            stType = "approved"
+            self.iNeedDoneBtn.titleLabel?.textColor = UIColor(named: "App_color")
 //            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
         }
         self.getpostAPICall(withType: stType, page: currentPage)
@@ -134,6 +141,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
         self.assignBtn.titleLabel?.textColor = UIColor(named: "App_color")
         self.stillBtn.titleLabel?.textColor = .white
         self.donecBtn.titleLabel?.textColor = .white
+        self.iNeedDoneBtn.titleLabel?.textColor = .white
         getCommissionAPICall(withID: userID)
         observers()
         menuIndex = 0
@@ -152,6 +160,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
         self.assignBtn.titleLabel?.textColor = .white
         self.stillBtn.titleLabel?.textColor = UIColor(named: "App_color")
         self.donecBtn.titleLabel?.textColor = .white
+        self.iNeedDoneBtn.titleLabel?.textColor = .white
         getCommissionAPICall(withID: userID)
         observers()
         menuIndex = 1
@@ -161,15 +170,13 @@ class HomeViewController: UIViewController,delegateFiltersVC {
         currentPage = 1
         stType = "still_working"
         self.getpostAPICall(withType: stType, page: currentPage)
-//        UIView.animate(withDuration: 0.5) {
-//            self.indvw.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
-//        }
-       
     }
+    
     @IBAction func doneBtnAct() {
         self.assignBtn.titleLabel?.textColor = .white
         self.stillBtn.titleLabel?.textColor = .white
         self.donecBtn.titleLabel?.textColor = UIColor(named: "App_color")
+        self.iNeedDoneBtn.titleLabel?.textColor = .white
         getCommissionAPICall(withID: userID)
         observers()
         menuIndex = 2
@@ -179,10 +186,24 @@ class HomeViewController: UIViewController,delegateFiltersVC {
         currentPage = 1
         stType = "done_success"
         self.getpostAPICall(withType: stType, page: currentPage)
-//        UIView.animate(withDuration: 0.5) {
-//            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
-//        }
-        
+  
+    }
+    
+    @IBAction func iNeedDoneBtnAct() {
+        self.assignBtn.titleLabel?.textColor = .white
+        self.stillBtn.titleLabel?.textColor = .white
+        self.donecBtn.titleLabel?.textColor = .white
+        self.iNeedDoneBtn.titleLabel?.textColor = UIColor(named: "App_color")
+        getCommissionAPICall(withID: userID)
+        observers()
+        menuIndex = 3
+        idFromDone = true
+        self.reelsModelArray.removeAll()
+        isLastPage = false
+        currentPage = 1
+        stType = "approved"
+        self.getpostAPICall(withType: stType, page: currentPage)
+  
     }
     
     @IBAction func filterBtnAct() {
@@ -196,31 +217,37 @@ class HomeViewController: UIViewController,delegateFiltersVC {
     
     func getCommissionAPICall(withID : String){
         APIModel.getRequest(strURL: BASEURL + COMMISSIONAPI + withID , postHeaders: headers as NSDictionary) { jsonData in
+            var approvedCom = ""
             let commissionResponse = try? JSONDecoder().decode(CommissionResponseModel.self, from: jsonData as! Data)
             if commissionResponse?.data != nil
             {
                 self.assignCommission = (commissionResponse?.data?.assignedByCommission?.commission ?? "") + "(" + (commissionResponse?.data?.assignedByCommission?.commissionCount ?? "") + ")"
                 self.stillworkingCommission = (commissionResponse?.data?.stillWorkingCommission?.commission ?? "") + "(" + (commissionResponse?.data?.stillWorkingCommission?.commissionCount ?? "") + ")"
                 self.doneCommission =  (commissionResponse?.data?.doneCommission?.commission ?? "") + "(" + (commissionResponse?.data?.doneCommission?.commissionCount ?? "") + ")"
+            approvedCom = (commissionResponse?.data?.approvedcommission?.commission ?? "") + "(" + (commissionResponse?.data?.approvedcommission?.commissionCount ?? "") + ")"
                 
             }
             print(self.assignCommission)
             print(self.stillworkingCommission)
             print(self.stillworkingCommission)
             
-            let part1 = NSAttributedString(string: "Work I need Done"  + "\n" + "$" + self.assignCommission)
+            let part1 = NSAttributedString(string: "Available "  + "\n" + "$" + self.assignCommission)
             self.assignBtn.setAttributedTitle(part1, for: .normal)
             self.assignBtn.titleLabel?.textAlignment = .center
 //            self.assignBtn.titleLabel?.textColor = UIColor(named: "App_color")
             
-            let part2 = NSAttributedString(string: "Still working " + "\n" + "$" + self.stillworkingCommission)
+            let part2 = NSAttributedString(string: "Pending " + "\n" + "$" + self.stillworkingCommission)
             self.stillBtn.setAttributedTitle(part2, for: .normal)
             self.stillBtn.titleLabel?.textAlignment = .center
 //            self.stillBtn.titleLabel?.textColor = .white
             
-            let part3 = NSAttributedString(string: "Done " + "\n" + "$" + self.doneCommission)
+            let part3 = NSAttributedString(string: "Need Approval " + "\n" + "$" + self.doneCommission)
             self.donecBtn.setAttributedTitle(part3, for: .normal)
             self.donecBtn.titleLabel?.textAlignment = .center
+            
+            let part4 = NSAttributedString(string: "I Need Done " + "\n" + "$" + approvedCom)
+            self.iNeedDoneBtn.setAttributedTitle(part4, for: .normal)
+            self.iNeedDoneBtn.titleLabel?.textAlignment = .center
 //            self.donecBtn.titleLabel?.textColor = .white
             
         } failure: { error in
@@ -359,7 +386,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
             Reelcell.editBtn.isHidden = false
             Reelcell.doneBtn.setTitle("View Status", for: .normal)
             Reelcell.countLbl.text = self.reelsModelArray[indexPath.row].totalcommentscount
-            Reelcell.editHeight.constant = 30
+            Reelcell.editHeight.constant = 26
         }
         else
         {
