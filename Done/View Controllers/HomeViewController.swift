@@ -44,7 +44,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var tblInstaReels: UITableView!
     
 
-    //MARK:- View Life Cycle
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tblInstaReels.register(UINib(nibName: "ReelsTableViewCell", bundle: nil), forCellReuseIdentifier: "ReelsTableViewCell")
@@ -182,8 +182,8 @@ class HomeViewController: UIViewController {
     
     @IBAction func filterBtnAct() {
         
-//        let filterVC = self.storyboard?.instantiateViewController(withIdentifier: "FiltersViewController") as! FiltersViewController
-//        self.navigationController?.pushViewController(filterVC, animated: true)
+        let filterVC = self.storyboard?.instantiateViewController(withIdentifier: "FiltersViewController") as! FiltersViewController
+        self.navigationController?.pushViewController(filterVC, animated: true)
     }
     
     func getCommissionAPICall(withID : String){

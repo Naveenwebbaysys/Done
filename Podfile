@@ -20,6 +20,7 @@ target 'Done' do
   pod 'SDWebImage'
   pod 'DropDown'
   pod 'MaterialComponents/ProgressView'
+  pod "AlignedCollectionViewFlowLayout"
 end
 #
 
