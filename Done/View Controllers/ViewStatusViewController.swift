@@ -103,7 +103,7 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         //   cell.statusLbl.textColor = self.statusModelArray[indexPath.row].status == "still_working" ? .red : .green
         //        cell.lastMsgLbl.text = self.statusModelArray[indexPath.row].lastmessage ?? ""
         
-        cell.commentCountLbl.text = self.statusModelArray[indexPath.row].commentscount ?? "0"
+        cell.commentCountLbl.text = self.statusModelArray[indexPath.row].commentscount ?? "1"
         cell.dateLbl.text = dueDate
         cell.commentsBtn.tag = indexPath.row
         cell.commentsBtn.addTarget(self, action: #selector(commentBtnAction), for: .touchUpInside)

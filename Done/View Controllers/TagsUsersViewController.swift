@@ -94,7 +94,7 @@ class TagsUsersViewController: UIViewController {
                         self.tagsUsersArray[index].isSelected = false
                     }
                 }
-                self.tagsTableVw.reloadData()
+//                self.tagsTableVw.reloadData()
                 dropdownTF.optionArray = self.departmentsArry
             }
             else
@@ -107,7 +107,6 @@ class TagsUsersViewController: UIViewController {
     }
     
     func recentTagUsersAPICall(){
-        
         APIModel.getRequest(strURL: BASEURL + GETTAGUSERS + "?recent=1", postHeaders: headers as NSDictionary) { [self] jsonData in
             print(jsonData)
             let tagsResponseModel = try? JSONDecoder().decode(TagsResponseModel.self, from: jsonData as! Data)
@@ -123,13 +122,14 @@ class TagsUsersViewController: UIViewController {
                 
                 print(self.tagsUsersArray.count)
                 print(self.recentUsersArray.count)
-                self.tagsTableVw.reloadData()
+                
                 
             }
             else
             {
                 print("Tag users data empty")
             }
+            self.tagsTableVw.reloadData()
         } failure: { error in
             print(error)
         }

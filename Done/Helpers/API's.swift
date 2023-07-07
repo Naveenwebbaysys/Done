@@ -27,7 +27,9 @@ let CREATEPOSTAPI = "api/posts/comment.php"
 let COMMISSIONAPI   = "api/posts/assignee-commission-made.php?employee_id="
 let UPDATEPOSTAPI = "api/posts/post.php"
 let UPDATEPOSTASDONE = "api/posts/mark-post-as-done.php"
-let READLASTMSGAPI = "task_created_by={task_created_by}&employee_id={employee_id}&assignee_employee_id={assignee_employee_id}"
+//let READLASTMSGAPI = "task_created_by={task_created_by}&employee_id={employee_id}&assignee_employee_id={assignee_employee_id}"
+
+let READLASTMSGAPI =  "task_created_by=task_created_by&employee_id=employee_id&assignee_employee_id=assignee_employee_id"
 let CATEGORY_PROJECTTYPE = "api/posts/categories.php"
 
 let TOTALCOMMENTCOUNT = "api/posts/comment.php?assignee_id="

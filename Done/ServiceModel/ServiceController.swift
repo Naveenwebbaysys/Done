@@ -370,8 +370,8 @@ class ServiceController: NSObject {
             return
         }
         
-        let urlComp = NSURLComponents(string: "https://www.drrecommendations.com/api/posts/comment.php?" + "task_created_by=task_created_by&employee_id=employee_id&assignee_employee_id=assignee_employee_id")!
-
+        let urlComp = NSURLComponents(string: strURL)!
+//        let urlComp = NSURLComponents(string: "https://www.drrecommendations.com/api/posts/comment.php?" + "task_created_by={task_created_by}&employee_id={employee_id}&assignee_employee_id={assignee_employee_id}")!
         var items = [URLQueryItem]()
 
         for (key,value) in params {
