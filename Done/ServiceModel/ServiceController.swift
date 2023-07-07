@@ -366,7 +366,6 @@ class ServiceController: NSObject {
     func patchRequestWithQuiry(strURL:String,params : [String:String], postHeaders:NSDictionary,success:@escaping(_ result:Any)->Void,failure:@escaping(_ error:String) -> Void) {
         if isConnectedToNetwork() == false {
             print("Please Check Internet")
-            
             return
         }
         

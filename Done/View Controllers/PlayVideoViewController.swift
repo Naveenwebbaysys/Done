@@ -123,7 +123,7 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
                 Reelcell.countLbl.text = "0"
             }
             
-            Reelcell.editHeight.constant = 30
+            Reelcell.editHeight.constant = 26
         }
         else
         {
