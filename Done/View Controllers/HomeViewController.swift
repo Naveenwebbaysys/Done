@@ -366,7 +366,14 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         Reelcell.editBtn.addTarget(self, action: #selector(editBtnTapped(_:)), for: .touchUpInside)
         Reelcell.commentsBtn.addTarget(self, action: #selector(commentsBtnTapped(_:)), for: .touchUpInside)
         Reelcell.avPlayer?.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
-        Reelcell.lblCategoryNameAndSubCategory.text = "#\(self.reelsModelArray[indexPath.row].categoryname ?? "") , #\(self.reelsModelArray[indexPath.row].subcategoryname ?? "")"
+        var arrTag = [String]()
+        if self.reelsModelArray[indexPath.row].categoryname != nil{
+            arrTag.append("#\(self.reelsModelArray[indexPath.row].categoryname ?? "")")
+        }
+        if self.reelsModelArray[indexPath.row].subcategoryname != nil{
+            arrTag.append("#\(self.reelsModelArray[indexPath.row].subcategoryname ?? "")")
+        }
+        Reelcell.lblCategoryNameAndSubCategory.text = arrTag.joined(separator: " , ")
         NotificationCenter.default.addObserver(self, selector: #selector(restartPlayback), name: .AVPlayerItemDidPlayToEndTime, object: Reelcell.avPlayer?.currentItem)
         
         if indexPath.row == self.reelsModelArray.count - 4 {

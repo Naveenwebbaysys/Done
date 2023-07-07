@@ -370,9 +370,10 @@ class ServiceController: NSObject {
             return
         }
         
-        let urlComp = NSURLComponents(string: "https://www.drrecommendations.com/api/posts/comment.php?" + "task_created_by={task_created_by}&employee_id={employee_id}&assignee_employee_id={assignee_employee_id}")!
+        let urlComp = NSURLComponents(string: "https://www.drrecommendations.com/api/posts/comment.php?" + "task_created_by=task_created_by&employee_id=employee_id&assignee_employee_id=assignee_employee_id")!
 
         var items = [URLQueryItem]()
+
         for (key,value) in params {
             items.append(URLQueryItem(name: key, value: value))
         }
@@ -441,7 +442,7 @@ class ServiceController: NSObject {
                     {
                         print(statusCode)
                         do{
-                            print("success 1")
+                            print("success 1 ====")
                             let parsedData = try JSONSerialization.jsonObject(with: data!, options:.mutableContainers) as! [String:Any]
                             print(parsedData)
                             success(data! as NSData)
