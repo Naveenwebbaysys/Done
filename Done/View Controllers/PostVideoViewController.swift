@@ -104,7 +104,7 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             print(self.tagPeopleLbl.text as Any)
             editURL = self.reelsModelArray[index].videoURL ?? ""
             postID = self.reelsModelArray[index].id ?? ""
-            screenTitleLbl.text = "Update Task"
+            screenTitleLbl.text = "Update Gigs"
             if self.reelsModelArray[index].projectType == "open_for_anyone_to_work_on"{
                 lblProjectType.text  = "Open For Anyone To Work On"
                 self.viewSubCategory.isHidden = false
@@ -119,10 +119,12 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             
             self.arrLinkData = self.reelsModelArray[index].addLinks ?? [String]()
             self.setTableviewHeight()
-            self.btnPost.setTitle("Update post", for: .normal)
+            self.btnPost.setTitle("Update", for: .normal)
             self.constraintBtnPostWidth.constant = 150
-        }else{
-            self.btnPost.setTitle("Post", for: .normal)
+        }
+        else
+        {
+            self.btnPost.setTitle("Save", for: .normal)
             self.constraintBtnPostWidth.constant = 100
             progressView.mode = .indeterminate
             progressView.progressTintColor = UIColor.init(red: 152/255, green: 196/255, blue: 85/255, alpha: 1.0)

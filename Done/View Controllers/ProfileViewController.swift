@@ -82,6 +82,10 @@ class ProfileViewController: UIViewController, indexProtocol {
         
     }
     
+    override func viewDidLayoutSubviews() {
+        showAssignIndicater()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.reelsModelArray.removeAll()
         if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
@@ -137,10 +141,6 @@ class ProfileViewController: UIViewController, indexProtocol {
         showAssignIndicater()
     }
     
-    override func viewDidLayoutSubviews() {
-        showAssignIndicater()
-        
-    }
     override func viewWillDisappear(_ animated: Bool) {
 //        UserDefaults.standard.set(menuIndex, forKey: "menuIndex")
     }
