@@ -1,4 +1,5 @@
 PODS:
+  - AlignedCollectionViewFlowLayout (1.1.2)
   - AWSAuthCore (2.33.0):
     - AWSCore (= 2.33.0)
   - AWSCognitoIdentityProvider (2.33.0):
@@ -34,6 +35,7 @@ PODS:
   - SwiftyCam (4.0.0)
 
 DEPENDENCIES:
+  - AlignedCollectionViewFlowLayout
   - AWSS3
   - AWSUserPoolsSignIn
   - DropDown
@@ -48,6 +50,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AlignedCollectionViewFlowLayout
     - AWSAuthCore
     - AWSCognitoIdentityProvider
     - AWSCognitoIdentityProviderASF
@@ -67,6 +70,7 @@ SPEC REPOS:
     - SwiftyCam
 
 SPEC CHECKSUMS:
+  AlignedCollectionViewFlowLayout: ee2ef451e741ec08f8e0967d828001e2f051c20a
   AWSAuthCore: 544324f7c595cba78440027039c4429e6ce588fa
   AWSCognitoIdentityProvider: f7364fdae1109e6f326c19e98f5ed5b5d413d929
   AWSCognitoIdentityProviderASF: 2023303dc28588dfe95a4152e588bcea5e1f57ec
@@ -85,6 +89,6 @@ SPEC CHECKSUMS:
   SDWebImage: 1c39de67663e5eebb2f41324d5d580eeea12dd4c
   SwiftyCam: 6e57914771d972fbe508e759dc9d0150a44a93fd
 
-PODFILE CHECKSUM: 4ade48ae5782e3689064f2657bfdec4322ca122e
+PODFILE CHECKSUM: a15125973b4b803729a45a5c8250f53358b7c5e4
 
 COCOAPODS: 1.11.2

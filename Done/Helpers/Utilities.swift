@@ -449,6 +449,12 @@ extension String {
         resultStr = resultStr.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
         return URL(string: resultStr)!
     }
+    
+    func textWidth(_ textHeight: CGFloat, textFont: UIFont) -> CGFloat {
+        let textRect: CGRect = self.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: textHeight), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: textFont], context: nil)
+        let textSize: CGSize = textRect.size
+        return ceil(textSize.width)
+    }
 }
 
 extension UIImage{
