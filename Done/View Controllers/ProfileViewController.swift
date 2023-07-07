@@ -60,6 +60,7 @@ class ProfileViewController: UIViewController, indexProtocol {
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
         aulbumCW.setCollectionViewLayout(layout, animated: true)
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -93,11 +94,7 @@ class ProfileViewController: UIViewController, indexProtocol {
             self.deptLbl.text = dept as? String
         }
         
-        
-        //        self.noTaskLbl.isHidden = true
-        self.reelsModelArray.removeAll()
         if menuIndex == 0{
-            
             stType = "assigned_by_me"
             showAssignIndicater()
         }
@@ -106,19 +103,17 @@ class ProfileViewController: UIViewController, indexProtocol {
             stType = "still_working"
             showStillWorking()
         }
-        
         else if menuIndex == 2{
             stType = "done_success"
             showDoneSuccess()
         }
-        
         else if menuIndex == 3 {
             stType = "approved"
             showdoneApproved()
         }
-        //        self.getpostAPICall(withType: stType)
+        
+        self.reelsModelArray.removeAll()
         self.getpostAPICall(withType: stType, page: currentPage)
-        showAssignIndicater()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -245,6 +240,24 @@ class ProfileViewController: UIViewController, indexProtocol {
                 let part4 = NSAttributedString(string: "Done Approved " + "\n" + "$" + self.approvedCommission)
                 self.doneApprovedBtn.setAttributedTitle(part4, for: .normal)
                 self.doneApprovedBtn.titleLabel?.textAlignment = .center
+                
+                if self.menuIndex == 0{
+                    
+                    self.showAssignIndicater()
+                }
+                
+                else if self.menuIndex == 1{
+                    
+                    self.showStillWorking()
+                }
+                else if self.menuIndex == 2{
+                  
+                    self.showDoneSuccess()
+                }
+                else if self.menuIndex == 3 {
+                    
+                    self.showdoneApproved()
+                }
             }
             
         } failure: { error in
@@ -374,7 +387,7 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         
         let lay = collectionViewLayout as! UICollectionViewFlowLayout
         let widthPerItem = collectionView.frame.width / 3 - lay.minimumInteritemSpacing
-        return CGSize(width: widthPerItem - 1, height: 130)
+        return CGSize(width: widthPerItem - 1, height: 160)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
