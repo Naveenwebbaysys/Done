@@ -11,7 +11,9 @@ import AVKit
 import HMSegmentedControl
 import KRProgressHUD
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController,delegateFiltersVC {
+    
+    
     private var lastContentOffset: CGFloat = 0
     var menuIndex = 0
     var isSuccess = false
@@ -34,6 +36,9 @@ class HomeViewController: UIViewController {
     var currentPage:Int = 1
     var isLastPage: Bool = false
     var stType: String = "assigned_by_me"
+    
+    var arrSelectedDueDate: [String] = [String]()
+    var arrSelectedAssignee: [List] = [List]()
     
     @IBOutlet weak var indvw : UIView!
     @IBOutlet weak var segmentVW : UIView!
@@ -183,6 +188,9 @@ class HomeViewController: UIViewController {
     @IBAction func filterBtnAct() {
         
         let filterVC = self.storyboard?.instantiateViewController(withIdentifier: "FiltersViewController") as! FiltersViewController
+        filterVC.delegate = self
+        filterVC.arrSelectedDueDate = self.arrSelectedDueDate
+        filterVC.arrSelectedAssignee = self.arrSelectedAssignee
         self.navigationController?.pushViewController(filterVC, animated: true)
     }
     
@@ -236,7 +244,17 @@ class HomeViewController: UIViewController {
     }
     
     func getpostAPICall(withType : String,page:Int){
-        let url = BASEURL + GETREELSURL + withType + "&sort_due_date=desc" + "&page_no=\(page)"
+        var stSortDue: String = "desc"
+        if arrSelectedDueDate.isEmpty{
+            stSortDue = "desc"
+        }else{
+            if arrSelectedDueDate[0] == "Latest Task"{
+                stSortDue = "desc"
+            }else{
+                stSortDue = "asc"
+            }
+        }
+        let url = BASEURL + GETREELSURL + withType + "&sort_due_date=\(stSortDue)" + "&page_no=\(page)"
         print(url)
         if page == 1{
             KRProgressHUD.show()
@@ -272,6 +290,14 @@ class HomeViewController: UIViewController {
             }
             print(error)
         }
+    }
+    
+    //MARK: -  delegate FiltersVC
+    func setFilterValue(arrSelectedDueDate: [String], arrSelectedAssignee: [List]) {
+        self.arrSelectedDueDate = arrSelectedDueDate
+        self.arrSelectedAssignee = arrSelectedAssignee
+        self.currentPage += 1
+        self.getpostAPICall(withType: stType, page: currentPage)
     }
 }
 

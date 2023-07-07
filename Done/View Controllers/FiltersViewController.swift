@@ -8,6 +8,10 @@
 import UIKit
 import AlignedCollectionViewFlowLayout
 
+protocol delegateFiltersVC{
+    func setFilterValue(arrSelectedDueDate:[String],arrSelectedAssignee:[List])
+}
+
 class FiltersViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     //MARK: - outlet
@@ -18,10 +22,9 @@ class FiltersViewController: UIViewController,UICollectionViewDelegate, UICollec
     var arrDueDate: [String] = [String]()
     var arrSelectedDueDate: [String] = [String]()
     
-//    var arrAssignee: [String] = [String]()
-//    var arrSelectedAssignee: [String] = [String]()
     var arrAssignee: [List] = [List]()
     var arrSelectedAssignee: [List] = [List]()
+    var delegate: delegateFiltersVC?
     
     //MARK: - UIView Controller Methods
     override func viewDidLoad() {
@@ -71,6 +74,15 @@ class FiltersViewController: UIViewController,UICollectionViewDelegate, UICollec
         self.arrSelectedAssignee = [List]()
         self.collectionviewDueDate.reloadData()
         self.collectionviewAssignee.reloadData()
+    }
+    
+    @IBAction func btnApplyAction(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+        if arrSelectedDueDate.isEmpty{
+            showToast(message: "Please select due date")
+            return
+        }
+        self.delegate?.setFilterValue(arrSelectedDueDate: arrSelectedDueDate, arrSelectedAssignee: arrSelectedAssignee)
     }
     //MARK: - UICollectionView Delegate and Datasource Methods
     func numberOfSections(in collectionView: UICollectionView) -> Int {

@@ -1652,6 +1652,9 @@ Earned</string>
                                                 <real key="value" value="20"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="btnApplyAction:" destination="Sh4-Me-hUe" eventType="touchUpInside" id="Rhy-2C-2PR"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
