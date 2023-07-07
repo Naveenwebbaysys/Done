@@ -191,7 +191,6 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             lblSubCategoryTitle.text = item
             self.arrSelectSubCategory = [arrSubCategory[index - 1]]
         }
-        
         self.getAllCategoryAPICall()
     }
     

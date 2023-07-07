@@ -60,26 +60,6 @@ class ProfileViewController: UIViewController, indexProtocol {
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
         aulbumCW.setCollectionViewLayout(layout, animated: true)
-        
-        assignLbl.frame = CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
-        stillLbl.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
-        doneLbl.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
-        approvedLbl.frame = CGRect(x: self.doneApprovedBtn.frame.minX, y: self.doneApprovedBtn.frame.maxY + 5, width: self.doneApprovedBtn.frame.width, height: 3)
-        
-        stillLbl.isHidden = true
-        doneLbl.isHidden = true
-        approvedLbl.isHidden = true
-        
-//        assignLbl.backgroundColor = UIColor(named: "App_color")
-//        stillLbl.backgroundColor = UIColor(named: "App_color")
-//        doneLbl.backgroundColor = UIColor(named: "App_color")
-//        approvedLbl.backgroundColor = UIColor(named: "App_color")
-        
-        self.stackVW.addSubview(assignLbl)
-        self.stackVW.addSubview(stillLbl)
-        self.stackVW.addSubview(doneLbl)
-        self.stackVW.addSubview(approvedLbl)
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -99,10 +79,10 @@ class ProfileViewController: UIViewController, indexProtocol {
         stillworkingCommission = ""
         doneCommission = ""
         selectedIndex = 0
-//        if let i = UserDefaults.standard.value(forKey: "menuIndex")
-//        {
-//            menuIndex = i as! Int
-//        }
+        //        if let i = UserDefaults.standard.value(forKey: "menuIndex")
+        //        {
+        //            menuIndex = i as! Int
+        //        }
         if let name = UserDefaults.standard.value(forKey: UserDetails.userName){
             self.nameLbl.text = name as? String
         }
@@ -112,7 +92,7 @@ class ProfileViewController: UIViewController, indexProtocol {
         if let dept = UserDefaults.standard.value(forKey: UserDetails.deptName){
             self.deptLbl.text = dept as? String
         }
-       
+        
         
         //        self.noTaskLbl.isHidden = true
         self.reelsModelArray.removeAll()
@@ -136,21 +116,17 @@ class ProfileViewController: UIViewController, indexProtocol {
             stType = "approved"
             showdoneApproved()
         }
-//        self.getpostAPICall(withType: stType)
+        //        self.getpostAPICall(withType: stType)
         self.getpostAPICall(withType: stType, page: currentPage)
         showAssignIndicater()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-//        UserDefaults.standard.set(menuIndex, forKey: "menuIndex")
+        //        UserDefaults.standard.set(menuIndex, forKey: "menuIndex")
     }
     
     func showAssignIndicater()
     {
-//        self.assignLbl.isHidden = false
-//        self.stillLbl.isHidden = true
-//        self.doneLbl.isHidden = true
-//        self.approvedLbl.isHidden = true
         self.assignBtn.titleLabel?.textColor = UIColor(named: "App_color")
         self.stillBtn.titleLabel?.textColor = .white
         self.donecBtn.titleLabel?.textColor = .white
@@ -160,10 +136,6 @@ class ProfileViewController: UIViewController, indexProtocol {
     
     func showStillWorking()
     {
-//        self.assignLbl.isHidden = true
-//        self.stillLbl.isHidden = false
-//        self.doneLbl.isHidden = true
-//        self.approvedLbl.isHidden = true
         self.assignBtn.titleLabel?.textColor = .white
         self.stillBtn.titleLabel?.textColor = UIColor(named: "App_color")
         self.donecBtn.titleLabel?.textColor = .white
@@ -173,10 +145,6 @@ class ProfileViewController: UIViewController, indexProtocol {
     
     func showDoneSuccess()
     {
-//        self.assignLbl.isHidden = true
-//        self.stillLbl.isHidden = true
-//        self.doneLbl.isHidden = false
-//        self.approvedLbl.isHidden = true
         self.assignBtn.titleLabel?.textColor = .white
         self.stillBtn.titleLabel?.textColor = .white
         self.donecBtn.titleLabel?.textColor = UIColor(named: "App_color")
@@ -186,10 +154,6 @@ class ProfileViewController: UIViewController, indexProtocol {
     
     func showdoneApproved()
     {
-//        self.assignLbl.isHidden = true
-//        self.stillLbl.isHidden = true
-//        self.doneLbl.isHidden = true
-//        self.approvedLbl.isHidden = false
         self.assignBtn.titleLabel?.textColor = .white
         self.stillBtn.titleLabel?.textColor = .white
         self.donecBtn.titleLabel?.textColor = .white
@@ -209,7 +173,6 @@ class ProfileViewController: UIViewController, indexProtocol {
         self.noTaskLbl.isHidden = true
         showAssignIndicater()
         isLastPage = false
-        
     }
     
     @IBAction func stillBtnAct() {
@@ -220,7 +183,7 @@ class ProfileViewController: UIViewController, indexProtocol {
         currentPage = 1
         stType = "still_working"
         self.getpostAPICall(withType: stType, page: currentPage)
-   
+        
         self.noTaskLbl.isHidden = true
         showStillWorking()
         
@@ -235,7 +198,6 @@ class ProfileViewController: UIViewController, indexProtocol {
         self.getpostAPICall(withType: stType, page: currentPage)
         self.noTaskLbl.isHidden = true
         showDoneSuccess()
-       
     }
     
     @IBAction func doneApprovedBtnAct() {
@@ -291,20 +253,20 @@ class ProfileViewController: UIViewController, indexProtocol {
     }
     
     func getpostAPICall(withType : String, page:Int){
-//        self.reelsModelArray.removeAll()
+        //        self.reelsModelArray.removeAll()
         let url = BASEURL + GETREELSURL + withType + "&sort_due_date=desc" + "&page_no=\(page)"
         print(url)
-//        if page == 1{
-//            KRProgressHUD.show()
-//        }
+        //        if page == 1{
+        //            KRProgressHUD.show()
+        //        }
         
         APIModel.getRequest(strURL: url , postHeaders: headers as NSDictionary) { _result in
-//            if page == 1{
-//                KRProgressHUD.dismiss()
-//            }
+            //            if page == 1{
+            //                KRProgressHUD.dismiss()
+            //            }
             
             let getReelsResponseModel = try? JSONDecoder().decode(GetReelsResponseModel.self, from: _result as! Data)
-//            print(getReelsResponseModel?.data as Any)
+            //            print(getReelsResponseModel?.data as Any)
             if getReelsResponseModel?.data != nil
             {
                 print(getReelsResponseModel?.data?.posts?.count)
@@ -313,7 +275,7 @@ class ProfileViewController: UIViewController, indexProtocol {
                 }
                 self.isLastPage = (getReelsResponseModel?.data?.posts ?? [Post]()).count == 10 ? false : true
                 self.aulbumCW.reloadData()
-
+                
                 if self.reelsModelArray.count == 0
                 {
                     print("No Reels found")
@@ -325,7 +287,7 @@ class ProfileViewController: UIViewController, indexProtocol {
                 print("No Reels found")
                 self.noTaskLbl.isHidden = false
             }
-           
+            
             //
         } failure: { error in
             if page == 1{
@@ -391,7 +353,7 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
             }
         }
         
-        item.assignCountLbl.text = "\(self.reelsModelArray[indexPath.row].tagPeoples?.count ?? 0)"
+        //        item.assignCountLbl.text = "\(self.reelsModelArray[indexPath.row].tagPeoples?.count ?? 0)"
         
         if indexPath.row == self.reelsModelArray.count - 3 {
             if !isLastPage{
@@ -426,18 +388,18 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         self.navigationController?.pushViewController(viewVidepVC, animated: true)
     }
     
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let offsetY = scrollView.contentOffset.y
-//        let contentHeight = scrollView.contentSize.height
-//        let visibleHeight = scrollView.frame.height
-//
-//        if offsetY > contentHeight - visibleHeight {
-//            print("Showing next page")
-//            currentPage += 1
-//            self.getpostAPICall(withType: stType, page: currentPage)
-//        }
-//
-//    }
+    //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    //        let offsetY = scrollView.contentOffset.y
+    //        let contentHeight = scrollView.contentSize.height
+    //        let visibleHeight = scrollView.frame.height
+    //
+    //        if offsetY > contentHeight - visibleHeight {
+    //            print("Showing next page")
+    //            currentPage += 1
+    //            self.getpostAPICall(withType: stType, page: currentPage)
+    //        }
+    //
+    //    }
     
 }
 
