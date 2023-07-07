@@ -113,11 +113,11 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         cell.approvedBtn.addTarget(self, action: #selector(approvedBtnAction), for: .touchUpInside)
         if self.statusModelArray[indexPath.row].createdbycommentcount == "1"
         {
-            cell.unreadBtn.isHidden = true
+            cell.unreadBtn.isHidden = false
         }
         else
         {
-            cell.unreadBtn.isHidden = false
+            cell.unreadBtn.isHidden = true
         }
         let lastMsg = self.statusModelArray[indexPath.row].lastmessage ?? ""
         var ar = [String]()
