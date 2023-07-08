@@ -65,7 +65,16 @@ class ImageAndVideoCommentViewController: UIViewController, UITextViewDelegate {
             let playerItem = AVPlayerItem(url: selectedVideoURL!)
             player?.replaceCurrentItem(with: playerItem)
             player?.play()
-
+            player?.volume = 2
+            
+            do {
+                try AVAudioSession.sharedInstance().setCategory(.playAndRecord, options: [.defaultToSpeaker, .allowAirPlay, .allowBluetoothA2DP])
+                // try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+                try  AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+                UIApplication.shared.beginReceivingRemoteControlEvents()
+            } catch {
+                print("Activate AVAudioSession failed.")
+            }
             NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.player?.currentItem, queue: .main)
             { [weak self] _ in
                 self?.player?.seek(to: CMTime.zero)

@@ -65,9 +65,16 @@ class ReelsTableViewCell: UITableViewCell {
 //        avPlayerLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
 //        avPlayer?.volume = 2
         avPlayer?.actionAtItemEnd = .none
+        avPlayer?.volume = 2
         
-        
-
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playAndRecord, options: [.defaultToSpeaker, .allowAirPlay, .allowBluetoothA2DP])
+            // try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+            try  AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+            UIApplication.shared.beginReceivingRemoteControlEvents()
+        } catch {
+            print("Activate AVAudioSession failed.")
+        }
     
         
         //        You need to have different variations
