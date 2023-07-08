@@ -24,6 +24,9 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         //        self.tagPeoples1.append(contentsOf: tagname)
         self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
         print(self.tagPeopleLbl.text as Any)
+        if self.tagPeoples1.count == 0{
+            self.tagPeopleLbl.text = "Tag People"
+        }
     }
     
     

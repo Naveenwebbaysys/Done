@@ -111,13 +111,13 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         cell.markBtn.addTarget(self, action: #selector(markBtnAction), for: .touchUpInside)
         cell.approvedBtn.tag = indexPath.row
         cell.approvedBtn.addTarget(self, action: #selector(approvedBtnAction), for: .touchUpInside)
-        if self.statusModelArray[indexPath.row].createdbycommentcount == "1"
+        if self.statusModelArray[indexPath.row].createdbycommentcount == "0"
         {
-            cell.unreadBtn.isHidden = false
+            cell.unreadBtn.isHidden = true
         }
         else
         {
-            cell.unreadBtn.isHidden = true
+            cell.unreadBtn.isHidden = false
         }
         let lastMsg = self.statusModelArray[indexPath.row].lastmessage ?? ""
         var ar = [String]()
@@ -131,7 +131,6 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
             cell.lastMsgHeight.constant = 35
             if lastMsg.contains("--") == true
             {
-
                 cell.imgWidth.constant = 35
                 ar = split(content: self.statusModelArray[indexPath.row].lastmessage!) as! [String]
                 cell.lastMsgLbl.text = ar[1]
@@ -161,18 +160,21 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
                     DispatchQueue.main.async {
                         cell.mediaImgVW.image = getVideoThumbnail(url: URL(string: lastMsg)!)
                     }
+                    cell.lastMsgLbl.text = ""
                 }
                 else if (lastMsg as AnyObject).contains(".jpeg")  || (lastMsg as AnyObject).contains(".jpg")
                 {
                     DispatchQueue.main.async {
                         cell.mediaImgVW.kf.setImage(with: URL(string: lastMsg))
                     }
+                    cell.lastMsgLbl.text = ""
                 }
                 else
                 {
                     cell.lastMsgLbl.text = lastMsg
                     cell.imgWidth.constant = 0
                 }
+                
             }
         }
         if self.statusModelArray[indexPath.row].isApprovedCheked == true

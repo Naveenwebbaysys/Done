@@ -297,11 +297,11 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="MCD-HH-Uud">
-                                        <rect key="frame" x="252" y="2" width="60" height="35"/>
+                                        <rect key="frame" x="157" y="2" width="60" height="35"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="35" id="GuW-ia-ENF"/>
-                                            <constraint firstAttribute="width" constant="60" id="deD-9v-lbA"/>
+                                            <constraint firstAttribute="width" constant="60" id="DG5-3f-Ir6"/>
+                                            <constraint firstAttribute="height" constant="35" id="av4-NT-VpC"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -314,11 +314,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="dne-8f-Yk0">
-                                        <rect key="frame" x="157" y="2" width="90" height="35"/>
+                                        <rect key="frame" x="222" y="2" width="103" height="35"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="35" id="Pwa-dS-j3G"/>
-                                            <constraint firstAttribute="width" constant="90" id="m1x-oQ-JKY"/>
+                                            <constraint firstAttribute="height" constant="35" id="ofc-T0-BWM"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -359,7 +358,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="I Need Done">
+                                        <state key="normal" title="Need Done">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -369,18 +368,18 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="MCD-HH-Uud" firstAttribute="leading" secondItem="dne-8f-Yk0" secondAttribute="trailing" constant="5" id="21L-PK-Yti"/>
                                     <constraint firstAttribute="trailing" secondItem="ctR-wv-y2V" secondAttribute="trailing" constant="5" id="2jq-KC-x7w"/>
-                                    <constraint firstItem="dne-8f-Yk0" firstAttribute="leading" secondItem="8aF-qc-HYJ" secondAttribute="trailing" constant="5" id="Ca5-Qq-RgQ"/>
+                                    <constraint firstItem="ctR-wv-y2V" firstAttribute="centerY" secondItem="dne-8f-Yk0" secondAttribute="centerY" id="BTV-ye-Rr4"/>
+                                    <constraint firstItem="dne-8f-Yk0" firstAttribute="leading" secondItem="MCD-HH-Uud" secondAttribute="trailing" constant="5" id="Ihb-bq-laq"/>
                                     <constraint firstItem="8aF-qc-HYJ" firstAttribute="leading" secondItem="bsr-wW-DOB" secondAttribute="trailing" constant="5" id="JC1-u1-3FN"/>
-                                    <constraint firstItem="MCD-HH-Uud" firstAttribute="centerY" secondItem="dne-8f-Yk0" secondAttribute="centerY" id="JUf-nc-b0h"/>
                                     <constraint firstItem="bsr-wW-DOB" firstAttribute="top" secondItem="Jeb-3k-6Qr" secondAttribute="top" constant="2" id="Nqm-a7-cPu"/>
+                                    <constraint firstItem="MCD-HH-Uud" firstAttribute="leading" secondItem="8aF-qc-HYJ" secondAttribute="trailing" constant="5" id="Ozl-uH-jda"/>
                                     <constraint firstItem="bsr-wW-DOB" firstAttribute="leading" secondItem="Jeb-3k-6Qr" secondAttribute="leading" id="RKi-DD-EIT"/>
+                                    <constraint firstItem="MCD-HH-Uud" firstAttribute="centerY" secondItem="8aF-qc-HYJ" secondAttribute="centerY" id="bES-as-xnV"/>
                                     <constraint firstItem="8aF-qc-HYJ" firstAttribute="centerY" secondItem="bsr-wW-DOB" secondAttribute="centerY" id="jKb-Nu-9xE"/>
-                                    <constraint firstItem="ctR-wv-y2V" firstAttribute="leading" secondItem="MCD-HH-Uud" secondAttribute="trailing" constant="23" id="lr0-vm-1d2"/>
+                                    <constraint firstItem="dne-8f-Yk0" firstAttribute="centerY" secondItem="MCD-HH-Uud" secondAttribute="centerY" id="oJw-ix-XJc"/>
                                     <constraint firstAttribute="height" constant="50" id="tHi-g4-xBZ"/>
-                                    <constraint firstItem="dne-8f-Yk0" firstAttribute="centerY" secondItem="8aF-qc-HYJ" secondAttribute="centerY" id="xOs-Mo-I9W"/>
-                                    <constraint firstItem="ctR-wv-y2V" firstAttribute="centerY" secondItem="MCD-HH-Uud" secondAttribute="centerY" id="zsw-4X-ems"/>
+                                    <constraint firstItem="ctR-wv-y2V" firstAttribute="leading" secondItem="dne-8f-Yk0" secondAttribute="trailing" constant="10" id="yyI-7m-YTa"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1234,69 +1233,66 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="SlF-e7-Hjh">
-                                                <rect key="frame" x="0.0" y="0.0" width="455" height="44"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="44"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Bs8-Vn-pkF">
-                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="44"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="90" height="44"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="100" id="Pme-gq-iS9"/>
+                                                            <constraint firstAttribute="width" constant="90" id="SUQ-L0-RZB"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Assigend by me  $">
-                                                            <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <state key="normal" title="Available">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
                                                             <action selector="assignedBtnAct" destination="5Xv-Ze-GgY" eventType="touchUpInside" id="vBJ-eo-Wo4"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="QKR-wL-SYS">
-                                                        <rect key="frame" x="105" y="0.0" width="100" height="44"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="CWr-cc-2yF">
+                                                        <rect key="frame" x="95" y="0.0" width="90" height="44"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="100" id="nHM-Gy-ybT"/>
+                                                            <constraint firstAttribute="width" constant="90" id="AJJ-ux-AWe"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Need Done">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="doneApprovedBtnAct" destination="5Xv-Ze-GgY" eventType="touchUpInside" id="Xue-TM-De5"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="QKR-wL-SYS">
+                                                        <rect key="frame" x="190" y="0.0" width="80" height="44"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="80" id="MFf-9h-IUm"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Still working  $">
-                                                            <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <state key="normal" title="Pending">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
                                                             <action selector="stillBtnAct" destination="5Xv-Ze-GgY" eventType="touchUpInside" id="nZ3-S6-qA7"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ozM-Sn-bSW">
-                                                        <rect key="frame" x="210" y="0.0" width="130" height="44"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <rect key="frame" x="275" y="0.0" width="99" height="44"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="130" id="0zI-yC-5to"/>
+                                                            <constraint firstAttribute="width" constant="99" id="aDa-bc-CxQ"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Done Need to Check $">
-                                                            <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <state key="normal" title="Need Approval">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
                                                             <action selector="doneBtnAct" destination="5Xv-Ze-GgY" eventType="touchUpInside" id="8oE-JP-Ulk"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="CWr-cc-2yF">
-                                                        <rect key="frame" x="345" y="0.0" width="110" height="44"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="110" id="fkG-JN-J4z"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
-                                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Done Approved">
-                                                            <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="doneApprovedBtnAct" destination="5Xv-Ze-GgY" eventType="touchUpInside" id="Xue-TM-De5"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -1375,10 +1371,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vga-TP-QYS">
-                                <rect key="frame" x="200" y="141" width="145" height="100"/>
+                                <rect key="frame" x="200" y="138.5" width="145" height="105"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$ 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2UL-5h-a2a">
-                                        <rect key="frame" x="20" y="51" width="105" height="48"/>
+                                        <rect key="frame" x="20" y="51" width="105" height="53"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1415,7 +1411,7 @@ Earned</string>
                                     <constraint firstItem="1sN-hh-S0R" firstAttribute="centerX" secondItem="vga-TP-QYS" secondAttribute="centerX" id="L3H-Pg-VWu"/>
                                     <constraint firstItem="1sN-hh-S0R" firstAttribute="top" secondItem="vga-TP-QYS" secondAttribute="top" constant="1" id="Z9P-zb-bdy"/>
                                     <constraint firstItem="2UL-5h-a2a" firstAttribute="top" secondItem="1sN-hh-S0R" secondAttribute="bottom" constant="5" id="tT4-Xe-F20"/>
-                                    <constraint firstAttribute="height" constant="100" id="tc9-M3-sJF"/>
+                                    <constraint firstAttribute="height" constant="105" id="tc9-M3-sJF"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">

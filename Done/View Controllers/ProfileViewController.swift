@@ -225,19 +225,19 @@ class ProfileViewController: UIViewController, indexProtocol {
                 print(self.stillworkingCommission)
                 print(self.stillworkingCommission)
                 
-                let part1 = NSAttributedString(string: "Assigend by me  $"  + self.assignCommission)
+                let part1 = NSAttributedString(string: "Available "  + "\n" + "$"  + self.assignCommission)
                 self.assignBtn.setAttributedTitle(part1, for: .normal)
                 self.assignBtn.titleLabel?.textAlignment = .center
                 
-                let part2 = NSAttributedString(string: "Still working  "  + "\n" +  "$" + self.stillworkingCommission)
+                let part2 = NSAttributedString(string: "Pending " + "\n" + "$"  + self.stillworkingCommission)
                 self.stillBtn.setAttributedTitle(part2, for: .normal)
                 self.stillBtn.titleLabel?.textAlignment = .center
                 
-                let part3 = NSAttributedString(string: "Done Need to Check "  + "$" + self.doneCommission)
+                let part3 = NSAttributedString(string: "Need Approval " + "\n" + "$" + self.doneCommission)
                 self.donecBtn.setAttributedTitle(part3, for: .normal)
                 self.donecBtn.titleLabel?.textAlignment = .center
                 
-                let part4 = NSAttributedString(string: "Done Approved " + "\n" + "$" + self.approvedCommission)
+                let part4 = NSAttributedString(string: "Need Done " + "\n" + "$" + self.approvedCommission)
                 self.doneApprovedBtn.setAttributedTitle(part4, for: .normal)
                 self.doneApprovedBtn.titleLabel?.textAlignment = .center
                 

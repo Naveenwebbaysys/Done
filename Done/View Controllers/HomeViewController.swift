@@ -245,7 +245,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
             self.donecBtn.setAttributedTitle(part3, for: .normal)
             self.donecBtn.titleLabel?.textAlignment = .center
             
-            let part4 = NSAttributedString(string: "I Need Done " + "\n" + "$" + approvedCom)
+            let part4 = NSAttributedString(string: "Need Done " + "\n" + "$" + approvedCom)
             self.iNeedDoneBtn.setAttributedTitle(part4, for: .normal)
             self.iNeedDoneBtn.titleLabel?.textAlignment = .center
 //            self.donecBtn.titleLabel?.textColor = .white
