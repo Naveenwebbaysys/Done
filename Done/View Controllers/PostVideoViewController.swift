@@ -16,8 +16,10 @@ import MaterialComponents
 
 
 class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
+  
     
-    func sendDataToFirstViewController(tagsID: [String], tagname: [String]) {
+    
+    func sendDataToFirstViewController(tagsID: [String], tagname: [String], groupId: Int, groupName : String) {
         self.tagIDSArray = tagsID
         self.tagPeoples1 = tagname
         //        self.tagIDSArray.append(contentsOf: tagsID)
@@ -27,6 +29,9 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         if self.tagPeoples1.count == 0{
             self.tagPeopleLbl.text = "Tag People"
         }
+        self.groupId = groupId
+        self.groupName = groupName
+        self.tagPeopleLbl.text = (self.tagPeopleLbl.text ?? "") + "," + self.groupName
     }
     
     
@@ -41,6 +46,8 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     var tagIDSArray =  [String]()
     var editURL = ""
     var postID = ""
+    var groupId = 0
+    var groupName = ""
     
     @IBOutlet weak var screenTitleLbl : UILabel!
     @IBOutlet weak var  descriptionTV : UITextView!
@@ -60,11 +67,12 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     @IBOutlet weak var lblCategoryTitle: UILabel!
     @IBOutlet weak var lblSubCategoryTitle: UILabel!
     @IBOutlet weak var constraintTableviewHeight: NSLayoutConstraint!
-   @IBOutlet weak var viewVideoUploadProgress: UIView!
+    @IBOutlet weak var viewVideoUploadProgress: UIView!
     @IBOutlet weak var btnPost: UIButton!
     @IBOutlet weak var constraintBtnPostWidth: NSLayoutConstraint!
     
     var reelsModelArray = [Post]()
+  
     var index = 0
     var isFromEdit = Bool()
     let commissionTypeDropDown = DropDown()
@@ -220,8 +228,7 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         print(todaysDate)
         print(futureDate)
         
-        self.dateLbl.text = dateFormatter1.string(from: xyz)
-        
+        self.dateLbl.text = dateFormatter1.string(from: xyz) 
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -348,6 +355,8 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             )
         }
     }
+    
+
 }
 
 
@@ -408,7 +417,7 @@ extension PostViewController {
             }
             KRProgressHUD.show()
            
-            let postparams = PostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: arrLinkData, tags: [], videoRestriction: restType, description: descText, assignedDate: todaysDate, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate,categoryId: stCategoryID,subcategoryId: stSubCategoryID,projectType: stProjectType)
+            let postparams = PostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: arrLinkData, tags: [], videoRestriction: restType, description: descText, assignedDate: todaysDate, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate,categoryId: stCategoryID,subcategoryId: stSubCategoryID,projectType: stProjectType, groupID: groupId)
             let jsonData = try! JSONEncoder().encode(postparams)
             let params11 = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
             print(params11!)
