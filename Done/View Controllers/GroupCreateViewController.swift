@@ -31,6 +31,7 @@ class GroupCreateViewController: UIViewController {
     //MARK: - UIView Controller Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        GroupCreateVM.shared.controller = self
         self.tabelviewList.register(UINib(nibName: "TagUsersTableViewCell", bundle: nil), forCellReuseIdentifier: "TagUsersTableViewCell")
         self.txtSearchList.delegate = self
         tabelviewList.separatorStyle = .none
@@ -135,6 +136,17 @@ class GroupCreateViewController: UIViewController {
     }
     
     @IBAction func btnDoneAction(_ sender: UIButton) {
+        if (txtGroupName.text ?? "").isEmpty{
+            showToast(message: "Please enter group name")
+            return
+        }
+        
+        if tagPeoples1.count == 0{
+            showToast(message: "Please select tag people")
+            return
+        }
+        
+        GroupCreateVM.shared.addGroupsAPICall(employeesID: tagIDSArray, stName: txtGroupName.text ?? "")
     }
     
     @IBAction func btnSearchCloseAction(_ sender: UIButton) {

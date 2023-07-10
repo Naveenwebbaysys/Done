@@ -40,8 +40,8 @@ install_framework()
   local destination="${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
 
   if [ -L "${source}" ]; then
-    echo "Symlinked..."
-    source="$(readlink "${source}")"
+  echo "Symlinked..."
+  source="$(readlink -f "${source}")"
   fi
 
   if [ -d "${source}/${BCSYMBOLMAP_DIR}" ]; then

@@ -70,6 +70,9 @@
 		1B769D8B2A5810FF00E387D4 /* AssigneeResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B769D8A2A5810FF00E387D4 /* AssigneeResponseModel.swift */; };
 		1B943BAC2A4E87C2008BAE1B /* VideoPerviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B943BAB2A4E87C2008BAE1B /* VideoPerviewViewController.swift */; };
 		1B9CF12A2A594C7500F2EB1A /* GroupCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9CF1292A594C7500F2EB1A /* GroupCreateViewController.swift */; };
+		1B9CF1302A5999A300F2EB1A /* GroupCreateVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9CF12F2A5999A300F2EB1A /* GroupCreateVM.swift */; };
+		1B9CF1322A599ACF00F2EB1A /* CreateGroupsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9CF1312A599ACF00F2EB1A /* CreateGroupsModel.swift */; };
+		1B9CF1342A599DCD00F2EB1A /* MenuListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9CF1332A599DCD00F2EB1A /* MenuListViewController.swift */; };
 		1BB75EE92A56C997001930A1 /* SenderTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB75EE72A56C997001930A1 /* SenderTextTableViewCell.swift */; };
 		1BB75EEA2A56C997001930A1 /* SenderTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BB75EE82A56C997001930A1 /* SenderTextTableViewCell.xib */; };
 		1BB7E9EF2A52C626005D7399 /* CategoryResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB7E9EE2A52C626005D7399 /* CategoryResponseModel.swift */; };
@@ -147,6 +150,9 @@
 		1B769D8A2A5810FF00E387D4 /* AssigneeResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssigneeResponseModel.swift; sourceTree = "<group>"; };
 		1B943BAB2A4E87C2008BAE1B /* VideoPerviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPerviewViewController.swift; sourceTree = "<group>"; };
 		1B9CF1292A594C7500F2EB1A /* GroupCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCreateViewController.swift; sourceTree = "<group>"; };
+		1B9CF12F2A5999A300F2EB1A /* GroupCreateVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCreateVM.swift; sourceTree = "<group>"; };
+		1B9CF1312A599ACF00F2EB1A /* CreateGroupsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupsModel.swift; sourceTree = "<group>"; };
+		1B9CF1332A599DCD00F2EB1A /* MenuListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuListViewController.swift; sourceTree = "<group>"; };
 		1BB75EE72A56C997001930A1 /* SenderTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenderTextTableViewCell.swift; sourceTree = "<group>"; };
 		1BB75EE82A56C997001930A1 /* SenderTextTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SenderTextTableViewCell.xib; sourceTree = "<group>"; };
 		1BB7E9EE2A52C626005D7399 /* CategoryResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryResponseModel.swift; sourceTree = "<group>"; };
@@ -184,6 +190,7 @@
 				1BB7E9EE2A52C626005D7399 /* CategoryResponseModel.swift */,
 				04BA36CF2A544FD5004808F3 /* TotalCommentCountModel.swift */,
 				1B769D8A2A5810FF00E387D4 /* AssigneeResponseModel.swift */,
+				1B9CF1312A599ACF00F2EB1A /* CreateGroupsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -285,6 +292,7 @@
 				1B6F459C2A4DADE10086A429 /* ImageviewPreviewViewController.swift */,
 				1B943BAB2A4E87C2008BAE1B /* VideoPerviewViewController.swift */,
 				1B9CF1292A594C7500F2EB1A /* GroupCreateViewController.swift */,
+				1B9CF1332A599DCD00F2EB1A /* MenuListViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -323,6 +331,7 @@
 			isa = PBXGroup;
 			children = (
 				1BFECB0C2A4C42D900823B86 /* CommentsVM.swift */,
+				1B9CF12F2A5999A300F2EB1A /* GroupCreateVM.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -487,6 +496,7 @@
 				04400A9D2A3098740028CECE /* Extra.swift in Sources */,
 				1B09587F2A4AB454006A1F67 /* MimeType.swift in Sources */,
 				1B769D8B2A5810FF00E387D4 /* AssigneeResponseModel.swift in Sources */,
+				1B9CF1342A599DCD00F2EB1A /* MenuListViewController.swift in Sources */,
 				04C1427A2A387CE9005D1391 /* CommentsTableViewCell.swift in Sources */,
 				0457B4032A3E164700D6581F /* ThumbnailImage.swift in Sources */,
 				04C142772A387A57005D1391 /* CommentsViewController.swift in Sources */,
@@ -519,7 +529,9 @@
 				04D3C2CE2A333E5900A5D460 /* ProfileViewController.swift in Sources */,
 				045C35742A2087E2007968C9 /* HomeViewController.swift in Sources */,
 				1BB75EE92A56C997001930A1 /* SenderTextTableViewCell.swift in Sources */,
+				1B9CF1322A599ACF00F2EB1A /* CreateGroupsModel.swift in Sources */,
 				045C35582A206E70007968C9 /* SceneDelegate.swift in Sources */,
+				1B9CF1302A5999A300F2EB1A /* GroupCreateVM.swift in Sources */,
 				1BB7E9EF2A52C626005D7399 /* CategoryResponseModel.swift in Sources */,
 				04A8D47F2A3468CB00BC2628 /* TagsUsersViewController.swift in Sources */,
 				045B4CDC2A3B34F30064CC77 /* CommissionResponseModel.swift in Sources */,

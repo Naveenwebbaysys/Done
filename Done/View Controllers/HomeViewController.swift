@@ -651,18 +651,12 @@ extension HomeViewController {
     
     @objc func editBtnTapped(_ sender: UIButton?) {
         print("Edit Tapped")
-//
-//        let postVC = storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
-//        postVC.reelsModelArray = self.reelsModelArray
-//        postVC.index = sender!.tag
-//        postVC.isFromEdit = true
-//        self.navigationController?.pushViewController(postVC, animated: true)
-        
-        let postVC = storyboard?.instantiateViewController(withIdentifier: "GroupCreateViewController") as! GroupCreateViewController
+        let postVC = storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
+        postVC.reelsModelArray = self.reelsModelArray
+        postVC.index = sender!.tag
+        postVC.isFromEdit = true
         self.navigationController?.pushViewController(postVC, animated: true)
-        
-        
-        
+         
     }
     
     func updatesAPICall(withTask: String, index : Int)
