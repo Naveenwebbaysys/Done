@@ -61,6 +61,11 @@
 		1B066D062A56D542007F07C6 /* ReceivedImageVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B066D042A56D542007F07C6 /* ReceivedImageVideoTableViewCell.swift */; };
 		1B066D072A56D542007F07C6 /* ReceivedImageVideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B066D052A56D542007F07C6 /* ReceivedImageVideoTableViewCell.xib */; };
 		1B09587F2A4AB454006A1F67 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B09587E2A4AB454006A1F67 /* MimeType.swift */; };
+		1B47DADB2A5BDAA100CE0021 /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B47DADA2A5BDAA100CE0021 /* GroupListViewController.swift */; };
+		1B47DAE02A5BDEEC00CE0021 /* GroupListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B47DADE2A5BDEEC00CE0021 /* GroupListTableViewCell.swift */; };
+		1B47DAE12A5BDEEC00CE0021 /* GroupListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B47DADF2A5BDEEC00CE0021 /* GroupListTableViewCell.xib */; };
+		1B47DAE32A5BE3BE00CE0021 /* GroupListDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B47DAE22A5BE3BE00CE0021 /* GroupListDetailsModel.swift */; };
+		1B47DAE52A5BE4FA00CE0021 /* GroupListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B47DAE42A5BE4FA00CE0021 /* GroupListVM.swift */; };
 		1B6F459D2A4DADE10086A429 /* ImageviewPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6F459C2A4DADE10086A429 /* ImageviewPreviewViewController.swift */; };
 		1B7661802A4B259600F63D0A /* ImageAndVideoCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B76617F2A4B259600F63D0A /* ImageAndVideoCommentViewController.swift */; };
 		1B7661832A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7661812A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift */; };
@@ -141,6 +146,11 @@
 		1B066D042A56D542007F07C6 /* ReceivedImageVideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedImageVideoTableViewCell.swift; sourceTree = "<group>"; };
 		1B066D052A56D542007F07C6 /* ReceivedImageVideoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReceivedImageVideoTableViewCell.xib; sourceTree = "<group>"; };
 		1B09587E2A4AB454006A1F67 /* MimeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
+		1B47DADA2A5BDAA100CE0021 /* GroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewController.swift; sourceTree = "<group>"; };
+		1B47DADE2A5BDEEC00CE0021 /* GroupListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListTableViewCell.swift; sourceTree = "<group>"; };
+		1B47DADF2A5BDEEC00CE0021 /* GroupListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupListTableViewCell.xib; sourceTree = "<group>"; };
+		1B47DAE22A5BE3BE00CE0021 /* GroupListDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListDetailsModel.swift; sourceTree = "<group>"; };
+		1B47DAE42A5BE4FA00CE0021 /* GroupListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListVM.swift; sourceTree = "<group>"; };
 		1B6F459C2A4DADE10086A429 /* ImageviewPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageviewPreviewViewController.swift; sourceTree = "<group>"; };
 		1B76617F2A4B259600F63D0A /* ImageAndVideoCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAndVideoCommentViewController.swift; sourceTree = "<group>"; };
 		1B7661812A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCommentsTableViewCell.swift; sourceTree = "<group>"; };
@@ -191,6 +201,7 @@
 				04BA36CF2A544FD5004808F3 /* TotalCommentCountModel.swift */,
 				1B769D8A2A5810FF00E387D4 /* AssigneeResponseModel.swift */,
 				1B9CF1312A599ACF00F2EB1A /* CreateGroupsModel.swift */,
+				1B47DAE22A5BE3BE00CE0021 /* GroupListDetailsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -269,6 +280,8 @@
 				1B066D012A56D2ED007F07C6 /* SenderImageAndVideoTableViewCell.xib */,
 				1B066D042A56D542007F07C6 /* ReceivedImageVideoTableViewCell.swift */,
 				1B066D052A56D542007F07C6 /* ReceivedImageVideoTableViewCell.xib */,
+				1B47DADE2A5BDEEC00CE0021 /* GroupListTableViewCell.swift */,
+				1B47DADF2A5BDEEC00CE0021 /* GroupListTableViewCell.xib */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -293,6 +306,7 @@
 				1B943BAB2A4E87C2008BAE1B /* VideoPerviewViewController.swift */,
 				1B9CF1292A594C7500F2EB1A /* GroupCreateViewController.swift */,
 				1B9CF1332A599DCD00F2EB1A /* MenuListViewController.swift */,
+				1B47DADA2A5BDAA100CE0021 /* GroupListViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -332,6 +346,7 @@
 			children = (
 				1BFECB0C2A4C42D900823B86 /* CommentsVM.swift */,
 				1B9CF12F2A5999A300F2EB1A /* GroupCreateVM.swift */,
+				1B47DAE42A5BE4FA00CE0021 /* GroupListVM.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -418,6 +433,7 @@
 				04400A992A2F11520028CECE /* TagUsersTableViewCell.xib in Resources */,
 				045B4CE22A3B3AA90064CC77 /* AulbumCollectionViewCell.xib in Resources */,
 				1B769D892A57F8BE00E387D4 /* FilterListCollectionViewCell.xib in Resources */,
+				1B47DAE12A5BDEEC00CE0021 /* GroupListTableViewCell.xib in Resources */,
 				045C355F2A206E71007968C9 /* Assets.xcassets in Resources */,
 				041F66F72A4C700E009C6AB4 /* ViewStatusTableViewCell.xib in Resources */,
 				041345D62A27900800B6C553 /* ReelsTableViewCell.xib in Resources */,
@@ -484,6 +500,7 @@
 				045B4CE12A3B3AA90064CC77 /* AulbumCollectionViewCell.swift in Sources */,
 				0497D0F82A33029800B4A185 /* ViewStatusViewController.swift in Sources */,
 				1B066D022A56D2ED007F07C6 /* SenderImageAndVideoTableViewCell.swift in Sources */,
+				1B47DADB2A5BDAA100CE0021 /* GroupListViewController.swift in Sources */,
 				0498F05F2A37583E0043B27E /* AWSS3Manager.swift in Sources */,
 				041345D22A2766A900B6C553 /* API's.swift in Sources */,
 				1B9CF12A2A594C7500F2EB1A /* GroupCreateViewController.swift in Sources */,
@@ -504,6 +521,7 @@
 				045C35562A206E70007968C9 /* AppDelegate.swift in Sources */,
 				0497D0FF2A3327C700B4A185 /* PlayerView.swift in Sources */,
 				0475B38C2A4E9FAA00D05BDD /* PlayVideoViewController.swift in Sources */,
+				1B47DAE52A5BE4FA00CE0021 /* GroupListVM.swift in Sources */,
 				045C35722A206EEC007968C9 /* LoginViewController.swift in Sources */,
 				045C35702A206EEC007968C9 /* ServiceController.swift in Sources */,
 				048EB3A62A2A01D8004BE939 /* AWSS3.swift in Sources */,
@@ -521,6 +539,7 @@
 				1B7661802A4B259600F63D0A /* ImageAndVideoCommentViewController.swift in Sources */,
 				041345CD2A27565300B6C553 /* CustomViewController.swift in Sources */,
 				1B6F459D2A4DADE10086A429 /* ImageviewPreviewViewController.swift in Sources */,
+				1B47DAE02A5BDEEC00CE0021 /* GroupListTableViewCell.swift in Sources */,
 				043DFB8B2A52932F005BA06D /* FiltersViewController.swift in Sources */,
 				041F66FA2A4C723F009C6AB4 /* UpdateDoneModel.swift in Sources */,
 				1B769D882A57F8BE00E387D4 /* FilterListCollectionViewCell.swift in Sources */,
@@ -537,6 +556,7 @@
 				045B4CDC2A3B34F30064CC77 /* CommissionResponseModel.swift in Sources */,
 				04797C782A4970C100F2F7CE /* Navigations.swift in Sources */,
 				04400A982A2F11520028CECE /* TagUsersTableViewCell.swift in Sources */,
+				1B47DAE32A5BE3BE00CE0021 /* GroupListDetailsModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

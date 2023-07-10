@@ -8,6 +8,10 @@
 import UIKit
 import iOSDropDown
 
+protocol delegateGroupCreateVC{
+    func setUpdateOfGroup(dataOfGrp:Group,selectedIndex:Int,isUpdate:Bool)
+}
+
 class GroupCreateViewController: UIViewController {
 
     //MARK: - Outlet
@@ -28,6 +32,11 @@ class GroupCreateViewController: UIViewController {
     var tagIDSArray =  [String]()
     var isDropSownVisible = 0
     
+    var isEditGroup: Bool?
+    var selectedGroup: Group?
+    var delegate: delegateGroupCreateVC?
+    var selectedGroupIndex:Int?
+    
     //MARK: - UIView Controller Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +50,12 @@ class GroupCreateViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
         getTagUsersAPICall()
-        
+        if (self.isEditGroup ?? false){
+            self.txtGroupName.text = selectedGroup?.name ?? ""
+            for empData in (selectedGroup?.employees ?? [GroupEmployee]()){
+                tags1.append(empData.employeeID ?? "")
+            }
+        }
     }
     
     //MARK: - Other methods
@@ -79,20 +93,10 @@ class GroupCreateViewController: UIViewController {
             if tagsResponseModel?.data != nil
             {
                 self.recentUsersArray = (tagsResponseModel?.data)!
-                
-                print(self.tagsUsersArray.count)
-                print(self.recentUsersArray.count)
                 self.tagsUsersArray = tagsUsersArray.filter { item in
                     !recentUsersArray.contains { $0.id == item.id }
                 }
-                
-                print(self.tagsUsersArray.count)
-                print(self.recentUsersArray.count)
-                
-                
-            }
-            else
-            {
+            }else{
                 print("Tag users data empty")
             }
             self.tabelviewList.reloadData()
@@ -108,19 +112,15 @@ class GroupCreateViewController: UIViewController {
     }
     
     @IBAction func btnSelectionMenuAction(_ sender: UIButton) {
-        
-        if isDropSownVisible == 0
-        {
+        if isDropSownVisible == 0{
             isDropSownVisible = 1
             self.txtSelection.showList()
             txtSelection.didSelect { [self] selectedText, index, id in
                 self.tagsUsersArray.removeAll()
-                print( "Selected String: \(selectedText) \n index: \(index) \n Id: \(id)")
+//                print( "Selected String: \(selectedText) \n index: \(index) \n Id: \(id)")
                 if index == 0 {
                     self.tagsUsersArray = self.backUpUsersArray
-                }
-                else
-                {
+                }else{
                     self.tagsUsersArray = self.backUpUsersArray.filter { $0.departmentName == selectedText }
                 }
                 print(self.tagsUsersArray.count)
@@ -146,7 +146,12 @@ class GroupCreateViewController: UIViewController {
             return
         }
         
-        GroupCreateVM.shared.addGroupsAPICall(employeesID: tagIDSArray, stName: txtGroupName.text ?? "")
+        if (self.isEditGroup ?? false){
+            GroupCreateVM.shared.editGroupsAPICall(employeesID: tags1, stName: txtGroupName.text ?? "", id: Int(selectedGroup?.id ?? "0")!,tagPeoplesName: tagPeoples1)
+        }else{
+            GroupCreateVM.shared.addGroupsAPICall(employeesID: tags1, stName: txtGroupName.text ?? "",tagPeoplesName: tagPeoples1)
+        }
+        
     }
     
     @IBAction func btnSearchCloseAction(_ sender: UIButton) {
@@ -170,7 +175,7 @@ class GroupCreateViewController: UIViewController {
                     }
                 }
                 else{
-                    self.tagPeoples1.append(self.recentUsersArray[sender.tag].firstName!)
+                    self.tagPeoples1.append(self.recentUsersArray[sender.tag].firstName! + " " + self.recentUsersArray[sender.tag].lastName!)
                     self.tags1.append(self.recentUsersArray[sender.tag].id!)
                 }
             }else{
@@ -181,7 +186,7 @@ class GroupCreateViewController: UIViewController {
                     }
                 }
                 else{
-                    self.tagPeoples1.append(self.tagsUsersArray[sender.tag].firstName!)
+                    self.tagPeoples1.append(self.tagsUsersArray[sender.tag].firstName! + " " + self.tagsUsersArray[sender.tag].lastName!)
                     self.tags1.append(self.tagsUsersArray[sender.tag].id!)
                 }
             }
@@ -193,7 +198,7 @@ class GroupCreateViewController: UIViewController {
                         self.tags1.remove(at: idx)
                     }
                 }else{
-                    self.tagPeoples1.append(self.recentUsersArray[sender.tag].firstName!)
+                    self.tagPeoples1.append(self.recentUsersArray[sender.tag].firstName! + " " + self.recentUsersArray[sender.tag].lastName!)
                     self.tags1.append(self.recentUsersArray[sender.tag].id!)
                 }
             }else{
@@ -204,7 +209,7 @@ class GroupCreateViewController: UIViewController {
                     }
                 }
                 else{
-                    self.tagPeoples1.append(self.filteredTagsUsersArray[sender.tag].firstName!)
+                    self.tagPeoples1.append(self.filteredTagsUsersArray[sender.tag].firstName! + " " + self.filteredTagsUsersArray[sender.tag].lastName!)
                     self.tags1.append(self.filteredTagsUsersArray[sender.tag].id!)
                 }
             }

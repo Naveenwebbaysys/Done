@@ -17,8 +17,8 @@ class MenuListViewController: UIViewController {
     
     //MARK: - UIButton Action
     @IBAction func btnNewGroupsAction(_ sender: UIButton) {
-        let postVC = storyboard?.instantiateViewController(withIdentifier: "GroupCreateViewController") as! GroupCreateViewController
-        self.navigationController?.pushViewController(postVC, animated: true)
+        let groupListVC = storyboard?.instantiateViewController(withIdentifier: "GroupListViewController") as! GroupListViewController
+        self.navigationController?.pushViewController(groupListVC, animated: true)
     }
     
 
