@@ -9,21 +9,25 @@ import UIKit
 import iOSDropDown
 
 protocol MyDataSendingDelegateProtocol {
-    func sendDataToFirstViewController(tagsID: [String], tagname:[String])
+    func sendDataToFirstViewController(tagsID: [String], tagname:[String], groupId : Int, groupName : String)
 }
 
 class TagsUsersViewController: UIViewController {
     
     var tagPeoples1 =  [String]()
-    var tags1 =  [String]()
+    var tags1       =  [String]()
     var tagIDSArray =  [String]()
+    var groupIDAry     =  [String]()
     var delegate: MyDataSendingDelegateProtocol? = nil
-    var isSerching = false
-    var isDropSownVisible = 0
-    var tagsUsersArray  =  [TagUsers]()
-    var recentUsersArray  =  [TagUsers]()
-    var backUpUsersArray  =  [TagUsers]()
+    var isSerching  = false
+    var isDropSownVisible   = 0
+    var groupId = 0
+    var groupname = String()
+    var tagsUsersArray      =  [TagUsers]()
+    var recentUsersArray    =  [TagUsers]()
+    var backUpUsersArray    =  [TagUsers]()
     var filteredTagsUsersArray  =  [TagUsers]()
+    var groupsArray         =  [Groups]()
     var departmentsArry = [String]()
     
     @IBOutlet weak var tagsTableVw  : UITableView!
@@ -53,6 +57,10 @@ class TagsUsersViewController: UIViewController {
         self.departmentsArry.append("Select Department")
         
         getTagUsersAPICall()
+        if let id = UserDefaults.standard.value(forKey: UserDetails.userId)
+        {
+            getGroupsAPICall(withLoginId: id as! String)
+        }
         
     }
     
@@ -63,20 +71,6 @@ class TagsUsersViewController: UIViewController {
             let tagsResponseModel = try? JSONDecoder().decode(TagsResponseModel.self, from: jsonData as! Data)
             if tagsResponseModel?.data != nil
             {
-                
-                //                let arrayLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
-                //                let arrayRemoveLetters = ["a", "e", "g", "h"]
-                //                let arrayRemainingLetters = arrayLetters.filter {
-                //                    !arrayRemoveLetters.contains($0)
-                //                }
-                //
-                //                let gg = self.tagsUsersArray.filter {
-                //
-                //                    !self.recentUsersArray.contains(where: $0.id)
-                //                }
-                
-                
-                
                 self.tagsUsersArray = (tagsResponseModel?.data)!
                 self.backUpUsersArray = (tagsResponseModel?.data)!
                 
@@ -94,7 +88,7 @@ class TagsUsersViewController: UIViewController {
                         self.tagsUsersArray[index].isSelected = false
                     }
                 }
-//                self.tagsTableVw.reloadData()
+                //                self.tagsTableVw.reloadData()
                 dropdownTF.optionArray = self.departmentsArry
             }
             else
@@ -134,18 +128,54 @@ class TagsUsersViewController: UIViewController {
             print(error)
         }
     }
+    
+    func getGroupsAPICall(withLoginId : String)
+    {
+        APIModel.getRequest(strURL: BASEURL + GETGROUPSAPI + withLoginId, postHeaders: headers as NSDictionary) { jsonResult in
+            let groupsResponse = try? JSONDecoder().decode(GetGroupsResponseModel.self, from: jsonResult as! Data)
+            if groupsResponse?.data?.groups != nil
+            {
+                self.groupsArray = (groupsResponse?.data?.groups)!
+                
+                for i in 0..<self.groupsArray.count
+                {
+                    self.groupsArray[i].isGroupSelected = false
+                }
+            }
+            else
+            {
+                print("No Groups found")
+            }
+            
+        } failure: { error in
+            print(error)
+        }
+    }
 }
 
 extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        return section == 0 ? (self.recentUsersArray.count != 0 ? " Recent" : "" ): " All"
+        if section == 0
+        {
+            return " Groups"
+        }
+        else if section == 1
+        {
+            return self.recentUsersArray.count != 0 ? " Recent" : ""
+        }
+        else
+        {
+            return " All"
+        }
+        
+        //        return section == 0 ? (self.recentUsersArray.count != 0 ? " Recent" : "" ): " All"
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -158,7 +188,12 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         if section == 0
+        {
+            return  self.groupsArray.count
+        }
+        else if section == 1
         {
             return  self.recentUsersArray.count
         }
@@ -174,6 +209,34 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TagUsersTableViewCell", for: indexPath) as! TagUsersTableViewCell
         if indexPath.section == 0
         {
+            cell.taguserNameLbl.text = self.groupsArray[indexPath.row].name ?? ""
+            cell.seletionBtn.tag = indexPath.row
+            cell.deptLbl.text = ""
+            //            cell.seletionBtn.setImage(UIImage(named: "uncheck"), for: .normal)
+            cell.seletionBtn.addTarget(self, action: #selector(selectuserAction), for: .touchUpInside)
+            if self.groupsArray[indexPath.row].isGroupSelected == false
+            {
+                cell.seletionBtn.setImage(UIImage(named: "uncheck"), for: .normal)
+            }
+            else
+            {
+                cell.seletionBtn.setImage(UIImage(named: "check"), for: .normal)
+
+            }
+            
+//            let id = self.groupsArray[indexPath.row].id!
+//            if self.groupIDAry.contains(id){
+//                cell.seletionBtn.setImage(UIImage(named: "check"), for: .normal)
+//                //                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
+//            }else{
+//                cell.seletionBtn.setImage(UIImage(named: "uncheck"), for: .normal)
+//                //                cell.seletionBtn.tintColor = .darkGray
+//            }
+            
+        }
+        
+        else if indexPath.section == 1
+        {
             let firstName = self.recentUsersArray[indexPath.row].firstName ?? ""
             let lastName = self.recentUsersArray[indexPath.row].lastName ?? ""
             
@@ -188,10 +251,10 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
             let id = self.recentUsersArray[indexPath.row].id!
             if self.tags1.contains(id){
                 cell.seletionBtn.setImage(UIImage(named: "check"), for: .normal)
-//                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
+                //                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
             }else{
                 cell.seletionBtn.setImage(UIImage(named: "uncheck"), for: .normal)
-//                cell.seletionBtn.tintColor = .darkGray
+                //                cell.seletionBtn.tintColor = .darkGray
             }
         }
         else
@@ -211,10 +274,10 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
             if self.tags1.contains(id){
                 cell.seletionBtn.setImage(UIImage(named: "check"), for: .normal)
                 
-//                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
+                //                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
             }else{
                 cell.seletionBtn.setImage(UIImage(named: "uncheck"), for: .normal)
-//                cell.seletionBtn.tintColor = .darkGray
+                //                cell.seletionBtn.tintColor = .darkGray
             }
         }
         return cell
@@ -238,74 +301,107 @@ extension TagsUsersViewController{
         let indexPath: IndexPath! = tagsTableVw.indexPathForRow(at: point)
         print("indexPath.row is = \(indexPath.row) && indexPath.section is = \(indexPath.section)")
         
-        if isSerching == false
+        if indexPath.section == 0
         {
-            if indexPath.section == 0
-            {
-                if self.tags1.contains(self.recentUsersArray[sender.tag].id!){
-                    if let idx = self.tags1.firstIndex(where: { $0 == self.recentUsersArray[sender.tag].id!}) {
-                        self.tagPeoples1.remove(at: idx)
-                        self.tags1.remove(at: idx)
+            for (k, _) in self.groupsArray.enumerated() {
+                if k == indexPath.row{
+                    if self.groupsArray[k].isGroupSelected == true
+                    {
+                        self.groupsArray[k].isGroupSelected = false
+                        self.groupId = 0
+                        self.groupname = ""
+                    }
+                    else
+                    {
+                        self.groupsArray[k].isGroupSelected = true
+                        self.groupId = Int(self.groupsArray[k].id!) ?? 0
+                        self.groupname = self.groupsArray[k].name!
                     }
                 }
-                else{
-                    self.tagPeoples1.append(self.recentUsersArray[sender.tag].firstName!)
-                    self.tags1.append(self.recentUsersArray[sender.tag].id!)
-                }
-            }
-            else
-            {
-                if self.tags1.contains(self.tagsUsersArray[sender.tag].id!){
-                    if let idx = self.tags1.firstIndex(where: { $0 == self.tagsUsersArray[sender.tag].id!}) {
-                        self.tagPeoples1.remove(at: idx)
-                        self.tags1.remove(at: idx)
-                    }
-                }
-                else{
-                    self.tagPeoples1.append(self.tagsUsersArray[sender.tag].firstName!)
-                    self.tags1.append(self.tagsUsersArray[sender.tag].id!)
+                else
+                {
+                    self.groupsArray[k].isGroupSelected = false
+//                    self.groupId = 0
                 }
             }
             
-            
-            
-            
+            print(self.groupId)
+            print(self.groupname)
+            self.tagsTableVw.reloadSections([indexPath.section], with: .none)
         }
         else
         {
-            if indexPath.section == 0
+            if isSerching == false
             {
-                if self.tags1.contains(self.recentUsersArray[sender.tag].id!){
-                    if let idx = self.tags1.firstIndex(where: { $0 == self.recentUsersArray[sender.tag].id!}) {
-                        self.tagPeoples1.remove(at: idx)
-                        self.tags1.remove(at: idx)
+                if indexPath.section == 1
+                {
+                    if self.tags1.contains(self.recentUsersArray[sender.tag].id!){
+                        if let idx = self.tags1.firstIndex(where: { $0 == self.recentUsersArray[sender.tag].id!}) {
+                            self.tagPeoples1.remove(at: idx)
+                            self.tags1.remove(at: idx)
+                        }
+                    }
+                    else{
+                        self.tagPeoples1.append(self.recentUsersArray[sender.tag].firstName!)
+                        self.tags1.append(self.recentUsersArray[sender.tag].id!)
                     }
                 }
-                else{
-                    self.tagPeoples1.append(self.recentUsersArray[sender.tag].firstName!)
-                    self.tags1.append(self.recentUsersArray[sender.tag].id!)
+                else
+                {
+                    if self.tags1.contains(self.tagsUsersArray[sender.tag].id!){
+                        if let idx = self.tags1.firstIndex(where: { $0 == self.tagsUsersArray[sender.tag].id!}) {
+                            self.tagPeoples1.remove(at: idx)
+                            self.tags1.remove(at: idx)
+                        }
+                    }
+                    else{
+                        self.tagPeoples1.append(self.tagsUsersArray[sender.tag].firstName!)
+                        self.tags1.append(self.tagsUsersArray[sender.tag].id!)
+                    }
                 }
+                
+                
+                
+                
             }
             else
             {
-                if self.tags1.contains(self.filteredTagsUsersArray[sender.tag].id!){
-                    if let idx = self.tags1.firstIndex(where: { $0 == self.filteredTagsUsersArray[sender.tag].id!}) {
-                        self.tagPeoples1.remove(at: idx)
-                        self.tags1.remove(at: idx)
+                if indexPath.section == 1
+                {
+                    if self.tags1.contains(self.recentUsersArray[sender.tag].id!){
+                        if let idx = self.tags1.firstIndex(where: { $0 == self.recentUsersArray[sender.tag].id!}) {
+                            self.tagPeoples1.remove(at: idx)
+                            self.tags1.remove(at: idx)
+                        }
+                    }
+                    else{
+                        self.tagPeoples1.append(self.recentUsersArray[sender.tag].firstName!)
+                        self.tags1.append(self.recentUsersArray[sender.tag].id!)
                     }
                 }
-                else{
-                    self.tagPeoples1.append(self.filteredTagsUsersArray[sender.tag].firstName!)
-                    self.tags1.append(self.filteredTagsUsersArray[sender.tag].id!)
+                else
+                {
+                    if self.tags1.contains(self.filteredTagsUsersArray[sender.tag].id!){
+                        if let idx = self.tags1.firstIndex(where: { $0 == self.filteredTagsUsersArray[sender.tag].id!}) {
+                            self.tagPeoples1.remove(at: idx)
+                            self.tags1.remove(at: idx)
+                        }
+                    }
+                    else{
+                        self.tagPeoples1.append(self.filteredTagsUsersArray[sender.tag].firstName!)
+                        self.tags1.append(self.filteredTagsUsersArray[sender.tag].id!)
+                    }
                 }
             }
+            
+            let indexPosition = IndexPath(row: indexPath.row, section: indexPath.section)
+            self.tagsTableVw.reloadRows(at: [indexPosition], with: .none)
         }
         print(self.tagPeoples1)
         print(self.tags1)
         //        self.tagsTableVw.reloadData()
         let indexPathRow:Int = sender.tag
-        let indexPosition = IndexPath(row: indexPath.row, section: indexPath.section)
-        self.tagsTableVw.reloadRows(at: [indexPosition], with: .none)
+      
         
     }
     
@@ -315,7 +411,8 @@ extension TagsUsersViewController{
     }
     
     @IBAction func doneBtnAction(){
-        self.delegate?.sendDataToFirstViewController(tagsID: self.tags1, tagname: self.tagPeoples1)
+        self.delegate?.sendDataToFirstViewController(tagsID: self.tags1, tagname: self.tagPeoples1,groupId: self.groupId, groupName: self.groupname)
+        
         self.navigationController?.popViewController(animated: true)
     }
     
