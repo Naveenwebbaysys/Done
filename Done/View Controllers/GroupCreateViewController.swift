@@ -54,6 +54,7 @@ class GroupCreateViewController: UIViewController {
             self.txtGroupName.text = selectedGroup?.name ?? ""
             for empData in (selectedGroup?.employees ?? [GroupEmployee]()){
                 tags1.append(empData.employeeID ?? "")
+                tagPeoples1.append(empData.employeeName ?? "")
             }
         }
     }
