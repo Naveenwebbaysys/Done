@@ -24,14 +24,19 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         self.tagPeoples1 = tagname
         //        self.tagIDSArray.append(contentsOf: tagsID)
         //        self.tagPeoples1.append(contentsOf: tagname)
-        self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
-        print(self.tagPeopleLbl.text as Any)
-        if self.tagPeoples1.count == 0{
-            self.tagPeopleLbl.text = "Tag People"
-        }
         self.groupId = groupId
         self.groupName = groupName
-        self.tagPeopleLbl.text = (self.tagPeopleLbl.text ?? "") + "," + self.groupName
+        
+        print(self.tagPeopleLbl.text as Any)
+        if self.tagPeoples1.count == 0 && self.groupName == "" {
+            self.tagPeopleLbl.text = "Tag People"
+        }
+        else
+        {
+            self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
+            self.tagPeopleLbl.text = (self.tagPeopleLbl.text ?? "") + "," + self.groupName
+        }
+  
     }
     
     
@@ -108,8 +113,11 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             commissionTypeLbl.text = self.reelsModelArray[index].commissionType ?? ""
             restrictLbl.text = self.reelsModelArray[index].videoRestriction ?? ""
             for (i, _) in self.reelsModelArray[index].tagPeoples!.enumerated() {
-                self.tagIDSArray.append(self.reelsModelArray[index].tagPeoples![i].employeeID!)
-                self.tagPeoples1.append(self.reelsModelArray[index].tagPeoples![i].employeename!)
+                if self.reelsModelArray[index].tagPeoples![i].groupid == nil
+                {
+                    self.tagIDSArray.append(self.reelsModelArray[index].tagPeoples![i].employeeID!)
+                    self.tagPeoples1.append(self.reelsModelArray[index].tagPeoples![i].employeename!)
+                }
             }
             self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
             print(self.tagPeopleLbl.text as Any)
@@ -127,7 +135,6 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             }
         
             self.getSubCategoryAPICall(id: self.reelsModelArray[index].categoryId ?? "")
-            
             self.arrLinkData = self.reelsModelArray[index].addLinks ?? [String]()
             self.setTableviewHeight()
             self.btnPost.setTitle("Update", for: .normal)
@@ -416,7 +423,7 @@ extension PostViewController {
                 stProjectType = "already_know_who_i_want_to_work_on_this_project"
             }
             KRProgressHUD.show()
-           
+           print(tagIDSArray)
             let postparams = PostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: arrLinkData, tags: [], videoRestriction: restType, description: descText, assignedDate: todaysDate, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate,categoryId: stCategoryID,subcategoryId: stSubCategoryID,projectType: stProjectType, groupID: groupId)
             let jsonData = try! JSONEncoder().encode(postparams)
             let params11 = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
@@ -479,7 +486,7 @@ extension PostViewController {
                 stProjectType = "already_know_who_i_want_to_work_on_this_project"
             }
             
-            let postparams = UpdatePostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: arrLinkData, tags: [], videoRestriction: restType, description: descText, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate, id: postID,categoryId: stCategoryID,subcategoryId: stSubCategoryID,projectType: stProjectType)
+            let postparams = UpdatePostRequestModel(videoURL: str, tagPeoples: tagIDSArray, addLinks: arrLinkData, tags: [], videoRestriction: restType, description: descText, commissionType: commType, commissionAmount: commAmount, dueDate: futureDate, id: postID,categoryId: stCategoryID,subcategoryId: stSubCategoryID,projectType: stProjectType, groupID: self.groupId)
             let jsonData = try! JSONEncoder().encode(postparams)
             let params11 = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
             print(params11!)
@@ -582,6 +589,7 @@ extension PostViewController  {
         let tagsVC = storyboard?.instantiateViewController(identifier: "TagsUsersViewController") as! TagsUsersViewController
         tagsVC.tags1 = self.tagIDSArray
         tagsVC.tagPeoples1 = self.tagPeoples1
+        tagsVC.groupId = self.groupId
         tagsVC.delegate = self
         self.navigationController?.pushViewController(tagsVC, animated: true)
     }
@@ -607,9 +615,9 @@ extension PostViewController  {
             }
         }
         
-        if tagPeoples1.count == 0
+        if tagPeoples1.count == 0 && self.groupId == 0
         {
-            showToast(message: "Please select tag people")
+            showToast(message: "Please select tag people or Group")
             return
         }
         

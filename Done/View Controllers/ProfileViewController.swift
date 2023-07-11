@@ -15,7 +15,7 @@ class ProfileViewController: UIViewController, indexProtocol {
     func indexID(i: Int) {
         menuIndex = i
     }
-    
+    var groupIDString = ""
     var currentPage:Int = 1
     var isLastPage: Bool = false
     var idFromDone = false
@@ -69,10 +69,10 @@ class ProfileViewController: UIViewController, indexProtocol {
     
     override func viewWillAppear(_ animated: Bool) {
         self.reelsModelArray.removeAll()
-        if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
-            userID = (id as? String)!
-            getCommissionAPICall(withID: userID)
-        }
+//        if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
+//            userID = (id as? String)!
+//            getCommissionAPICall(withID: userID)
+//        }
         isLastPage = false
         currentPage = 1
         self.noTaskLbl.isHidden = true
@@ -113,7 +113,12 @@ class ProfileViewController: UIViewController, indexProtocol {
         }
         
         self.reelsModelArray.removeAll()
-        self.getpostAPICall(withType: stType, page: currentPage)
+//        self.getpostAPICall(withType: stType, page: currentPage)
+        
+        if let id = UserDefaults.standard.value(forKey: UserDetails.userId)
+        {
+            getGroupsAPICall(withLoginId: id as! String)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -207,9 +212,39 @@ class ProfileViewController: UIViewController, indexProtocol {
         showdoneApproved()
     }
     
+    func getGroupsAPICall(withLoginId : String)
+    {
+        APIModel.getRequest(strURL: BASEURL + GETGROUPSAPI + withLoginId, postHeaders: headers as NSDictionary) { [self] jsonResult in
+            let groupsResponse = try? JSONDecoder().decode(GetGroupsResponseModel.self, from: jsonResult as! Data)
+            if groupsResponse?.data?.groups != nil
+            {
+                var groupsArray = (groupsResponse?.data?.groups)!
+                var groups = [String]()
+                
+                for (i,_) in groupsArray.enumerated(){
+
+                    groups.append(groupsArray[i].id!)
+                }
+                self.groupIDString = groups.joined(separator: ",")
+                print(self.groupIDString)
+            }
+            else
+            {
+                print("No Groups found")
+            }
+            self.getpostAPICall(withType: self.stType, page: self.currentPage)
+            if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
+                self.userID = (id as? String)!
+                getCommissionAPICall(withID: userID)
+            }
+        } failure: { error in
+            print(error)
+        }
+    }
+    
     func getCommissionAPICall(withID : String){
         
-        APIModel.getRequest(strURL: BASEURL + COMMISSIONAPI + withID , postHeaders: headers as NSDictionary) { jsonData in
+        APIModel.getRequest(strURL: BASEURL + COMMISSIONAPI + withID + "&group_id=" + self.groupIDString , postHeaders: headers as NSDictionary) { jsonData in
             let commissionResponse = try? JSONDecoder().decode(CommissionResponseModel.self, from: jsonData as! Data)
             if commissionResponse?.data != nil
             {
@@ -267,7 +302,7 @@ class ProfileViewController: UIViewController, indexProtocol {
     
     func getpostAPICall(withType : String, page:Int){
         //        self.reelsModelArray.removeAll()
-        let url = BASEURL + GETREELSURL + withType + "&sort_due_date=desc" + "&page_no=\(page)"
+        let url = BASEURL + GETREELSURL + withType + "&sort_due_date=desc" + "&page_no=\(page)" + "&group_id=" + self.groupIDString
         print(url)
         //        if page == 1{
         //            KRProgressHUD.show()

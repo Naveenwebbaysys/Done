@@ -15,6 +15,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
     
     
     private var lastContentOffset: CGFloat = 0
+    var groupIDString = ""
     var menuIndex = 0
     var isSuccess = false
     var assignCommission = ""
@@ -79,44 +80,40 @@ class HomeViewController: UIViewController,delegateFiltersVC {
         self.isSuccess = false
         self.navigationController?.isNavigationBarHidden = true
         userID = UserDefaults.standard.value(forKey: UserDetails.userId) as! String
-        if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
-            userID = (id as? String)!
-            getCommissionAPICall(withID: userID)
-        }
+      
+        
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
-//        self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
         if menuIndex == 0{
             stType = "assigned_by_me"
             self.assignBtn.titleLabel?.textColor = UIColor(named: "App_color")
             self.stillBtn.titleLabel?.textColor = .white
             self.donecBtn.titleLabel?.textColor = .white
             self.iNeedDoneBtn.titleLabel?.textColor = .white
-//            self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
         }
         else if menuIndex == 1{
             stType = "still_working"
             self.stillBtn.titleLabel?.textColor = UIColor(named: "App_color")
-//            self.indvw.frame = CGRect(x: self.stillBtn.frame.minX, y: self.stillBtn.frame.maxY + 5, width: self.stillBtn.frame.width, height: 3)
         }
         else if menuIndex == 2{
             stType = "done_success"
             self.donecBtn.titleLabel?.textColor = UIColor(named: "App_color")
-//            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
         }
         else if menuIndex == 3{
             stType = "approved"
             self.iNeedDoneBtn.titleLabel?.textColor = UIColor(named: "App_color")
-//            self.indvw.frame = CGRect(x: self.donecBtn.frame.minX, y: self.donecBtn.frame.maxY + 5, width: self.donecBtn.frame.width, height: 3)
         }
-        self.getpostAPICall(withType: stType, page: currentPage)
+       
         self.activityIndicator.stopAnimating()
+        
+        if let id = UserDefaults.standard.value(forKey: UserDetails.userId)
+        {
+            getGroupsAPICall(withLoginId: id as! String)
+        }
     }
     
     override func viewDidLayoutSubviews() {
-//        indvw.frame = CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 1, width: self.assignBtn.frame.width, height: 2)
-       
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -129,7 +126,6 @@ class HomeViewController: UIViewController,delegateFiltersVC {
         if repeatStarted == true {
             NotificationCenter.default.removeObserver(self)
         }
-        
         UserDefaults.standard.set(menuIndex, forKey: "menuIndex")
     }
     
@@ -151,9 +147,6 @@ class HomeViewController: UIViewController,delegateFiltersVC {
         currentPage = 1
         stType = "assigned_by_me"
         self.getpostAPICall(withType: stType , page: currentPage)
-//        UIView.animate(withDuration: 0.5) {
-//            self.indvw.frame =  CGRect(x: self.assignBtn.frame.minX, y: self.assignBtn.frame.maxY + 5, width: self.assignBtn.frame.width, height: 3)
-//        }
     }
     
     @IBAction func stillBtnAct() {
@@ -216,7 +209,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
     }
     
     func getCommissionAPICall(withID : String){
-        APIModel.getRequest(strURL: BASEURL + COMMISSIONAPI + withID , postHeaders: headers as NSDictionary) { jsonData in
+        APIModel.getRequest(strURL: BASEURL + COMMISSIONAPI + withID + "&group_id=" + self.groupIDString, postHeaders: headers as NSDictionary) { jsonData in
             var approvedCom = ""
             let commissionResponse = try? JSONDecoder().decode(CommissionResponseModel.self, from: jsonData as! Data)
             if commissionResponse?.data != nil
@@ -270,6 +263,36 @@ class HomeViewController: UIViewController,delegateFiltersVC {
         }
     }
     
+    func getGroupsAPICall(withLoginId : String)
+    {
+        APIModel.getRequest(strURL: BASEURL + GETGROUPSAPI + withLoginId, postHeaders: headers as NSDictionary) { [self] jsonResult in
+            let groupsResponse = try? JSONDecoder().decode(GetGroupsResponseModel.self, from: jsonResult as! Data)
+            if groupsResponse?.data?.groups != nil
+            {
+                var groupsArray = (groupsResponse?.data?.groups)!
+                var groups = [String]()
+                
+                for (i,_) in groupsArray.enumerated(){
+
+                    groups.append(groupsArray[i].id!)
+                }
+                self.groupIDString = groups.joined(separator: ",")
+                print(self.groupIDString)
+            }
+            else
+            {
+                print("No Groups found")
+            }
+            self.getpostAPICall(withType: self.stType, page: self.currentPage)
+            if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
+                self.userID = (id as? String)!
+                getCommissionAPICall(withID: userID)
+            }
+        } failure: { error in
+            print(error)
+        }
+    }
+    
     func getpostAPICall(withType : String,page:Int){
         var stSortDue: String = "desc"
         if arrSelectedDueDate.isEmpty{
@@ -281,7 +304,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
                 stSortDue = "asc"
             }
         }
-        let url = BASEURL + GETREELSURL + withType + "&sort_due_date=\(stSortDue)" + "&page_no=\(page)"
+        let url = BASEURL + GETREELSURL + withType + "&sort_due_date=\(stSortDue)" + "&page_no=\(page)" + "&group_id=" + self.groupIDString
         print(url)
         if page == 1{
             KRProgressHUD.show()
