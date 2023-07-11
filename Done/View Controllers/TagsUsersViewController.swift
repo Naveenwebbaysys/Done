@@ -113,11 +113,8 @@ class TagsUsersViewController: UIViewController {
                 self.tagsUsersArray = tagsUsersArray.filter { item in
                     !recentUsersArray.contains { $0.id == item.id }
                 }
-                
                 print(self.tagsUsersArray.count)
                 print(self.recentUsersArray.count)
-                
-                
             }
             else
             {
@@ -131,7 +128,7 @@ class TagsUsersViewController: UIViewController {
     
     func getGroupsAPICall(withLoginId : String)
     {
-        APIModel.getRequest(strURL: BASEURL + GETGROUPSAPI + withLoginId, postHeaders: headers as NSDictionary) { jsonResult in
+        APIModel.getRequest(strURL: BASEURL + GETGROUPSAPI, postHeaders: headers as NSDictionary) { jsonResult in
             let groupsResponse = try? JSONDecoder().decode(GetGroupsResponseModel.self, from: jsonResult as! Data)
             if groupsResponse?.data?.groups != nil
             {
@@ -140,7 +137,15 @@ class TagsUsersViewController: UIViewController {
                 for i in 0..<self.groupsArray.count
                 {
                     self.groupsArray[i].isGroupSelected = false
-                }
+                    
+                    if "\(self.groupId)" == self.groupsArray[i].id
+                    {
+                        self.groupsArray[i].isGroupSelected = true
+                    }
+                    else{
+                        self.groupsArray[i].isGroupSelected = false
+                    }
+                }          
             }
             else
             {
@@ -164,7 +169,7 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
         
         if section == 0
         {
-            return " Groups"
+            return self.groupsArray.count != 0 ?  " Groups" : ""
         }
         else if section == 1
         {
@@ -221,17 +226,17 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
             else
             {
                 cell.seletionBtn.setImage(UIImage(named: "check"), for: .normal)
-
+                
             }
             
-//            let id = self.groupsArray[indexPath.row].id!
-//            if self.groupIDAry.contains(id){
-//                cell.seletionBtn.setImage(UIImage(named: "check"), for: .normal)
-//                //                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
-//            }else{
-//                cell.seletionBtn.setImage(UIImage(named: "uncheck"), for: .normal)
-//                //                cell.seletionBtn.tintColor = .darkGray
-//            }
+            //            let id = self.groupsArray[indexPath.row].id!
+            //            if self.groupIDAry.contains(id){
+            //                cell.seletionBtn.setImage(UIImage(named: "check"), for: .normal)
+            //                //                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
+            //            }else{
+            //                cell.seletionBtn.setImage(UIImage(named: "uncheck"), for: .normal)
+            //                //                cell.seletionBtn.tintColor = .darkGray
+            //            }
             
         }
         
@@ -321,13 +326,12 @@ extension TagsUsersViewController{
                 else
                 {
                     self.groupsArray[k].isGroupSelected = false
-//                    self.groupId = 0
+                    //                    self.groupId = 0
                 }
             }
-            
-            print(self.groupId)
-            print(self.groupname)
-            self.tagsTableVw.reloadSections([indexPath.section], with: .none)
+            UIView.performWithoutAnimation {
+                self.tagsTableVw.reloadSections([indexPath.section], with: .none)
+            }
         }
         else
         {
@@ -359,10 +363,6 @@ extension TagsUsersViewController{
                         self.tags1.append(self.tagsUsersArray[sender.tag].id!)
                     }
                 }
-                
-                
-                
-                
             }
             else
             {
@@ -395,14 +395,14 @@ extension TagsUsersViewController{
             }
             
             let indexPosition = IndexPath(row: indexPath.row, section: indexPath.section)
-            self.tagsTableVw.reloadRows(at: [indexPosition], with: .none)
+            UIView.performWithoutAnimation {
+                self.tagsTableVw.reloadRows(at: [indexPosition], with: .none)
+            }
         }
+        print(self.groupId)
+        print(self.groupname)
         print(self.tagPeoples1)
         print(self.tags1)
-        //        self.tagsTableVw.reloadData()
-        let indexPathRow:Int = sender.tag
-      
-        
     }
     
     @IBAction func backBtnAction(){
@@ -482,7 +482,7 @@ extension TagsUsersViewController: UITextFieldDelegate
                 self.filteredTagsUsersArray[index].isSelected = false
             }
         }
-        self.tagsTableVw.reloadSections([1], with: .none)
+        self.tagsTableVw.reloadSections([2], with: .none)
         return true
     }
 }
