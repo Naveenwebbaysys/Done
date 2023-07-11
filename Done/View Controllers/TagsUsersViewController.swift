@@ -225,7 +225,7 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
             }
             else
             {
-                cell.seletionBtn.setImage(UIImage(named: "check"), for: .normal)
+                cell.seletionBtn.setImage(UIImage(named: "ic_check"), for: .normal)
                 
             }
             
@@ -255,7 +255,7 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
             
             let id = self.recentUsersArray[indexPath.row].id!
             if self.tags1.contains(id){
-                cell.seletionBtn.setImage(UIImage(named: "check"), for: .normal)
+                cell.seletionBtn.setImage(UIImage(named: "ic_check"), for: .normal)
                 //                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
             }else{
                 cell.seletionBtn.setImage(UIImage(named: "uncheck"), for: .normal)
@@ -277,7 +277,7 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
             
             let id = isSerching == false ? self.tagsUsersArray[indexPath.row].id! : self.filteredTagsUsersArray[indexPath.row].id!
             if self.tags1.contains(id){
-                cell.seletionBtn.setImage(UIImage(named: "check"), for: .normal)
+                cell.seletionBtn.setImage(UIImage(named: "ic_check"), for: .normal)
                 
                 //                cell.seletionBtn.tintColor = UIColor(hex:"98C455")
             }else{
