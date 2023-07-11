@@ -13,7 +13,7 @@ class GroupListVM: NSObject {
     var controller : UIViewController?
     
     func getGroupList(pageNO:Int){
-        APIModel.getRequest(strURL: BASEURL + GROUPSAPI + "?page_no=\(pageNO)", postHeaders:  headers as NSDictionary) { result in
+        APIModel.getRequest(strURL: BASEURL + GETGROUPSAPI + "\((UserDefaults.standard.value(forKey: UserDetails.userId) as? String) ?? "")" + "&page_no=\(pageNO)", postHeaders:  headers as NSDictionary) { result in
             let groupListResponseModel = try? JSONDecoder().decode(GroupListDetails.self, from: result as! Data)
             for data in (groupListResponseModel?.data?.groups ?? [Group]()){
                 if let viewGrpData = self.controller as? GroupListViewController{
