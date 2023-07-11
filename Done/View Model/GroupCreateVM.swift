@@ -51,6 +51,7 @@ class GroupCreateVM: NSObject {
             KRProgressHUD.dismiss()
             self.controller?.navigationController?.popViewController(animated: true)
             let groupResponseModel = try? JSONDecoder().decode(updateGroupsResponseModel.self, from: jsonResult as! Data)
+            //print("Update data==",String(data: jsonResult as! Data, encoding: .utf8))
             if let viewGrpData = self.controller as? GroupCreateViewController{
                 var arrDataOfEmp = [GroupEmployee]()
                 for (index,data) in employeesID.enumerated(){
@@ -58,7 +59,7 @@ class GroupCreateVM: NSObject {
                     arrDataOfEmp.append(emp)
                 }
               
-                let newgrp = Group(id: groupResponseModel?.id ?? "", name: stName, createdAt: "", updatedAt: "", createdBy: "", createdByName: "", employees: arrDataOfEmp)
+                let newgrp = Group(id: "\(id)", name: stName, createdAt: "", updatedAt: "", createdBy: "", createdByName: "", employees: arrDataOfEmp)
                 viewGrpData.delegate?.setUpdateOfGroup(dataOfGrp: newgrp, selectedIndex: viewGrpData.selectedGroupIndex ?? 0, isUpdate: true)
             }
         } failureHandler: { error in
