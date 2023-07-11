@@ -24,7 +24,7 @@ struct ViewStatusRespose: Codable {
 
 // MARK: - Post
 struct PostStatus: Codable {
-    let postID, orderAssigneeEmployeeID, status, employeeID: String?
+    let postID, orderAssigneeEmployeeID, status, employeeID, groupname: String?
     let employeeName: String?
     let lastmessage: String?
     let commentscount: String?
@@ -45,6 +45,7 @@ struct PostStatus: Codable {
         case isApprovedCheked
         case createdbycommentcount = "created_by_comment_count"
         case assigneecommentcount = "assignee_comment_count"
+        case groupname = "group_name"
         
     }
 }

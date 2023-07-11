@@ -97,7 +97,7 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ViewStatusTableViewCell", for: indexPath) as! ViewStatusTableViewCell
-        cell.nameLbl.text = self.statusModelArray[indexPath.row].employeeName ?? ""
+        cell.nameLbl.text = self.statusModelArray[indexPath.row].employeeName ??  self.statusModelArray[indexPath.row].groupname
 //        cell.statusLbl.text = self.statusModelArray[indexPath.row].status
         // == "still_working" ? "Still working" : "Done success"
         //   cell.statusLbl.textColor = self.statusModelArray[indexPath.row].status == "still_working" ? .red : .green
@@ -231,7 +231,7 @@ extension ViewStatusViewController {
         commentsVC.desc = self.descLbl.text ?? ""
         commentsVC.postPeopleSelected = self.statusModelArray[sender.tag]
         commentsVC.assignEmpID = self.statusModelArray[sender.tag].orderAssigneeEmployeeID!
-        commentsVC.employeeID = self.statusModelArray[sender.tag].employeeID!
+        commentsVC.employeeID = self.statusModelArray[sender.tag].employeeID ?? ""
         self.navigationController?.pushViewController(commentsVC, animated: true)
     }
     

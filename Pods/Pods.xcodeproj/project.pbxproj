@@ -470,7 +470,7 @@
 		BE5E4CBC938060785709CF351396F762 /* AWSMTLModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AA7E7BD0B84E8B4AD214A06EF5E5A21 /* AWSMTLModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE5EC5E72DCC84B4D25F4F1583009611 /* AWSUserPoolsUIOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = C92181F4007753AA185247962A077BE2 /* AWSUserPoolsUIOperations.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF14EAD55738EC74B85FD05C34BB6C5C /* SDImageCacheDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = 084B1FA3EF0CB3889520F095E400EF5E /* SDImageCacheDefine.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BF6F9ADEBF24838C95DB6BF2C01E8723 /* AWSUserPoolsSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A443439682ABA5754A42AC9A5696211B /* AWSUserPoolsSignIn.bundle */; };
+		BF6F9ADEBF24838C95DB6BF2C01E8723 /* AWSUserPoolsSignIn-AWSUserPoolsSignIn in Resources */ = {isa = PBXBuildFile; fileRef = A443439682ABA5754A42AC9A5696211B /* AWSUserPoolsSignIn-AWSUserPoolsSignIn */; };
 		BF7F9976FA80C821BC13E58E30E94B5B /* MDFRTL.m in Sources */ = {isa = PBXBuildFile; fileRef = DD87E26E706AE8CF34ADAF342BFCE3B4 /* MDFRTL.m */; };
 		BF8A61C9CBF5E76E8BEF7C4149312E9C /* AWSDDASLLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = B72593E503A5F2519AA73A1DF83F37B1 /* AWSDDASLLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFBD9B599F1C23470B57862EA44937D3 /* AWSS3TransferUtility+HeaderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 251D4690720F3F8560894FFD0E93BA8C /* AWSS3TransferUtility+HeaderHelper.m */; };
@@ -1277,7 +1277,7 @@
 		9C8117FDD2540803E0C790649F4EB0BE /* AWSXMLDictionary.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSXMLDictionary.h; path = AWSCore/XMLDictionary/AWSXMLDictionary.h; sourceTree = "<group>"; };
 		9C8D554004196731ED071619083C629A /* SDImageGraphics.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageGraphics.h; path = SDWebImage/Core/SDImageGraphics.h; sourceTree = "<group>"; };
 		9CEDFBDE4C85B32A7364A574F4A176DF /* CallbackQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CallbackQueue.swift; path = Sources/Utility/CallbackQueue.swift; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9DAC25A745BD58A2060DAE56A8E3FCF0 /* SDImageCoderHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCoderHelper.m; path = SDWebImage/Core/SDImageCoderHelper.m; sourceTree = "<group>"; };
 		9DF6FB026068A4D4A047759D365F8AAE /* AWSTimestampSerialization.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSTimestampSerialization.h; path = AWSCore/Serialization/AWSTimestampSerialization.h; sourceTree = "<group>"; };
 		9F690B874B2FBD2139F54069BA769A46 /* AWSFMDatabaseQueue.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSFMDatabaseQueue.m; path = AWSCore/FMDB/AWSFMDatabaseQueue.m; sourceTree = "<group>"; };
@@ -1296,7 +1296,7 @@
 		A34157B3708EDB7D17422B3D92F591D2 /* MaterialComponents */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MaterialComponents; path = MaterialComponents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3858F4DCA1D30D62C15BFB19C066094 /* AWSS3Resources.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSS3Resources.h; path = AWSS3/AWSS3Resources.h; sourceTree = "<group>"; };
 		A3F28FABDA6A51DB90A166DB678836E7 /* Pods-Done */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-Done"; path = Pods_Done.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A443439682ABA5754A42AC9A5696211B /* AWSUserPoolsSignIn.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AWSUserPoolsSignIn.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		A443439682ABA5754A42AC9A5696211B /* AWSUserPoolsSignIn-AWSUserPoolsSignIn */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "AWSUserPoolsSignIn-AWSUserPoolsSignIn"; path = AWSUserPoolsSignIn.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		A51ACFD531F24D414787395DB3D065E9 /* AWSS3TransferUtilityTasks+Completion.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "AWSS3TransferUtilityTasks+Completion.h"; path = "AWSS3/AWSS3TransferUtilityTasks+Completion.h"; sourceTree = "<group>"; };
 		A51B989C76AD585B8B22B2179DCF7759 /* iOSDropDown-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "iOSDropDown-umbrella.h"; sourceTree = "<group>"; };
 		A52A4B6A6BDEB5F573BA017017C49D96 /* AWSXMLDictionary.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSXMLDictionary.m; path = AWSCore/XMLDictionary/AWSXMLDictionary.m; sourceTree = "<group>"; };
@@ -1306,7 +1306,7 @@
 		A7FB57CEFF0E1564F326D63FD88B7BCE /* IQUITextFieldView+Additions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IQUITextFieldView+Additions.swift"; path = "IQKeyboardManagerSwift/Categories/IQUITextFieldView+Additions.swift"; sourceTree = "<group>"; };
 		A812111365F2404A4F9DE83C92F75CE5 /* AWSTaskCompletionSource.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSTaskCompletionSource.h; path = AWSCore/Bolts/AWSTaskCompletionSource.h; sourceTree = "<group>"; };
 		A825FF1FA95C7383B4891711CBBAE511 /* NSError+AWSMTLModelException.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSError+AWSMTLModelException.m"; path = "AWSCore/Mantle/NSError+AWSMTLModelException.m"; sourceTree = "<group>"; };
-		A86F314419F5210BCC25AF2617F17062 /* tommath.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = tommath.c; path = AWSCognitoIdentityProvider/Internal/JKBigInteger/LibTomMath/tommath.c; sourceTree = "<group>"; };
+		A86F314419F5210BCC25AF2617F17062 /* tommath.c */ = {isa = PBXFileReference; includeInIndex = 1; name = tommath.c; path = AWSCognitoIdentityProvider/Internal/JKBigInteger/LibTomMath/tommath.c; sourceTree = "<group>"; };
 		A8AF7451D53E24B20C7D74F7C7745E7B /* AWSCognitoIdentityProviderASF.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = AWSCognitoIdentityProviderASF.modulemap; sourceTree = "<group>"; };
 		A8E950A16D00F649C54FFB30F81D7842 /* IQKeyboardManagerSwift */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = IQKeyboardManagerSwift; path = IQKeyboardManagerSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8FA21039D86515CDA113A02B46B71BB /* SDImageIOCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageIOCoder.m; path = SDWebImage/Core/SDImageIOCoder.m; sourceTree = "<group>"; };
@@ -1791,6 +1791,7 @@
 				0A00CB02AA2B11DFBA88A980C16A1660 /* Resources */,
 				D2EECD310F7FBAB7E9369C1BDBF1C4C1 /* Support Files */,
 			);
+			name = DropDown;
 			path = DropDown;
 			sourceTree = "<group>";
 		};
@@ -1800,6 +1801,7 @@
 				BC00AE1134A5413225AB07F72B067C9E /* AlignedCollectionViewFlowLayout.swift */,
 				AEC3818C0F870D8AB48CCA96FC82E85A /* Support Files */,
 			);
+			name = AlignedCollectionViewFlowLayout;
 			path = AlignedCollectionViewFlowLayout;
 			sourceTree = "<group>";
 		};
@@ -1809,6 +1811,7 @@
 				24E9A0DEDE0D76F962C0E08956EDB2D8 /* iOSDropDown.swift */,
 				93FFBB62727878ACF48411E49FA543DF /* Support Files */,
 			);
+			name = iOSDropDown;
 			path = iOSDropDown;
 			sourceTree = "<group>";
 		};
@@ -1848,6 +1851,7 @@
 				0EC60415BA4C81295DF879764CBDEEAF /* AWSS3TransferUtilityTasks+Completion.m */,
 				5C34A4AB557E24BD34839A6B33450FEB /* Support Files */,
 			);
+			name = AWSS3;
 			path = AWSS3;
 			sourceTree = "<group>";
 		};
@@ -1858,6 +1862,7 @@
 				FD1E58BAB8F334F6ECFDC91684909820 /* HMSegmentedControl.m */,
 				AFC2B60D50628E513AC3320A23AD87D2 /* Support Files */,
 			);
+			name = HMSegmentedControl;
 			path = HMSegmentedControl;
 			sourceTree = "<group>";
 		};
@@ -1884,6 +1889,7 @@
 				9119297A601354F1C6F885C0A998FF73 /* KRActivityIndicatorViewStyle.swift */,
 				C13C33CEC022F335F45BB1A73918F19A /* Support Files */,
 			);
+			name = KRActivityIndicatorView;
 			path = KRActivityIndicatorView;
 			sourceTree = "<group>";
 		};
@@ -2063,7 +2069,7 @@
 				CCFB8F03867DB892EFC47B53186590C4 /* AWSCore */,
 				1D216CE4A8B6F50D603960D17EE072C6 /* AWSS3 */,
 				8C0AC694632CCF07C33BBC22FE65BFAA /* AWSUserPoolsSignIn */,
-				A443439682ABA5754A42AC9A5696211B /* AWSUserPoolsSignIn.bundle */,
+				A443439682ABA5754A42AC9A5696211B /* AWSUserPoolsSignIn-AWSUserPoolsSignIn */,
 				9B6725B782188F18CB76A740433F14E4 /* DropDown */,
 				EAF47B8D3BA5B9248FB8BA7EFB248038 /* HMSegmentedControl */,
 				FCEEA8BBD9DA8D0CCE0A3092B20E3FA7 /* iOSDropDown */,
@@ -2113,6 +2119,7 @@
 				A86F314419F5210BCC25AF2617F17062 /* tommath.c */,
 				47254995CECC20DCBB9E413FAA3F0D24 /* Support Files */,
 			);
+			name = AWSCognitoIdentityProvider;
 			path = AWSCognitoIdentityProvider;
 			sourceTree = "<group>";
 		};
@@ -2193,6 +2200,7 @@
 				D86A8E626D7FD033DE1DFF64895D1ACC /* AWSUIConfiguration.h */,
 				EF75345A7CAA3F5B8F55CB1ED58A0F88 /* Support Files */,
 			);
+			name = AWSAuthCore;
 			path = AWSAuthCore;
 			sourceTree = "<group>";
 		};
@@ -2383,6 +2391,7 @@
 				B3CFF346778D1F8E2C0E13F180731E20 /* NSValueTransformer+AWSMTLPredefinedTransformerAdditions.m */,
 				4EB51BD2ACE4E41138165E8607380486 /* Support Files */,
 			);
+			name = AWSCore;
 			path = AWSCore;
 			sourceTree = "<group>";
 		};
@@ -2467,6 +2476,7 @@
 				AA2DB90FD31DB6FDB2998891B1DE0961 /* WKInterfaceImage+Kingfisher.swift */,
 				3E0E9DEA9D521D1460A66BBC1406DFFD /* Support Files */,
 			);
+			name = Kingfisher;
 			path = Kingfisher;
 			sourceTree = "<group>";
 		};
@@ -2476,6 +2486,7 @@
 				2DD7E3468A4F0CF71B3D5D5264FEC37A /* StarRatingView.swift */,
 				2EC45AE4D3375D6FA31C1AF59FD166A7 /* Support Files */,
 			);
+			name = MGStarRatingView;
 			path = MGStarRatingView;
 			sourceTree = "<group>";
 		};
@@ -2568,6 +2579,7 @@
 				90A9AE58EFB0D1BC7C32FD57E4A01DFA /* KRProgressHUDViewController.swift */,
 				0517219D5B81C6B750016949845DC3B6 /* Support Files */,
 			);
+			name = KRProgressHUD;
 			path = KRProgressHUD;
 			sourceTree = "<group>";
 		};
@@ -2594,6 +2606,7 @@
 				341ED4327130CC70BDAEA3503376F7BB /* ProgressView */,
 				9698EC1383DC200AC4A64CBB5F7DB412 /* Support Files */,
 			);
+			name = MaterialComponents;
 			path = MaterialComponents;
 			sourceTree = "<group>";
 		};
@@ -2648,6 +2661,7 @@
 				B20398BE627F2ADF13F11E3742E9326E /* IQUIViewController+Additions.swift */,
 				A07861DA24FC9DA98C879953039B0EB5 /* Support Files */,
 			);
+			name = IQKeyboardManagerSwift;
 			path = IQKeyboardManagerSwift;
 			sourceTree = "<group>";
 		};
@@ -2691,6 +2705,7 @@
 				D4B52781971495ACB3329E3FBBB4F985 /* Resources */,
 				FD718447AE04C825E13669183D17603C /* Support Files */,
 			);
+			name = AWSUserPoolsSignIn;
 			path = AWSUserPoolsSignIn;
 			sourceTree = "<group>";
 		};
@@ -2725,6 +2740,7 @@
 				6247CAF48C1D951783533793BA8A8506 /* UIView+MaterialRTL.m */,
 				73C3E1E5BF4669161BFFB63B02F5A75B /* Support Files */,
 			);
+			name = MDFInternationalization;
 			path = MDFInternationalization;
 			sourceTree = "<group>";
 		};
@@ -2764,6 +2780,7 @@
 				DF923A098D9FBD84863320C73E1A861B /* SwiftyCamViewControllerDelegate.swift */,
 				8DF0753F389093F901C739427287CC5D /* Support Files */,
 			);
+			name = SwiftyCam;
 			path = SwiftyCam;
 			sourceTree = "<group>";
 		};
@@ -2813,6 +2830,7 @@
 				32601E7713B323887B469AAA3235ACDA /* Core */,
 				EC5BF26F25E2A0832A4D4945C63628B3 /* Support Files */,
 			);
+			name = SDWebImage;
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
@@ -2893,6 +2911,7 @@
 				79FE4E6320CC0701AA0168F8F84BA23D /* AWSCognitoIdentityProviderASF.m */,
 				8B615201C12D6988847BC06D239530CB /* Support Files */,
 			);
+			name = AWSCognitoIdentityProviderASF;
 			path = AWSCognitoIdentityProviderASF;
 			sourceTree = "<group>";
 		};
@@ -3383,7 +3402,7 @@
 			);
 			name = "AWSUserPoolsSignIn-AWSUserPoolsSignIn";
 			productName = AWSUserPoolsSignIn;
-			productReference = A443439682ABA5754A42AC9A5696211B /* AWSUserPoolsSignIn.bundle */;
+			productReference = A443439682ABA5754A42AC9A5696211B /* AWSUserPoolsSignIn-AWSUserPoolsSignIn */;
 			productType = "com.apple.product-type.bundle";
 		};
 		4F7A1E5A05AF87570E2873C5F725E2CB /* KRActivityIndicatorView */ = {
@@ -3709,8 +3728,8 @@
 		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastSwiftUpdateCheck = 1300;
+				LastUpgradeCheck = 1300;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 13.0";
@@ -3898,7 +3917,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF6F9ADEBF24838C95DB6BF2C01E8723 /* AWSUserPoolsSignIn.bundle in Resources */,
+				BF6F9ADEBF24838C95DB6BF2C01E8723 /* AWSUserPoolsSignIn-AWSUserPoolsSignIn in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4576,23 +4595,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		02FB415B2035FBD1B06CC1D6D1C66169 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB7750894EC78542F634A41BF8FAACB4 /* AWSUserPoolsSignIn.release.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AWSUserPoolsSignIn";
-				DEVELOPMENT_TEAM = 3HG54YWY75;
-				IBSC_MODULE = AWSUserPoolsSignIn;
-				INFOPLIST_FILE = "Target Support Files/AWSUserPoolsSignIn/ResourceBundle-AWSUserPoolsSignIn-AWSUserPoolsSignIn-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				PRODUCT_NAME = AWSUserPoolsSignIn;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
 		05AEF5A4C1FE74F2F4F77BD9AC6B6C8D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4DA4305A3962AEC20BD3BB922E337FD3 /* AWSCognitoIdentityProviderASF.debug.xcconfig */;
@@ -4799,23 +4801,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
-		};
-		29C1E8DB4465FC06865CD960BFAA25CE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7888876FF1C7B6B3CA7585BF4721CA46 /* AWSUserPoolsSignIn.debug.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AWSUserPoolsSignIn";
-				DEVELOPMENT_TEAM = 3HG54YWY75;
-				IBSC_MODULE = AWSUserPoolsSignIn;
-				INFOPLIST_FILE = "Target Support Files/AWSUserPoolsSignIn/ResourceBundle-AWSUserPoolsSignIn-AWSUserPoolsSignIn-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				PRODUCT_NAME = AWSUserPoolsSignIn;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
 		};
 		2F55D1E7E4C9E701F0522643A3A6296D /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -5131,6 +5116,23 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		5303B93123B2CEE59CC9AFD70765FA06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FB7750894EC78542F634A41BF8FAACB4 /* AWSUserPoolsSignIn.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AWSUserPoolsSignIn";
+				IBSC_MODULE = AWSUserPoolsSignIn;
+				INFOPLIST_FILE = "Target Support Files/AWSUserPoolsSignIn/ResourceBundle-AWSUserPoolsSignIn-AWSUserPoolsSignIn-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_NAME = AWSUserPoolsSignIn;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};
@@ -5889,6 +5891,23 @@
 			};
 			name = Release;
 		};
+		DBF7AF9B9E9AE486568AC9C977CA4547 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7888876FF1C7B6B3CA7585BF4721CA46 /* AWSUserPoolsSignIn.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AWSUserPoolsSignIn";
+				IBSC_MODULE = AWSUserPoolsSignIn;
+				INFOPLIST_FILE = "Target Support Files/AWSUserPoolsSignIn/ResourceBundle-AWSUserPoolsSignIn-AWSUserPoolsSignIn-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_NAME = AWSUserPoolsSignIn;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
 		E2CDE7BD114C532701D2E79C5CB4CAA8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBC9B35D8EEC1F87120363C8D098BE75 /* DropDown.debug.xcconfig */;
@@ -6163,8 +6182,8 @@
 		1BBB13D92D3385836F3C63C0209BCD3B /* Build configuration list for PBXNativeTarget "AWSUserPoolsSignIn-AWSUserPoolsSignIn" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				29C1E8DB4465FC06865CD960BFAA25CE /* Debug */,
-				02FB415B2035FBD1B06CC1D6D1C66169 /* Release */,
+				DBF7AF9B9E9AE486568AC9C977CA4547 /* Debug */,
+				5303B93123B2CEE59CC9AFD70765FA06 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
