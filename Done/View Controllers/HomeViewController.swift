@@ -679,7 +679,6 @@ extension HomeViewController {
         postVC.index = sender!.tag
         postVC.isFromEdit = true
         self.navigationController?.pushViewController(postVC, animated: true)
-         
     }
     
     func updatesAPICall(withTask: String, index : Int)

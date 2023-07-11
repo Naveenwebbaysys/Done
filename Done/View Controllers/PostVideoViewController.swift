@@ -36,7 +36,6 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
             self.tagPeopleLbl.text = (self.tagPeopleLbl.text ?? "") + "," + self.groupName
         }
-  
     }
     
     

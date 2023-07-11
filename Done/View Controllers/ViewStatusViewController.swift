@@ -212,7 +212,7 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         commentsVC.desc = self.descLbl.text ?? ""
         commentsVC.postPeopleSelected = self.statusModelArray[indexPath.row]
         commentsVC.assignEmpID = self.statusModelArray[indexPath.row].orderAssigneeEmployeeID!
-        commentsVC.employeeID = self.statusModelArray[indexPath.row].employeeID!
+        commentsVC.employeeID = self.statusModelArray[indexPath.row].employeeID ?? ""
         self.navigationController?.pushViewController(commentsVC, animated: true)
         
     }
