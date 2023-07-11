@@ -142,33 +142,29 @@ class VideoViewController: SwiftyCamViewController, SwiftyCamViewControllerDeleg
         let outPutPath = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
         if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path) {  ///(fileURL) {
             //            var complete : ALAssetsLibraryWriteVideoCompletionBlock = {reason in print("reason \(reason)")}
-//            UISaveVideoAtPathToSavedPhotosAlbum(url.path as String, nil, nil, nil)
-//            UserDefaults.standard.set(url.path, forKey: "originalVideoPath")
+            //            UISaveVideoAtPathToSavedPhotosAlbum(url.path as String, nil, nil, nil)
+            //            UserDefaults.standard.set(url.path, forKey: "originalVideoPath")
         } else {
             print("the file must be bad!")
         }
         print("Original Path", url.path)
-        DispatchQueue.global(qos: .background).async { [self] in
-            compressVideo(inputURL: url, outputURL: outPutPath) { (resulstCompressedURL, error) in
-                if let error = error {
-                    print("Failed to compress video: \(error.localizedDescription)")
-                } else if let compressedURL = resulstCompressedURL {
-                    print("Video compressed successfully. Compressed video URL: \(compressedURL)")
-//                    UISaveVideoAtPathToSavedPhotosAlbum(compressedURL.path,nil,nil, nil)
-//                    UserDefaults.standard.set(url, forKey: "originalVideo")
-                    UserDefaults.standard.set(compressedURL.path, forKey: "compressedVideoPath")
-                    print(compressedURL.path)
-                    guard let compressedData = NSData(contentsOf: compressedURL) else {
-                        return
-                    }
-                    print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
-//                    self.dlete(dele: url)
+        compressVideo(inputURL: url, outputURL: outPutPath) { (resulstCompressedURL, error) in
+            if let error = error {
+                print("Failed to compress video: \(error.localizedDescription)")
+            } else if let compressedURL = resulstCompressedURL {
+                print("Video compressed successfully. Compressed video URL: \(compressedURL)")
+                UserDefaults.standard.set(compressedURL.path, forKey: "compressedVideoPath")
+                print(compressedURL.path)
+                guard let compressedData = NSData(contentsOf: compressedURL) else {
+                    return
+                }
+                print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
+                //                    self.dlete(dele: url)
+                DispatchQueue.main.async {
+                    let postVC = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
+                    self.navigationController?.pushViewController(postVC, animated: true)
                 }
             }
-        }
-        DispatchQueue.main.async {
-            let postVC = self.storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
-            self.navigationController?.pushViewController(postVC, animated: true)
         }
     }
     

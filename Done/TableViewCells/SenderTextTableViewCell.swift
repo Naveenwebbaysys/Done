@@ -13,6 +13,7 @@ class SenderTextTableViewCell: UITableViewCell {
     @IBOutlet weak var lblTime: UILabel!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblMessage: UILabel!
+    @IBOutlet weak var btnUserName: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

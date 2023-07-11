@@ -21,5 +21,11 @@ class MenuListViewController: UIViewController {
         self.navigationController?.pushViewController(groupListVC, animated: true)
     }
     
+    
+    @IBAction func btnFeedBackAction(_ sender: UIButton) {
+        let feedbackVC = storyboard?.instantiateViewController(withIdentifier: "FeedbackViewController") as! FeedbackViewController
+        self.navigationController?.pushViewController(feedbackVC, animated: true)
+    }
+    
 
 }

@@ -302,6 +302,10 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    @objc func btnUserNameAction(_ sender : UIButton){
+        let VC = self.storyboard?.instantiateViewController(identifier: "UserProfileViewController") as! UserProfileViewController
+        self.navigationController?.pushViewController(VC, animated: true)
+    }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if let oldString = textView.text {
@@ -520,6 +524,8 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
                     let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longTextPressed))
                     cell.addGestureRecognizer(longPressRecognizer)
                 }
+                cell.btnUserName.tag = indexPath.row
+                cell.btnUserName.addTarget(self, action: #selector(btnUserNameAction), for: .touchUpInside)
                 
                 if indexPath.row == self.commentsArray.count - 4 {
                     if !isLastPage{

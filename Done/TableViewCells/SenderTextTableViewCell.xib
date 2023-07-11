@@ -31,6 +31,10 @@
                                 <color key="textColor" red="0.59607843140000005" green="0.76862745099999996" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jVT-WN-Jgg">
+                                <rect key="frame" x="214.66666666666663" y="5" width="130.33333333333337" height="30"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7:23 am" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J1P-wE-NJu">
                                 <rect key="frame" x="355" y="14" width="49" height="21"/>
                                 <constraints>
@@ -80,8 +84,12 @@
                             <constraint firstItem="Wnj-wO-z06" firstAttribute="bottom" secondItem="LTx-EC-KDQ" secondAttribute="bottom" constant="-8" id="2XR-Ed-Cql"/>
                             <constraint firstItem="J1P-wE-NJu" firstAttribute="leading" secondItem="egW-9i-uQQ" secondAttribute="trailing" constant="10" id="5GL-hd-4ti"/>
                             <constraint firstItem="J1P-wE-NJu" firstAttribute="bottom" secondItem="egW-9i-uQQ" secondAttribute="bottom" id="81a-q8-0oK"/>
+                            <constraint firstItem="jVT-WN-Jgg" firstAttribute="top" secondItem="egW-9i-uQQ" secondAttribute="top" id="8aa-Q4-ah3"/>
                             <constraint firstItem="LTx-EC-KDQ" firstAttribute="width" relation="lessThanOrEqual" secondItem="j9W-ub-w3y" secondAttribute="width" multiplier="0.65" id="FAg-Hm-n1S"/>
+                            <constraint firstItem="jVT-WN-Jgg" firstAttribute="trailing" secondItem="egW-9i-uQQ" secondAttribute="trailing" id="M8y-5R-I3n"/>
                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="LTx-EC-KDQ" secondAttribute="bottom" constant="5" id="NTl-H0-Sme"/>
+                            <constraint firstItem="jVT-WN-Jgg" firstAttribute="leading" secondItem="egW-9i-uQQ" secondAttribute="leading" id="YSU-xj-juc"/>
+                            <constraint firstItem="jVT-WN-Jgg" firstAttribute="bottom" secondItem="egW-9i-uQQ" secondAttribute="bottom" id="Ynf-rI-JfD"/>
                             <constraint firstItem="Wnj-wO-z06" firstAttribute="leading" secondItem="LTx-EC-KDQ" secondAttribute="trailing" constant="6" id="Z9d-0Z-bnY"/>
                             <constraint firstItem="J1P-wE-NJu" firstAttribute="trailing" secondItem="LTx-EC-KDQ" secondAttribute="trailing" id="cCh-bR-cgm"/>
                             <constraint firstItem="LTx-EC-KDQ" firstAttribute="top" secondItem="egW-9i-uQQ" secondAttribute="bottom" constant="5" id="rw2-v8-FX4"/>
@@ -101,6 +109,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="btnUserName" destination="jVT-WN-Jgg" id="BL3-XW-AmE"/>
                 <outlet property="lblMessage" destination="Nzp-9g-5na" id="Kz4-Yx-Uxw"/>
                 <outlet property="lblName" destination="egW-9i-uQQ" id="sZD-ng-595"/>
                 <outlet property="lblTime" destination="J1P-wE-NJu" id="0GC-1A-OwP"/>

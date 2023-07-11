@@ -21,6 +21,7 @@ target 'Done' do
   pod 'DropDown'
   pod 'MaterialComponents/ProgressView'
   pod "AlignedCollectionViewFlowLayout"
+  pod 'MGStarRatingView'
 end
 #
 

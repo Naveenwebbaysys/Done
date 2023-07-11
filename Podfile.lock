@@ -29,6 +29,7 @@ PODS:
     - MaterialComponents/private/Math
     - MDFInternationalization
   - MDFInternationalization (3.0.0)
+  - MGStarRatingView (1.0.0)
   - SDWebImage (5.15.4):
     - SDWebImage/Core (= 5.15.4)
   - SDWebImage/Core (5.15.4)
@@ -45,6 +46,7 @@ DEPENDENCIES:
   - Kingfisher
   - KRProgressHUD
   - MaterialComponents/ProgressView
+  - MGStarRatingView
   - SDWebImage
   - SwiftyCam
 
@@ -66,6 +68,7 @@ SPEC REPOS:
     - KRProgressHUD
     - MaterialComponents
     - MDFInternationalization
+    - MGStarRatingView
     - SDWebImage
     - SwiftyCam
 
@@ -86,9 +89,10 @@ SPEC CHECKSUMS:
   KRProgressHUD: a248f0bc6c9c2aed40a37b76e03ffecc7f85c887
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
+  MGStarRatingView: 78c9bfc20d6b6f2a4d6b69e7821043685ad1372a
   SDWebImage: 1c39de67663e5eebb2f41324d5d580eeea12dd4c
   SwiftyCam: 6e57914771d972fbe508e759dc9d0150a44a93fd
 
-PODFILE CHECKSUM: a15125973b4b803729a45a5c8250f53358b7c5e4
+PODFILE CHECKSUM: 07c1795f246ca708342eb56452fc17ee7caa2b9a
 
 COCOAPODS: 1.11.2
