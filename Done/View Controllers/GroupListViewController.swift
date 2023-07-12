@@ -81,14 +81,14 @@ extension GroupListViewController:  UITableViewDelegate, UITableViewDataSource {
 
 extension GroupListViewController : delegateGroupCreateVC{
     func setUpdateOfGroup(dataOfGrp: Group, selectedIndex: Int, isUpdate: Bool) {
+        
         if isUpdate{
             self.arrGroups[selectedIndex] = dataOfGrp
-            self.tableviewGroupList.reloadData()
         }else{
             self.arrGroups.append(dataOfGrp)
-            self.tableviewGroupList.reloadData()
         }
-        
+        self.arrGroups.reverse()
+        self.tableviewGroupList.reloadData()
     }
     
     

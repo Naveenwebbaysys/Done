@@ -264,7 +264,7 @@ class ProfileViewController: UIViewController, indexProtocol {
                 self.assignBtn.setAttributedTitle(part1, for: .normal)
                 self.assignBtn.titleLabel?.textAlignment = .center
                 
-                let part2 = NSAttributedString(string: "Pending " + "\n" + "$"  + self.stillworkingCommission)
+                let part2 = NSAttributedString(string: "Working " + "\n" + "$"  + self.stillworkingCommission)
                 self.stillBtn.setAttributedTitle(part2, for: .normal)
                 self.stillBtn.titleLabel?.textAlignment = .center
                 

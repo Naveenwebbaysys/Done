@@ -177,7 +177,7 @@ extension TagsUsersViewController:  UITableViewDelegate, UITableViewDataSource {
         }
         else
         {
-            return " All"
+            return self.tagsUsersArray.count > 0 ? " All" : ""
         }
         
         //        return section == 0 ? (self.recentUsersArray.count != 0 ? " Recent" : "" ): " All"

@@ -25,14 +25,17 @@ class LoginViewController: UIViewController {
 //        self.emailTf.text = "kranthiallaboina@gmail.com"
 //        self.passwordTf.text = "apple@123"
         
-//                self.emailTf.text = "Gorakrao@gmail.com"
-//                self.passwordTf.text = "gorakrao"
+                self.emailTf.text = "Gorakrao@gmail.com"
+                self.passwordTf.text = "gorakrao"
 
-        self.emailTf.text = "dora@medicalbreakthrough.org"
-        self.passwordTf.text = "March25#53%2@$"
+//        self.emailTf.text = "dora@medicalbreakthrough.org"
+//        self.passwordTf.text = "March25#53%2@$"
         
 //        self.emailTf.text = "fernandoj@medicalbreakthrough.com"
 //        self.passwordTf.text = "alligator375"
+        
+//        self.emailTf.text = "bucher@medicalbreakthrough.org"
+//        self.passwordTf.text = "BucherMedical2019"
 
         var localTimeZoneIdentifier: String { return TimeZone.current.identifier }
         print(localTimeZoneIdentifier)
