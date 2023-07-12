@@ -693,7 +693,6 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource
                                 //                        cell.commentImage.image = UIImage(named: "ic_placeholder_neutral")
                             }
                         }
-                        
                         if arrComment.count > 1{
                             cell.lblMessage.isHidden = false
                             cell.lblMessage.text = arrComment[1]
