@@ -36,7 +36,7 @@ class ImageAndVideoCommentViewController: UIViewController, UITextViewDelegate {
     var delegate:delegateImageAndVideoComment?
     var orderAssigneeEmployeeID = ""
     var employeeID = ""
-    
+    var createdBy = ""
     //MARK: - UIView Controller Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,7 +128,7 @@ class ImageAndVideoCommentViewController: UIViewController, UITextViewDelegate {
         }
         if selectedVideoURL != nil{
             self.delegate?.delegate_VideoUploadComment(selectedUrl: self.selectedVideoURL!, stDesc: commentTV.text == "Comment..." ? "" : commentTV.text!)
-            CommentsVM.shared.uploadVideo(fileVideo: selectedVideoURL!,stOrderAssigneeEmployeeID:self.orderAssigneeEmployeeID,employeeID:self.employeeID,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!)
+            CommentsVM.shared.uploadVideo(fileVideo: selectedVideoURL!,stOrderAssigneeEmployeeID:self.orderAssigneeEmployeeID,employeeID:self.employeeID,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!, taskId: self.createdBy)
         }else{
             if self.selectedImage != nil{
                 guard let imageData = self.selectedImage!.jpegData(compressionQuality: 0.5) else {
@@ -136,7 +136,7 @@ class ImageAndVideoCommentViewController: UIViewController, UITextViewDelegate {
                     return
                 }
                 self.delegate?.delegate_ImageUploadComment(selectedData: imageData, stDesc: commentTV.text == "Comment..." ? "" : commentTV.text!)
-                CommentsVM.shared.uploadImage(UploadImage: selectedImage ?? UIImage(),stOrderAssigneeEmployeeID:self.orderAssigneeEmployeeID,employeeID:self.employeeID,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!)
+                CommentsVM.shared.uploadImage(UploadImage: selectedImage ?? UIImage(),stOrderAssigneeEmployeeID:self.orderAssigneeEmployeeID,employeeID:self.employeeID,postID: postid,stComment: commentTV.text == "Comment..." ? "" : commentTV.text!, taskId: self.createdBy)
             }
         }
        

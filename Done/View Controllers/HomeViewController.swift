@@ -667,6 +667,8 @@ extension HomeViewController {
         commentsVC.empID = self.reelsModelArray[sender!.tag].id!
         commentsVC.employeeID = (self.reelsModelArray[sender!.tag].tagPeoples?[0].employeeID) ?? ""
         commentsVC.postid = self.reelsModelArray[sender!.tag].id!
+        commentsVC.createdBy = self.reelsModelArray[sender!.tag].createdBy!
+        
 //            commentsVC.postPeopleSelected = self.reelsModelArray[sender!.tag].tagPeoples?[0]
         //        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
         self.navigationController?.pushViewController(commentsVC, animated: true)

@@ -68,9 +68,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
             empID = id as! String
         }
-        if let name = UserDefaults.standard.value(forKey: UserDetails.userName){
-            createdBy = name as! String
-        }
+//        if let name = UserDefaults.standard.value(forKey: UserDetails.userName){
+//            createdBy = name as! String
+//        }
         
         commentTV.backgroundColor = .clear
         commentTV.text = "Comment..."
@@ -467,6 +467,7 @@ extension CommentsViewController: UIImagePickerControllerDelegate, UINavigationC
                 VC.delegate = self
                 VC.orderAssigneeEmployeeID = self.assignEmpID
                 VC.employeeID = self.empID
+                VC.createdBy = self.createdBy
                 self.navigationController?.pushViewController(VC, animated: true)
             }
         }else if let videoUrl = info[.mediaURL] as? URL {
@@ -479,6 +480,7 @@ extension CommentsViewController: UIImagePickerControllerDelegate, UINavigationC
                 VC.delegate = self
                 VC.orderAssigneeEmployeeID = self.assignEmpID
                 VC.employeeID = self.empID
+                VC.createdBy = self.createdBy
                 self.navigationController?.pushViewController(VC, animated: true)
             }
         }else{
@@ -885,7 +887,9 @@ extension CommentsViewController {
                 print("new")
                 if !(commentTV.text ?? "").isEmpty{
                     btnComment.isUserInteractionEnabled = false
-                    let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text ?? "", commenttype: "text", assigneeid: postid)
+//                    let postparams = PostCommentModel(assigneeEmployeeID: Int(assignEmpID), employeeID: Int(empID), comment: commentTV.text ?? "", commenttype: "text", assigneeid: postid)
+                    
+                    let postparams = PostCommentModel(employeeID: empID, comment: commentTV.text ?? "", commenttype: "text", orderassigneeid: postid, taskcreatedby: createdBy)
                     DispatchQueue.global(qos: .background).async {
                         print("This is run on the background queue")
                         APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in

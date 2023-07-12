@@ -13,7 +13,7 @@ class CommentsVM: NSObject {
     static let shared = CommentsVM()
     var controller : UIViewController?
     
-    func uploadImage(UploadImage:UIImage,stOrderAssigneeEmployeeID:String,employeeID:String,postID:String,stComment:String){
+    func uploadImage(UploadImage:UIImage,stOrderAssigneeEmployeeID:String,employeeID:String,postID:String,stComment:String, taskId: String){
         KRProgressHUD.show()
 //        DispatchQueue.global(qos: .background).async {
             AWSS3Manager.shared.uploadImage(image: UploadImage, progress: { [weak self] (progress) in
@@ -26,7 +26,7 @@ class CommentsVM: NSObject {
                     let awsS3Url = SERVERURL + awsS3Url
                     print("upload image url --",awsS3Url)
                     //                self?.createPostAPICall(str: awsS3Url)
-                    self?.addCommentsAPICall(str: awsS3Url, stOrderAssigneeEmployeeID:stOrderAssigneeEmployeeID,employeeID:employeeID, postID: postID, stComment: stComment,commentType: "image")
+                    self?.addCommentsAPICall(str: awsS3Url, stOrderAssigneeEmployeeID:stOrderAssigneeEmployeeID,employeeID:employeeID, postID: postID, stComment: stComment,commentType: "image", taskId: taskId)
                 } else {
                     print("\(String(describing: error?.localizedDescription))")
                     self?.controller?.showToast(message: error!.localizedDescription)
@@ -35,7 +35,7 @@ class CommentsVM: NSObject {
 //        }
     }
     
-    func uploadVideo(fileVideo:URL,stOrderAssigneeEmployeeID:String,employeeID:String,postID:String,stComment:String){
+    func uploadVideo(fileVideo:URL,stOrderAssigneeEmployeeID:String,employeeID:String,postID:String,stComment:String, taskId: String){
         KRProgressHUD.show()
 //        DispatchQueue.global(qos: .background).async {
             self.compressVideo(videoURL: fileVideo) { videoURL, error in
@@ -50,7 +50,7 @@ class CommentsVM: NSObject {
                             //                print("Uploaded file url: " + awsS3Url)
                             let awsS3Url = SERVERURL + awsS3Url
                             print("upload image url --",awsS3Url)
-                            self?.addCommentsAPICall(str: awsS3Url, stOrderAssigneeEmployeeID:stOrderAssigneeEmployeeID,employeeID:employeeID, postID: postID, stComment: stComment,commentType: "video")
+                            self?.addCommentsAPICall(str: awsS3Url, stOrderAssigneeEmployeeID:stOrderAssigneeEmployeeID,employeeID:employeeID, postID: postID, stComment: stComment,commentType: "video", taskId: taskId)
                         } else {
                             print("\(String(describing: error?.localizedDescription))")
                             self?.controller?.showToast(message: error!.localizedDescription)
@@ -61,7 +61,7 @@ class CommentsVM: NSObject {
 //        }
     }
     
-    func addCommentsAPICall(str : String,stOrderAssigneeEmployeeID:String,employeeID:String,postID:String,stComment:String,commentType:String){
+    func addCommentsAPICall(str : String,stOrderAssigneeEmployeeID:String,employeeID:String,postID:String,stComment:String,commentType:String, taskId : String){
         let userID = UserDefaults.standard.string(forKey: UserDetails.userId)
         var stCommentFinal = ""
         if stComment.isEmpty{
@@ -69,7 +69,8 @@ class CommentsVM: NSObject {
         }else{
             stCommentFinal = str + "--\(stComment)"
         }
-        let postparams = PostMediaCommentModel(assigneeEmployeeID: Int(stOrderAssigneeEmployeeID), employeeID: Int(employeeID), comment: stCommentFinal, commenttype: commentType, assigneeid: postID, taskCreatedBy: userID)
+//        let postparams = PostMediaCommentModel(assigneeEmployeeID: Int(stOrderAssigneeEmployeeID), employeeID: Int(employeeID), comment: stCommentFinal, commenttype: commentType, assigneeid: postID, taskCreatedBy: userID)
+        let postparams = PostMediaCommentModel(employeeID: employeeID, comment: stCommentFinal, commenttype: commentType, orderassigneeid: postID, taskCreatedBy: taskId)
                 print("Request parameter==",postparams)
         //            print("This is run on the background queue")
         APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in

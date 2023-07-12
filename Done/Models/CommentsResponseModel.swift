@@ -36,34 +36,38 @@ struct CommentsData: Codable {
 
 // MARK: - PostCommentModel
 struct PostCommentModel: Codable {
-    let assigneeEmployeeID, employeeID: Int?
+    
+    let employeeID: String?
     let comment: String?
     let commenttype : String?
-    let assigneeid : String?
+    let orderassigneeid : String?
+    let taskcreatedby : String?
 
     enum CodingKeys: String, CodingKey {
-        case assigneeEmployeeID = "assignee_employee_id"
+ 
         case employeeID = "employee_id"
         case comment
         case commenttype = "comment_type"
-        case assigneeid = "assignee_id"
+        case orderassigneeid = "order_assignee_id"
+        case taskcreatedby = "task_created_by"
+        
     }
 }
 
 // MARK: - PostMediaCommentModel
 struct PostMediaCommentModel: Codable {
-    let assigneeEmployeeID, employeeID: Int?
+    let employeeID: String?
     let comment: String?
     let commenttype : String?
-    let assigneeid : String?
+    let orderassigneeid : String?
     let taskCreatedBy : String?
     
     enum CodingKeys: String, CodingKey {
-        case assigneeEmployeeID = "assignee_employee_id"
+//        case assigneeEmployeeID = "assignee_employee_id"
         case employeeID = "employee_id"
         case comment
         case commenttype = "comment_type"
-        case assigneeid = "assignee_id"
+        case orderassigneeid = "order_assignee_id"
         case taskCreatedBy = "task_created_by"
     }
 }
