@@ -9,7 +9,8 @@ import UIKit
 import Kingfisher
 import AVFoundation
 
-class ViewStatusViewController: UIViewController {
+class ViewStatusViewController: UIViewController,taskProofviewDelegate {
+    
     
     var postID = ""
     var notes = ""
@@ -82,6 +83,12 @@ class ViewStatusViewController: UIViewController {
     @IBAction func backBtnAction()
     {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func taskProofDone(index: Int) {
+        let indexPathRow:Int = index
+        let indexPosition = IndexPath(row: indexPathRow, section: 0)
+        self.statusTB.reloadRows(at: [indexPosition], with: .none)
     }
     
 }
@@ -250,14 +257,18 @@ extension ViewStatusViewController {
         {
             task = "still_working"
             self.statusModelArray[sender.tag].isdoneCheked = false
+            updatesAPICall(withTask: task, index: sender.tag)
         }
         else
         {
             task = "done_success"
             self.statusModelArray[sender.tag].isdoneCheked = true
+            
+            let taskProofView = TaskProofView.init(info: "done_success", postID:  Int(self.statusModelArray[sender.tag].postID!) ?? 0, employeeID: Int(self.statusModelArray[sender.tag].employeeID!) ?? 0, index: sender.tag)
+            taskProofView.delegate = self
         }
         self.statusModelArray[sender.tag].isApprovedCheked = false
-        updatesAPICall(withTask: task, index: sender.tag)
+        
     }
     
     @objc func approvedBtnAction(_ sender : UIButton) {
@@ -265,19 +276,19 @@ extension ViewStatusViewController {
         {
             task = "still_working"
             self.statusModelArray[sender.tag].isApprovedCheked = false
-        }
-        else
-        {
+            updatesAPICall(withTask: task, index: sender.tag)
+        }else{
             task = "approved"
             self.statusModelArray[sender.tag].isApprovedCheked = true
+            
+            let taskProofView = TaskProofView.init(info: "approved", postID:  Int(self.statusModelArray[sender.tag].postID!) ?? 0, employeeID: Int(self.statusModelArray[sender.tag].employeeID!) ?? 0, index: sender.tag)
         }
         self.statusModelArray[sender.tag].isdoneCheked = false
-        updatesAPICall(withTask: task, index: sender.tag)
+        
     }
     
-    func updatesAPICall(withTask: String, index : Int)
-    {
-        let postparams = UpdateDoneRequestModel(postID: Int(self.statusModelArray[index].postID!), employeeID: Int(self.statusModelArray[index].employeeID!), taskStatus: withTask)
+    func updatesAPICall(withTask: String, index : Int){
+        let postparams = UpdateDoneRequestModel(postID: Int(self.statusModelArray[index].postID!), employeeID: Int(self.statusModelArray[index].employeeID!), taskStatus: withTask,proofDescription: "",proofDocument: "")
         APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
             
             let indexPathRow:Int = index

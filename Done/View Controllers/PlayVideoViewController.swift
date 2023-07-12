@@ -11,7 +11,8 @@ import AVFoundation
 protocol indexProtocol {
     func indexID(i: Int)
 }
-class PlayVideoViewController: UIViewController {
+class PlayVideoViewController: UIViewController,taskProofviewDelegate {
+    
     var selectedIndex = Int()
     var delegate: indexProtocol? = nil
     
@@ -66,6 +67,14 @@ class PlayVideoViewController: UIViewController {
     {
         self.delegate?.indexID(i: selectedIndex)
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func taskProofDone(index: Int) {
+        self.isSuccess = true
+//            self.reelsModelArray[index].
+        let indexPathRow:Int = index
+        let indexPosition = IndexPath(row: indexPathRow, section: 0)
+        self.palyVideoTV.reloadRows(at: [indexPosition], with: .none)
     }
 }
 
@@ -180,18 +189,18 @@ extension PlayVideoViewController {
         print("Tapped")
         if sender?.titleLabel?.text ==  "Done?"
         {
-            updatesAPICall(withTask: "done_success", index: sender!.tag)
+            let taskProofView = TaskProofView.init(info: "done_success", postID: Int(self.reelModelArray[sender!.tag].id ?? "0")!, employeeID: Int(userID)!, index: sender!.tag)
+            taskProofView.delegate = self
+        }else {
+            let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
+            statusVC.postID = self.reelModelArray[sender!.tag].id ?? ""
+            statusVC.notes = self.reelModelArray[sender!.tag].notes ?? ""
+            statusVC.dueDate = dateHelper(srt: self.reelModelArray[sender!.tag].commissionNoOfDays1!)
+            statusVC.index = sender!.tag
+            statusVC.reelsModelArray = self.reelModelArray
+            statusVC.isFromEdit = true
+            self.navigationController?.pushViewController(statusVC, animated: true)
         }
-        else {
-        let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
-        statusVC.postID = self.reelModelArray[sender!.tag].id ?? ""
-        statusVC.notes = self.reelModelArray[sender!.tag].notes ?? ""
-        statusVC.dueDate = dateHelper(srt: self.reelModelArray[sender!.tag].commissionNoOfDays1!)
-        statusVC.index = sender!.tag
-        statusVC.reelsModelArray = self.reelModelArray
-        statusVC.isFromEdit = true
-        self.navigationController?.pushViewController(statusVC, animated: true)
-    }
     }
     
     @objc func commentsBtnTapped(_ sender: UIButton?) {
@@ -231,19 +240,19 @@ extension PlayVideoViewController {
         
     }
     
-    func updatesAPICall(withTask: String, index : Int)
-    {
-        let postparams = UpdateDoneRequestModel(postID: Int(self.reelModelArray[index].id!), employeeID: Int(userID), taskStatus: withTask)
-        APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
-            self.isSuccess = true
-//            self.reelsModelArray[index].
-            let indexPathRow:Int = index
-            let indexPosition = IndexPath(row: indexPathRow, section: 0)
-            self.palyVideoTV.reloadRows(at: [indexPosition], with: .none)
-            
-        } failureHandler: { error in
-            
-            print(error)
-        }
-    }
+//    func updatesAPICall(withTask: String, index : Int)
+//    {
+//        let postparams = UpdateDoneRequestModel(postID: Int(self.reelModelArray[index].id!), employeeID: Int(userID), taskStatus: withTask)
+//        APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
+//            self.isSuccess = true
+////            self.reelsModelArray[index].
+//            let indexPathRow:Int = index
+//            let indexPosition = IndexPath(row: indexPathRow, section: 0)
+//            self.palyVideoTV.reloadRows(at: [indexPosition], with: .none)
+//
+//        } failureHandler: { error in
+//
+//            print(error)
+//        }
+//    }
 }

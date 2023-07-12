@@ -183,6 +183,23 @@ var observer: NSObjectProtocol?
     
 }
 
+extension UIApplication {
+    var currentWindow: UIWindow? {
+        if #available(iOS 13.0, *) {
+            connectedScenes
+                .filter({$0.activationState == .foregroundActive})
+                .map({$0 as? UIWindowScene})
+                .compactMap({$0})
+                .first?.windows
+                .filter({$0.isKeyWindow}).first
+        }else{
+            return UIApplication.shared.windows.first
+        }
+        
+        return UIApplication.shared.windows.first
+    }
+}
+
 extension UITextField{
     @IBInspectable var placeHolderColor: UIColor? {
         get {
@@ -701,7 +718,25 @@ extension UIColor {
         )
     }
     
- 
+    func HexToColor(hexString: String, alpha:CGFloat? = 1.0) -> UIColor {
+        // Convert hex string to an integer
+        let hexint = Int(self.intFromHexString(hexStr: hexString))
+        let red = CGFloat((hexint & 0xff0000) >> 16) / 255.0
+        let green = CGFloat((hexint & 0xff00) >> 8) / 255.0
+        let blue = CGFloat((hexint & 0xff) >> 0) / 255.0
+        let alpha = alpha!
+        // Create color object, specifying alpha as well
+        let color = UIColor(red: red, green: green, blue: blue, alpha: alpha)
+        return color
+    }
+    
+    func intFromHexString(hexStr: String) -> UInt32 {
+        var hexInt: UInt32 = 0
+        let scanner: Scanner = Scanner(string: hexStr)
+        scanner.charactersToBeSkipped = NSCharacterSet(charactersIn: "#") as CharacterSet
+        scanner.scanHexInt32(&hexInt)
+        return hexInt
+    }
 }
 
 

@@ -11,8 +11,7 @@ import AVKit
 import HMSegmentedControl
 import KRProgressHUD
 
-class HomeViewController: UIViewController,delegateFiltersVC {
-    
+class HomeViewController: UIViewController,delegateFiltersVC,taskProofviewDelegate {
     
     private var lastContentOffset: CGFloat = 0
     var groupIDString = ""
@@ -50,7 +49,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
     @IBOutlet weak var iNeedDoneBtn : UIButton!
     @IBOutlet weak var tblInstaReels: UITableView!
     
-
+    
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,7 +79,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
         self.isSuccess = false
         self.navigationController?.isNavigationBarHidden = true
         userID = UserDefaults.standard.value(forKey: UserDetails.userId) as! String
-      
+        
         
         self.reelsModelArray.removeAll()
         isLastPage = false
@@ -104,7 +103,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
             stType = "approved"
             self.iNeedDoneBtn.titleLabel?.textColor = UIColor(named: "App_color")
         }
-       
+        
         self.activityIndicator.stopAnimating()
         
         if let id = UserDefaults.standard.value(forKey: UserDetails.userId)
@@ -121,7 +120,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
             print(":::: viewDidDisappear ::::")
             (cell as! ReelsTableViewCell).avPlayer?.seek(to: CMTime.zero)
             (cell as! ReelsTableViewCell).stopPlayback()
-            (cell as! ReelsTableViewCell ).avPlayer?.removeObserver(self, forKeyPath: "timeControlStatus")
+           // (cell as! ReelsTableViewCell ).avPlayer?.removeObserver(self, forKeyPath: "timeControlStatus")
         }
         if repeatStarted == true {
             NotificationCenter.default.removeObserver(self)
@@ -179,7 +178,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
         currentPage = 1
         stType = "done_success"
         self.getpostAPICall(withType: stType, page: currentPage)
-  
+        
     }
     
     @IBAction func iNeedDoneBtnAct() {
@@ -196,7 +195,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
         currentPage = 1
         stType = "approved"
         self.getpostAPICall(withType: stType, page: currentPage)
-  
+        
     }
     
     @IBAction func filterBtnAct() {
@@ -217,7 +216,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
                 self.assignCommission = (commissionResponse?.data?.assignedByCommission?.commission ?? "") + "(" + (commissionResponse?.data?.assignedByCommission?.commissionCount ?? "") + ")"
                 self.stillworkingCommission = (commissionResponse?.data?.stillWorkingCommission?.commission ?? "") + "(" + (commissionResponse?.data?.stillWorkingCommission?.commissionCount ?? "") + ")"
                 self.doneCommission =  (commissionResponse?.data?.doneCommission?.commission ?? "") + "(" + (commissionResponse?.data?.doneCommission?.commissionCount ?? "") + ")"
-            approvedCom = (commissionResponse?.data?.approvedcommission?.commission ?? "") + "(" + (commissionResponse?.data?.approvedcommission?.commissionCount ?? "") + ")"
+                approvedCom = (commissionResponse?.data?.approvedcommission?.commission ?? "") + "(" + (commissionResponse?.data?.approvedcommission?.commissionCount ?? "") + ")"
                 
             }
             print(self.assignCommission)
@@ -227,12 +226,12 @@ class HomeViewController: UIViewController,delegateFiltersVC {
             let part1 = NSAttributedString(string: "Available "  + "\n" + "$" + self.assignCommission)
             self.assignBtn.setAttributedTitle(part1, for: .normal)
             self.assignBtn.titleLabel?.textAlignment = .center
-//            self.assignBtn.titleLabel?.textColor = UIColor(named: "App_color")
+            //            self.assignBtn.titleLabel?.textColor = UIColor(named: "App_color")
             
             let part2 = NSAttributedString(string: "Pending " + "\n" + "$" + self.stillworkingCommission)
             self.stillBtn.setAttributedTitle(part2, for: .normal)
             self.stillBtn.titleLabel?.textAlignment = .center
-//            self.stillBtn.titleLabel?.textColor = .white
+            //            self.stillBtn.titleLabel?.textColor = .white
             
             let part3 = NSAttributedString(string: "Need Approval " + "\n" + "$" + self.doneCommission)
             self.donecBtn.setAttributedTitle(part3, for: .normal)
@@ -241,7 +240,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
             let part4 = NSAttributedString(string: "Need Done " + "\n" + "$" + approvedCom)
             self.iNeedDoneBtn.setAttributedTitle(part4, for: .normal)
             self.iNeedDoneBtn.titleLabel?.textAlignment = .center
-//            self.donecBtn.titleLabel?.textColor = .white
+            //            self.donecBtn.titleLabel?.textColor = .white
             
         } failure: { error in
             print(error)
@@ -273,7 +272,7 @@ class HomeViewController: UIViewController,delegateFiltersVC {
                 var groups = [String]()
                 
                 for (i,_) in groupsArray.enumerated(){
-
+                    
                     groups.append(groupsArray[i].id!)
                 }
                 self.groupIDString = groups.joined(separator: ",")
@@ -315,10 +314,10 @@ class HomeViewController: UIViewController,delegateFiltersVC {
             }
             let getReelsResponseModel = try? JSONDecoder().decode(GetReelsResponseModel.self, from: _result as! Data)
             self.noTaskLbl.isHidden = true
-//            print(getReelsResponseModel?.data as Any)
+            //            print(getReelsResponseModel?.data as Any)
             if getReelsResponseModel?.data?.posts?.isEmpty == false
             {
-//                self.reelsModelArray = (getReelsResponseModel?.data?.posts)!
+                //                self.reelsModelArray = (getReelsResponseModel?.data?.posts)!
                 for data in (getReelsResponseModel?.data?.posts ?? [Post]()){
                     self.reelsModelArray.append(data)
                 }
@@ -349,6 +348,16 @@ class HomeViewController: UIViewController,delegateFiltersVC {
         self.currentPage += 1
         self.getpostAPICall(withType: stType, page: currentPage)
     }
+    
+    func taskProofDone(index: Int) {
+        self.isSuccess = true
+        //            self.reelsModelArray[index].
+        let indexPathRow:Int = index
+        let indexPosition = IndexPath(row: indexPathRow, section: 0)
+        self.tblInstaReels.reloadRows(at: [indexPosition], with: .none)
+    }
+    
+    
 }
 
 
@@ -380,7 +389,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
             days = count(expDate: myStringDate)
             Reelcell.dateLbl.text = "Expires in " + "\(days)" + " days - " + myStringDate
         }
-       
+        
         let videoURL = URL(string: self.reelsModelArray[indexPath.row].videoURL!)
         if videoURL !=  nil{
             Reelcell.videoPlayerItem = AVPlayerItem.init(url: videoURL!)
@@ -555,7 +564,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
                 if currentHeight > (cellHeight * 0.95){
                     if visibleIP != indexPaths?[i]{
                         visibleIP = indexPaths?[i]
-//                        print ("visible = \(String(describing: indexPaths?[i]))")
+                        //                        print ("visible = \(String(describing: indexPaths?[i]))")
                         if let videoCell = cells[i] as? ReelsTableViewCell{
                             self.playVideoOnTheCell(cell: videoCell, indexPath: (indexPaths?[i])!)
                         }
@@ -593,7 +602,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         let formatedStartDate1 = dateFormatter2.date(from: today)
         let formatedStartDate2 = dateFormatter1.date(from: expDate)
         let diffInDays = Calendar.current.dateComponents([.day], from: formatedStartDate1!, to: formatedStartDate2!).day
-//        print(diffInDays!)
+        //        print(diffInDays!)
         return diffInDays! + 1
     }
     
@@ -626,22 +635,24 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
 extension HomeViewController {
     @objc func statusBtnTapped(_ sender: UIButton?) {
         print("Tapped")
-
+        
         
         if sender?.titleLabel?.text ==  "Done?"
         {
-            updatesAPICall(withTask: "done_success", index: sender!.tag)
+            //            updatesAPICall(withTask: "done_success", index: sender!.tag)
+            let taskProofView = TaskProofView.init(info: "done_success", postID:  Int(self.reelsModelArray[sender!.tag].id ?? "0")!, employeeID: Int(userID)!, index: sender!.tag)
+            taskProofView.delegate = self
         }
         else
         {
-                    let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
-                    statusVC.postID = self.reelsModelArray[sender!.tag].id ?? ""
-                    statusVC.notes = self.reelsModelArray[sender!.tag].notes ?? ""
-                    statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
-                    statusVC.index = sender!.tag
-                    statusVC.reelsModelArray = self.reelsModelArray
-                    statusVC.isFromEdit = true
-                    self.navigationController?.pushViewController(statusVC, animated: true)
+            let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
+            statusVC.postID = self.reelsModelArray[sender!.tag].id ?? ""
+            statusVC.notes = self.reelsModelArray[sender!.tag].notes ?? ""
+            statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
+            statusVC.index = sender!.tag
+            statusVC.reelsModelArray = self.reelsModelArray
+            statusVC.isFromEdit = true
+            self.navigationController?.pushViewController(statusVC, animated: true)
         }
     }
     
@@ -666,7 +677,7 @@ extension HomeViewController {
             commentsVC.empID = self.reelsModelArray[sender!.tag].id!
             commentsVC.employeeID = (self.reelsModelArray[sender!.tag].tagPeoples?[0].employeeID)!
             commentsVC.postid = self.reelsModelArray[sender!.tag].id!
-//            commentsVC.postPeopleSelected = self.reelsModelArray[sender!.tag].tagPeoples?[0]
+            //            commentsVC.postPeopleSelected = self.reelsModelArray[sender!.tag].tagPeoples?[0]
             //        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
             self.navigationController?.pushViewController(commentsVC, animated: true)
         }
@@ -681,19 +692,5 @@ extension HomeViewController {
         self.navigationController?.pushViewController(postVC, animated: true)
     }
     
-    func updatesAPICall(withTask: String, index : Int)
-    {
-        let postparams = UpdateDoneRequestModel(postID: Int(self.reelsModelArray[index].id!), employeeID: Int(userID), taskStatus: withTask)
-        APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
-            self.isSuccess = true
-//            self.reelsModelArray[index].
-            let indexPathRow:Int = index
-            let indexPosition = IndexPath(row: indexPathRow, section: 0)
-            self.tblInstaReels.reloadRows(at: [indexPosition], with: .none)
-            
-        } failureHandler: { error in
-            
-            print(error)
-        }
-    }
+
 }

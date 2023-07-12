@@ -76,6 +76,7 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginBtnAction()
     {
+        
         self.emailerrorLbl.isHidden = self.emailTf.text != "" ? true : false
         self.passwordErrorLbl.isHidden = self.passwordTf.text != "" ? true : false
         if (self.emailTf.text!.isValidEmail() == false) {
