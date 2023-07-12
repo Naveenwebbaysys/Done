@@ -118,6 +118,21 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         cell.markBtn.addTarget(self, action: #selector(markBtnAction), for: .touchUpInside)
         cell.approvedBtn.tag = indexPath.row
         cell.approvedBtn.addTarget(self, action: #selector(approvedBtnAction), for: .touchUpInside)
+        
+        if self.statusModelArray[indexPath.row].employeeID == nil{
+            cell.markBtn.isHidden = true
+            cell.markDoneWidth.constant = 0
+            cell.markCheckwidth.constant = 0
+            cell.left.constant = 0
+        }
+        else
+        {
+            cell.markBtn.isHidden = false
+            cell.markDoneWidth.constant = 90
+            cell.markCheckwidth.constant = 20
+            cell.left.constant = 5
+        }
+        
         if self.statusModelArray[indexPath.row].createdbycommentcount == "0"
         {
             cell.unreadBtn.isHidden = true

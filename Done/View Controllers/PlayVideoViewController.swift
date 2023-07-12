@@ -240,19 +240,4 @@ extension PlayVideoViewController {
         
     }
     
-//    func updatesAPICall(withTask: String, index : Int)
-//    {
-//        let postparams = UpdateDoneRequestModel(postID: Int(self.reelModelArray[index].id!), employeeID: Int(userID), taskStatus: withTask)
-//        APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
-//            self.isSuccess = true
-////            self.reelsModelArray[index].
-//            let indexPathRow:Int = index
-//            let indexPosition = IndexPath(row: indexPathRow, section: 0)
-//            self.palyVideoTV.reloadRows(at: [indexPosition], with: .none)
-//
-//        } failureHandler: { error in
-//
-//            print(error)
-//        }
-//    }
 }

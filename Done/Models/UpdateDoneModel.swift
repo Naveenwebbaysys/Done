@@ -9,14 +9,12 @@ import Foundation
 struct UpdateDoneRequestModel: Codable {
     let postID, employeeID: Int?
     let taskStatus: String?
-    let proofDescription: String?
-    let proofDocument: String?
+    let assigneeemployeeid : String?
 
     enum CodingKeys: String, CodingKey {
-        case postID = "assignee_employee_id"
+        case postID = "post_id"
         case employeeID = "employee_id"
         case taskStatus = "task_status"
-        case proofDescription = "proof_description"
-        case proofDocument = "proof_document"
+        case assigneeemployeeid = "assignee_employee_id"
     }
 }

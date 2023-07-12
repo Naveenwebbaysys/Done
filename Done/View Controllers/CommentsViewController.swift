@@ -25,6 +25,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var btnCamera: UIButton!
     @IBOutlet weak var btnAttachmentChat: UIButton!
     @IBOutlet weak var viewChatBG: UIView!
+    @IBOutlet weak var titleLbl : UILabel!
     
     var taskCreatedby = ""
     var postid = ""
@@ -62,7 +63,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         
         IQKeyboardManager.shared.enable = false
         currentPage = 1
-        getAllCommentsAPICall(withEmpID: assignEmpID, Pageno: currentPage)
+        getAllCommentsAPICall(withEmpID: postid, Pageno: currentPage)
         
         if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
             empID = id as! String
@@ -77,6 +78,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         commentTB.transform = CGAffineTransform(scaleX: 1, y: -1)
         
         self.showCameraBtn()
+        self.titleLbl.text = self.desc
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,7 +86,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         IQKeyboardManager.shared.enable = false
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
+//        readMsgAPICall(task: taskCreatedby, empid: empID, assignID: assignEmpID)
 //        self.updateTableContentInset()
     }
     

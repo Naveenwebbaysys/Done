@@ -33,8 +33,17 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         }
         else
         {
-            self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
+            let tags = self.tagPeoples1.joined(separator: ",")
             self.tagPeopleLbl.text = (self.tagPeopleLbl.text ?? "") + "," + self.groupName
+            
+            if self.tagPeoples1.count != 0
+            {
+                self.tagPeopleLbl.text = (tags) + "," + self.groupName
+            }
+            else
+            {
+                self.tagPeopleLbl.text = self.groupName
+            }
         }
     }
     
@@ -100,7 +109,7 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         descriptionTV.delegate = self
         commissionTypeLbl.text = "Increase"
         restrictLbl.text = "Assigned People"
-        lblProjectType.text = "Open For Anyone To Work On"
+        lblProjectType.text = "Already Know Who I Want To Work On This Project"
         self.setProjectType()
         //        print(isFromEdit)
         self.linksTW.frame = CGRect(x: 5, y: linksTF.frame.maxY + 10, width: linksTF.frame.width, height: 200)
@@ -117,8 +126,14 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
                     self.tagIDSArray.append(self.reelsModelArray[index].tagPeoples![i].employeeID!)
                     self.tagPeoples1.append(self.reelsModelArray[index].tagPeoples![i].employeename!)
                 }
+                else
+                {
+                    self.groupId = Int(self.reelsModelArray[index].tagPeoples![i].groupid ?? "0") ?? 0
+                    self.groupName = self.reelsModelArray[index].tagPeoples![i].groupname ?? ""
+                }
             }
-            self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
+            self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ",") + self.groupName
+            
             print(self.tagPeopleLbl.text as Any)
             editURL = self.reelsModelArray[index].videoURL ?? ""
             postID = self.reelsModelArray[index].id ?? ""
@@ -309,7 +324,6 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             self.linksTW.reloadData()
             self.constraintTableviewHeight.constant = CGFloat(40 * arrLinkData.count)
         }
-       
     }
     
     func getAllCategoryAPICall(){
@@ -598,9 +612,15 @@ extension PostViewController  {
             amountTF.borderWidth = 1
             amountTF.borderColor = .red
             amountTF.cornerRadius = 6
+            amountTF.shake()
             return
         }
         
+        if self.descriptionTV.text == "" || self.descriptionTV.textColor == .lightGray || self.descriptionTV.text == "Decription.."
+        {
+            showToast(message: "Please enter Decription")
+            return
+        }
         
         if isOpenProject{
             if arrSelectAllCategory.isEmpty{
@@ -614,11 +634,11 @@ extension PostViewController  {
             }
         }
         
-        if tagPeoples1.count == 0 && self.groupId == 0
-        {
-            showToast(message: "Please select tag people or Group")
-            return
-        }
+//        if tagPeoples1.count == 0 && self.groupId == 0
+//        {
+//            showToast(message: "Please select tag people or Group")
+//            return
+//        }
         
         amountTF.borderWidth = 0
         if isFromEdit == true
