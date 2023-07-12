@@ -244,10 +244,19 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     @objc func longTextPressed(sender: UILongPressGestureRecognizer) {
         if sender.state == .began{
             print("longpressed==",sender.view?.tag ?? 0)
-            let cell = commentTB.cellForRow(at: IndexPath(row: sender.view?.tag ?? 0, section: 0)) as! CommentsTableViewCell
             let commentMenu = DropDown()
-            commentMenu.anchorView = cell.viewBG
-            commentMenu.bottomOffset = CGPoint(x: 5, y:(cell.viewBG.bounds.height))
+            let userID = UserDefaults.standard.value(forKey: UserDetails.userId) as! String
+            let data = self.commentsArray[sender.view?.tag ?? 0]
+            
+            if data.employeeID == userID{
+                let cell = commentTB.cellForRow(at: IndexPath(row: sender.view?.tag ?? 0, section: 0))  as! SenderTextTableViewCell
+                commentMenu.anchorView = cell.viewChatBG
+                commentMenu.bottomOffset = CGPoint(x: 5, y:(cell.viewChatBG.bounds.height))
+            }else{
+                let cell = commentTB.cellForRow(at: IndexPath(row: sender.view?.tag ?? 0, section: 0))  as! ReceivedTextTableViewCell
+                commentMenu.anchorView = cell.viewChatBG
+                commentMenu.bottomOffset = CGPoint(x: 5, y:(cell.viewChatBG.bounds.height))
+            }
             commentMenu.width = 250
             commentMenu.dataSource = ["Edit", "Delete"]
             commentMenu.selectionAction = { [unowned self] (index: Int, item: String) in
@@ -269,10 +278,20 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     @objc func longImageVideoPressed(sender: UILongPressGestureRecognizer) {
         if sender.state == .began{
             print("longpressed==",sender.view?.tag ?? 0)
-            let cell = commentTB.cellForRow(at: IndexPath(row: sender.view?.tag ?? 0, section: 0)) as! ImageCommentsTableViewCell
             let commentMenu = DropDown()
-            commentMenu.anchorView = cell.viewComment
-            commentMenu.bottomOffset = CGPoint(x: 5, y:(cell.viewComment.bounds.height))
+            let userID = UserDefaults.standard.value(forKey: UserDetails.userId) as! String
+            let data = self.commentsArray[sender.view?.tag ?? 0]
+            
+            if data.employeeID == userID{
+                let cell = commentTB.cellForRow(at: IndexPath(row: sender.view?.tag ?? 0, section: 0))  as! SenderImageAndVideoTableViewCell
+                commentMenu.anchorView = cell.viewChatBG
+                commentMenu.bottomOffset = CGPoint(x: 5, y:(cell.viewChatBG.bounds.height))
+            }else{
+                let cell = commentTB.cellForRow(at: IndexPath(row: sender.view?.tag ?? 0, section: 0))  as! ReceivedImageVideoTableViewCell
+                commentMenu.anchorView = cell.viewChatBG
+                commentMenu.bottomOffset = CGPoint(x: 5, y:(cell.viewChatBG.bounds.height))
+            }
+            
             commentMenu.width = 250
             commentMenu.dataSource = ["Delete"]
             commentMenu.selectionAction = { [unowned self] (index: Int, item: String) in
@@ -902,7 +921,7 @@ extension CommentsViewController {
                             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
                             let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
                             let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
-                            let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTV.text, employeeID: self.empID, createdBy: self.createdBy, commenttype: "text",isLocalStore: true, isLocalImageData: nil)
+                            let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: self.commentTV.text, employeeID: self.empID, createdBy: (UserDefaults.standard.value(forKey: UserDetails.userName) as? String) ?? "", commenttype: "text",isLocalStore: true, isLocalImageData: nil)
                             self.commentsArray.insert(newcomment, at: 0)
                             //                    print(self.commentsArray.count)
                             self.commentTB.reloadData()
@@ -1016,7 +1035,7 @@ extension CommentsViewController:delegateImageAndVideoComment{
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
         let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
-        let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: stComment, employeeID: self.empID, createdBy: self.createdBy, commenttype: "video",isLocalStore: true, isLocalImageData: nil)
+        let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: stComment, employeeID: self.empID, createdBy: (UserDefaults.standard.value(forKey: UserDetails.userName) as? String) ?? "", commenttype: "video",isLocalStore: true, isLocalImageData: nil)
         self.commentsArray.insert(newcomment, at: 0)
         self.commentTB.reloadData()
         self.tableviewBottomScroll()
@@ -1037,7 +1056,7 @@ extension CommentsViewController:delegateImageAndVideoComment{
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         let today = getcommentTimeFormat(dateStrInTwentyFourHourFomat: dateFormatter.string(from: Date()))
         let createdAt = convertDate(from: TimeZone.current, to: destinationTime, dateString: today!, format: format)
-        let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: stDesc, employeeID: self.empID, createdBy: self.createdBy, commenttype: "image",isLocalStore: true, isLocalImageData: selectedData)
+        let newcomment =  CommentsData(id: "0", assigneeEmployeeID: self.assignEmpID, createdAt: createdAt, comment: stDesc, employeeID: self.empID, createdBy: (UserDefaults.standard.value(forKey: UserDetails.userName) as? String) ?? "", commenttype: "image",isLocalStore: true, isLocalImageData: selectedData)
         self.commentsArray.insert(newcomment, at: 0)
         self.commentTB.reloadData()
         self.tableviewBottomScroll()
