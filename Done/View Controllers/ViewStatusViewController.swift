@@ -111,6 +111,21 @@ extension ViewStatusViewController: UITableViewDelegate, UITableViewDataSource
         cell.markBtn.addTarget(self, action: #selector(markBtnAction), for: .touchUpInside)
         cell.approvedBtn.tag = indexPath.row
         cell.approvedBtn.addTarget(self, action: #selector(approvedBtnAction), for: .touchUpInside)
+        
+        if self.statusModelArray[indexPath.row].employeeID == nil{
+            cell.markBtn.isHidden = true
+            cell.markDoneWidth.constant = 0
+            cell.markCheckwidth.constant = 0
+            cell.left.constant = 0
+        }
+        else
+        {
+            cell.markBtn.isHidden = false
+            cell.markDoneWidth.constant = 90
+            cell.markCheckwidth.constant = 20
+            cell.left.constant = 5
+        }
+        
         if self.statusModelArray[indexPath.row].createdbycommentcount == "0"
         {
             cell.unreadBtn.isHidden = true
@@ -277,7 +292,7 @@ extension ViewStatusViewController {
     
     func updatesAPICall(withTask: String, index : Int)
     {
-        let postparams = UpdateDoneRequestModel(postID: Int(self.statusModelArray[index].postID!), employeeID: Int(self.statusModelArray[index].employeeID!), taskStatus: withTask)
+        let postparams = UpdateDoneRequestModel(postID: Int(self.statusModelArray[index].postID!), employeeID: Int(self.statusModelArray[index].employeeID!), taskStatus: withTask, assigneeemployeeid: self.statusModelArray[index].orderAssigneeEmployeeID!)
         APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
             
             let indexPathRow:Int = index

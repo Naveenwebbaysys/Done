@@ -33,8 +33,17 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
         }
         else
         {
-            self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ", ")
+            let tags = self.tagPeoples1.joined(separator: ", ")
             self.tagPeopleLbl.text = (self.tagPeopleLbl.text ?? "") + "," + self.groupName
+            
+            if self.tagPeoples1.count != 0
+            {
+                self.tagPeopleLbl.text = (tags) + "," + self.groupName
+            }
+            else
+            {
+                self.tagPeopleLbl.text = self.groupName
+            }
         }
     }
     

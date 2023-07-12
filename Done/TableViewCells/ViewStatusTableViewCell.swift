@@ -9,6 +9,9 @@ import UIKit
 
 class ViewStatusTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var markCheckwidth: NSLayoutConstraint!
+    @IBOutlet weak var left: NSLayoutConstraint!
+    @IBOutlet weak var markDoneWidth: NSLayoutConstraint!
     @IBOutlet weak var nameLbl      : UILabel!
     @IBOutlet weak var statusLbl    : UILabel!
     @IBOutlet weak var dateLbl      : UILabel!

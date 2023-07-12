@@ -664,7 +664,7 @@ extension HomeViewController {
             commentsVC.assignEmpID = (self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)!
             commentsVC.desc = self.reelsModelArray[sender!.tag].notes!
             commentsVC.empID = self.reelsModelArray[sender!.tag].id!
-            commentsVC.employeeID = (self.reelsModelArray[sender!.tag].tagPeoples?[0].employeeID)!
+            commentsVC.employeeID = (self.reelsModelArray[sender!.tag].tagPeoples?[0].employeeID) ?? ""
             commentsVC.postid = self.reelsModelArray[sender!.tag].id!
 //            commentsVC.postPeopleSelected = self.reelsModelArray[sender!.tag].tagPeoples?[0]
             //        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
@@ -683,7 +683,8 @@ extension HomeViewController {
     
     func updatesAPICall(withTask: String, index : Int)
     {
-        let postparams = UpdateDoneRequestModel(postID: Int(self.reelsModelArray[index].id!), employeeID: Int(userID), taskStatus: withTask)
+        let postparams = UpdateDoneRequestModel(postID: Int(self.reelsModelArray[index].id!), employeeID: Int(userID), taskStatus: withTask, assigneeemployeeid:self.reelsModelArray[index].tagPeoples![0].orderAssigneeEmployeeID)
+                                                
         APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
             self.isSuccess = true
 //            self.reelsModelArray[index].
