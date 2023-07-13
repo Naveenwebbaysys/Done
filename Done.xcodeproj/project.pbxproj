@@ -67,6 +67,9 @@
 		1B3889042A5E731A0081871E /* ProfielInfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B3889022A5E731A0081871E /* ProfielInfoCollectionViewCell.xib */; };
 		1B3889072A5EA1960081871E /* TaskProofView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3889062A5EA1960081871E /* TaskProofView.swift */; };
 		1B3889092A5EA1A40081871E /* TaskProofView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B3889082A5EA1A40081871E /* TaskProofView.xib */; };
+		1B3B82032A5FFA19000ED7C0 /* ProofMediaCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3B82012A5FFA19000ED7C0 /* ProofMediaCollectionViewCell.swift */; };
+		1B3B82042A5FFA19000ED7C0 /* ProofMediaCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B3B82022A5FFA19000ED7C0 /* ProofMediaCollectionViewCell.xib */; };
+		1B3B82062A600989000ED7C0 /* TaskProofPerviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3B82052A600989000ED7C0 /* TaskProofPerviewViewController.swift */; };
 		1B47DADB2A5BDAA100CE0021 /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B47DADA2A5BDAA100CE0021 /* GroupListViewController.swift */; };
 		1B47DAE02A5BDEEC00CE0021 /* GroupListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B47DADE2A5BDEEC00CE0021 /* GroupListTableViewCell.swift */; };
 		1B47DAE12A5BDEEC00CE0021 /* GroupListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B47DADF2A5BDEEC00CE0021 /* GroupListTableViewCell.xib */; };
@@ -90,6 +93,7 @@
 		1BB7E9EF2A52C626005D7399 /* CategoryResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB7E9EE2A52C626005D7399 /* CategoryResponseModel.swift */; };
 		1BB7E9F22A52CDD7005D7399 /* AddLinksPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB7E9F02A52CDD7005D7399 /* AddLinksPostCell.swift */; };
 		1BB7E9F32A52CDD7005D7399 /* AddLinksPostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BB7E9F12A52CDD7005D7399 /* AddLinksPostCell.xib */; };
+		1BFDE2482A5FF0A200D16FF8 /* FeedbackVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFDE2472A5FF0A200D16FF8 /* FeedbackVM.swift */; };
 		1BFECB0D2A4C42D900823B86 /* CommentsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFECB0C2A4C42D900823B86 /* CommentsVM.swift */; };
 		BC4468A2FA2767193086B64B /* Pods_Done.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D80175AE176548C1C11A743 /* Pods_Done.framework */; };
 /* End PBXBuildFile section */
@@ -159,6 +163,9 @@
 		1B3889022A5E731A0081871E /* ProfielInfoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfielInfoCollectionViewCell.xib; sourceTree = "<group>"; };
 		1B3889062A5EA1960081871E /* TaskProofView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskProofView.swift; sourceTree = "<group>"; };
 		1B3889082A5EA1A40081871E /* TaskProofView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskProofView.xib; sourceTree = "<group>"; };
+		1B3B82012A5FFA19000ED7C0 /* ProofMediaCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProofMediaCollectionViewCell.swift; sourceTree = "<group>"; };
+		1B3B82022A5FFA19000ED7C0 /* ProofMediaCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProofMediaCollectionViewCell.xib; sourceTree = "<group>"; };
+		1B3B82052A600989000ED7C0 /* TaskProofPerviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskProofPerviewViewController.swift; sourceTree = "<group>"; };
 		1B47DADA2A5BDAA100CE0021 /* GroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewController.swift; sourceTree = "<group>"; };
 		1B47DADE2A5BDEEC00CE0021 /* GroupListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListTableViewCell.swift; sourceTree = "<group>"; };
 		1B47DADF2A5BDEEC00CE0021 /* GroupListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupListTableViewCell.xib; sourceTree = "<group>"; };
@@ -182,6 +189,7 @@
 		1BB7E9EE2A52C626005D7399 /* CategoryResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryResponseModel.swift; sourceTree = "<group>"; };
 		1BB7E9F02A52CDD7005D7399 /* AddLinksPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinksPostCell.swift; sourceTree = "<group>"; };
 		1BB7E9F12A52CDD7005D7399 /* AddLinksPostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddLinksPostCell.xib; sourceTree = "<group>"; };
+		1BFDE2472A5FF0A200D16FF8 /* FeedbackVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVM.swift; sourceTree = "<group>"; };
 		1BFECB0C2A4C42D900823B86 /* CommentsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsVM.swift; sourceTree = "<group>"; };
 		8E2DD0B327BFD46A42DEEAF3 /* Pods-Done.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Done.release.xcconfig"; path = "Target Support Files/Pods-Done/Pods-Done.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -230,6 +238,8 @@
 				1B769D872A57F8BE00E387D4 /* FilterListCollectionViewCell.xib */,
 				1B3889012A5E731A0081871E /* ProfielInfoCollectionViewCell.swift */,
 				1B3889022A5E731A0081871E /* ProfielInfoCollectionViewCell.xib */,
+				1B3B82012A5FFA19000ED7C0 /* ProofMediaCollectionViewCell.swift */,
+				1B3B82022A5FFA19000ED7C0 /* ProofMediaCollectionViewCell.xib */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -327,6 +337,7 @@
 				1B47DADA2A5BDAA100CE0021 /* GroupListViewController.swift */,
 				1B9190312A5D26C0003EA4D2 /* FeedbackViewController.swift */,
 				1B14F8612A5D657F00903D72 /* UserProfileViewController.swift */,
+				1B3B82052A600989000ED7C0 /* TaskProofPerviewViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -376,6 +387,7 @@
 				1BFECB0C2A4C42D900823B86 /* CommentsVM.swift */,
 				1B9CF12F2A5999A300F2EB1A /* GroupCreateVM.swift */,
 				1B47DAE42A5BE4FA00CE0021 /* GroupListVM.swift */,
+				1BFDE2472A5FF0A200D16FF8 /* FeedbackVM.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -473,6 +485,7 @@
 				1B3889092A5EA1A40081871E /* TaskProofView.xib in Resources */,
 				1BB75EEA2A56C997001930A1 /* SenderTextTableViewCell.xib in Resources */,
 				1B7661842A4B2B4500F63D0A /* ImageCommentsTableViewCell.xib in Resources */,
+				1B3B82042A5FFA19000ED7C0 /* ProofMediaCollectionViewCell.xib in Resources */,
 				1B066D072A56D542007F07C6 /* ReceivedImageVideoTableViewCell.xib in Resources */,
 				1B066D032A56D2ED007F07C6 /* SenderImageAndVideoTableViewCell.xib in Resources */,
 				1BB7E9F32A52CDD7005D7399 /* AddLinksPostCell.xib in Resources */,
@@ -537,8 +550,10 @@
 				1B9CF12A2A594C7500F2EB1A /* GroupCreateViewController.swift in Sources */,
 				04C1427D2A387F7A005D1391 /* CommentsResponseModel.swift in Sources */,
 				1BB7E9F22A52CDD7005D7399 /* AddLinksPostCell.swift in Sources */,
+				1B3B82062A600989000ED7C0 /* TaskProofPerviewViewController.swift in Sources */,
 				1B7661832A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift in Sources */,
 				045C35712A206EEC007968C9 /* LoginModel.swift in Sources */,
+				1B3B82032A5FFA19000ED7C0 /* ProofMediaCollectionViewCell.swift in Sources */,
 				1BFECB0D2A4C42D900823B86 /* CommentsVM.swift in Sources */,
 				1B066CFE2A56D08A007F07C6 /* ReceivedTextTableViewCell.swift in Sources */,
 				04400A9D2A3098740028CECE /* Extra.swift in Sources */,
@@ -557,6 +572,7 @@
 				1B47DAE52A5BE4FA00CE0021 /* GroupListVM.swift in Sources */,
 				045C35722A206EEC007968C9 /* LoginViewController.swift in Sources */,
 				045C35702A206EEC007968C9 /* ServiceController.swift in Sources */,
+				1BFDE2482A5FF0A200D16FF8 /* FeedbackVM.swift in Sources */,
 				1B9190322A5D26C0003EA4D2 /* FeedbackViewController.swift in Sources */,
 				048EB3A62A2A01D8004BE939 /* AWSS3.swift in Sources */,
 				045C356E2A206EEC007968C9 /* Utilities.swift in Sources */,

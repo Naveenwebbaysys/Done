@@ -22,3 +22,22 @@ struct UpdateDoneRequestModel: Codable {
         case orderAssigneeID = "order_assignee_id"
     }
 }
+
+
+// MARK: - UpdateDoneRequestModel
+struct ReviewDoneRequestModel: Codable {
+    let postID, employeeID: Int?
+    let taskStatus: String?
+    let review: String?
+    let rating: String?
+    let orderAssigneeID: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case postID = "assignee_employee_id"
+        case employeeID = "employee_id"
+        case taskStatus = "task_status"
+        case review = "review"
+        case rating = "rating"
+        case orderAssigneeID = "order_assignee_id"
+    }
+}

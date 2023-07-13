@@ -82,7 +82,11 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     @IBOutlet weak var constraintTableviewHeight: NSLayoutConstraint!
     @IBOutlet weak var viewVideoUploadProgress: UIView!
     @IBOutlet weak var btnPost: UIButton!
-    @IBOutlet weak var constraintBtnPostWidth: NSLayoutConstraint!
+    @IBOutlet weak var btnDoneApproved: UIButton!
+   
+    @IBOutlet weak var viewBtnPost: UIView!
+    @IBOutlet weak var stackviewUpdate: UIStackView!
+    
     
     var reelsModelArray = [Post]()
   
@@ -160,12 +164,14 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             self.arrLinkData = self.reelsModelArray[index].addLinks ?? [String]()
             self.setTableviewHeight()
             self.btnPost.setTitle("Update", for: .normal)
-            self.constraintBtnPostWidth.constant = 150
+            self.viewBtnPost.isHidden = true
+            self.stackviewUpdate.isHidden = false
         }
         else
         {
-            self.btnPost.setTitle("Save", for: .normal)
-            self.constraintBtnPostWidth.constant = 100
+            self.viewBtnPost.isHidden = false
+            self.stackviewUpdate.isHidden = true
+            
             progressView.mode = .indeterminate
             progressView.progressTintColor = UIColor.init(red: 152/255, green: 196/255, blue: 85/255, alpha: 1.0)
             progressView.trackTintColor = UIColor.init(red: 152/255, green: 196/255, blue: 85/255, alpha: 0.4)
@@ -318,6 +324,25 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     
     }
     
+    @IBAction func btnDoneApprovedAction(_ sender: UIButton) {
+//        let feedbackVC = storyboard?.instantiateViewController(withIdentifier: "FeedbackViewController") as! FeedbackViewController
+//        feedbackVC.postID = Int(postID)!
+//        feedbackVC.employeeID = Int((UserDefaults.standard.value(forKey: UserDetails.userId) as? String) ?? "")!
+//        self.navigationController?.pushViewController(feedbackVC, animated: true)
+        let arrTag = self.reelsModelArray[index].tagPeoples ?? [TagPeople]()
+        if !arrTag.isEmpty{
+            let proofVC = storyboard?.instantiateViewController(withIdentifier: "TaskProofPerviewViewController") as! TaskProofPerviewViewController
+            proofVC.postID = Int(postID)!
+            proofVC.employeeID = Int((UserDefaults.standard.value(forKey: UserDetails.userId) as? String) ?? "")!
+            proofVC.proofDesc = arrTag[0].proofDescription ?? ""
+            proofVC.proodDoc = arrTag[0].proofDocument ?? ""
+            self.navigationController?.pushViewController(proofVC, animated: true)
+        }
+        
+        
+    }
+    
+    
     @objc func btnDeleteLink(_ sender : UIButton){
         self.arrLinkData.remove(at: sender.tag)
         self.setTableviewHeight()
@@ -450,7 +475,7 @@ extension PostViewController {
             let params11 = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
             print(params11!)
             APIModel.postRequest(strURL: BASEURL + CREATEPOSTURL as NSString , postParams: postparams, postHeaders: headers as NSDictionary) { result in
-                print(result)
+                print(String(data: result as! Data, encoding: .utf8))
                 KRProgressHUD.dismiss()
                 let postResponse = try? JSONDecoder().decode(PostResponseModel.self, from: result as! Data)
                 if postResponse?.status == true
