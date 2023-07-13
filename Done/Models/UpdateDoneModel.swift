@@ -11,6 +11,7 @@ struct UpdateDoneRequestModel: Codable {
     let taskStatus: String?
     let proofDescription: String?
     let proofDocument: String?
+    let orderAssigneeID: Int?
 
     enum CodingKeys: String, CodingKey {
         case postID = "assignee_employee_id"
@@ -18,5 +19,6 @@ struct UpdateDoneRequestModel: Codable {
         case taskStatus = "task_status"
         case proofDescription = "proof_description"
         case proofDocument = "proof_document"
+        case orderAssigneeID = "order_assignee_id"
     }
 }

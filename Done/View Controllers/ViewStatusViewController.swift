@@ -279,7 +279,7 @@ extension ViewStatusViewController {
             task = "done_success"
             self.statusModelArray[sender.tag].isdoneCheked = true
             
-            let taskProofView = TaskProofView.init(info: "done_success", postID:  Int(self.statusModelArray[sender.tag].postID!) ?? 0, employeeID: Int(self.statusModelArray[sender.tag].employeeID!) ?? 0, index: sender.tag)
+            let taskProofView = TaskProofView.init(info: "done_success", postID:  Int(self.statusModelArray[sender.tag].postID!) ?? 0, employeeID: Int(self.statusModelArray[sender.tag].employeeID!) ?? 0, index: sender.tag,orderAssigneID: 0)
             taskProofView.delegate = self
         }
         self.statusModelArray[sender.tag].isApprovedCheked = false
@@ -296,14 +296,15 @@ extension ViewStatusViewController {
             task = "approved"
             self.statusModelArray[sender.tag].isApprovedCheked = true
             
-            let taskProofView = TaskProofView.init(info: "approved", postID:  Int(self.statusModelArray[sender.tag].postID!) ?? 0, employeeID: Int(self.statusModelArray[sender.tag].employeeID!) ?? 0, index: sender.tag)
+            let taskProofView = TaskProofView.init(info: "approved", postID:  Int(self.statusModelArray[sender.tag].postID!) ?? 0, employeeID: Int(self.statusModelArray[sender.tag].employeeID!) ?? 0, index: sender.tag, orderAssigneID: 0)
+            taskProofView.delegate = self
         }
         self.statusModelArray[sender.tag].isdoneCheked = false
         
     }
     
     func updatesAPICall(withTask: String, index : Int){
-        let postparams = UpdateDoneRequestModel(postID: Int(self.statusModelArray[index].postID!), employeeID: Int(self.statusModelArray[index].employeeID!), taskStatus: withTask,proofDescription: "",proofDocument: "")
+        let postparams = UpdateDoneRequestModel(postID: Int(self.statusModelArray[index].postID!), employeeID: Int(self.statusModelArray[index].employeeID!), taskStatus: withTask,proofDescription: "",proofDocument: "", orderAssigneeID: 0)
         APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
             
             let indexPathRow:Int = index

@@ -30,6 +30,7 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
     var index: Int = 0
     var taskStatus: String = ""
     var delegate: taskProofviewDelegate?
+    var orderAssigneID: Int = 0
     
     //MARK: - UIView
     override init(frame: CGRect){
@@ -41,13 +42,13 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
     }
     
     
-    init(info taskStatus: String,postID:Int,employeeID:Int,index:Int) {
+    init(info taskStatus: String,postID:Int,employeeID:Int,index:Int,orderAssigneID:Int) {
         super.init(frame: UIScreen.main.bounds)
         self.postID = postID
         self.employeeID = employeeID
         self.index = index
         self.taskStatus = taskStatus
-        
+        self.orderAssigneID = orderAssigneID
         loadXIB()
     }
     
@@ -183,6 +184,29 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
             }
         }
 
+    }
+    
+    func showToast(message:String)
+    {
+        let toastLabel = UILabel(frame: CGRect(x: 20, y: self.frame.height - 125, width: self.frame.width - 50, height: 35))
+        toastLabel.backgroundColor = UIColor(named: "app_color")
+        toastLabel.textColor = .white
+        toastLabel.textAlignment = .center
+        toastLabel.font = UIFont(name: "Montserrat-Light", size: 13.0)
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 18
+        toastLabel.clipsToBounds = true
+        self.addSubview(toastLabel)
+        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+            UIView.animate(withDuration: 2.0, delay: 0.2, options: .curveEaseOut, animations:
+                            {
+                toastLabel.alpha = 0.0
+                
+            }) { (isCompleted) in
+                toastLabel.removeFromSuperview()
+            }
+        }
     }
     
     //MARK: - UIButton Action
@@ -321,8 +345,13 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
     }
     
     @IBAction func btnDoneAction(_ sender: UIButton) {
+        if arrMediaUpload.isEmpty{
+            showToast(message: "Please Select media.")
+            return
+        }
+        
         KRProgressHUD.show()
-        let postparams = UpdateDoneRequestModel(postID: self.postID, employeeID: self.employeeID, taskStatus: self.taskStatus,proofDescription: txtviewDesc.text! == "description" ? "" : txtviewDesc.text!,proofDocument:arrMediaUpload.joined(separator: ","))
+        let postparams = UpdateDoneRequestModel(postID: self.postID, employeeID: self.employeeID, taskStatus: self.taskStatus,proofDescription: txtviewDesc.text! == "description" ? "" : txtviewDesc.text!,proofDocument:arrMediaUpload.joined(separator: ","), orderAssigneeID: self.postID)
         print(postparams)
         APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
             KRProgressHUD.dismiss()

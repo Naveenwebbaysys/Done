@@ -640,7 +640,7 @@ extension HomeViewController {
         if sender?.titleLabel?.text ==  "Done?"
         {
             //            updatesAPICall(withTask: "done_success", index: sender!.tag)
-            let taskProofView = TaskProofView.init(info: "done_success", postID:  Int(self.reelsModelArray[sender!.tag].id ?? "0")!, employeeID: Int(userID)!, index: sender!.tag)
+            let taskProofView = TaskProofView.init(info: "done_success", postID:  Int(self.reelsModelArray[sender!.tag].id ?? "0")!, employeeID: Int(userID)!, index: sender!.tag, orderAssigneID: Int(self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID ?? "0")!)
             taskProofView.delegate = self
         }
         else
