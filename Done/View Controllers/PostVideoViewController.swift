@@ -175,6 +175,8 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             progressView.startAnimating()
             self.btnPost.isEnabled = false
             self.btnPost.backgroundColor = .lightGray
+            self.viewSubCategory.isHidden = true
+            self.viewCategory.isHidden = true
             if let recordVideo = UserDefaults.standard.value(forKey: "compressedVideoPath") as? String
             {
                 recordVideoURL = recordVideo
@@ -529,8 +531,6 @@ extension PostViewController {
         }
     }
 }
-
-
 
 extension PostViewController : UITextViewDelegate, UITextFieldDelegate {
     

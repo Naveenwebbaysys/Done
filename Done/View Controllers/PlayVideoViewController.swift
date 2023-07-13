@@ -120,6 +120,7 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
         
         if userID == self.reelModelArray[indexPath.row].createdBy
         {
+            Reelcell.dontBtnWidth.constant = 0
             Reelcell.editBtn.isHidden = false
             Reelcell.doneBtn.setTitle("View Status", for: .normal)
             if self.totalComments.count > 0
@@ -131,11 +132,12 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
                 Reelcell.countLbl.text = "0"
             }
             
-            Reelcell.editHeight.constant = 26
+            Reelcell.editHeight.constant = 28
         }
         else
         {
             Reelcell.editHeight.constant = 0
+            Reelcell.dontBtnWidth.constant = 100
             Reelcell.editBtn.isHidden = true
             if  isSuccess == true
             {
@@ -147,15 +149,11 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
             }
           
             if self.assigneeComments.count >  0 {
-                
                 var comment  : Int = 0
-               
                 for (index, _) in self.assigneeComments.enumerated() {
-                   
                     let a = Int(self.assigneeComments[index].assigneecomments!)
                     comment += a!
                 }
-                
                 Reelcell.countLbl.text = "\(comment)"
             }
             else
@@ -199,14 +197,14 @@ extension PlayVideoViewController {
             let taskProofView = TaskProofView.init(info: "done_success", postID: Int(self.reelModelArray[sender!.tag].id ?? "0")!, employeeID: Int(userID)!, index: sender!.tag)
             taskProofView.delegate = self
         }else {
-            let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
-            statusVC.postID = self.reelModelArray[sender!.tag].id ?? ""
-            statusVC.notes = self.reelModelArray[sender!.tag].notes ?? ""
-            statusVC.dueDate = dateHelper(srt: self.reelModelArray[sender!.tag].commissionNoOfDays1!)
-            statusVC.index = sender!.tag
-            statusVC.reelsModelArray = self.reelModelArray
-            statusVC.isFromEdit = true
-            self.navigationController?.pushViewController(statusVC, animated: true)
+//            let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
+//            statusVC.postID = self.reelModelArray[sender!.tag].id ?? ""
+//            statusVC.notes = self.reelModelArray[sender!.tag].notes ?? ""
+//            statusVC.dueDate = dateHelper(srt: self.reelModelArray[sender!.tag].commissionNoOfDays1!)
+//            statusVC.index = sender!.tag
+//            statusVC.reelsModelArray = self.reelModelArray
+//            statusVC.isFromEdit = true
+//            self.navigationController?.pushViewController(statusVC, animated: true)
         }
     }
     
@@ -255,7 +253,6 @@ extension PlayVideoViewController {
         postVC.index = sender!.tag
         postVC.isFromEdit = true
         self.navigationController?.pushViewController(postVC, animated: true)
-        
     }
     
 }

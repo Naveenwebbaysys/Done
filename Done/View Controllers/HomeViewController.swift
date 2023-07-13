@@ -436,13 +436,18 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
                 Reelcell.doneBtn.setTitle("Done?", for: .normal)
             }
             
-            if self.reelsModelArray[indexPath.row].tagPeoples?[0].comments?.isEmpty == true {
-                Reelcell.countLbl.text = "0"
-            }
-            else
-            {
-                Reelcell.countLbl.text = self.reelsModelArray[indexPath.row].tagPeoples?[0].comments?[0].comment
-            }
+            let arrTagPeople = (self.reelsModelArray[indexPath.row].tagPeoples) ?? [TagPeople]()
+                       if !arrTagPeople.isEmpty{
+                           if arrTagPeople[0].comments?.isEmpty == true {
+                               Reelcell.countLbl.text = "0"
+                           }
+                           else
+                           {
+                               Reelcell.countLbl.text = arrTagPeople[0].comments?[0].comment
+                           }
+                       }else{
+                           Reelcell.countLbl.text = "0"
+                       }
         }
         Reelcell.commissionBtn.tag = indexPath.row
         let amount = "$" + (self.reelsModelArray[indexPath.row].commissionAmount ?? "0") + " - DUE IN " + "\(days)" + " DAYS "

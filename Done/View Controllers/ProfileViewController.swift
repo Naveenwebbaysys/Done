@@ -69,10 +69,10 @@ class ProfileViewController: UIViewController, indexProtocol {
     
     override func viewWillAppear(_ animated: Bool) {
         self.reelsModelArray.removeAll()
-//        if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
-//            userID = (id as? String)!
-//            getCommissionAPICall(withID: userID)
-//        }
+        //        if let id = UserDefaults.standard.value(forKey: UserDetails.userId){
+        //            userID = (id as? String)!
+        //            getCommissionAPICall(withID: userID)
+        //        }
         isLastPage = false
         currentPage = 1
         self.noTaskLbl.isHidden = true
@@ -113,7 +113,7 @@ class ProfileViewController: UIViewController, indexProtocol {
         }
         
         self.reelsModelArray.removeAll()
-//        self.getpostAPICall(withType: stType, page: currentPage)
+        //        self.getpostAPICall(withType: stType, page: currentPage)
         
         if let id = UserDefaults.standard.value(forKey: UserDetails.userId)
         {
@@ -222,7 +222,7 @@ class ProfileViewController: UIViewController, indexProtocol {
                 var groups = [String]()
                 
                 for (i,_) in groupsArray.enumerated(){
-
+                    
                     groups.append(groupsArray[i].id!)
                 }
                 self.groupIDString = groups.joined(separator: ",")
@@ -286,7 +286,7 @@ class ProfileViewController: UIViewController, indexProtocol {
                     self.showStillWorking()
                 }
                 else if self.menuIndex == 2{
-                  
+                    
                     self.showDoneSuccess()
                 }
                 else if self.menuIndex == 3 {
@@ -392,14 +392,18 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         }
         else
         {
-            if self.reelsModelArray[indexPath.row].tagPeoples?[0].comments?.isEmpty == true {
+            let arrTagPeople = (self.reelsModelArray[indexPath.row].tagPeoples) ?? [TagPeople]()
+            if !arrTagPeople.isEmpty{
+                if arrTagPeople[0].comments?.isEmpty == true {
+                    item.commentCountLbl.text = "0"
+                }
+                else
+                {
+                    item.commentCountLbl.text = arrTagPeople[0].comments?[0].comment
+                }
+            }else{
                 item.commentCountLbl.text = "0"
-            }
-            else
-            {
-                item.commentCountLbl.text = self.reelsModelArray[indexPath.row].tagPeoples?[0].comments?[0].comment
-            }
-        }
+            }        }
         
         //        item.assignCountLbl.text = "\(self.reelsModelArray[indexPath.row].tagPeoples?.count ?? 0)"
         
@@ -494,10 +498,6 @@ extension ProfileViewController {
                 }
             }
         }
-    }
-    
-    
-    
-    
+    }  
 }
 

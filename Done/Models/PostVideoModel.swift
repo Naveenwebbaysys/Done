@@ -68,6 +68,7 @@ struct UpdatePostRequestModel: Codable {
     let subcategoryId: String?
     let projectType: String?
     let groupID : Int?
+//    let orderassigneeid : String?
 
     enum CodingKeys: String, CodingKey {
         case videoURL = "video_url"
@@ -85,5 +86,6 @@ struct UpdatePostRequestModel: Codable {
         case subcategoryId = "subcategory_id"
         case projectType = "project_type"
         case groupID = "group_id"
+//        case orderassigneeid = "order_assignee_id"
     }
 }
