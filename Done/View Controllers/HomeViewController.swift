@@ -419,11 +419,13 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
             Reelcell.editBtn.isHidden = false
             Reelcell.doneBtn.setTitle("View Status", for: .normal)
             Reelcell.countLbl.text = self.reelsModelArray[indexPath.row].totalcommentscount
-            Reelcell.editHeight.constant = 26
+            Reelcell.editHeight.constant = 28
+            Reelcell.dontBtnWidth.constant = 0
         }
         else
         {
             Reelcell.editHeight.constant = 0
+            Reelcell.dontBtnWidth.constant = 100
             Reelcell.editBtn.isHidden = true
             if  isSuccess == true
             {
@@ -628,9 +630,6 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         }
     }
 }
-
-
-
 
 
 extension HomeViewController {

@@ -21,7 +21,7 @@ class ReceivedImageVideoTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.selectionStyle = .none
-        self.viewChatBG.setRoundCornersBY(corners: [.layerMaxXMaxYCorner , .layerMaxXMinYCorner,.layerMinXMinYCorner],cornerRaduis : 10)
+        self.viewChatBG.setRoundCornersBY(corners: [.layerMaxXMaxYCorner , .layerMaxXMinYCorner,.layerMinXMinYCorner],cornerRaduis : 4)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

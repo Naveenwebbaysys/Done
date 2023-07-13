@@ -34,7 +34,7 @@ class PlayVideoViewController: UIViewController,taskProofviewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         self.isSuccess = false
-        toalCommentsCount(withAssinID: self.reelModelArray[0].id ?? "")
+//        toalCommentsCount(withAssinID: self.reelModelArray[0].id ?? "")
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -44,7 +44,6 @@ class PlayVideoViewController: UIViewController,taskProofviewDelegate {
             (cell as! ReelsTableViewCell).avPlayer?.seek(to: CMTime.zero)
             (cell as! ReelsTableViewCell).stopPlayback()
         }
-        
     }
     
     func toalCommentsCount (withAssinID : String)
@@ -174,6 +173,14 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
         Reelcell.editBtn.tag = indexPath.row
         Reelcell.editBtn.addTarget(self, action: #selector(editBtnTapped(_:)), for: .touchUpInside)
         Reelcell.commentsBtn.addTarget(self, action: #selector(commentsBtnTapped(_:)), for: .touchUpInside)
+        
+        if self.reelModelArray[indexPath.row].tagPeoples?[0].comments?.isEmpty == true {
+            Reelcell.countLbl.text = "0"
+        }
+        else
+        {
+            Reelcell.countLbl.text = self.reelModelArray[indexPath.row].tagPeoples?[0].comments?[0].comment
+        }
         
         return Reelcell
     }

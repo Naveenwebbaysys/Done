@@ -132,7 +132,15 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
                     self.groupName = self.reelsModelArray[index].tagPeoples![i].groupname ?? ""
                 }
             }
-            self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ",") + self.groupName
+            if self.tagPeoples1.count == 0 && self.groupName == ""
+            {
+                self.tagPeopleLbl.text = "Tag People"
+            }
+            else
+            {
+                self.tagPeopleLbl.text = self.tagPeoples1.joined(separator: ",") + self.groupName
+            }
+            
             
             print(self.tagPeopleLbl.text as Any)
             editURL = self.reelsModelArray[index].videoURL ?? ""
@@ -623,15 +631,18 @@ extension PostViewController  {
         }
         
         if isOpenProject{
-            if arrSelectAllCategory.isEmpty{
-                showToast(message: "Please select category")
-                return
+            if lblProjectType.text  != "Already Know Who I Want To Work On This Project"{
+                if arrSelectAllCategory.isEmpty{
+                    showToast(message: "Please select category")
+                    return
+                }
+                
+                if arrSelectSubCategory.isEmpty{
+                    showToast(message: "Please select sub category")
+                    return
+                }
             }
             
-            if arrSelectSubCategory.isEmpty{
-                showToast(message: "Please select sub category")
-                return
-            }
         }
         
 //        if tagPeoples1.count == 0 && self.groupId == 0

@@ -77,10 +77,10 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TdX-7D-JsA">
-                                <rect key="frame" x="285" y="808" width="25" height="25"/>
+                                <rect key="frame" x="280" y="803" width="30" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="mhJ-bA-YzI"/>
-                                    <constraint firstAttribute="width" constant="25" id="qON-WU-XQl"/>
+                                    <constraint firstAttribute="height" constant="30" id="mhJ-bA-YzI"/>
+                                    <constraint firstAttribute="width" constant="30" id="qON-WU-XQl"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
@@ -89,7 +89,7 @@
                                 </buttonConfiguration>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3go-K7-UOa">
-                                <rect key="frame" x="270" y="785" width="45" height="18"/>
+                                <rect key="frame" x="270" y="780" width="45" height="18"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="45" id="N6o-Ai-OL3"/>
                                     <constraint firstAttribute="height" constant="18" id="ZlP-SN-aLm"/>
@@ -177,10 +177,10 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y8H-TA-sjC">
-                                <rect key="frame" x="285" y="758" width="30" height="25"/>
+                                <rect key="frame" x="280" y="748" width="35" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="VXb-GP-MsN"/>
-                                    <constraint firstAttribute="height" constant="25" id="ZYD-Jk-Krb"/>
+                                    <constraint firstAttribute="width" constant="35" id="VXb-GP-MsN"/>
+                                    <constraint firstAttribute="height" constant="30" id="ZYD-Jk-Krb"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
