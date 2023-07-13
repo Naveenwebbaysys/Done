@@ -91,6 +91,7 @@ class ServiceController: NSObject {
                         return
                     }
                     else {
+                        print(String(data: data!, encoding: .utf8))
                         do {
                             let parsedData = try JSONSerialization.jsonObject(with: data!, options:.mutableContainers) as! [String:Any]
                             print(parsedData)

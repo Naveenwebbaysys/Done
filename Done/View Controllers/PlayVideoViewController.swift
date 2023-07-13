@@ -194,7 +194,7 @@ extension PlayVideoViewController {
         print("Tapped")
         if sender?.titleLabel?.text ==  "Done?"
         {
-            let taskProofView = TaskProofView.init(info: "done_success", postID: Int(self.reelModelArray[sender!.tag].id ?? "0")!, employeeID: Int(userID)!, index: sender!.tag)
+            let taskProofView = TaskProofView.init(info: "done_success", postID: Int(self.reelModelArray[sender!.tag].id ?? "0")!, employeeID: Int(userID)!, index: sender!.tag,orderAssigneID: Int(self.reelModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID ?? "0")!)
             taskProofView.delegate = self
         }else {
 //            let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController

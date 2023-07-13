@@ -25,8 +25,8 @@ class LoginViewController: UIViewController {
 //        self.emailTf.text = "kranthiallaboina@gmail.com"
 //        self.passwordTf.text = "apple@123"
         
-//                self.emailTf.text = "Gorakrao@gmail.com"
-//                self.passwordTf.text = "gorakrao"
+                self.emailTf.text = "Gorakrao@gmail.com"
+                self.passwordTf.text = "gorakrao"
 
 //        self.emailTf.text = "dora@medicalbreakthrough.org"
 //        self.passwordTf.text = "March25#53%2@$"

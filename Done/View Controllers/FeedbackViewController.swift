@@ -15,10 +15,14 @@ class FeedbackViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var scrollviewBG: UIScrollView!
     @IBOutlet weak var viewRating: StarRatingView!
     
+    //MARK: - Variable
+    var postID:Int?
+    var employeeID:Int?
+    
     //MARK: - UIViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        FeedbackVM.shared.controller = self
         txtviewFeedBack.text = "Enter a feedback"
         txtviewFeedBack.textColor = UIColor.lightGray
     }
@@ -29,6 +33,7 @@ class FeedbackViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func btnSubmitAction(_ sender: UIButton) {
+        FeedbackVM.shared.addTaskReview(postID: postID ?? 0, employeeID: employeeID ?? 0, taskStatus: "done_suceess", review: txtviewFeedBack.text! == "Enter a feedback" ? "" : txtviewFeedBack.text!, rating: "\(Int(viewRating.current))")
     }
     
     //MARK: - UITextview delegate

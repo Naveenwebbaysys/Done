@@ -421,9 +421,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
             Reelcell.countLbl.text = self.reelsModelArray[indexPath.row].totalcommentscount
             Reelcell.editHeight.constant = 28
             Reelcell.dontBtnWidth.constant = 0
-        }
-        else
-        {
+        }else{
             Reelcell.editHeight.constant = 0
             Reelcell.dontBtnWidth.constant = 100
             Reelcell.editBtn.isHidden = true
@@ -435,19 +433,20 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
             {
                 Reelcell.doneBtn.setTitle("Done?", for: .normal)
             }
-            
             let arrTagPeople = (self.reelsModelArray[indexPath.row].tagPeoples) ?? [TagPeople]()
-                       if !arrTagPeople.isEmpty{
-                           if arrTagPeople[0].comments?.isEmpty == true {
-                               Reelcell.countLbl.text = "0"
-                           }
-                           else
-                           {
-                               Reelcell.countLbl.text = arrTagPeople[0].comments?[0].comment
-                           }
-                       }else{
-                           Reelcell.countLbl.text = "0"
-                       }
+            if !arrTagPeople.isEmpty{
+                if arrTagPeople[0].comments?.isEmpty == true {
+                    Reelcell.countLbl.text = "0"
+                }
+                else
+                {
+                    Reelcell.countLbl.text = arrTagPeople[0].comments?[0].comment
+                }
+            }else{
+                Reelcell.countLbl.text = "0"
+            }
+          
+            
         }
         Reelcell.commissionBtn.tag = indexPath.row
         let amount = "$" + (self.reelsModelArray[indexPath.row].commissionAmount ?? "0") + " - DUE IN " + "\(days)" + " DAYS "
@@ -645,7 +644,7 @@ extension HomeViewController {
         if sender?.titleLabel?.text ==  "Done?"
         {
             //            updatesAPICall(withTask: "done_success", index: sender!.tag)
-            let taskProofView = TaskProofView.init(info: "done_success", postID:  Int(self.reelsModelArray[sender!.tag].id ?? "0")!, employeeID: Int(userID)!, index: sender!.tag)
+            let taskProofView = TaskProofView.init(info: "done_success", postID:  Int(self.reelsModelArray[sender!.tag].id ?? "0")!, employeeID: Int(userID)!, index: sender!.tag, orderAssigneID: Int(self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID ?? "0")!)
             taskProofView.delegate = self
         }
         else
@@ -665,7 +664,7 @@ extension HomeViewController {
     @objc func commentsBtnTapped(_ sender: UIButton?) {
         print("Comment Tapped")
         let commentsVC = storyboard?.instantiateViewController(identifier: "CommentsViewController") as! CommentsViewController
-        print(self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)
+//        print(self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)
         commentsVC.assignEmpID = (self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)!
         commentsVC.desc = self.reelsModelArray[sender!.tag].notes!
         commentsVC.empID = self.reelsModelArray[sender!.tag].id!
