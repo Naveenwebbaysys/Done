@@ -168,10 +168,10 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             self.stackviewUpdate.isHidden = false
             
             if (self.reelsModelArray[index].tagPeoples?[0].status ?? "") == "approved"{
-                self.btnDoneApproved.setTitle("Approved", for: .normal)
+                self.btnDoneApproved.setTitle("APPROVED", for: .normal)
                 self.btnDoneApproved.isUserInteractionEnabled = false
             }else{
-                self.btnDoneApproved.setTitle("Approve", for: .normal)
+                self.btnDoneApproved.setTitle("APPROVE", for: .normal)
                 self.btnDoneApproved.isUserInteractionEnabled = true
             }
         }
