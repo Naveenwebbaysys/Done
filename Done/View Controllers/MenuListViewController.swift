@@ -8,10 +8,10 @@
 import UIKit
 
 class MenuListViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
     
@@ -27,5 +27,23 @@ class MenuListViewController: UIViewController {
         self.navigationController?.pushViewController(feedbackVC, animated: true)
     }
     
-
+    
+    @IBAction func btnLogoutAction(_ sender: UIButton) {
+        self.openAlert(title: "Alert", message: "Are you sure want to Logout?",alertStyle: .alert,
+                       actionTitles: ["Cancel", "Ok"],actionStyles: [.destructive, .default],
+                       actions: [
+                        {_ in print("cancel click")},{_ in print("Okay click")
+                            self.logoutAct()
+                        }])
+        
+    }
+    
+    func logoutAct()
+    {
+        let domain = Bundle.main.bundleIdentifier!
+        UserDefaults.standard.removePersistentDomain(forName: domain)
+        UserDefaults.standard.synchronize()
+        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+        self.navigationController?.pushViewController(loginVC, animated: true)
+    }
 }

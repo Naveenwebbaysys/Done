@@ -19,6 +19,7 @@ class FeedbackVM: NSObject {
         print(postparams)
         APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
             KRProgressHUD.dismiss()
+            self.controller?.setRootVC()
             print("Task review",String(data: result as! Data, encoding: .utf8))
         } failureHandler: { error in
             KRProgressHUD.dismiss()

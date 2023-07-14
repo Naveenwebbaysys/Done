@@ -23,14 +23,23 @@ class TaskProofPerviewViewController: UIViewController,UICollectionViewDelegate 
     var employeeID:Int?
     var proofDesc : String?
     var proodDoc : String?
+    var createdBy: String?
     var arrLinks: [String] = [String]()
     
     //MARK: - UIView Controller Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        TaskProofPreviewVM.shared.controller = self
+        
+//        print(proofDesc)
+//        print(proodDoc)
+        
         collectionviewProof.register(UINib(nibName: "ProofMediaCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ProofMediaCollectionViewCell")
-        self.arrLinks = (proodDoc ?? "").components(separatedBy: ",")
-        self.collectionviewProof.reloadData()
+        if !(proodDoc ?? "").isEmpty{
+            self.arrLinks = (proodDoc ?? "").components(separatedBy: ",")
+            self.collectionviewProof.reloadData()
+        }
+        self.lblDesc.text = proofDesc ?? ""
         
         txtviewReason.text = "Reason..."
         txtviewReason.textColor = UIColor.lightGray
@@ -95,7 +104,7 @@ class TaskProofPerviewViewController: UIViewController,UICollectionViewDelegate 
         
         if let image = image, let data = image.pngData(), let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil) {
             let cachedResponse = CachedURLResponse(response: response, data: data)
-            let newImg = UIImage(data: data)
+//            let newImg = UIImage(data: data)
             cache.storeCachedResponse(cachedResponse, for: request)
         }
         
@@ -122,11 +131,12 @@ class TaskProofPerviewViewController: UIViewController,UICollectionViewDelegate 
     }
     
     @IBAction func btnRejectAction(_ sender: UIButton) {
-        if txtviewReason.text! == "Reason..."{
+        if txtviewReason.text! == "Reason..." || txtviewReason.text!.isEmpty{
             self.showToast(message: "Please enter reason")
             return
         }
-        self.setRootVC()
+        
+        TaskProofPreviewVM.shared.updatesAPICall(postID: self.postID ?? 0, employeeID: self.employeeID ?? 0, taskStatus: "still_working", stReason: txtviewReason.text! == "Reason..." ? "" : txtviewReason.text! , createdBy: self.createdBy ?? "")
     }
     
     

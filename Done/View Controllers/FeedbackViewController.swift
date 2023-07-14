@@ -33,7 +33,7 @@ class FeedbackViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func btnSubmitAction(_ sender: UIButton) {
-        FeedbackVM.shared.addTaskReview(postID: postID ?? 0, employeeID: employeeID ?? 0, taskStatus: "done_suceess", review: txtviewFeedBack.text! == "Enter a feedback" ? "" : txtviewFeedBack.text!, rating: "\(Int(viewRating.current))")
+        FeedbackVM.shared.addTaskReview(postID: postID ?? 0, employeeID: employeeID ?? 0, taskStatus: "approved", review: txtviewFeedBack.text! == "Enter a feedback" ? "" : txtviewFeedBack.text!, rating: "\(Int(viewRating.current))")
     }
     
     //MARK: - UITextview delegate

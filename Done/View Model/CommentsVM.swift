@@ -62,12 +62,16 @@ class CommentsVM: NSObject {
     }
     
     func addCommentsAPICall(str : String,stOrderAssigneeEmployeeID:String,employeeID:String,postID:String,stComment:String,commentType:String, taskId : String){
-        let userID = UserDefaults.standard.string(forKey: UserDetails.userId)
+//        let userID = UserDefaults.standard.string(forKey: UserDetails.userId)
         var stCommentFinal = ""
         if stComment.isEmpty{
             stCommentFinal = str
         }else{
-            stCommentFinal = str + "--\(stComment)"
+            if str.isEmpty{
+                stCommentFinal = stComment
+            }else{
+                stCommentFinal = str + "--\(stComment)"
+            }
         }
         //        let postparams = PostMediaCommentModel(assigneeEmployeeID: Int(stOrderAssigneeEmployeeID), employeeID: Int(employeeID), comment: stCommentFinal, commenttype: commentType, assigneeid: postID, taskCreatedBy: userID)
         let postparams = PostMediaCommentModel(employeeID: employeeID, comment: stCommentFinal, commenttype: commentType, orderassigneeid: postID, taskCreatedBy: taskId)

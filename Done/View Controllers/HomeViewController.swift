@@ -450,14 +450,14 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
             }
         }
         
-        if self.reelsModelArray[indexPath.row].noofemployeestagged  == "0" {
-            Reelcell.dontBtnWidth.constant = 100
-            Reelcell.doneBtn.setTitle("I Will Do", for: .normal)
-        }
-        else
-        {
-            Reelcell.dontBtnWidth.constant = 0
-        }
+//        if self.reelsModelArray[indexPath.row].noofemployeestagged  == "0" {
+//            Reelcell.dontBtnWidth.constant = 100
+//            Reelcell.doneBtn.setTitle("I Will Do", for: .normal)
+//        }
+//        else
+//        {
+//            Reelcell.dontBtnWidth.constant = 0
+//        }
         
         Reelcell.commissionBtn.tag = indexPath.row
         let amount = "$" + (self.reelsModelArray[indexPath.row].commissionAmount ?? "0") + " - DUE IN " + "\(days)" + " DAYS "
