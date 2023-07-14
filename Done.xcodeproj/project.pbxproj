@@ -63,6 +63,7 @@
 		1B066D072A56D542007F07C6 /* ReceivedImageVideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B066D052A56D542007F07C6 /* ReceivedImageVideoTableViewCell.xib */; };
 		1B09587F2A4AB454006A1F67 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B09587E2A4AB454006A1F67 /* MimeType.swift */; };
 		1B14F8622A5D657F00903D72 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B14F8612A5D657F00903D72 /* UserProfileViewController.swift */; };
+		1B1519992A611579007CC64B /* TaskProofPreviewVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1519982A611579007CC64B /* TaskProofPreviewVM.swift */; };
 		1B3889032A5E731A0081871E /* ProfielInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3889012A5E731A0081871E /* ProfielInfoCollectionViewCell.swift */; };
 		1B3889042A5E731A0081871E /* ProfielInfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B3889022A5E731A0081871E /* ProfielInfoCollectionViewCell.xib */; };
 		1B3889072A5EA1960081871E /* TaskProofView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3889062A5EA1960081871E /* TaskProofView.swift */; };
@@ -159,6 +160,7 @@
 		1B066D052A56D542007F07C6 /* ReceivedImageVideoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReceivedImageVideoTableViewCell.xib; sourceTree = "<group>"; };
 		1B09587E2A4AB454006A1F67 /* MimeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
 		1B14F8612A5D657F00903D72 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		1B1519982A611579007CC64B /* TaskProofPreviewVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskProofPreviewVM.swift; sourceTree = "<group>"; };
 		1B3889012A5E731A0081871E /* ProfielInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfielInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		1B3889022A5E731A0081871E /* ProfielInfoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfielInfoCollectionViewCell.xib; sourceTree = "<group>"; };
 		1B3889062A5EA1960081871E /* TaskProofView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskProofView.swift; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 				1B9CF12F2A5999A300F2EB1A /* GroupCreateVM.swift */,
 				1B47DAE42A5BE4FA00CE0021 /* GroupListVM.swift */,
 				1BFDE2472A5FF0A200D16FF8 /* FeedbackVM.swift */,
+				1B1519982A611579007CC64B /* TaskProofPreviewVM.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -595,6 +598,7 @@
 				041F66FA2A4C723F009C6AB4 /* UpdateDoneModel.swift in Sources */,
 				1B769D882A57F8BE00E387D4 /* FilterListCollectionViewCell.swift in Sources */,
 				0497D0F22A31FEC300B4A185 /* ProfileModel.swift in Sources */,
+				1B1519992A611579007CC64B /* TaskProofPreviewVM.swift in Sources */,
 				1B943BAC2A4E87C2008BAE1B /* VideoPerviewViewController.swift in Sources */,
 				04D3C2CE2A333E5900A5D460 /* ProfileViewController.swift in Sources */,
 				045C35742A2087E2007968C9 /* HomeViewController.swift in Sources */,

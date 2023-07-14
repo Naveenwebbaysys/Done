@@ -23,6 +23,11 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="37O-pD-Qz7">
                                 <rect key="frame" x="0.0" y="0.0" width="185" height="203"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8vf-6b-sTn">
                                 <rect key="frame" x="77.666666666666671" y="86.666666666666671" width="30" height="30"/>
@@ -35,7 +40,7 @@
                                 <state key="normal" image="play.circle.fill" catalog="system"/>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="37O-pD-Qz7" secondAttribute="bottom" id="7dD-7u-Ok1"/>
                             <constraint firstItem="8vf-6b-sTn" firstAttribute="centerY" secondItem="yJM-JD-Meo" secondAttribute="centerY" id="SGN-fe-zxE"/>
@@ -69,8 +74,8 @@
     </objects>
     <resources>
         <image name="play.circle.fill" catalog="system" width="128" height="123"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

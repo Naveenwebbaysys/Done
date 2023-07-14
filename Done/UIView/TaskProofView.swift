@@ -14,23 +14,25 @@ import KRProgressHUD
 protocol taskProofviewDelegate{
     func taskProofDone(index:Int)
 }
-class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
    
     //MARK: - Outlet
     @IBOutlet var viewBG: UIView!
     @IBOutlet weak var txtviewDesc: UITextView!
-    @IBOutlet weak var lblUploadedName: UILabel!
+//    @IBOutlet weak var lblUploadedName: UILabel!
     @IBOutlet weak var constraintViewCenter: NSLayoutConstraint!
+    @IBOutlet weak var collectionviewImageUpload: UICollectionView!
     
     //MARK: - Variable
     let obj_AppDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-    var arrMediaUpload: [String] = [String]()
+    var arrMediaUpload: [String] = ["+"]
     var postID: Int = 0
     var employeeID: Int = 0
     var index: Int = 0
     var taskStatus: String = ""
     var delegate: taskProofviewDelegate?
     var orderAssigneID: Int = 0
+    var createdBy: String = ""
     
     //MARK: - UIView
     override init(frame: CGRect){
@@ -42,13 +44,14 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
     }
     
     
-    init(info taskStatus: String,postID:Int,employeeID:Int,index:Int,orderAssigneID:Int) {
+    init(info taskStatus: String,postID:Int,employeeID:Int,index:Int,orderAssigneID:Int,createdBy:String) {
         super.init(frame: UIScreen.main.bounds)
         self.postID = postID
         self.employeeID = employeeID
         self.index = index
         self.taskStatus = taskStatus
         self.orderAssigneID = orderAssigneID
+        self.createdBy = createdBy
         loadXIB()
     }
     
@@ -78,6 +81,9 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
         txtviewDesc.text = "description"
         txtviewDesc.textColor = UIColor.lightGray
         
+        collectionviewImageUpload.delegate = self
+        collectionviewImageUpload.dataSource = self
+        collectionviewImageUpload.register(UINib(nibName: "ProofMediaCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ProofMediaCollectionViewCell")
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
@@ -140,8 +146,9 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
                     guard let strongSelf = self else { return }
                     if let awsS3Url = uploadedFileUrl as? String {
                         let awsS3Url = SERVERURL + awsS3Url
-                        self?.arrMediaUpload.append(awsS3Url)
-                        self?.setFileName()
+//                        self?.arrMediaUpload.insert(awsS3Url, at: 0)
+                        self?.arrMediaUpload = [awsS3Url]
+                        self?.collectionviewImageUpload.reloadData()
                     } else {
                         print("\(String(describing: error?.localizedDescription))")
                         let rootVC = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController
@@ -163,8 +170,9 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
             if let awsS3Url = uploadedFileUrl as? String {
                 print("Uploaded file url: " + awsS3Url)
                 let awsS3Url = SERVERURL + awsS3Url
-                self?.arrMediaUpload.append(awsS3Url)
-                self?.setFileName()
+//                self?.arrMediaUpload.insert(awsS3Url, at: 0)
+                self?.arrMediaUpload = [awsS3Url]
+                self?.collectionviewImageUpload.reloadData()
                 print("upload image url --",awsS3Url)
             } else {
                 print("\(String(describing: error?.localizedDescription))")
@@ -174,20 +182,19 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
         }
     }
     
-    func setFileName(){
-        for (index,stUrl) in self.arrMediaUpload.enumerated(){
-            let theURL = URL(string: stUrl)  //use your URL
-            if index == 0{
-                self.lblUploadedName.text = theURL?.lastPathComponent ?? ""
-            }else{
-                self.lblUploadedName.text! += theURL?.lastPathComponent ?? ""
-            }
-        }
-
-    }
+//    func setFileName(){
+//        for (index,stUrl) in self.arrMediaUpload.enumerated(){
+//            let theURL = URL(string: stUrl)  //use your URL
+//            if index == 0{
+//                self.lblUploadedName.text = theURL?.lastPathComponent ?? ""
+//            }else{
+//                self.lblUploadedName.text! += theURL?.lastPathComponent ?? ""
+//            }
+//        }
+//
+//    }
     
-    func showToast(message:String)
-    {
+    func showToast(message:String) {
         let toastLabel = UILabel(frame: CGRect(x: 20, y: self.frame.height - 125, width: self.frame.width - 50, height: 35))
         toastLabel.backgroundColor = UIColor(named: "app_color")
         toastLabel.textColor = .white
@@ -209,8 +216,40 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
         }
     }
     
+    func getVideoThumbnail(url: URL) -> UIImage? {
+        //let url = url as URL
+        let request = URLRequest(url: url)
+        let cache = URLCache.shared
+        if let cachedResponse = cache.cachedResponse(for: request), let image = UIImage(data: cachedResponse.data) {
+            return image
+        }
+        
+        let asset = AVAsset(url: url)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+        imageGenerator.maximumSize = CGSize(width: 120, height: 120)
+        
+        var time = asset.duration
+        time.value = min(time.value, 2)
+        
+        var image: UIImage?
+        
+        do {
+            let cgImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
+            image = UIImage(cgImage: cgImage)
+        } catch { }
+        
+        if let image = image, let data = image.pngData(), let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil) {
+            let cachedResponse = CachedURLResponse(response: response, data: data)
+            let newImg = UIImage(data: data)
+            cache.storeCachedResponse(cachedResponse, for: request)
+        }
+        
+        return image
+    }
+    
     //MARK: - UIButton Action
-    @IBAction func btnVideoImageUploadAction(_ sender: UIButton) {
+    func btnVideoImageUploadAction() {
         let alertView = UIAlertController(title: "Please choose one", message: nil, preferredStyle: .actionSheet)
         let cameraAction: UIAlertAction = UIAlertAction(title: "Camera", style: .default) { action -> Void in
             AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
@@ -345,24 +384,42 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
     }
     
     @IBAction func btnDoneAction(_ sender: UIButton) {
+    
+        let index = arrMediaUpload.firstIndex(of: "+")  ?? -1
+        if index >= 0{
+            self.arrMediaUpload.remove(at: index)
+        }
         if arrMediaUpload.isEmpty{
             showToast(message: "Please Select media.")
             return
         }
         
+        
         KRProgressHUD.show()
         let postparams = UpdateDoneRequestModel(postID: self.postID, employeeID: self.employeeID, taskStatus: self.taskStatus,proofDescription: txtviewDesc.text! == "description" ? "" : txtviewDesc.text!,proofDocument:arrMediaUpload.joined(separator: ","), orderAssigneeID: self.postID)
-        print(postparams)
+//        print(postparams)
         APIModel.putRequest(strURL: BASEURL + UPDATEPOSTASDONE as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { result in
             KRProgressHUD.dismiss()
             self.delegate?.taskProofDone(index: self.index)
             self.CloseView()
+            
+            let stData = self.arrMediaUpload[0]
+            var stType = "image"
+            if stData.isImageType(){
+                stType = "image"
+            }else{
+                stType = "video"
+            }
+            CommentsVM.shared.addCommentsAPICall(str: self.arrMediaUpload[0], stOrderAssigneeEmployeeID: "", employeeID: "\(self.employeeID)", postID: "\(self.postID)", stComment: self.txtviewDesc.text! == "description" ? "" : self.txtviewDesc.text!, commentType: stType, taskId: self.createdBy)
+            
         } failureHandler: { error in
             KRProgressHUD.dismiss()
             self.CloseView()
             let rootVC = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController
             rootVC?.showToast(message: error)
         }
+        
+       
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -399,4 +456,72 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
         }
         
     }
+    
+    
+    //MARK: - UICollectionview Delegate and Datasource
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.arrMediaUpload.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProofMediaCollectionViewCell", for: indexPath) as! ProofMediaCollectionViewCell
+        let stData = arrMediaUpload[indexPath.row]
+        if stData == "+"{
+            cell.btnPlay.isHidden = false
+            cell.btnPlay.setImage(UIImage(named: "camera_roll_icon"), for: .normal)
+            cell.btnPlay.isUserInteractionEnabled = false
+        }else{
+            if stData.isImageType(){
+                cell.btnPlay.isHidden = true
+               cell.imageview.sd_setImage(with: URL.init(string: stData), placeholderImage: nil, options: .highPriority) { (imge, error, cache, url) in
+                    if error == nil{
+                        cell.imageview.image = imge
+                    }else{
+                     
+                    }
+                }
+            }else{
+                cell.btnPlay.isHidden = true
+                cell.btnPlay.tag = indexPath.row
+    //            cell.btnPlay.addTarget(self, action: #selector(btnVideoPlayAction), for: .touchUpInside)
+                DispatchQueue.global(qos: .background).async { [self] in
+                    let videoUrl = URL(string: stData)
+                    DispatchQueue.main.async {
+                        cell.imageview.image = self.getVideoThumbnail(url: videoUrl!)
+                    }
+                }
+            }
+        }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        /// 2
+        return UIEdgeInsets(top: 1.0, left: 1.0, bottom: 1.0, right: 1.0)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let lay = collectionViewLayout as! UICollectionViewFlowLayout
+        let widthPerItem = (collectionView.frame.width / 2) - lay.minimumInteritemSpacing
+        
+        return CGSize(width: widthPerItem - 1, height: widthPerItem - 1)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let stData = arrMediaUpload[indexPath.row]
+        if stData == "+"{
+            self.btnVideoImageUploadAction()
+        }
+//        let stData = arrMediaUpload[indexPath.row]
+//        if stData.isImageType(){
+//            let VC = self.storyboard?.instantiateViewController(identifier: "ImageviewPreviewViewController") as! ImageviewPreviewViewController
+//            VC.selectedImageUrl = stData
+//            VC.selectedImageComment = ""
+//            VC.modalPresentationStyle = .fullScreen
+//            self.present(VC, animated: true)
+//        }
+    }
+    
+    
 }

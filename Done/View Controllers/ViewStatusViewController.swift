@@ -279,7 +279,7 @@ extension ViewStatusViewController {
             task = "done_success"
             self.statusModelArray[sender.tag].isdoneCheked = true
             
-            let taskProofView = TaskProofView.init(info: "done_success", postID:  Int(self.statusModelArray[sender.tag].postID!) ?? 0, employeeID: Int(self.statusModelArray[sender.tag].employeeID!) ?? 0, index: sender.tag,orderAssigneID: 0)
+            let taskProofView = TaskProofView.init(info: "done_success", postID:  Int(self.statusModelArray[sender.tag].postID!) ?? 0, employeeID: Int(self.statusModelArray[sender.tag].employeeID!) ?? 0, index: sender.tag,orderAssigneID: 0,createdBy: "")
             taskProofView.delegate = self
         }
         self.statusModelArray[sender.tag].isApprovedCheked = false
@@ -296,7 +296,7 @@ extension ViewStatusViewController {
             task = "approved"
             self.statusModelArray[sender.tag].isApprovedCheked = true
             
-            let taskProofView = TaskProofView.init(info: "approved", postID:  Int(self.statusModelArray[sender.tag].postID!) ?? 0, employeeID: Int(self.statusModelArray[sender.tag].employeeID!) ?? 0, index: sender.tag, orderAssigneID: 0)
+            let taskProofView = TaskProofView.init(info: "approved", postID:  Int(self.statusModelArray[sender.tag].postID!) ?? 0, employeeID: Int(self.statusModelArray[sender.tag].employeeID!) ?? 0, index: sender.tag, orderAssigneID: 0,createdBy: "")
             taskProofView.delegate = self
         }
         self.statusModelArray[sender.tag].isdoneCheked = false

@@ -127,8 +127,8 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             for (i, _) in self.reelsModelArray[index].tagPeoples!.enumerated() {
                 if self.reelsModelArray[index].tagPeoples![i].groupid == nil
                 {
-                    self.tagIDSArray.append(self.reelsModelArray[index].tagPeoples![i].employeeID!)
-                    self.tagPeoples1.append(self.reelsModelArray[index].tagPeoples![i].employeename!)
+                    self.tagIDSArray.append(self.reelsModelArray[index].tagPeoples![i].employeeID ?? "")
+                    self.tagPeoples1.append(self.reelsModelArray[index].tagPeoples![i].employeename ?? "")
                 }
                 else
                 {
@@ -327,20 +327,15 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
     }
     
     @IBAction func btnDoneApprovedAction(_ sender: UIButton) {
-//        let feedbackVC = storyboard?.instantiateViewController(withIdentifier: "FeedbackViewController") as! FeedbackViewController
-//        feedbackVC.postID = Int(postID)!
-//        feedbackVC.employeeID = Int((UserDefaults.standard.value(forKey: UserDetails.userId) as? String) ?? "")!
-//        self.navigationController?.pushViewController(feedbackVC, animated: true)
-        let arrTag = self.reelsModelArray[index].tagPeoples ?? [TagPeople]()
-        if !arrTag.isEmpty{
+//        let arrTag = self.reelsModelArray[index].tagPeoples ?? [TagPeople]()
+//        if !arrTag.isEmpty{
             let proofVC = storyboard?.instantiateViewController(withIdentifier: "TaskProofPerviewViewController") as! TaskProofPerviewViewController
             proofVC.postID = Int(postID)!
             proofVC.employeeID = Int((UserDefaults.standard.value(forKey: UserDetails.userId) as? String) ?? "")!
-            proofVC.proofDesc = arrTag[0].proofDescription ?? ""
-            proofVC.proodDoc = arrTag[0].proofDocument ?? ""
+//            proofVC.proofDesc = arrTag[0].proofDescription ?? ""
+            proofVC.proodDoc = "https://d1g0ba8hbbwly8.cloudfront.net/02904F53-3A22-4D34-A39D-5F23CD2661CF-12160-000000FD0C6E6362.mp4,https://d1g0ba8hbbwly8.cloudfront.net/02904F53-3A22-4D34-A39D-5F23CD2661CF-12160-000000FD0C6E6362.mp4,https://d1g0ba8hbbwly8.cloudfront.net/0B824366-6B6B-4B2E-A0BC-0763E7466CDA-13145-00000120299049D7.jpeg"//arrTag[0].proofDocument ?? ""
             self.navigationController?.pushViewController(proofVC, animated: true)
-        }
-        
+//        }
         
     }
     

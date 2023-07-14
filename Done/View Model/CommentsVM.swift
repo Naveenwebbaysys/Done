@@ -69,9 +69,9 @@ class CommentsVM: NSObject {
         }else{
             stCommentFinal = str + "--\(stComment)"
         }
-//        let postparams = PostMediaCommentModel(assigneeEmployeeID: Int(stOrderAssigneeEmployeeID), employeeID: Int(employeeID), comment: stCommentFinal, commenttype: commentType, assigneeid: postID, taskCreatedBy: userID)
+        //        let postparams = PostMediaCommentModel(assigneeEmployeeID: Int(stOrderAssigneeEmployeeID), employeeID: Int(employeeID), comment: stCommentFinal, commenttype: commentType, assigneeid: postID, taskCreatedBy: userID)
         let postparams = PostMediaCommentModel(employeeID: employeeID, comment: stCommentFinal, commenttype: commentType, orderassigneeid: postID, taskCreatedBy: taskId)
-                print("Request parameter==",postparams)
+        print("Request parameter==",postparams)
         //            print("This is run on the background queue")
         APIModel.backGroundPostRequest(strURL: BASEURL + CREATEPOSTAPI as NSString, postParams: postparams, postHeaders: headers as NSDictionary) { jsonResult in
             KRProgressHUD.dismiss()

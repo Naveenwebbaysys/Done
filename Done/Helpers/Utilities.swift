@@ -472,6 +472,19 @@ extension String {
         let textSize: CGSize = textRect.size
         return ceil(textSize.width)
     }
+    
+    func isImageType() -> Bool {
+        // image formats which you want to check
+        let imageFormats = ["jpg", "png","jpeg","PNG","JPG","JPEG"]
+        
+        if URL(string: self) != nil  {
+            
+            let extensi = (self as NSString).pathExtension
+            
+            return imageFormats.contains(extensi)
+        }
+        return false
+    }
 }
 
 extension UIImage{
