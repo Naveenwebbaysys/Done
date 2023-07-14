@@ -473,11 +473,15 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
         }else{
             if stData.isImageType(){
                 cell.btnPlay.isHidden = true
-               cell.imageview.sd_setImage(with: URL.init(string: stData), placeholderImage: nil, options: .highPriority) { (imge, error, cache, url) in
+                cell.activityIndicator.isHidden = false
+                cell.activityIndicator.startAnimating()
+                cell.imageview.sd_setImage(with: URL.init(string: stData), placeholderImage: nil, options: .highPriority) { (imge, error, cache, url) in
+                    cell.activityIndicator.isHidden = true
+                    cell.activityIndicator.stopAnimating()
                     if error == nil{
                         cell.imageview.image = imge
                     }else{
-                     
+                        
                     }
                 }
             }else{
@@ -487,7 +491,11 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
                 DispatchQueue.global(qos: .background).async { [self] in
                     let videoUrl = URL(string: stData)
                     DispatchQueue.main.async {
+                        cell.activityIndicator.isHidden = false
+                        cell.activityIndicator.startAnimating()
                         cell.imageview.image = self.getVideoThumbnail(url: videoUrl!)
+                        cell.activityIndicator.isHidden = true
+                        cell.activityIndicator.stopAnimating()
                     }
                 }
             }
