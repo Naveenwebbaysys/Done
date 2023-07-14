@@ -389,7 +389,9 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
         if index >= 0{
             self.arrMediaUpload.remove(at: index)
         }
+        
         if arrMediaUpload.isEmpty{
+            arrMediaUpload = ["+"]
             showToast(message: "Please Select media.")
             return
         }
@@ -470,6 +472,7 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
             cell.btnPlay.isHidden = false
             cell.btnPlay.setImage(UIImage(named: "camera_roll_icon"), for: .normal)
             cell.btnPlay.isUserInteractionEnabled = false
+            cell.activityIndicator.isHidden = true
         }else{
             if stData.isImageType(){
                 cell.btnPlay.isHidden = true
