@@ -15,6 +15,8 @@
 		041F66F72A4C700E009C6AB4 /* ViewStatusTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041F66F52A4C700E009C6AB4 /* ViewStatusTableViewCell.xib */; };
 		041F66F82A4C700E009C6AB4 /* ViewStatusTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041F66F62A4C700E009C6AB4 /* ViewStatusTableViewCell.swift */; };
 		041F66FA2A4C723F009C6AB4 /* UpdateDoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041F66F92A4C723F009C6AB4 /* UpdateDoneModel.swift */; };
+		042900AB2A602E3400570EAC /* CommentsViewController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042900AA2A602E3400570EAC /* CommentsViewController+TableView.swift */; };
+		042900AD2A60331A00570EAC /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042900AC2A60331A00570EAC /* MembersViewController.swift */; };
 		043DFB8B2A52932F005BA06D /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043DFB8A2A52932F005BA06D /* FiltersViewController.swift */; };
 		04400A952A2F0C890028CECE /* TagsResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04400A942A2F0C890028CECE /* TagsResponseModel.swift */; };
 		04400A982A2F11520028CECE /* TagUsersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04400A962A2F11520028CECE /* TagUsersTableViewCell.swift */; };
@@ -108,6 +110,8 @@
 		041F66F52A4C700E009C6AB4 /* ViewStatusTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewStatusTableViewCell.xib; sourceTree = "<group>"; };
 		041F66F62A4C700E009C6AB4 /* ViewStatusTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewStatusTableViewCell.swift; sourceTree = "<group>"; };
 		041F66F92A4C723F009C6AB4 /* UpdateDoneModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateDoneModel.swift; sourceTree = "<group>"; };
+		042900AA2A602E3400570EAC /* CommentsViewController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommentsViewController+TableView.swift"; sourceTree = "<group>"; };
+		042900AC2A60331A00570EAC /* MembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersViewController.swift; sourceTree = "<group>"; };
 		043DFB8A2A52932F005BA06D /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		04400A942A2F0C890028CECE /* TagsResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsResponseModel.swift; sourceTree = "<group>"; };
 		04400A962A2F11520028CECE /* TagUsersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagUsersTableViewCell.swift; sourceTree = "<group>"; };
@@ -326,8 +330,10 @@
 				049764242A28D52700D577D0 /* VideoViewController.swift */,
 				0497D0F72A33029800B4A185 /* ViewStatusViewController.swift */,
 				04C142762A387A57005D1391 /* CommentsViewController.swift */,
+				042900AA2A602E3400570EAC /* CommentsViewController+TableView.swift */,
 				043DFB8A2A52932F005BA06D /* FiltersViewController.swift */,
 				04D3C2CD2A333E5900A5D460 /* ProfileViewController.swift */,
+				042900AC2A60331A00570EAC /* MembersViewController.swift */,
 				0475B38B2A4E9FAA00D05BDD /* PlayVideoViewController.swift */,
 				04A8D47E2A3468CB00BC2628 /* TagsUsersViewController.swift */,
 				048EB3A32A29B7A0004BE939 /* PostVideoViewController.swift */,
@@ -577,6 +583,7 @@
 				045C35702A206EEC007968C9 /* ServiceController.swift in Sources */,
 				1BFDE2482A5FF0A200D16FF8 /* FeedbackVM.swift in Sources */,
 				1B9190322A5D26C0003EA4D2 /* FeedbackViewController.swift in Sources */,
+				042900AB2A602E3400570EAC /* CommentsViewController+TableView.swift in Sources */,
 				048EB3A62A2A01D8004BE939 /* AWSS3.swift in Sources */,
 				045C356E2A206EEC007968C9 /* Utilities.swift in Sources */,
 				049764252A28D52700D577D0 /* VideoViewController.swift in Sources */,
@@ -595,6 +602,7 @@
 				1B6F459D2A4DADE10086A429 /* ImageviewPreviewViewController.swift in Sources */,
 				1B47DAE02A5BDEEC00CE0021 /* GroupListTableViewCell.swift in Sources */,
 				043DFB8B2A52932F005BA06D /* FiltersViewController.swift in Sources */,
+				042900AD2A60331A00570EAC /* MembersViewController.swift in Sources */,
 				041F66FA2A4C723F009C6AB4 /* UpdateDoneModel.swift in Sources */,
 				1B769D882A57F8BE00E387D4 /* FilterListCollectionViewCell.swift in Sources */,
 				0497D0F22A31FEC300B4A185 /* ProfileModel.swift in Sources */,

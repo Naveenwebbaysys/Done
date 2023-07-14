@@ -162,6 +162,15 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
 //                Reelcell.countLbl.text = self.reelModelArray[indexPath.row].tagPeoples?[0].comments?[0].comment
             }
         }
+        
+        if self.reelModelArray[indexPath.row].noofemployeestagged  == "0" {
+            Reelcell.dontBtnWidth.constant = 100
+            Reelcell.doneBtn.setTitle("I Will Do", for: .normal)
+        }
+        else
+        {
+            Reelcell.dontBtnWidth.constant = 0
+        }
         Reelcell.commissionBtn.tag = indexPath.row
         let amount = "$" + (self.reelModelArray[indexPath.row].commissionAmount ?? "0") + " - DUE IN " + "\(days)" + " DAYS "
         Reelcell.commissionBtn.setTitle(amount, for: .normal)
@@ -196,15 +205,26 @@ extension PlayVideoViewController {
         {
             let taskProofView = TaskProofView.init(info: "done_success", postID: Int(self.reelModelArray[sender!.tag].id ?? "0")!, employeeID: Int(userID)!, index: sender!.tag,orderAssigneID: Int(self.reelModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID ?? "0")!, createdBy: self.reelModelArray[sender!.tag].createdBy ?? "")
             taskProofView.delegate = self
-        }else {
-//            let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
-//            statusVC.postID = self.reelModelArray[sender!.tag].id ?? ""
-//            statusVC.notes = self.reelModelArray[sender!.tag].notes ?? ""
-//            statusVC.dueDate = dateHelper(srt: self.reelModelArray[sender!.tag].commissionNoOfDays1!)
-//            statusVC.index = sender!.tag
-//            statusVC.reelsModelArray = self.reelModelArray
-//            statusVC.isFromEdit = true
-//            self.navigationController?.pushViewController(statusVC, animated: true)
+        }
+        else if sender?.titleLabel?.text ==  "I Will Do"
+        {
+            let commentsVC = storyboard?.instantiateViewController(identifier: "CommentsViewController") as! CommentsViewController
+    //        print(self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)
+            if self.reelModelArray[sender!.tag].noofemployeestagged != "0"
+            {
+                commentsVC.assignEmpID = (self.reelModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)!
+                commentsVC.employeeID = (self.reelModelArray[sender!.tag].tagPeoples?[0].employeeID) ?? ""
+            }
+            commentsVC.desc = self.reelModelArray[sender!.tag].notes!
+            commentsVC.empID = self.reelModelArray[sender!.tag].id!
+            commentsVC.isFromIllDoIT = true
+            commentsVC.postid = self.reelModelArray[sender!.tag].id!
+            commentsVC.createdBy = self.reelModelArray[sender!.tag].createdBy!
+            
+    //            commentsVC.postPeopleSelected = self.reelsModelArray[sender!.tag].tagPeoples?[0]
+            //        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
+            self.navigationController?.pushViewController(commentsVC, animated: true)
+            
         }
     }
     
