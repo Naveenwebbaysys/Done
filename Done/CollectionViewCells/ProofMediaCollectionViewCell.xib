@@ -39,14 +39,20 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="play.circle.fill" catalog="system"/>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="YCz-Hz-igF">
+                                <rect key="frame" x="74" y="83" width="37" height="37"/>
+                                <color key="color" red="0.59607843140000005" green="0.76862745099999996" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="37O-pD-Qz7" secondAttribute="bottom" id="7dD-7u-Ok1"/>
                             <constraint firstItem="8vf-6b-sTn" firstAttribute="centerY" secondItem="yJM-JD-Meo" secondAttribute="centerY" id="SGN-fe-zxE"/>
+                            <constraint firstItem="YCz-Hz-igF" firstAttribute="centerX" secondItem="yJM-JD-Meo" secondAttribute="centerX" id="YFH-cC-PLK"/>
                             <constraint firstItem="8vf-6b-sTn" firstAttribute="centerX" secondItem="yJM-JD-Meo" secondAttribute="centerX" id="ZWa-7w-kIe"/>
                             <constraint firstItem="37O-pD-Qz7" firstAttribute="leading" secondItem="yJM-JD-Meo" secondAttribute="leading" id="Zx4-GZ-5cK"/>
                             <constraint firstItem="37O-pD-Qz7" firstAttribute="top" secondItem="yJM-JD-Meo" secondAttribute="top" id="n9u-K8-mDP"/>
+                            <constraint firstItem="YCz-Hz-igF" firstAttribute="centerY" secondItem="yJM-JD-Meo" secondAttribute="centerY" id="tTR-fD-w8z"/>
                             <constraint firstAttribute="trailing" secondItem="37O-pD-Qz7" secondAttribute="trailing" id="ymA-CN-PaO"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -66,6 +72,7 @@
             </constraints>
             <size key="customSize" width="185" height="203"/>
             <connections>
+                <outlet property="activityIndicator" destination="YCz-Hz-igF" id="yUM-dm-3j0"/>
                 <outlet property="btnPlay" destination="8vf-6b-sTn" id="elr-Sg-6b1"/>
                 <outlet property="imageview" destination="37O-pD-Qz7" id="dom-4B-XU4"/>
             </connections>
