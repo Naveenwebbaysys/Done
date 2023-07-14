@@ -24,6 +24,8 @@
 		04400A9D2A3098740028CECE /* Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04400A9C2A3098740028CECE /* Extra.swift */; };
 		04400A9F2A30B1150028CECE /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04400A9E2A30B1150028CECE /* SplashScreenViewController.swift */; };
 		0441AE542A3CD5C4008119FB /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0441AE532A3CD5C4008119FB /* Color.xcassets */; };
+		044C4D142A61209C0066C9D4 /* MembersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C4D132A61209C0066C9D4 /* MembersModel.swift */; };
+		044C4D162A615C140066C9D4 /* AddMembersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044C4D152A615C140066C9D4 /* AddMembersModel.swift */; };
 		0452EE3D2A5BE38D00FC226D /* GetGroupsResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0452EE3C2A5BE38D00FC226D /* GetGroupsResponseModel.swift */; };
 		0457B4032A3E164700D6581F /* ThumbnailImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457B4022A3E164700D6581F /* ThumbnailImage.swift */; };
 		045B4CDC2A3B34F30064CC77 /* CommissionResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045B4CDB2A3B34F30064CC77 /* CommissionResponseModel.swift */; };
@@ -119,6 +121,8 @@
 		04400A9C2A3098740028CECE /* Extra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extra.swift; sourceTree = "<group>"; };
 		04400A9E2A30B1150028CECE /* SplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
 		0441AE532A3CD5C4008119FB /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
+		044C4D132A61209C0066C9D4 /* MembersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersModel.swift; sourceTree = "<group>"; };
+		044C4D152A615C140066C9D4 /* AddMembersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMembersModel.swift; sourceTree = "<group>"; };
 		0452EE3C2A5BE38D00FC226D /* GetGroupsResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGroupsResponseModel.swift; sourceTree = "<group>"; };
 		0457B4022A3E164700D6581F /* ThumbnailImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailImage.swift; sourceTree = "<group>"; };
 		045B4CDB2A3B34F30064CC77 /* CommissionResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommissionResponseModel.swift; sourceTree = "<group>"; };
@@ -231,6 +235,8 @@
 				1B9CF1312A599ACF00F2EB1A /* CreateGroupsModel.swift */,
 				1B47DAE22A5BE3BE00CE0021 /* GroupListDetailsModel.swift */,
 				0452EE3C2A5BE38D00FC226D /* GetGroupsResponseModel.swift */,
+				044C4D152A615C140066C9D4 /* AddMembersModel.swift */,
+				044C4D132A61209C0066C9D4 /* MembersModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -559,6 +565,7 @@
 				1B9CF12A2A594C7500F2EB1A /* GroupCreateViewController.swift in Sources */,
 				04C1427D2A387F7A005D1391 /* CommentsResponseModel.swift in Sources */,
 				1BB7E9F22A52CDD7005D7399 /* AddLinksPostCell.swift in Sources */,
+				044C4D162A615C140066C9D4 /* AddMembersModel.swift in Sources */,
 				1B3B82062A600989000ED7C0 /* TaskProofPerviewViewController.swift in Sources */,
 				1B7661832A4B2B4500F63D0A /* ImageCommentsTableViewCell.swift in Sources */,
 				045C35712A206EEC007968C9 /* LoginModel.swift in Sources */,
@@ -575,6 +582,7 @@
 				0457B4032A3E164700D6581F /* ThumbnailImage.swift in Sources */,
 				04C142772A387A57005D1391 /* CommentsViewController.swift in Sources */,
 				0497D0FA2A330DAC00B4A185 /* ViewStatusModel.swift in Sources */,
+				044C4D142A61209C0066C9D4 /* MembersModel.swift in Sources */,
 				045C35562A206E70007968C9 /* AppDelegate.swift in Sources */,
 				0497D0FF2A3327C700B4A185 /* PlayerView.swift in Sources */,
 				0475B38C2A4E9FAA00D05BDD /* PlayVideoViewController.swift in Sources */,
