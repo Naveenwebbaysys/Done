@@ -17,11 +17,13 @@ class TaskProofPerviewViewController: UIViewController,UICollectionViewDelegate 
     @IBOutlet weak var collectionviewProof: UICollectionView!
     @IBOutlet weak var constraintTextviewRason: NSLayoutConstraint!
     @IBOutlet weak var txtviewReason: UITextView!
+    @IBOutlet weak var lblTiltle: UILabel!
     
     //MARK: - Variable
     var postID:Int?
     var employeeID:Int?
     var proofDesc : String?
+    var employeeName : String?
     var proodDoc : String?
     var createdBy: String?
     var arrLinks: [String] = [String]()
@@ -33,7 +35,7 @@ class TaskProofPerviewViewController: UIViewController,UICollectionViewDelegate 
         
 //        print(proofDesc)
 //        print(proodDoc)
-        
+        lblTiltle.text = "Proof submitted by \(employeeName ?? "")"
         collectionviewProof.register(UINib(nibName: "ProofMediaCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ProofMediaCollectionViewCell")
         if !(proodDoc ?? "").isEmpty{
             self.arrLinks = (proodDoc ?? "").components(separatedBy: ",")
@@ -141,9 +143,12 @@ class TaskProofPerviewViewController: UIViewController,UICollectionViewDelegate 
     
     
     @IBAction func btnApproveACtion(_ sender: UIButton) {
+      
         let feedbackVC = storyboard?.instantiateViewController(withIdentifier: "FeedbackViewController") as! FeedbackViewController
         feedbackVC.postID = postID
         feedbackVC.employeeID = employeeID
+        feedbackVC.reasonText = txtviewReason.text! == "Reason..." ? "" : txtviewReason.text!
+        feedbackVC.createdBy = self.createdBy
         self.navigationController?.pushViewController(feedbackVC, animated: true)
     }
     
