@@ -62,10 +62,10 @@
             filePath = "Done/View Controllers/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "737"
-            endingLineNumber = "737"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "750"
+            endingLineNumber = "750"
+            landmarkName = "HomeViewController"
+            landmarkType = "21">
             <Locations>
                <Location
                   uuid = "984E660A-B334-47A1-8CB8-A6227D261D3B - e94d78948ffbe261"
@@ -158,8 +158,8 @@
             filePath = "Done/View Controllers/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "668"
-            endingLineNumber = "668"
+            startingLineNumber = "672"
+            endingLineNumber = "672"
             landmarkName = "statusBtnTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>

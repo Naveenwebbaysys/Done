@@ -96,14 +96,14 @@ class HomeViewController: UIViewController,delegateFiltersVC,taskProofviewDelega
             self.stillBtn.titleLabel?.textColor = UIColor(named: "App_color")
         }
         else if menuIndex == 2{
-            stType = "done_success"
+            stType = "approved"
             self.donecBtn.titleLabel?.textColor = UIColor(named: "App_color")
         }
         else if menuIndex == 3{
-            stType = "approved"
+            stType = "done_success"
             self.iNeedDoneBtn.titleLabel?.textColor = UIColor(named: "App_color")
         }
-        
+
         self.activityIndicator.stopAnimating()
         
         if let id = UserDefaults.standard.value(forKey: UserDetails.userId)
@@ -176,7 +176,7 @@ class HomeViewController: UIViewController,delegateFiltersVC,taskProofviewDelega
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
-        stType = "done_success"
+        stType = "approved"
         self.getpostAPICall(withType: stType, page: currentPage)
         
     }
@@ -193,7 +193,7 @@ class HomeViewController: UIViewController,delegateFiltersVC,taskProofviewDelega
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
-        stType = "approved"
+        stType = "done_success"
         self.getpostAPICall(withType: stType, page: currentPage)
         
     }
@@ -428,7 +428,6 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
                 Reelcell.dontBtnWidth.constant = 0
             }
         }
-        
         else if menuIndex == 1
         {
 //            Reelcell.dontBtnWidth.constant = 100
@@ -468,6 +467,11 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
                     
                 }
             }
+        }
+        else if menuIndex == 3
+        {
+            Reelcell.doneBtn.setTitle("Approved", for: .normal)
+            Reelcell.dontBtnWidth.constant = 100
         }
         else
         {
@@ -704,6 +708,15 @@ extension HomeViewController {
             //        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
             self.navigationController?.pushViewController(commentsVC, animated: true)
             
+        }
+        else if sender?.titleLabel?.text ==  "Approved"
+        {
+            let postVC = storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
+            postVC.reelsModelArray = self.reelsModelArray
+            postVC.index = sender!.tag
+            postVC.isFromEdit = true
+            print(self.reelsModelArray[sender!.tag].id)
+            self.navigationController?.pushViewController(postVC, animated: true)
         }
     }
     

@@ -183,10 +183,16 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
             Reelcell.dontBtnWidth.constant = 100
             Reelcell.doneBtn.setTitle("Done?", for: .normal)
         }
+        else if selectedIndex == 3
+        {
+            Reelcell.doneBtn.setTitle("Approved", for: .normal)
+            Reelcell.dontBtnWidth.constant = 100
+        }
         else
         {
             Reelcell.dontBtnWidth.constant = 0
         }
+     
         
         Reelcell.commissionBtn.tag = indexPath.row
         let amount = "$" + (self.reelModelArray[indexPath.row].commissionAmount ?? "0") + " - DUE IN " + "\(days)" + " DAYS "
@@ -260,6 +266,14 @@ extension PlayVideoViewController {
             self.navigationController?.pushViewController(commentsVC, animated: true)
             
         }
+        
+        else if sender?.titleLabel?.text ==  "Approved"{
+            let postVC = storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
+            postVC.reelsModelArray = self.reelModelArray
+            postVC.index = sender!.tag
+            postVC.isFromEdit = true
+            self.navigationController?.pushViewController(postVC, animated: true)
+        }
     }
     
     @objc func commentsBtnTapped(_ sender: UIButton?) {
@@ -304,7 +318,6 @@ extension PlayVideoViewController {
     
     @objc func editBtnTapped(_ sender: UIButton?) {
         print("Edit Tapped")
-       
         let postVC = storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
         postVC.reelsModelArray = self.reelModelArray
         postVC.index = sender!.tag

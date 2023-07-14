@@ -104,11 +104,11 @@ class ProfileViewController: UIViewController, indexProtocol {
             showStillWorking()
         }
         else if menuIndex == 2{
-            stType = "done_success"
+            stType = "approved"
             showDoneSuccess()
         }
         else if menuIndex == 3 {
-            stType = "approved"
+            stType = "done_success"
             showdoneApproved()
         }
         
@@ -194,7 +194,7 @@ class ProfileViewController: UIViewController, indexProtocol {
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
-        stType = "done_success"
+        stType = "approved"
         self.getpostAPICall(withType: stType, page: currentPage)
         self.noTaskLbl.isHidden = true
         showDoneSuccess()
@@ -206,7 +206,7 @@ class ProfileViewController: UIViewController, indexProtocol {
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
-        stType = "approved"
+        stType = "done_success"
         self.getpostAPICall(withType: stType, page: currentPage)
         self.noTaskLbl.isHidden = true
         showdoneApproved()
