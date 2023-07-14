@@ -176,7 +176,7 @@ class HomeViewController: UIViewController,delegateFiltersVC,taskProofviewDelega
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
-        stType = "approved"
+        stType = "done_success"
         self.getpostAPICall(withType: stType, page: currentPage)
         
     }
@@ -193,7 +193,7 @@ class HomeViewController: UIViewController,delegateFiltersVC,taskProofviewDelega
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
-        stType = "done_success"
+        stType = "approved" 
         self.getpostAPICall(withType: stType, page: currentPage)
         
     }
@@ -213,7 +213,7 @@ class HomeViewController: UIViewController,delegateFiltersVC,taskProofviewDelega
             let commissionResponse = try? JSONDecoder().decode(CommissionResponseModel.self, from: jsonData as! Data)
             if commissionResponse?.data != nil
             {
-                self.assignCommission = (commissionResponse?.data?.assignedByCommission?.commission ?? "") + "(" + (commissionResponse?.data?.assignedByCommission?.commissionCount ?? "") + ")"
+            self.assignCommission = (commissionResponse?.data?.assignedByCommission?.commission ?? "") + "(" + (commissionResponse?.data?.assignedByCommission?.commissionCount ?? "") + ")"
                 self.stillworkingCommission = (commissionResponse?.data?.stillWorkingCommission?.commission ?? "") + "(" + (commissionResponse?.data?.stillWorkingCommission?.commissionCount ?? "") + ")"
                 self.doneCommission =  (commissionResponse?.data?.doneCommission?.commission ?? "") + "(" + (commissionResponse?.data?.doneCommission?.commissionCount ?? "") + ")"
                 approvedCom = (commissionResponse?.data?.approvedcommission?.commission ?? "") + "(" + (commissionResponse?.data?.approvedcommission?.commissionCount ?? "") + ")"

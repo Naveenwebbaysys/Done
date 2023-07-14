@@ -194,7 +194,7 @@ class ProfileViewController: UIViewController, indexProtocol {
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
-        stType = "approved"
+        stType = "done_success"
         self.getpostAPICall(withType: stType, page: currentPage)
         self.noTaskLbl.isHidden = true
         showDoneSuccess()
@@ -206,7 +206,7 @@ class ProfileViewController: UIViewController, indexProtocol {
         self.reelsModelArray.removeAll()
         isLastPage = false
         currentPage = 1
-        stType = "done_success"
+        stType = "approved"
         self.getpostAPICall(withType: stType, page: currentPage)
         self.noTaskLbl.isHidden = true
         showdoneApproved()
@@ -248,7 +248,7 @@ class ProfileViewController: UIViewController, indexProtocol {
             let commissionResponse = try? JSONDecoder().decode(CommissionResponseModel.self, from: jsonData as! Data)
             if commissionResponse?.data != nil
             {
-                self.commissionLbl.text = "$ " + (commissionResponse?.data?.approvedcommission?.commission ?? "")
+                self.commissionLbl.text = "$ " + (commissionResponse?.data?.doneCommission?.commission ?? "")
                 
                 self.assignCommission = (commissionResponse?.data?.assignedByCommission?.commission ?? "") + "(" + (commissionResponse?.data?.assignedByCommission?.commissionCount ?? "") + ")"
                 self.stillworkingCommission = (commissionResponse?.data?.stillWorkingCommission?.commission ?? "") + "(" + (commissionResponse?.data?.stillWorkingCommission?.commissionCount ?? "") + ")"

@@ -49,6 +49,21 @@
                   endingLineNumber = "478"
                   offsetFromSymbolStart = "4248">
                </Location>
+               <Location
+                  uuid = "F8195C77-A667-4E28-B6A9-98838AC50D24 - f921781a42b75bb2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in Done.PostViewController.createPostAPICall(str: Swift.String) -&gt; ()"
+                  moduleName = "Done"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mac/Documents/GitHub/Done/Done/View%20Controllers/PostVideoViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "478"
+                  endingLineNumber = "478"
+                  offsetFromSymbolStart = "3584">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -96,6 +111,21 @@
                   startingLineNumber = "535"
                   endingLineNumber = "535"
                   offsetFromSymbolStart = "3616">
+               </Location>
+               <Location
+                  uuid = "106A3C21-B543-492E-BA0E-8C6C1A773BAF - 517dc7fccaae7ec4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in Done.PostViewController.updatePostAPICall(str: Swift.String) -&gt; ()"
+                  moduleName = "Done"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mac/Documents/GitHub/Done/Done/View%20Controllers/PostVideoViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "535"
+                  endingLineNumber = "535"
+                  offsetFromSymbolStart = "3312">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -381,6 +411,21 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "452"
                   endingLineNumber = "452"
+                  offsetFromSymbolStart = "14032">
+               </Location>
+               <Location
+                  uuid = "FDD7111F-549F-4713-8F03-3D7825A6A483 - aa701e1408c27fc0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Done.HomeViewController.tableView(_: __C.UITableView, cellForRowAt: Foundation.IndexPath) -&gt; __C.UITableViewCell"
+                  moduleName = "Done"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mac/Documents/GitHub/Done/Done/View%20Controllers/HomeViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "453"
+                  endingLineNumber = "453"
                   offsetFromSymbolStart = "14032">
                </Location>
             </Locations>

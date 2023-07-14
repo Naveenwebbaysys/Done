@@ -25,7 +25,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ePo-dq-Aaj">
-                                <rect key="frame" x="85" y="130.66666666666666" width="0.0" height="14"/>
+                                <rect key="frame" x="67" y="130.66666666666666" width="0.0" height="14"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" id="h0w-tb-kBK"/>
@@ -33,7 +33,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phD-TV-Xki">
-                                <rect key="frame" x="62" y="130" width="18" height="15"/>
+                                <rect key="frame" x="44" y="130" width="18" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="18" id="co8-Yd-bfz"/>
                                     <constraint firstAttribute="height" constant="15" id="d8c-3N-UDc"/>
@@ -51,17 +51,16 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NKK-AE-PVW">
-                                <rect key="frame" x="19" y="130" width="18" height="15"/>
+                                <rect key="frame" x="19" y="130" width="0.0" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="OG5-YK-SOE"/>
-                                    <constraint firstAttribute="width" constant="18" id="bhY-ae-ewF"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="comments_icon" translatesAutoresizingMaskIntoConstraints="NO" id="6Ur-ua-ZTG">
-                                <rect key="frame" x="42" y="130" width="15" height="15"/>
+                                <rect key="frame" x="24" y="130" width="15" height="15"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="27A-B8-rcy"/>
@@ -69,7 +68,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mb6-2m-1p2">
-                                <rect key="frame" x="89" y="130" width="0.0" height="15"/>
+                                <rect key="frame" x="71" y="130" width="0.0" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="width" id="ubU-1w-xnm"/>
                                     <constraint firstAttribute="height" constant="15" id="zgP-0B-8T8"/>

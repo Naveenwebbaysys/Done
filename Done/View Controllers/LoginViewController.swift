@@ -22,8 +22,8 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         self.emailTf.delegate = self
         self.passwordTf.delegate = self
-        self.emailTf.text = "kranthiallaboina@gmail.com"
-        self.passwordTf.text = "apple@123"
+//        self.emailTf.text = "kranthiallaboina@gmail.com"
+//        self.passwordTf.text = "apple@123"
         
 //                self.emailTf.text = "Gorakrao@gmail.com"
 //                self.passwordTf.text = "gorakrao"

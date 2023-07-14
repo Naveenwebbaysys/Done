@@ -32,3 +32,32 @@ struct Commission: Codable {
         case commissionCount = "commission_count"
     }
 }
+
+
+
+struct CommissionResponseModel1: Codable {
+    let status: Bool?
+    let data: CommissionData2?
+}
+
+// MARK: - DataClass
+struct CommissionData2: Codable {
+    let stillWorkingCommission, doneCommission, approvedCommission, assignedByCommission: Commission1?
+
+    enum CodingKeys: String, CodingKey {
+        case stillWorkingCommission = "still_working_commission"
+        case doneCommission = "done_commission"
+        case approvedCommission = "approved_commission"
+        case assignedByCommission = "assigned_by_commission"
+    }
+}
+
+// MARK: - Commission
+struct Commission1: Codable {
+    let commission, commissionCount: String?
+
+    enum CodingKeys: String, CodingKey {
+        case commission
+        case commissionCount = "commission_count"
+    }
+}

@@ -183,7 +183,7 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
             Reelcell.dontBtnWidth.constant = 100
             Reelcell.doneBtn.setTitle("Done?", for: .normal)
         }
-        else if menuIndex == 3
+        else if selectedIndex == 3
         {
 //            Reelcell.doneBtn.setTitle("Approved", for: .normal)
             Reelcell.dontBtnWidth.constant = 100
@@ -203,9 +203,7 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
         else
         {
             Reelcell.dontBtnWidth.constant = 0
-        }
-     
-        
+        }        
         Reelcell.commissionBtn.tag = indexPath.row
         let amount = "$" + (self.reelModelArray[indexPath.row].commissionAmount ?? "0") + " - DUE IN " + "\(days)" + " DAYS "
         Reelcell.commissionBtn.setTitle(amount, for: .normal)
