@@ -120,7 +120,7 @@ class HomeViewController: UIViewController,delegateFiltersVC,taskProofviewDelega
             print(":::: viewDidDisappear ::::")
             (cell as! ReelsTableViewCell).avPlayer?.seek(to: CMTime.zero)
             (cell as! ReelsTableViewCell).stopPlayback()
-           // (cell as! ReelsTableViewCell ).avPlayer?.removeObserver(self, forKeyPath: "timeControlStatus")
+            // (cell as! ReelsTableViewCell ).avPlayer?.removeObserver(self, forKeyPath: "timeControlStatus")
         }
         if repeatStarted == true {
             NotificationCenter.default.removeObserver(self)
@@ -234,11 +234,11 @@ class HomeViewController: UIViewController,delegateFiltersVC,taskProofviewDelega
             self.stillBtn.titleLabel?.textAlignment = .center
             //            self.stillBtn.titleLabel?.textColor = .white
             
-            let part3 = NSAttributedString(string: "Need Approval " + "\n" + "$" + self.doneCommission)
+            let part3 = NSAttributedString(string: "Approved " + "\n" + "$" + self.doneCommission)
             self.donecBtn.setAttributedTitle(part3, for: .normal)
             self.donecBtn.titleLabel?.textAlignment = .center
             
-            let part4 = NSAttributedString(string: "Need Done " + "\n" + "$" + approvedCom)
+            let part4 = NSAttributedString(string: "Need Approval " + "\n" + "$" + approvedCom)
             self.iNeedDoneBtn.setAttributedTitle(part4, for: .normal)
             self.iNeedDoneBtn.titleLabel?.textAlignment = .center
             //            self.donecBtn.titleLabel?.textColor = .white
@@ -449,14 +449,21 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
                 
             }
         }
-        
-        if self.reelsModelArray[indexPath.row].noofemployeestagged  == "0" {
-            Reelcell.dontBtnWidth.constant = 100
-            Reelcell.doneBtn.setTitle("I Will Do", for: .normal)
-        }
-        else
+        if menuIndex == 0
         {
-            Reelcell.dontBtnWidth.constant = 0
+            if self.reelsModelArray[indexPath.row].noofemployeestagged  == "0" && self.reelsModelArray[indexPath.row].groupname == nil {
+                Reelcell.dontBtnWidth.constant = 100
+                Reelcell.doneBtn.setTitle("I Will Do", for: .normal)
+            }
+            else
+            {
+                Reelcell.dontBtnWidth.constant = 0
+            }
+        }
+        
+        if menuIndex == 1
+        {
+            Reelcell.dontBtnWidth.constant = 100
         }
         
         Reelcell.commissionBtn.tag = indexPath.row
@@ -660,17 +667,17 @@ extension HomeViewController {
         }
         else if sender?.titleLabel?.text ==  "I Will Do"
         {
-//                    let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
-//                    statusVC.postID = self.reelsModelArray[sender!.tag].id ?? ""
-//                    statusVC.notes = self.reelsModelArray[sender!.tag].notes ?? ""
-//                    statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
-//                    statusVC.index = sender!.tag
-//                    statusVC.reelsModelArray = self.reelsModelArray
-//                    statusVC.isFromEdit = true
-//                    self.navigationController?.pushViewController(statusVC, animated: true)
-
+            //                    let statusVC = storyboard?.instantiateViewController(identifier: "ViewStatusViewController") as! ViewStatusViewController
+            //                    statusVC.postID = self.reelsModelArray[sender!.tag].id ?? ""
+            //                    statusVC.notes = self.reelsModelArray[sender!.tag].notes ?? ""
+            //                    statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
+            //                    statusVC.index = sender!.tag
+            //                    statusVC.reelsModelArray = self.reelsModelArray
+            //                    statusVC.isFromEdit = true
+            //                    self.navigationController?.pushViewController(statusVC, animated: true)
+            
             let commentsVC = storyboard?.instantiateViewController(identifier: "CommentsViewController") as! CommentsViewController
-    //        print(self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)
+            //        print(self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)
             if self.reelsModelArray[sender!.tag].noofemployeestagged != "0"
             {
                 commentsVC.assignEmpID = (self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)!
@@ -682,7 +689,7 @@ extension HomeViewController {
             commentsVC.postid = self.reelsModelArray[sender!.tag].id!
             commentsVC.createdBy = self.reelsModelArray[sender!.tag].createdBy!
             
-    //            commentsVC.postPeopleSelected = self.reelsModelArray[sender!.tag].tagPeoples?[0]
+            //            commentsVC.postPeopleSelected = self.reelsModelArray[sender!.tag].tagPeoples?[0]
             //        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
             self.navigationController?.pushViewController(commentsVC, animated: true)
             
@@ -692,7 +699,7 @@ extension HomeViewController {
     @objc func commentsBtnTapped(_ sender: UIButton?) {
         print("Comment Tapped")
         let commentsVC = storyboard?.instantiateViewController(identifier: "CommentsViewController") as! CommentsViewController
-//        print(self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)
+        //        print(self.reelsModelArray[sender!.tag].tagPeoples?[0].orderAssigneeEmployeeID)
         
         if self.reelsModelArray[sender!.tag].noofemployeestagged != "0"
         {
@@ -702,11 +709,10 @@ extension HomeViewController {
         
         commentsVC.desc = self.reelsModelArray[sender!.tag].notes!
         commentsVC.empID = self.reelsModelArray[sender!.tag].id!
-        
         commentsVC.postid = self.reelsModelArray[sender!.tag].id!
         commentsVC.createdBy = self.reelsModelArray[sender!.tag].createdBy!
         
-//            commentsVC.postPeopleSelected = self.reelsModelArray[sender!.tag].tagPeoples?[0]
+        //            commentsVC.postPeopleSelected = self.reelsModelArray[sender!.tag].tagPeoples?[0]
         //        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
         self.navigationController?.pushViewController(commentsVC, animated: true)
     }
@@ -717,6 +723,7 @@ extension HomeViewController {
         postVC.reelsModelArray = self.reelsModelArray
         postVC.index = sender!.tag
         postVC.isFromEdit = true
+        print(self.reelsModelArray[sender!.tag].id)
         self.navigationController?.pushViewController(postVC, animated: true)
     }
     

@@ -329,6 +329,8 @@ extension TagsUsersViewController{
                     //                    self.groupId = 0
                 }
             }
+            
+            print(self.groupId)
             UIView.performWithoutAnimation {
                 self.tagsTableVw.reloadSections([indexPath.section], with: .none)
             }

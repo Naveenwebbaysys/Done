@@ -43,6 +43,7 @@ struct Post: Codable {
     let totalcommentscount : String?
     let noofemployeestagged : String?
     let categoryname,subcategoryname : String?
+    let groupname : String?
     let tagPeoples: [TagPeople]?
     
     enum CodingKeys: String, CodingKey {
@@ -65,6 +66,7 @@ struct Post: Codable {
         case categoryname = "categoryname"
         case subcategoryname = "subcategoryname"
         case noofemployeestagged = "no_of_employees_tagged"
+        case groupname = "group_name"
     }
 }
 

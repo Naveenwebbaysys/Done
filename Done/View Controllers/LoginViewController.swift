@@ -34,8 +34,8 @@ class LoginViewController: UIViewController {
 //        self.emailTf.text = "fernandoj@medicalbreakthrough.com"
 //        self.passwordTf.text = "alligator375"
         
-        self.emailTf.text = "bucher@medicalbreakthrough.org"
-        self.passwordTf.text = "BucherMedical2019"
+//        self.emailTf.text = "bucher@medicalbreakthrough.org"
+//        self.passwordTf.text = "BucherMedical2019"
 
         var localTimeZoneIdentifier: String { return TimeZone.current.identifier }
         print(localTimeZoneIdentifier)

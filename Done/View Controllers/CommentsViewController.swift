@@ -137,7 +137,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     @IBAction func btnAttachmentChatAction(_ sender: UIButton) {
   
         let membersVC = self.storyboard?.instantiateViewController(withIdentifier: "MembersViewController") as! MembersViewController
-        
+        membersVC.postID = self.postid
         self.navigationController?.pushViewController(membersVC, animated: true)
     }
     
