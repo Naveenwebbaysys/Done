@@ -41,6 +41,7 @@ struct Post: Codable {
     let commissionType, commissionAmount, videoRestriction, notes,subcategoryId,categoryId: String?
     let createdOn, createdBy, commissionNoOfDays1, assigneeName: String?
     let totalcommentscount : String?
+    let noofemployeestagged : String?
     let categoryname,subcategoryname : String?
     let tagPeoples: [TagPeople]?
     
@@ -63,6 +64,7 @@ struct Post: Codable {
         case categoryId = "category_id"
         case categoryname = "categoryname"
         case subcategoryname = "subcategoryname"
+        case noofemployeestagged = "no_of_employees_tagged"
     }
 }
 

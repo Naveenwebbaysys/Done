@@ -27,6 +27,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var viewChatBG: UIView!
     @IBOutlet weak var titleLbl : UILabel!
     
+    var isFromIllDoIT = Bool()
     var taskCreatedby = ""
     var postid = ""
     var desc = ""
@@ -43,6 +44,9 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     var currentPage:Int = 1
     var apiCallingStart: Bool = false
     
+    var membersTB = UITableView()
+    var animationVW = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.commentTB.register(UINib(nibName: "CommentsTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentsTableViewCell")
@@ -52,14 +56,11 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         self.commentTB.register(UINib(nibName: "ReceivedTextTableViewCell", bundle: nil), forCellReuseIdentifier: "ReceivedTextTableViewCell")
         self.commentTB.register(UINib(nibName: "SenderImageAndVideoTableViewCell", bundle: nil), forCellReuseIdentifier: "SenderImageAndVideoTableViewCell")
         self.commentTB.register(UINib(nibName: "ReceivedImageVideoTableViewCell", bundle: nil), forCellReuseIdentifier: "ReceivedImageVideoTableViewCell")
-        
-        
-        
+
         self.commentTB.rowHeight = UITableView.automaticDimension
         self.commentTB.estimatedRowHeight = 70
         self.commentTB.delegate = self
         self.commentTB.dataSource = self
-        
         
         IQKeyboardManager.shared.enable = false
         currentPage = 1
@@ -79,6 +80,16 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
         
         self.showCameraBtn()
         self.titleLbl.text = self.desc
+        
+        if employeeID == "" && self.isFromIllDoIT == true
+        {
+//            commentTV.text = "I will do it"
+//            commentTV.textColor = .black
+//            showSendBtn()
+            
+            self.btnAttachmentChat.setImage(UIImage(systemName: "person.fill"), for: .normal)
+            self.btnAttachmentChat.tintColor = .darkGray
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -124,7 +135,12 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     
     //MARK: - UIButton Action
     @IBAction func btnAttachmentChatAction(_ sender: UIButton) {
+  
+        let membersVC = self.storyboard?.instantiateViewController(withIdentifier: "MembersViewController") as! MembersViewController
+        
+        self.navigationController?.pushViewController(membersVC, animated: true)
     }
+    
     @IBAction func cameraClick(_ sender: UIButton) {
         print("Camera click")
         
