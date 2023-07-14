@@ -1380,6 +1380,7 @@
                         <outlet property="collectionviewProof" destination="qZP-A0-sUE" id="7I2-C0-we3"/>
                         <outlet property="constraintTextviewRason" destination="amZ-h4-fJ6" id="84h-Od-FWy"/>
                         <outlet property="lblDesc" destination="JSa-1M-dV7" id="Chp-Vb-OrM"/>
+                        <outlet property="lblTiltle" destination="gNY-mj-Pdo" id="hqC-ux-krl"/>
                         <outlet property="txtviewReason" destination="o7u-X9-2aS" id="V7Z-Jt-qbL"/>
                     </connections>
                 </viewController>

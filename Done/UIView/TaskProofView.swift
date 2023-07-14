@@ -410,7 +410,7 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
             }else{
                 stType = "video"
             }
-            CommentsVM.shared.addCommentsAPICall(str: self.arrMediaUpload[0], stOrderAssigneeEmployeeID: "", employeeID: "\(self.employeeID)", postID: "\(self.postID)", stComment: self.txtviewDesc.text! == "description" ? "" : self.txtviewDesc.text!, commentType: stType, taskId: self.createdBy)
+            CommentsVM.shared.addCommentsAPICall(str: self.arrMediaUpload[0], stOrderAssigneeEmployeeID: "", employeeID: "\(self.employeeID)", postID: "\(self.postID)", stComment: self.txtviewDesc.text! == "description" ? "" : "Proof: \(self.txtviewDesc.text!)", commentType: stType, taskId: self.createdBy)
             
         } failureHandler: { error in
             KRProgressHUD.dismiss()

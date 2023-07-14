@@ -18,6 +18,8 @@ class FeedbackViewController: UIViewController, UITextViewDelegate {
     //MARK: - Variable
     var postID:Int?
     var employeeID:Int?
+    var reasonText:String?
+    var createdBy: String?
     
     //MARK: - UIViewController Methods
     override func viewDidLoad() {
@@ -33,7 +35,7 @@ class FeedbackViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func btnSubmitAction(_ sender: UIButton) {
-        FeedbackVM.shared.addTaskReview(postID: postID ?? 0, employeeID: employeeID ?? 0, taskStatus: "approved", review: txtviewFeedBack.text! == "Enter a feedback" ? "" : txtviewFeedBack.text!, rating: "\(Int(viewRating.current))")
+        FeedbackVM.shared.addTaskReview(postID: postID ?? 0, employeeID: employeeID ?? 0, taskStatus: "approved", review: txtviewFeedBack.text! == "Enter a feedback" ? "" : txtviewFeedBack.text!, rating: "\(Int(viewRating.current))", stReason: self.reasonText ?? "",createdBy:self.createdBy ?? "")
     }
     
     //MARK: - UITextview delegate

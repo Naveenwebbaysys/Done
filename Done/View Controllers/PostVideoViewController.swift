@@ -166,6 +166,14 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             self.btnPost.setTitle("Update", for: .normal)
             self.viewBtnPost.isHidden = true
             self.stackviewUpdate.isHidden = false
+            
+            if (self.reelsModelArray[index].tagPeoples?[0].status ?? "") == "approved"{
+                self.btnDoneApproved.setTitle("Approved", for: .normal)
+                self.btnDoneApproved.isUserInteractionEnabled = false
+            }else{
+                self.btnDoneApproved.setTitle("Approve", for: .normal)
+                self.btnDoneApproved.isUserInteractionEnabled = true
+            }
         }
         else
         {
@@ -334,7 +342,9 @@ class PostViewController: UIViewController,MyDataSendingDelegateProtocol {
             proofVC.employeeID = Int((UserDefaults.standard.value(forKey: UserDetails.userId) as? String) ?? "")!
             proofVC.createdBy = self.reelsModelArray[index].createdBy ?? ""
             proofVC.proofDesc = arrTag[0].proofDescription ?? ""
-            proofVC.proodDoc = arrTag[0].proofDocument ?? "" //"https://d1g0ba8hbbwly8.cloudfront.net/02904F53-3A22-4D34-A39D-5F23CD2661CF-12160-000000FD0C6E6362.mp4,https://d1g0ba8hbbwly8.cloudfront.net/0B824366-6B6B-4B2E-A0BC-0763E7466CDA-13145-00000120299049D7.jpeg"//
+            proofVC.proodDoc = arrTag[0].proofDocument ?? ""
+            //"https://d1g0ba8hbbwly8.cloudfront.net/02904F53-3A22-4D34-A39D-5F23CD2661CF-12160-000000FD0C6E6362.mp4,https://d1g0ba8hbbwly8.cloudfront.net/0B824366-6B6B-4B2E-A0BC-0763E7466CDA-13145-00000120299049D7.jpeg"//
+            proofVC.employeeName = arrTag[0].employeename ?? ""
             self.navigationController?.pushViewController(proofVC, animated: true)
         }
         
