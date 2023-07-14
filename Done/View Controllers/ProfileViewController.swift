@@ -433,9 +433,18 @@ extension ProfileViewController : UICollectionViewDelegate , UICollectionViewDat
         
         let viewVidepVC = storyboard?.instantiateViewController(withIdentifier: "PlayVideoViewController") as! PlayVideoViewController
         viewVidepVC.reelModelArray.removeAll()
+        
+        
         viewVidepVC.reelModelArray.append(self.reelsModelArray[indexPath.row])
+//        if self.reelsModelArray[indexPath.row].noofemployeestagged != "0"
+//        {
+//            commentsVC.assignEmpID = (self.reelsModelArray[indexPath.row].tagPeoples?[0].orderAssigneeEmployeeID)!
+//            commentsVC.employeeID = (self.reelsModelArray[indexPath.row].tagPeoples?[0].employeeID) ?? ""
+//        }
         viewVidepVC.idFromDone = idFromDone
         viewVidepVC.selectedIndex = menuIndex
+        viewVidepVC.noofemployeestagged = self.reelsModelArray[indexPath.row].noofemployeestagged ?? "0"
+
         viewVidepVC.delegate? = self
         self.navigationController?.pushViewController(viewVidepVC, animated: true)
     }

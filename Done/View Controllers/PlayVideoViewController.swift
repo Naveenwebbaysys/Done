@@ -23,6 +23,8 @@ class PlayVideoViewController: UIViewController,taskProofviewDelegate {
     var totalComments =  [TotalComment]()
     var isSuccess = false
     var idFromDone = Bool()
+    var menuIndex = Int()
+    var noofemployeestagged = ""
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -163,14 +165,29 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        if self.reelModelArray[indexPath.row].noofemployeestagged  == "0" {
+        
+        if selectedIndex == 0
+        {
+            if self.reelModelArray[indexPath.row].noofemployeestagged  == "0" {
+                Reelcell.dontBtnWidth.constant = 100
+                Reelcell.doneBtn.setTitle("I Will Do", for: .normal)
+            }
+            else
+            {
+                Reelcell.dontBtnWidth.constant = 0
+            }
+        }
+        
+        else if selectedIndex == 1
+        {
             Reelcell.dontBtnWidth.constant = 100
-            Reelcell.doneBtn.setTitle("I Will Do", for: .normal)
+            Reelcell.doneBtn.setTitle("Done?", for: .normal)
         }
         else
         {
             Reelcell.dontBtnWidth.constant = 0
         }
+        
         Reelcell.commissionBtn.tag = indexPath.row
         let amount = "$" + (self.reelModelArray[indexPath.row].commissionAmount ?? "0") + " - DUE IN " + "\(days)" + " DAYS "
         Reelcell.commissionBtn.setTitle(amount, for: .normal)
@@ -180,14 +197,29 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
         Reelcell.editBtn.tag = indexPath.row
         Reelcell.editBtn.addTarget(self, action: #selector(editBtnTapped(_:)), for: .touchUpInside)
         Reelcell.commentsBtn.addTarget(self, action: #selector(commentsBtnTapped(_:)), for: .touchUpInside)
+        let arrTagPeople = (self.reelModelArray[indexPath.row].tagPeoples) ?? [TagPeople]()
         
-        if self.reelModelArray[indexPath.row].tagPeoples?[0].comments?.isEmpty == true {
+        if !arrTagPeople.isEmpty{
+            if arrTagPeople[0].comments?.isEmpty == true {
+                Reelcell.countLbl.text = "0"
+            }
+            else
+            {
+                Reelcell.countLbl.text = arrTagPeople[0].comments?[0].comment
+            }
+        }
+        else{
             Reelcell.countLbl.text = "0"
+            
         }
-        else
-        {
-            Reelcell.countLbl.text = self.reelModelArray[indexPath.row].tagPeoples?[0].comments?[0].comment
-        }
+        
+//        if self.reelModelArray[indexPath.row].tagPeoples?[0].comments?.isEmpty == true {
+//            Reelcell.countLbl.text = "0"
+//        }
+//        else
+//        {
+//            Reelcell.countLbl.text = self.reelModelArray[indexPath.row].tagPeoples?[0].comments?[0].comment
+//        }
         
         return Reelcell
     }
@@ -220,6 +252,8 @@ extension PlayVideoViewController {
             commentsVC.isFromIllDoIT = true
             commentsVC.postid = self.reelModelArray[sender!.tag].id!
             commentsVC.createdBy = self.reelModelArray[sender!.tag].createdBy!
+            commentsVC.noofemployeestagged = self.reelModelArray[sender!.tag].noofemployeestagged ?? "0"
+            commentsVC.taskCreatedby = self.reelModelArray[sender!.tag].createdBy!
             
     //            commentsVC.postPeopleSelected = self.reelsModelArray[sender!.tag].tagPeoples?[0]
             //        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
@@ -261,6 +295,9 @@ extension PlayVideoViewController {
         commentsVC.employeeID = (self.reelModelArray[sender!.tag].tagPeoples?[0].employeeID)!
         commentsVC.postid = self.reelModelArray[sender!.tag].id!
         commentsVC.createdBy = self.reelModelArray[sender!.tag].createdBy!
+        commentsVC.noofemployeestagged = self.reelModelArray[sender!.tag].noofemployeestagged ?? "0"
+        commentsVC.taskCreatedby = self.reelModelArray[sender!.tag].createdBy!
+
         //        statusVC.dueDate = dateHelper(srt: self.reelModelArray[sender!.tag].commissionNoOfDays1!)
         self.navigationController?.pushViewController(commentsVC, animated: true)
     }

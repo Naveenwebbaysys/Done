@@ -415,40 +415,7 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
             Reelcell.dontBtnWidth.constant = 100
         }
         let arrTagPeople = (self.reelsModelArray[indexPath.row].tagPeoples) ?? [TagPeople]()
-        if userID == self.reelsModelArray[indexPath.row].createdBy
-        {
-            Reelcell.editBtn.isHidden = false
-            Reelcell.doneBtn.setTitle("View Status", for: .normal)
-            Reelcell.countLbl.text = self.reelsModelArray[indexPath.row].totalcommentscount
-            Reelcell.editHeight.constant = 28
-            Reelcell.dontBtnWidth.constant = 0
-        }else{
-            Reelcell.editHeight.constant = 0
-            Reelcell.dontBtnWidth.constant = 100
-            Reelcell.editBtn.isHidden = true
-            if  isSuccess == true
-            {
-                Reelcell.doneBtn.setTitle("Success", for: .normal)
-            }
-            else
-            {
-                Reelcell.doneBtn.setTitle("Done?", for: .normal)
-            }
-            
-            if !arrTagPeople.isEmpty{
-                if arrTagPeople[0].comments?.isEmpty == true {
-                    Reelcell.countLbl.text = "0"
-                }
-                else
-                {
-                    Reelcell.countLbl.text = arrTagPeople[0].comments?[0].comment
-                }
-            }
-            else{
-                Reelcell.countLbl.text = "0"
-                
-            }
-        }
+      
 
         if menuIndex == 0
         {
@@ -462,9 +429,49 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
             }
         }
         
-        if menuIndex == 1
+        else if menuIndex == 1
         {
-            Reelcell.dontBtnWidth.constant = 100
+//            Reelcell.dontBtnWidth.constant = 100
+//            Reelcell.doneBtn.setTitle("Done?", for: .normal)
+            
+            if userID == self.reelsModelArray[indexPath.row].createdBy
+            {
+                Reelcell.editBtn.isHidden = false
+                Reelcell.doneBtn.setTitle("View Status", for: .normal)
+                Reelcell.countLbl.text = self.reelsModelArray[indexPath.row].totalcommentscount
+                Reelcell.editHeight.constant = 28
+                Reelcell.dontBtnWidth.constant = 0
+            }else{
+                Reelcell.editHeight.constant = 0
+                Reelcell.dontBtnWidth.constant = 100
+                Reelcell.editBtn.isHidden = true
+                if  isSuccess == true
+                {
+                    Reelcell.doneBtn.setTitle("Success", for: .normal)
+                }
+                else
+                {
+                    Reelcell.doneBtn.setTitle("Done?", for: .normal)
+                }
+                
+                if !arrTagPeople.isEmpty{
+                    if arrTagPeople[0].comments?.isEmpty == true {
+                        Reelcell.countLbl.text = "0"
+                    }
+                    else
+                    {
+                        Reelcell.countLbl.text = arrTagPeople[0].comments?[0].comment
+                    }
+                }
+                else{
+                    Reelcell.countLbl.text = "0"
+                    
+                }
+            }
+        }
+        else
+        {
+            Reelcell.dontBtnWidth.constant = 0
         }
 
         
@@ -690,7 +697,9 @@ extension HomeViewController {
             commentsVC.isFromIllDoIT = true
             commentsVC.postid = self.reelsModelArray[sender!.tag].id!
             commentsVC.createdBy = self.reelsModelArray[sender!.tag].createdBy!
-            
+            commentsVC.noofemployeestagged = self.reelsModelArray[sender!.tag].noofemployeestagged ?? "0"
+            commentsVC.taskCreatedby = self.reelsModelArray[sender!.tag].createdBy!
+
             //            commentsVC.postPeopleSelected = self.reelsModelArray[sender!.tag].tagPeoples?[0]
             //        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)
             self.navigationController?.pushViewController(commentsVC, animated: true)
@@ -713,6 +722,8 @@ extension HomeViewController {
         commentsVC.empID = self.reelsModelArray[sender!.tag].id!
         commentsVC.postid = self.reelsModelArray[sender!.tag].id!
         commentsVC.createdBy = self.reelsModelArray[sender!.tag].createdBy!
+        commentsVC.noofemployeestagged = self.reelsModelArray[sender!.tag].noofemployeestagged ?? "0"
+        commentsVC.taskCreatedby = self.reelsModelArray[sender!.tag].createdBy!
         
         //            commentsVC.postPeopleSelected = self.reelsModelArray[sender!.tag].tagPeoples?[0]
         //        statusVC.dueDate = dateHelper(srt: self.reelsModelArray[sender!.tag].commissionNoOfDays1!)

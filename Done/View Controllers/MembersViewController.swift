@@ -20,7 +20,7 @@ class MembersViewController: UIViewController {
     var membersArray =  [Member]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        searchTF.delegate = self
         setupTableView()
         
         self.getMembers(withPostID: postID)
@@ -72,19 +72,27 @@ extension MembersViewController : UITableViewDelegate , UITableViewDataSource
 {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.membersArray.count
+        return isSerching == false ? self.membersArray.count : self.filterIDSArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TagUsersTableViewCell", for: indexPath) as! TagUsersTableViewCell
         
-        let firstName = self.membersArray[indexPath.row].firstName ?? ""
-        let lastName = self.membersArray[indexPath.row].lastName ?? ""
+//        let firstName = self.membersArray[indexPath.row].firstName ?? ""
+//        let lastName = self.membersArray[indexPath.row].lastName ?? ""
+        let firstName = isSerching == false ? (self.membersArray[indexPath.row].firstName ?? "") : (self.filterIDSArray[indexPath.row].firstName ?? "")
+        let lastName = isSerching == false ?  (self.membersArray[indexPath.row].lastName ?? "") : (self.filterIDSArray[indexPath.row].lastName ?? "")
+        
         cell.taguserNameLbl.text = firstName + " " + lastName
         cell.seletionBtn.tag = indexPath.row
         cell.deptLbl.text = ""
-        if self.membersArray[indexPath.row].isSelected == false
+       
+        cell.seletionBtn.addTarget(self, action: #selector(selectuserAction), for: .touchUpInside)
+        
+        let id = isSerching == false ? self.membersArray[indexPath.row].id! : self.filterIDSArray[indexPath.row].id!
+        
+        if "\(self.memberID)" != id
         {
             cell.seletionBtn.setImage(UIImage(named: "uncheck"), for: .normal)
         }
@@ -93,10 +101,6 @@ extension MembersViewController : UITableViewDelegate , UITableViewDataSource
             cell.seletionBtn.setImage(UIImage(named: "ic_check"), for: .normal)
             
         }
-        cell.seletionBtn.addTarget(self, action: #selector(selectuserAction), for: .touchUpInside)
-        
-        
-        
         return cell
     }
 }
@@ -106,27 +110,55 @@ extension MembersViewController {
     
     @objc func selectuserAction(_ sender : UIButton){
  
-        for (k, _) in self.membersArray.enumerated() {
-            if k == sender.tag{
-                if self.membersArray[k].isSelected == true
-                {
-                    self.membersArray[k].isSelected = false
-                    self.memberID = 0
-                    self.memberName = ""
+        if isSerching == true
+        {
+            for (k, _) in self.filterIDSArray.enumerated() {
+                if k == sender.tag{
+                    if self.filterIDSArray[k].isSelected == true
+                    {
+                        self.filterIDSArray[k].isSelected = false
+                        self.memberID = 0
+                        self.memberName = ""
+                    }
+                    else
+                    {
+                        self.filterIDSArray[k].isSelected = true
+                        self.memberID = Int(self.filterIDSArray[k].id!) ?? 0
+                    }
                 }
                 else
                 {
-                    self.membersArray[k].isSelected = true
-                    self.memberID = Int(self.membersArray[k].id!) ?? 0
-                    
+                    self.filterIDSArray[k].isSelected = false
+                    //                    self.groupId = 0
                 }
             }
-            else
-            {
-                self.membersArray[k].isSelected = false
-                //                    self.groupId = 0
+            
+        }
+        else
+        {
+            for (k, _) in self.membersArray.enumerated() {
+                if k == sender.tag{
+                    if self.membersArray[k].isSelected == true
+                    {
+                        self.membersArray[k].isSelected = false
+                        self.memberID = 0
+                        self.memberName = ""
+                    }
+                    else
+                    {
+                        self.membersArray[k].isSelected = true
+                        self.memberID = Int(self.membersArray[k].id!) ?? 0
+                        
+                    }
+                }
+                else
+                {
+                    self.membersArray[k].isSelected = false
+                    //                    self.groupId = 0
+                }
             }
         }
+
         
         
         print(self.memberID)
@@ -194,7 +226,7 @@ extension MembersViewController: UITextFieldDelegate
                 self.filterIDSArray[index].isSelected = false
             }
         }
-        self.membersTB.reloadSections([2], with: .none)
+        self.membersTB.reloadSections([0], with: .none)
         return true
     }
 }

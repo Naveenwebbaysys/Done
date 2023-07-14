@@ -34,6 +34,7 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     var assignEmpID = ""
     var empID = ""
     var createdBy = ""
+    var noofemployeestagged = ""
     var commentsArray = [CommentsData]()
     var postPeopleSelected: PostStatus?
     //    var orderAssigneeEmployeeID = ""
@@ -136,9 +137,16 @@ class CommentsViewController: UIViewController, UITextViewDelegate {
     //MARK: - UIButton Action
     @IBAction func btnAttachmentChatAction(_ sender: UIButton) {
   
-        let membersVC = self.storyboard?.instantiateViewController(withIdentifier: "MembersViewController") as! MembersViewController
-        membersVC.postID = self.postid
-        self.navigationController?.pushViewController(membersVC, animated: true)
+        print(self.empID)
+        print(self.taskCreatedby)
+        print(self.noofemployeestagged)
+        if self.empID == taskCreatedby && self.noofemployeestagged == "0"
+        {
+            let membersVC = self.storyboard?.instantiateViewController(withIdentifier: "MembersViewController") as! MembersViewController
+            membersVC.postID = self.postid
+            self.navigationController?.pushViewController(membersVC, animated: true)
+        }
+        
     }
     
     @IBAction func cameraClick(_ sender: UIButton) {

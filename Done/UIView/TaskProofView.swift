@@ -78,7 +78,7 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
         self.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.5)
         
         UIApplication.shared.currentWindow?.addSubview(self)
-        txtviewDesc.text = "description"
+        txtviewDesc.text = "Proof Description"
         txtviewDesc.textColor = UIColor.lightGray
         
         collectionviewImageUpload.delegate = self
@@ -523,5 +523,15 @@ class TaskProofView: UIView, UITextViewDelegate,UIImagePickerControllerDelegate,
 //        }
     }
     
+   
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+        {
+            let touch = touches.first
+            if touch?.view != self.viewBG
+            {
+                CloseView()
+                
+            }
+        }
     
 }
