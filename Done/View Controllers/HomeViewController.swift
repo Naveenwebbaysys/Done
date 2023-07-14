@@ -238,7 +238,7 @@ class HomeViewController: UIViewController,delegateFiltersVC,taskProofviewDelega
             self.donecBtn.setAttributedTitle(part3, for: .normal)
             self.donecBtn.titleLabel?.textAlignment = .center
             
-            let part4 = NSAttributedString(string: "Need Approval " + "\n" + "$" + approvedCom)
+            let part4 = NSAttributedString(string: "Need Approval " + "$" + approvedCom)
             self.iNeedDoneBtn.setAttributedTitle(part4, for: .normal)
             self.iNeedDoneBtn.titleLabel?.textAlignment = .center
             //            self.donecBtn.titleLabel?.textColor = .white
@@ -416,7 +416,19 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         }
         let arrTagPeople = (self.reelsModelArray[indexPath.row].tagPeoples) ?? [TagPeople]()
       
-
+        if !arrTagPeople.isEmpty{
+                          if arrTagPeople[0].comments?.isEmpty == true {
+                              Reelcell.countLbl.text = "0"
+                          }
+                          else
+                          {
+                              Reelcell.countLbl.text = arrTagPeople[0].comments?[0].comment
+                          }
+                      }
+                      else{
+                          Reelcell.countLbl.text = "0"
+      
+                      }
         if menuIndex == 0
         {
             if self.reelsModelArray[indexPath.row].noofemployeestagged  == "0" && self.reelsModelArray[indexPath.row].groupname == nil {
@@ -453,25 +465,24 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
                     Reelcell.doneBtn.setTitle("Done?", for: .normal)
                 }
                 
-                if !arrTagPeople.isEmpty{
-                    if arrTagPeople[0].comments?.isEmpty == true {
-                        Reelcell.countLbl.text = "0"
-                    }
-                    else
-                    {
-                        Reelcell.countLbl.text = arrTagPeople[0].comments?[0].comment
-                    }
-                }
-                else{
-                    Reelcell.countLbl.text = "0"
-                    
-                }
+//
             }
         }
         else if menuIndex == 3
         {
-            Reelcell.doneBtn.setTitle("Approved", for: .normal)
+//            Reelcell.doneBtn.setTitle("Approved", for: .normal)
             Reelcell.dontBtnWidth.constant = 100
+            
+            if userID == self.reelsModelArray[indexPath.row].createdBy
+            {
+                Reelcell.doneBtn.setTitle("Approve", for: .normal)
+                Reelcell.dontBtnWidth.constant = 100
+            }
+            else
+            {
+                Reelcell.doneBtn.setTitle("Success", for: .normal)
+                Reelcell.dontBtnWidth.constant = 100
+            }
         }
         else
         {
@@ -709,7 +720,7 @@ extension HomeViewController {
             self.navigationController?.pushViewController(commentsVC, animated: true)
             
         }
-        else if sender?.titleLabel?.text ==  "Approved"
+        else if sender?.titleLabel?.text ==  "Approve"
         {
             let postVC = storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
             postVC.reelsModelArray = self.reelsModelArray

@@ -183,11 +183,23 @@ extension PlayVideoViewController : UITableViewDelegate, UITableViewDataSource {
             Reelcell.dontBtnWidth.constant = 100
             Reelcell.doneBtn.setTitle("Done?", for: .normal)
         }
-        else if selectedIndex == 3
+        else if menuIndex == 3
         {
-            Reelcell.doneBtn.setTitle("Approved", for: .normal)
+//            Reelcell.doneBtn.setTitle("Approved", for: .normal)
             Reelcell.dontBtnWidth.constant = 100
+            
+            if userID == self.reelModelArray[indexPath.row].createdBy
+            {
+                Reelcell.doneBtn.setTitle("Approve", for: .normal)
+                Reelcell.dontBtnWidth.constant = 100
+            }
+            else
+            {
+                Reelcell.doneBtn.setTitle("Success", for: .normal)
+                Reelcell.dontBtnWidth.constant = 100
+            }
         }
+
         else
         {
             Reelcell.dontBtnWidth.constant = 0
@@ -267,7 +279,7 @@ extension PlayVideoViewController {
             
         }
         
-        else if sender?.titleLabel?.text ==  "Approved"{
+        else if sender?.titleLabel?.text ==  "Approve"{
             let postVC = storyboard?.instantiateViewController(withIdentifier: "PostViewController") as! PostViewController
             postVC.reelsModelArray = self.reelModelArray
             postVC.index = sender!.tag

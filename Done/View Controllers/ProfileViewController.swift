@@ -268,11 +268,11 @@ class ProfileViewController: UIViewController, indexProtocol {
                 self.stillBtn.setAttributedTitle(part2, for: .normal)
                 self.stillBtn.titleLabel?.textAlignment = .center
                 
-                let part3 = NSAttributedString(string: "Need Approval " + "\n" + "$" + self.doneCommission)
+                let part3 = NSAttributedString(string: "Approved " + "\n" + "$" + self.doneCommission)
                 self.donecBtn.setAttributedTitle(part3, for: .normal)
                 self.donecBtn.titleLabel?.textAlignment = .center
                 
-                let part4 = NSAttributedString(string: "Need Done " + "\n" + "$" + self.approvedCommission)
+                let part4 = NSAttributedString(string: "Need Approval " + "\n" + "$" + self.approvedCommission)
                 self.doneApprovedBtn.setAttributedTitle(part4, for: .normal)
                 self.doneApprovedBtn.titleLabel?.textAlignment = .center
                 
